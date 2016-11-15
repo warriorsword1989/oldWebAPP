@@ -4,7 +4,7 @@
  */
 
 fastmap.mapApi.PathCopy = L.Handler.extend({
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -13,13 +13,13 @@ fastmap.mapApi.PathCopy = L.Handler.extend({
         L.setOptions(this, options);
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -33,7 +33,7 @@ fastmap.mapApi.PathCopy = L.Handler.extend({
 
 
     onMouseDown: function () {
-        //获取元素
+        // 获取元素
         //
     },
 
@@ -43,4 +43,4 @@ fastmap.mapApi.PathCopy = L.Handler.extend({
     drawFeedBack: function () {
     }
 
-})
+});

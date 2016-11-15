@@ -3,8 +3,7 @@
  */
 
 var addPoiApp = angular.module('app');
-addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
-
+addPoiApp.controller('addPoiController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
     var layerCtrl = fastmap.uikit.LayerController();
     var editLayer = layerCtrl.getLayerById('edit');
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -30,7 +29,8 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
      * @returns {*}
      */
     $scope.includeAngle = function (pointA, pointB) {
-        var angle, dValue = pointA.x - pointB.x,
+        var angle,
+            dValue = pointA.x - pointB.x,
             PI = Math.PI;
 
         if (dValue === 0) {
@@ -48,17 +48,17 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
         if (event) {
             event.stopPropagation();
         }
-        //清空上一步的操作时的高亮
+        // 清空上一步的操作时的高亮
         highRenderCtrl._cleanHighLight();
         if (highRenderCtrl.highLightFeatures != undefined) {
             highRenderCtrl.highLightFeatures.length = 0;
         }
-        //收回上一步中打开的属性栏和tips框
-        $scope.$emit("SWITCHCONTAINERSTATE",
-            {"attrContainerTpl": false, "subAttrContainerTpl": false})
-        $("#popoverTips").hide();
+        // 收回上一步中打开的属性栏和tips框
+        $scope.$emit('SWITCHCONTAINERSTATE',
+            { attrContainerTpl: false, subAttrContainerTpl: false });
+        $('#popoverTips').hide();
 
-        //清空编辑图层
+        // 清空编辑图层
         editLayer.clear();
         editLayer.bringToBack();
         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
@@ -67,21 +67,21 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
         }
-        if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
+        if (map.currentTool && typeof map.currentTool.cleanHeight === 'function') {
             map.currentTool.cleanHeight();
-            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            map.currentTool.disable();// 禁止当前的参考线图层的事件捕获
         }
         // $scope.changeBtnClass(num);
-         if (type === "IXPOI") {
+        if (type === 'IXPOI') {
             if (shapeCtrl.shapeEditorResult) {
-                var feature={};
+                var feature = {};
                 feature.components = [];
                 feature.points = [];
                 feature.components.push(fastmap.mapApi.point(0, 0));
                 feature.components.push(fastmap.mapApi.point(0, 0));
                 feature.points.push(fastmap.mapApi.point(0, 0));
                 feature.points.push(fastmap.mapApi.point(0, 0));
-                feature.type = "IXPOI";
+                feature.type = 'IXPOI';
 
                 shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
                 selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -92,11 +92,11 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
             shapeCtrl.startEditing();
             map.currentTool = shapeCtrl.getCurrentTool();
             map.currentTool.enable();
-            shapeCtrl.editFeatType = "rdLink";
+            shapeCtrl.editFeatType = 'rdLink';
             map.currentTool.captureHandler.addGuideLayer(rdLink);
             tooltipsCtrl.setEditEventType('poiAdd');
             tooltipsCtrl.setCurrentTooltip('点击空格保存,或者按ESC键取消!');
         }
-    }
+    };
 }
-])
+]);

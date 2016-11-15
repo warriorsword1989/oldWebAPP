@@ -5,28 +5,28 @@
 
 fastmap.dataApi.RdInter = fastmap.dataApi.GeoDataModel.extend({
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDINTER";
+        this.geoLiveType = 'RDINTER';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.pid = data["pid"] || "";
+    setAttributeData: function (data) {
+        this.pid = data.pid || '';
         this.links = [];
         this.nodes = [];
 
-        for(var i=0;i<data["links"].length;i++){
-            var link = fastmap.dataApi.rdInterLinks(data["links"][i]);
+        for (var i = 0; i < data.links.length; i++) {
+            var link = fastmap.dataApi.rdInterLinks(data.links[i]);
             this.links.push(link);
         }
 
-        for(var i=0;i<data["nodes"].length;i++){
-            var node = fastmap.dataApi.rdInterNodes(data["nodes"][i]);
+        for (var i = 0; i < data.nodes.length; i++) {
+            var node = fastmap.dataApi.rdInterNodes(data.nodes[i]);
             this.nodes.push(node);
         }
     },
@@ -37,17 +37,17 @@ fastmap.dataApi.RdInter = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodes"] = [];
-        data["links"] = [];
-        data["geoLiveType"] = this.geoLiveType;
-        for(var i=0;i<this.links.length;i++){
-            data["links"].push(this.links[i].getIntegrate());
+        data.pid = this.pid;
+        data.nodes = [];
+        data.links = [];
+        data.geoLiveType = this.geoLiveType;
+        for (var i = 0; i < this.links.length; i++) {
+            data.links.push(this.links[i].getIntegrate());
         }
-        for(var i=0;i<this.nodes.length;i++){
-            data["nodes"].push(this.nodes[i].getIntegrate());
+        for (var i = 0; i < this.nodes.length; i++) {
+            data.nodes.push(this.nodes[i].getIntegrate());
         }
         return data;
     },
@@ -58,23 +58,23 @@ fastmap.dataApi.RdInter = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodes"] = [];
-        data["links"] = [];
-        data["geoLiveType"] = this.geoLiveType;
-        for(var i=0;i<this.links.length;i++){
-            data["links"].push(this.links[i].getIntegrate());
+        data.pid = this.pid;
+        data.nodes = [];
+        data.links = [];
+        data.geoLiveType = this.geoLiveType;
+        for (var i = 0; i < this.links.length; i++) {
+            data.links.push(this.links[i].getIntegrate());
         }
-        for(var i=0;i<this.nodes.length;i++){
-            data["nodes"].push(this.nodes[i].getIntegrate());
+        for (var i = 0; i < this.nodes.length; i++) {
+            data.nodes.push(this.nodes[i].getIntegrate());
         }
         return data;
     }
 });
 
-/***
+/** *
  * RdSlope初始化函数
  * @param id
  * @param options 其他可选参数
@@ -82,5 +82,5 @@ fastmap.dataApi.RdInter = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdInter = function (data, options) {
     return new fastmap.dataApi.RdInter(data, options);
-}
+};
 

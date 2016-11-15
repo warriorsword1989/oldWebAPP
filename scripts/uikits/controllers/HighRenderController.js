@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/5/12.
  */
-fastmap.uikit.HighRenderController = (function() {
+fastmap.uikit.HighRenderController = (function () {
     var instantiated;
 
     function init(options) {
@@ -11,13 +11,13 @@ fastmap.uikit.HighRenderController = (function() {
              * @param layer
              * @param options
              */
-            initialize: function(options) {
+            initialize: function (options) {
                 this.options = options || {};
                 this.layerCtrl = fastmap.uikit.LayerController();
                 this.objCtrl = fastmap.uikit.ObjectEditController();
                 this.layer = this.layerCtrl.getLayerById('highlightLayer');
                 this.guideLayer = new L.layerGroup();
-                this.guideLayer.id = "poiGuideLayer";
+                this.guideLayer.id = 'poiGuideLayer';
                 this.currentEditLayer = null;
                 this.highLightFeatures = [];
                 this.eventController = fastmap.uikit.EventController();
@@ -25,19 +25,19 @@ fastmap.uikit.HighRenderController = (function() {
                 // this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function(e) {
                 //     that.drawHighlight();
                 // });
-                this.eventController.on('AllTileLayerLoaded', function(e) {
+                this.eventController.on('AllTileLayerLoaded', function (e) {
                     that.drawHighlight();
                 });
-                this.popup = L.popup({'offset':L.point(0,-22),'closeButton':false});
+                this.popup = L.popup({ offset: L.point(0, -22), closeButton: false });
             },
             /**
              * 当前渲染图层
              * @returns {*}
              */
-            getLayer: function() {
+            getLayer: function () {
                 return this.this.layer;
             },
-            setLayer: function(layer) {
+            setLayer: function (layer) {
                 this.layer = layer;
             },
             /**
@@ -46,14 +46,14 @@ fastmap.uikit.HighRenderController = (function() {
              * @param feature
              * @param ctx
              */
-            drawTips: function(id, feature, ctx) {
+            drawTips: function (id, feature, ctx) {
                 var geom = feature.geometry.coordinates;
                 if (geom) {
                     var newGeom = [];
                     newGeom[0] = (parseInt(geom[0]));
                     newGeom[1] = (parseInt(geom[1]));
                     if (feature.properties.id == id) {
-                        if (feature['geometry']['type'] === "Point") {
+                        if (feature.geometry.type === 'Point') {
                             this.layer._drawBackground({
                                 ctx: ctx,
                                 geo: newGeom,
@@ -79,9 +79,9 @@ fastmap.uikit.HighRenderController = (function() {
                     }
                 }
             },
-            drawHighlight: function(action) {
-                //绘制钱清除高亮
-                //this._cleanHighLight();
+            drawHighlight: function (action) {
+                // 绘制钱清除高亮
+                // this._cleanHighLight();
                 for (var item in this.highLightFeatures) {
                     this.currentEditLayer = fastmap.uikit.LayerController().getLayerById(this.highLightFeatures[item].layerid);
                     if (this.currentEditLayer) {
@@ -109,11 +109,11 @@ fastmap.uikit.HighRenderController = (function() {
                                             fillColor: 'yellow',
                                             radius: 4,
                                             geom: geo
-                                        })
+                                        });
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSPEEDLIMIT') {
                                         this.drawSpeedLimit(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDCROSS') {
-                                        //this.drawPoint(id, hightlightfeature, ctx, style);
+                                        // this.drawPoint(id, hightlightfeature, ctx, style);
                                         this.drawCross(id, hightlightfeature, ctx, style);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDINTER') {
                                         var geo = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates;
@@ -123,12 +123,12 @@ fastmap.uikit.HighRenderController = (function() {
                                             fillColor: 'blue',
                                             radius: 5,
                                             geom: geo
-                                        })
+                                        });
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDRESTRICTION') {
                                         this.drawRestrict(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDLANECONNEXITY') {
                                         this.drawLane(id, hightlightfeature, ctx);
-                                    } else if (['RDWARNINGINFO','RDHGWGLIMIT'].indexOf(this.currentEditLayer.tiles[tile].data[feature].properties.featType) > -1) {
+                                    } else if (['RDWARNINGINFO', 'RDHGWGLIMIT'].indexOf(this.currentEditLayer.tiles[tile].data[feature].properties.featType) > -1) {
                                         this.drawBorder(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDBRANCH') {
                                         var fea = this.currentEditLayer.tiles[tile].data[feature];
@@ -181,7 +181,7 @@ fastmap.uikit.HighRenderController = (function() {
                                             fillColor: 'blue',
                                             radius: 5,
                                             geom: geo
-                                        })
+                                        });
                                     } else if (this.highLightFeatures[item].type == 'workPoint') {
                                         var fea = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawTips(this.highLightFeatures[item].id, fea, ctx);
@@ -205,7 +205,7 @@ fastmap.uikit.HighRenderController = (function() {
                                         tile: L.point(tile.split(':')[0], tile.split(':')[1])
                                     };
                                     var geoOfSNode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
-                                    //this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'yellow', radius: 3}, true);
+                                    // this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'yellow', radius: 3}, true);
                                     var radius = this.highLightFeatures[item].style.radius ? this.highLightFeatures[item].style.radius : 3;
                                     var style = this.highLightFeatures[item].style;
                                     var color = 'yellow';
@@ -218,7 +218,7 @@ fastmap.uikit.HighRenderController = (function() {
                                         fillColor: color,
                                         radius: radius,
                                         geom: geoOfSNode
-                                    })
+                                    });
                                     break;
                                 } else if (this.highLightFeatures[item].type == 'node' && this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.enode) {
                                     var ctxOfENode = {
@@ -227,7 +227,7 @@ fastmap.uikit.HighRenderController = (function() {
                                     };
                                     var len = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates.length - 1;
                                     var geoOfENode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[len];
-                                    //this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'yellow', radius: 3}, true);
+                                    // this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'yellow', radius: 3}, true);
                                     var radius = this.highLightFeatures[item].style.radius ? this.highLightFeatures[item].style.radius : 3;
                                     var style = this.highLightFeatures[item].style;
                                     var color = 'yellow';
@@ -240,7 +240,7 @@ fastmap.uikit.HighRenderController = (function() {
                                         fillColor: color,
                                         radius: radius,
                                         geom: geoOfENode
-                                    })
+                                    });
                                     break;
                                 }
                             }
@@ -255,7 +255,7 @@ fastmap.uikit.HighRenderController = (function() {
              * @param ctx
              * @param inOutStyle
              */
-            drawOfLink: function(id, feature, ctx, inOutStyle) {
+            drawOfLink: function (id, feature, ctx, inOutStyle) {
                 var color = null;
                 if (feature.hasOwnProperty('properties')) {
                     color = feature.properties.style.strokeColor;
@@ -277,7 +277,7 @@ fastmap.uikit.HighRenderController = (function() {
                         this.layer._drawLineString(ctx, geom, true, {
                             strokeWidth: inOutStyle.strokeWidth ? inOutStyle.strokeWidth : 3,
                             strokeColor: inOutStyle.strokeColor,
-                            strokeOpacity: inOutStyle.strokeOpacity,
+                            strokeOpacity: inOutStyle.strokeOpacity
                         }, {
                             color: inOutStyle.color,
                             radius: inOutStyle.radius ? inOutStyle.radius : 2,
@@ -306,7 +306,7 @@ fastmap.uikit.HighRenderController = (function() {
              * @param ctx
              * @param inOutStyle
              */
-            drawRwLink: function(id, feature, ctx, inOutStyle) {
+            drawRwLink: function (id, feature, ctx, inOutStyle) {
                 var color = null;
                 if (feature.hasOwnProperty('properties')) {
                     color = feature.properties.style.strokeColor;
@@ -349,7 +349,7 @@ fastmap.uikit.HighRenderController = (function() {
              * @param feature
              * @param ctx
              */
-            drawRestrict: function(id, feature, ctx) {
+            drawRestrict: function (id, feature, ctx) {
                 if (feature.properties.id == id) {
                     if (id !== undefined) {
                         var laneObjArr = feature.properties.markerStyle.icon;
@@ -358,7 +358,7 @@ fastmap.uikit.HighRenderController = (function() {
                                 ctx: ctx,
                                 geo: laneObjArr[fact].location,
                                 boolPixelCrs: true,
-                                //rotate: feature.properties.rotate,
+                                // rotate: feature.properties.rotate,
                                 lineColor: 'rgb(4, 187, 245)',
                                 fillColor: 'rgba(225,225,225, 0)',
                                 lineWidth: 1,
@@ -368,7 +368,7 @@ fastmap.uikit.HighRenderController = (function() {
                                 drawy: -7.5,
                                 scalex: 2 / 3,
                                 scaley: 2 / 3
-                            })
+                            });
                         }
                     }
                 }
@@ -379,7 +379,7 @@ fastmap.uikit.HighRenderController = (function() {
              * @param feature
              * @param ctx
              */
-            drawBorder: function(id, feature, ctx) {
+            drawBorder: function (id, feature, ctx) {
                 if (feature.properties.id == id) {
                     if (id !== undefined) {
                         var laneObjArr = feature.properties.markerStyle.icon;
@@ -388,7 +388,7 @@ fastmap.uikit.HighRenderController = (function() {
                                 ctx: ctx,
                                 geo: laneObjArr[fact].location,
                                 boolPixelCrs: true,
-                                //rotate: feature.properties.rotate,
+                                // rotate: feature.properties.rotate,
                                 lineColor: 'rgb(4, 187, 245)',
                                 fillColor: 'rgba(225,225,225, 0)',
                                 lineWidth: 1,
@@ -398,12 +398,12 @@ fastmap.uikit.HighRenderController = (function() {
                                 drawy: -7.5,
                                 scalex: 2 / 3,
                                 scaley: 2 / 3
-                            })
+                            });
                         }
                     }
                 }
             },
-            drawLane: function(id, feature, ctx) {
+            drawLane: function (id, feature, ctx) {
                 if (feature.properties.id == id) {
                     if (id !== undefined) {
                         var laneObjArr = feature.properties.markerStyle.icon;
@@ -424,11 +424,12 @@ fastmap.uikit.HighRenderController = (function() {
                         //         scaley: 2 / 3
                         //     })
                         // }
-                        var gjFlag = 1,gjNum = 0;
+                        var gjFlag = 1,
+                            gjNum = 0;
                         for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
-                            var nameStr = laneObjArr[fact].iconName.split("_");
-                            if(nameStr[1] == 1){
-                                gjNum ++;
+                            var nameStr = laneObjArr[fact].iconName.split('_');
+                            if (nameStr[1] == 1) {
+                                gjNum++;
                                 gjFlag = 2;
                             }
                         }
@@ -440,21 +441,21 @@ fastmap.uikit.HighRenderController = (function() {
                             lineColor: 'rgb(4, 187, 245)',
                             fillColor: 'rgba(225,225,225, 0)',
                             lineWidth: 1,
-                            width: 10 * (laneObjArr.length-gjNum),
+                            width: 10 * (laneObjArr.length - gjNum),
                             height: 20 * gjFlag,
                             drawx: -5,
                             drawy: -10,
                             scalex: 2 / 3,
                             scaley: 2 / 3
-                        })
+                        });
                     }
                 }
             },
-            drawSpeedLimit: function(id, feature, ctx) {
+            drawSpeedLimit: function (id, feature, ctx) {
                 var type = feature.geometry.type;
                 var geom = feature.geometry.coordinates;
                 if (feature.properties.id == id) {
-                    if (type == "Point") {
+                    if (type == 'Point') {
                         var newGeom = [];
                         newGeom[0] = (parseInt(geom[0]));
                         newGeom[1] = (parseInt(geom[1]));
@@ -469,11 +470,11 @@ fastmap.uikit.HighRenderController = (function() {
                             height: 20,
                             drawx: -10,
                             drawy: -10
-                        })
+                        });
                     }
                 }
             },
-            drawBranch: function(id, feature, context) {
+            drawBranch: function (id, feature, context) {
                 var geom = feature.geometry.coordinates;
                 if (feature.properties.id && feature.properties.id == id) {
                     var newGeom = [];
@@ -490,11 +491,11 @@ fastmap.uikit.HighRenderController = (function() {
                         height: 30,
                         drawx: -15,
                         drawy: -15
-                    })
+                    });
                 }
             },
-            drawPoint: function(id, feature, ctx, style) {
-                var fillColor = style.fillColor ? style.fillColor : "red";
+            drawPoint: function (id, feature, ctx, style) {
+                var fillColor = style.fillColor ? style.fillColor : 'red';
                 var radius = style.radius ? style.radius : 6;
                 for (var j in feature.geometry.coordinates) {
                     var geo = feature.geometry.coordinates[j];
@@ -504,22 +505,22 @@ fastmap.uikit.HighRenderController = (function() {
                         fillColor: fillColor,
                         radius: radius,
                         geom: geo
-                    })
+                    });
                 }
             },
-            drawCross: function(id, feature, ctx, style) {
+            drawCross: function (id, feature, ctx, style) {
                 if (feature.properties.id == id) {
                     if (feature.properties.id === undefined) {
                         return;
                     }
-                    var fillColor = style.fillColor ? style.fillColor : "red";
+                    var fillColor = style.fillColor ? style.fillColor : 'red';
                     var radius = style.radius ? style.radius : 6;
                     for (var j in feature.geometry.coordinates) {
                         var geo = feature.geometry.coordinates[j];
-                        if (feature.properties.isMainArr[j] == 1) { //主点
-                            fillColor = style.fillColor ? style.fillColor : "red";
+                        if (feature.properties.isMainArr[j] == 1) { // 主点
+                            fillColor = style.fillColor ? style.fillColor : 'red';
                         } else {
-                            fillColor = "green";
+                            fillColor = 'green';
                         }
                         this.layer._drawPoint({
                             boolPixelCrs: true,
@@ -527,7 +528,7 @@ fastmap.uikit.HighRenderController = (function() {
                             fillColor: fillColor,
                             radius: radius,
                             geom: geo
-                        })
+                        });
                     }
                 }
             },
@@ -537,10 +538,10 @@ fastmap.uikit.HighRenderController = (function() {
              * @param feature
              * @param ctx
              */
-            drawOverpass: function(id, feature, ctx, cusFeature) {
+            drawOverpass: function (id, feature, ctx, cusFeature) {
                 var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'],
                     style = feature.properties.style,
-                    /*根据index高低link的高亮也不一样*/
+                    /* 根据index高低link的高亮也不一样*/
                     cusColor = COLORTABLE[cusFeature.index];
                 if (!cusColor) {
                     cusColor = 'red';
@@ -568,13 +569,13 @@ fastmap.uikit.HighRenderController = (function() {
                     }
                 }
             },
-            drawAdAdmin: function(id, feature, ctx) {
+            drawAdAdmin: function (id, feature, ctx) {
                 if (feature.properties.id == id) {
                     if (feature.properties.id === undefined) {
                         return;
                     }
                     var geo = feature.geometry.coordinates;
-                    //this.layer._drawImg({
+                    // this.layer._drawImg({
                     //    ctx: ctx,
                     //    geo: geo,
                     //    boolPixelCrs: true,
@@ -584,7 +585,7 @@ fastmap.uikit.HighRenderController = (function() {
                     //    scalex: 1,
                     //    scaley: 1
                     //
-                    //})
+                    // })
                     this.layer._drawBackground({
                         ctx: ctx,
                         geo: geo,
@@ -596,13 +597,13 @@ fastmap.uikit.HighRenderController = (function() {
                         height: 20,
                         drawx: -10,
                         drawy: -10
-                    })
+                    });
                 }
             },
             /*
              获取地图上的指定图层
              */
-            getLayerById: function(layerId) {
+            getLayerById: function (layerId) {
                 var layer;
                 for (var item in map._layers) {
                     if (map._layers[item].id) {
@@ -614,7 +615,7 @@ fastmap.uikit.HighRenderController = (function() {
                 }
                 return layer;
             },
-            drawPoi: function(id, feature, ctx) {
+            drawPoi: function (id, feature, ctx) {
                 var transform = new fastmap.mapApi.MecatorTranform();
                 var data = this.objCtrl.data;
                 var guideTilePoint = transform.lonlat2Tile(data.xGuide, data.yGuide, map.getZoom());
@@ -623,7 +624,7 @@ fastmap.uikit.HighRenderController = (function() {
                 guidePixel[1] = Math.ceil(guidePixel[1]);
                 var a = guidePixel[0] - 256 * guideTilePoint[0];
                 var b = guidePixel[1] - 256 * guideTilePoint[1];
-                //防止超出瓦片范围
+                // 防止超出瓦片范围
                 a = a < 5 ? 5 : a;
                 a = a > 250 ? 250 : a;
                 b = b < 5 ? 5 : b;
@@ -660,7 +661,7 @@ fastmap.uikit.HighRenderController = (function() {
                     });
 
                     map.closePopup();
-                    if(feature.properties.name){
+                    if (feature.properties.name) {
                         this.popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(feature.properties.name);
                         map.openPopup(this.popup);
                     }
@@ -693,12 +694,12 @@ fastmap.uikit.HighRenderController = (function() {
                     var guideLine = L.polyline(geo, {
                         color: 'red',
                         weight: 1,
-                        dashArray: "5, 10",
-                        id: "guideLine"
+                        dashArray: '5, 10',
+                        id: 'guideLine'
                     });
                     this.guideLayer.addLayer(guideLine);
                     // map.getPanes().overlayPane.style.zIndex = "1";
-                    ctx.canvas = this.layer._tiles[guideTilePoint[0] + ":" + guideTilePoint[1]];
+                    ctx.canvas = this.layer._tiles[guideTilePoint[0] + ':' + guideTilePoint[1]];
                     ctx.tile = L.point(guideTilePoint[0], guideTilePoint[1]);
                     this.layer._drawImg({
                         ctx: ctx,
@@ -712,22 +713,22 @@ fastmap.uikit.HighRenderController = (function() {
                     });
                 }
             },
-            drawPolygon: function(id, feature, ctx) {
+            drawPolygon: function (id, feature, ctx) {
                 if (feature.properties.id == id) {
                     if (feature.properties.id === undefined) {
                         return;
                     }
                     var geo = feature.geometry.coordinates;
                     this.layer._drawPolygon(ctx, geo, {
-                        'fillColor': '#33ccff',
-                        'fillOpacity': 0.6,
-                        'strokeColor': '#FFFF00',
-                        'strokeWidth': 3,
-                        'backgroundImage': ""
-                    }, true)
+                        fillColor: '#33ccff',
+                        fillOpacity: 0.6,
+                        strokeColor: '#FFFF00',
+                        strokeWidth: 3,
+                        backgroundImage: ''
+                    }, true);
                 }
             },
-            _cleanHighLight: function(action) {
+            _cleanHighLight: function (action) {
                 for (var index in this.layer._tiles) {
                     this.layer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
                 }
@@ -736,17 +737,17 @@ fastmap.uikit.HighRenderController = (function() {
                     poiGuideLayer.clearLayers();
                 }
             },
-            cleanHighLight : function (){
+            cleanHighLight: function () {
                 this.highLightFeatures = [];
                 this._cleanHighLight();
             }
         });
         return new highRenderController(options);
     }
-    return function(options) {
+    return function (options) {
         if (!instantiated) {
             instantiated = init(options);
         }
         return instantiated;
-    }
-})();
+    };
+}());

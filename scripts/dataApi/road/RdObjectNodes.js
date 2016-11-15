@@ -6,18 +6,18 @@
 fastmap.dataApi.RdObjectNodes = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDOBJECTNODES";
+        this.geoLiveType = 'RDOBJECTNODES';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.nodePid = data["nodePid"];
+    setAttributeData: function (data) {
+        this.nodePid = data.nodePid;
     },
 
     /**
@@ -26,10 +26,10 @@ fastmap.dataApi.RdObjectNodes = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["nodePid"] = this.nodePid;
-        data["geoLiveType"] = this.geoLiveType;
+        data.nodePid = this.nodePid;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -39,15 +39,15 @@ fastmap.dataApi.RdObjectNodes = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["nodePid"] = this.nodePid;
-        data["geoLiveType"] = this.geoLiveType;
+        data.nodePid = this.nodePid;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * rdInterNodes初始化函数
  * @param id
  * @param point 初始化rdInterNodes的点
@@ -56,5 +56,5 @@ fastmap.dataApi.RdObjectNodes = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdObjectNodes = function (data, options) {
     return new fastmap.dataApi.RdObjectNodes(data, options);
-}
+};
 

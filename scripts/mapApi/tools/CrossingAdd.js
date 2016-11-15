@@ -12,14 +12,14 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
             weight: 4,
             opacity: 0.5,
             fill: true,
-            fillColor: null, //same as color by default
+            fillColor: null, // same as color by default
             fillOpacity: 0.2,
             clickable: true
         },
         metric: true, // Whether to use the metric meaurement system or imperial
         repeatMode: true
     },
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -31,7 +31,7 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
         this._container = this._map._container;
         this.eventController = fastmap.uikit.EventController();
     },
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
@@ -48,7 +48,7 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
         }
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -57,7 +57,7 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
                 this._map.dragging.enable();
             }
 
-            //TODO refactor: move cursor to styles
+            // TODO refactor: move cursor to styles
             this._map._container.style.cursor = '';
 
             this._map
@@ -69,7 +69,7 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
             // If the box element doesn't exist they must not have moved the mouse, so don't need to destroy/return
             if (this._shape) {
                 this._map.removeLayer(this._shape);
-                this._map.getPanes().overlayPane.style.zIndex = "1";
+                this._map.getPanes().overlayPane.style.zIndex = '1';
                 delete this._shape;
             }
         }
@@ -87,13 +87,13 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
     onMouseDown: function (e) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(e.originalEvent.button > 0) {
+        if (e.originalEvent.button > 0) {
             return;
         }
         this._isDrawing = true;
         this._startLatLng = e.latlng;
-        if (this._map.getPanes().overlayPane.style.zIndex === "1") {
-            this._map.getPanes().overlayPane.style.zIndex = "4";
+        if (this._map.getPanes().overlayPane.style.zIndex === '1') {
+            this._map.getPanes().overlayPane.style.zIndex = '4';
         }
 
         L.DomEvent
@@ -114,19 +114,17 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
         var latlng = e.latlng;
         if (this._isDrawing) {
             this._drawShape(latlng);
-
         }
     },
     _fireCreatedEvent: function () {
         var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
-        //var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
+        // var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
         var dataOfRectangle = [];
-        for(var i = 0; i<this.boxLayers.length; i++){
+        for (var i = 0; i < this.boxLayers.length; i++) {
             var middleArr = this._getDataOfRectangle(rectangle, this.boxLayers[i].tiles);
-        	if(middleArr.length>0){
+        	if (middleArr.length > 0) {
         		dataOfRectangle = dataOfRectangle.concat(middleArr);
         	}
-
         }
         this.disable();
         if (this.options.repeatMode) {
@@ -135,7 +133,7 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
 //        var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
 
         this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
-            {data: dataOfRectangle, layerType: this.type,border:rectangle});
+            { data: dataOfRectangle, layerType: this.type, border: rectangle });
     },
     _arrayToWeigh: function (arr) {
         var hash = {},
@@ -150,7 +148,8 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
         return re;
     },
     _getDataOfRectangle: function (layer, tiles) {
-        var points = layer._latlngs, dataOfRectangle = [];
+        var points = layer._latlngs,
+            dataOfRectangle = [];
         var transform = new fastmap.mapApi.MecatorTranform();
         var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
             endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
@@ -162,23 +161,22 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
         var polygon = new fastmap.mapApi.Polygon([lineString]);
         for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
             for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
-
-                if (tiles[i + ":" + j]) {
-                    var data = tiles[i + ":" + j].data;
+                if (tiles[i + ':' + j]) {
+                    var data = tiles[i + ':' + j].data;
                     for (var item in data) {
                         var pointsLen = data[item].geometry.coordinates.length;
                         var linePoints = [];
-                        for(var n=0;n<pointsLen;n++) {
+                        for (var n = 0; n < pointsLen; n++) {
                             var linePoint = data[item].geometry.coordinates[n];
                             linePoint = transform.PixelToLonlat(i * 256 + linePoint[0], j * 256 + linePoint[1], map.getZoom());
                             linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
                             linePoints.push(linePoint);
                         }
                         var line = new fastmap.mapApi.LineString(linePoints);
-                        if(polygon.intersects(line)) {
+                        if (polygon.intersects(line)) {
                             var result = {};
-                            result["data"] = data[item];
-                            result["line"] = line;
+                            result.data = data[item];
+                            result.line = line;
                             dataOfRectangle.push(result);
                         }
                     }
@@ -265,9 +263,9 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
             this._shape.setBounds(new L.LatLngBounds(this._startLatLng, latlng));
         }
     },
-    //两点之间的距离
+    // 两点之间的距离
     distance: function (pointA, pointB) {
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     }
-})
+});

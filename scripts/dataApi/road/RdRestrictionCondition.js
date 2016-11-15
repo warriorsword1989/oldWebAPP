@@ -4,26 +4,26 @@
  */
 
 fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
-    /***
+    /** *
      *
      * @param data data
      * @param options 其他可选参数
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "RDRESTRICTIONCONDITION";
+        this.geoLiveType = 'RDRESTRICTIONCONDITION';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.timeDomain = data["timeDomain"] || null;
-        this.vehicle = data["vehicle"] || 0;
-        this.resTrailer = data["resTrailer"] || 0;
-        this.resWeigh = data["resWeigh"] || 0;
-        this.resAxleLoad = data["resAxleLoad"] || 0;
-        this.resAxleCount = data["resAxleCount"] || 0;
-        this.resOut = data["resOut"] || 0;
-        this.rowId = data["rowId"] || "";
+    setAttributeData: function (data) {
+        this.timeDomain = data.timeDomain || null;
+        this.vehicle = data.vehicle || 0;
+        this.resTrailer = data.resTrailer || 0;
+        this.resWeigh = data.resWeigh || 0;
+        this.resAxleLoad = data.resAxleLoad || 0;
+        this.resAxleCount = data.resAxleCount || 0;
+        this.resOut = data.resOut || 0;
+        this.rowId = data.rowId || '';
     },
 
     /**
@@ -32,17 +32,17 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["timeDomain"] = this.timeDomain;
-        data["vehicle"] = this.vehicle;
-        data["resTrailer"]  = this.resTrailer;
-        data["resWeigh"]  = this.resWeigh;
-        data["resAxleLoad"]  = this.resAxleLoad;
-        data["resAxleCount"]  = this.resAxleCount;
-        data["resOut"] = this.resOut;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"] = this.geoLiveType;
+        data.timeDomain = this.timeDomain;
+        data.vehicle = this.vehicle;
+        data.resTrailer = this.resTrailer;
+        data.resWeigh = this.resWeigh;
+        data.resAxleLoad = this.resAxleLoad;
+        data.resAxleCount = this.resAxleCount;
+        data.resOut = this.resOut;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -52,22 +52,22 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["timeDomain"] = this.timeDomain;
-        data["vehicle"] = this.vehicle;
-        data["resTrailer"]  = this.resTrailer;
-        data["resWeigh"]  = this.resWeigh;
-        data["resAxleLoad"]  = this.resAxleLoad;
-        data["resAxleCount"]  = this.resAxleCount;
-        data["resOut"] = this.resOut;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"] = this.geoLiveType;
+        data.timeDomain = this.timeDomain;
+        data.vehicle = this.vehicle;
+        data.resTrailer = this.resTrailer;
+        data.resWeigh = this.resWeigh;
+        data.resAxleLoad = this.resAxleLoad;
+        data.resAxleCount = this.resAxleCount;
+        data.resOut = this.resOut;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * rdRestriction
  * @param data 初始化rdnode的点
  * @param options 其他可选参数
@@ -75,4 +75,4 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdRestrictionCondition = function (data, options) {
     return new fastmap.dataApi.RdRestrictionCondition(data, options);
-}
+};

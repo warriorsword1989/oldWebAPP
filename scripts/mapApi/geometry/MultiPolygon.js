@@ -9,7 +9,7 @@ fastmap.mapApi.MultiPolygon = fastmap.mapApi.Collection.extend({
      * @property type
      * @type String
      */
-    type: "MultiPolygon",
+    type: 'MultiPolygon',
     /**
      * 构造函数
      * @class MultiPolygon
@@ -109,6 +109,6 @@ fastmap.mapApi.MultiPolygon = fastmap.mapApi.Collection.extend({
 
     }
 });
-fastmap.mapApi.multiPolygon=function(coordiates,options) {
+fastmap.mapApi.multiPolygon = function (coordiates, options) {
     return new fastmap.mapApi.MultiPolygon(coordiates, options);
 };

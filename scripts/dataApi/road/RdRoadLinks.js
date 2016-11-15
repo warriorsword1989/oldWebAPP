@@ -6,19 +6,19 @@
 fastmap.dataApi.RdRoadLinks = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDROADLINKS";
+        this.geoLiveType = 'RDROADLINKS';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.linkPid = data["linkPid"];
-        this.seqNum = data["seqNum"] || 1;
+    setAttributeData: function (data) {
+        this.linkPid = data.linkPid;
+        this.seqNum = data.seqNum || 1;
     },
 
     /**
@@ -27,11 +27,11 @@ fastmap.dataApi.RdRoadLinks = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["linkPid"] = this.linkPid;
-        data["seqNum"] = this.seqNum;
-        data["geoLiveType"] = this.geoLiveType;
+        data.linkPid = this.linkPid;
+        data.seqNum = this.seqNum;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -41,16 +41,16 @@ fastmap.dataApi.RdRoadLinks = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["linkPid"] = this.linkPid;
-        data["seqNum"] = this.seqNum;
-        data["geoLiveType"] = this.geoLiveType;
+        data.linkPid = this.linkPid;
+        data.seqNum = this.seqNum;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * rdRoadLinks初始化函数
  * @param id
  * @param point 初始化rdRoadLinks
@@ -59,5 +59,5 @@ fastmap.dataApi.RdRoadLinks = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdRoadLinks = function (data, options) {
     return new fastmap.dataApi.RdRoadLinks(data, options);
-}
+};
 

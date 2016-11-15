@@ -9,7 +9,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      */
     includes: L.Mixin.Events,
 
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -18,7 +18,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-        this.editLayerIds = ['relationData','crfData','tmcData','rdSame','rdLinkSpeedLimit','rdCross'];
+        this.editLayerIds = ['relationData', 'crfData', 'tmcData', 'rdSame', 'rdLinkSpeedLimit', 'rdCross'];
 
         this.currentEditLayers = [];
         this.tiles = [];
@@ -29,14 +29,13 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this.highlightLayer = this.layerController.getLayerById('highlightLayer');
         this.eventController = fastmap.uikit.EventController();
         for (var item in this.editLayerIds) {
-            this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
+            this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]));
         }
-        this.popup = L.popup({className:'featuresContent'});
+        this.popup = L.popup({ className: 'featuresContent' });
         this.clickcount = 0;
-
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
@@ -48,7 +47,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     },
 
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -61,7 +60,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(event.originalEvent.button > 0) {
+        if (event.originalEvent.button > 0) {
             return;
         }
         this.clickcount++;
@@ -69,19 +68,16 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
         var that = this;
-        //双击的时候不执行单击的事件
+        // 双击的时候不执行单击的事件
         setTimeout(function () {
-            if(that.clickcount > 1){
+            if (that.clickcount > 1) {
                 that.clickcount = 0;
                 that.onDbClick(event);
-                return;
-            }else if(that.clickcount == 1){
+            } else if (that.clickcount == 1) {
                 that.clickcount = 0;
                 that.drawGeomCanvasHighlight(tileCoordinate, event);
-
             }
-        },200);
-
+        }, 200);
     },
     onDbClick: function (event) {
         this.tiles = [];
@@ -97,37 +93,36 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         var x = PointPixel[0] - 256 * PointLoc[0];
         var y = PointPixel[1] - 256 * PointLoc[1];
         for (var layer in this.currentEditLayers) {
-
             this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer], tileCoordinate));
 
-            if (this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]] && !this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]].data) {
+            if (this.currentEditLayers[layer].tiles[tileCoordinate[0] + ':' + tileCoordinate[1]] && !this.currentEditLayers[layer].tiles[tileCoordinate[0] + ':' + tileCoordinate[1]].data) {
                 return;
             }
-            if (this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]] && this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]].data) {
-                var data = this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]].data;
+            if (this.currentEditLayers[layer].tiles[tileCoordinate[0] + ':' + tileCoordinate[1]] && this.currentEditLayers[layer].tiles[tileCoordinate[0] + ':' + tileCoordinate[1]].data) {
+                var data = this.currentEditLayers[layer].tiles[tileCoordinate[0] + ':' + tileCoordinate[1]].data;
                 // var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
                 for (var item in data) {
                     if (data[item].properties.featType == 'RDSPEEDLIMIT') {
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                            this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
+                            this.overlays.push({ layer: this.currentEditLayers[layer], id: data[item].properties.id, data: data[item] });
                             break;
                         }
                     }
                 }
             }
         }
-        if(this.overlays && this.overlays.length > 0){
+        if (this.overlays && this.overlays.length > 0) {
             this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
                 speedData: this.overlays[0].data,
                 optype: 'DBRDLINKSPEEDLIMIT',
                 orgtype: 'RDSPEEDLIMIT',
-                event:event
-            })
+                event: event
+            });
         }
     },
 
-    /***
+    /** *
      * 获取鼠标点击周边所有瓦片
      * @param layer
      * @param tilePoint
@@ -155,64 +150,60 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         var y = PointPixel[1] - 256 * PointLoc[1];
         var frs = null;
         for (var layer in this.currentEditLayers) {
+            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer], tilePoint));
 
-            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer], tilePoint))
-
-            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]] && !this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
+            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]] && !this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]].data) {
                 return;
             }
-            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]] && this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
-                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data;
+            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]] && this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]].data) {
+                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]].data;
                 // var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
                 for (var item in data) {
                     if (data[item].properties.featType == 'RDCROSS') {
-
                         for (var key in data[item].geometry.coordinates) {
                             if (this._TouchesPoint(data[item].geometry.coordinates[key], x, y, 20)) {
-                                this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
+                                this.overlays.push({ layer: this.currentEditLayers[layer], id: data[item].properties.id, data: data[item] });
                             }
                         }
-                    }else if(data[item].properties.featType == 'RDGSC'){
-                            if( data[item]['geometry']['type']!=="LineString") {
-                                if (this._TouchesPoint(data[item].geometry.coordinates[0].g[1], x, y, 20)) {
-                                    this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
-                                }
+                    } else if (data[item].properties.featType == 'RDGSC') {
+                        if (data[item].geometry.type !== 'LineString') {
+                            if (this._TouchesPoint(data[item].geometry.coordinates[0].g[1], x, y, 20)) {
+                                this.overlays.push({ layer: this.currentEditLayers[layer], data: data[item] });
                             }
-                    } else if(data[item].properties.featType == 'RDROAD' || data[item].properties.featType == 'RDINTER'|| data[item].properties.featType == 'RDOBJECT' ||data[item].properties.featType == 'RDSAMELINK'){
-                        if(data[item]['geometry']['type'] == "Point") {
+                        }
+                    } else if (data[item].properties.featType == 'RDROAD' || data[item].properties.featType == 'RDINTER' || data[item].properties.featType == 'RDOBJECT' || data[item].properties.featType == 'RDSAMELINK') {
+                        if (data[item].geometry.type == 'Point') {
                             if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                                this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
+                                this.overlays.push({ layer: this.currentEditLayers[layer], id: data[item].properties.id, data: data[item] });
                             }
-                        } else if(data[item]['geometry']['type'] == "LineString"){
+                        } else if (data[item].geometry.type == 'LineString') {
                             if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
                                 this.overlays.push({
                                     layer: this.currentEditLayers[layer],
-                                    id:data[item].properties.id,
+                                    id: data[item].properties.id,
                                     data: data[item]
                                 });
                             }
                         }
-                    }  else if(data[item].properties.featType == 'RDLANE'){
-                         if(data[item]['geometry']['type'] == "LineString"){
+                    } else if (data[item].properties.featType == 'RDLANE') {
+                        if (data[item].geometry.type == 'LineString') {
                             if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
                                 this.overlays.push({
                                     layer: this.currentEditLayers[layer],
-                                    id:data[item].properties.id,
+                                    id: data[item].properties.id,
                                     data: data[item],
-                                    tileId:tilePoint[0] + ":" + tilePoint[1]
+                                    tileId: tilePoint[0] + ':' + tilePoint[1]
                                 });
                             }
                         }
-                    }else {
-                        if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                            this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
-                        }
+                    } else if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                        this.overlays.push({ layer: this.currentEditLayers[layer], id: data[item].properties.id, data: data[item] });
                     }
                 }
             }
         }
-        /*过滤框选后的数组，去重*/
+        /* 过滤框选后的数组，去重*/
         var containObj = [];
         var tempLays = [];
         for (var num = 0, numLen = this.overlays.length; num < numLen; num++) {
@@ -229,34 +220,34 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
             this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
                 id: this.overlays[0].data.properties.id,
-                rowId:this.overlays[0].data.properties.rowId,
+                rowId: this.overlays[0].data.properties.rowId,
                 optype: this.overlays[0].data.properties.featType,
                 selectData: this.overlays[0].data,
-                branchType:this.overlays[0].data.properties.branchType,
-                tileId:this.overlays[0].tileId,
-                event:event
-            })
+                branchType: this.overlays[0].data.properties.branchType,
+                tileId: this.overlays[0].tileId,
+                event: event
+            });
         } else if (this.overlays.length > 1) {
             var branchTypeObj = {
-                0:'高速分歧',
-                1:'方面分歧',
-                2:'IC分歧',
-                3:'3D分歧',
-                4:'复杂路口模式图',
-                5:'实景图',
-                6:'实景看板',
-                7:'连续分歧',
-                8:'大规模交叉点',
-                9:'方向看板'
+                0: '高速分歧',
+                1: '方面分歧',
+                2: 'IC分歧',
+                3: '3D分歧',
+                4: '复杂路口模式图',
+                5: '实景图',
+                6: '实景看板',
+                7: '连续分歧',
+                8: '大规模交叉点',
+                9: '方向看板'
             };
             var html = '<ul id="layerpopup">';
-            //this.overlays = this.unique(this.overlays);
+            // this.overlays = this.unique(this.overlays);
             for (var item in this.overlays) {
-                //如果类型为分歧需要显示出分歧类型
-                if(this.overlays[item].data.properties.featType == 'RDBRANCH'){
-                    html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id+'">' +branchTypeObj[this.overlays[item].data.properties.branchType] +"&nbsp"+ this.overlays[item].data.properties.id + '</a></li>';
-                }else{
-                    html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id+'">' +App.Temp.relationNameObj[this.overlays[item].data.properties.featType] +"&nbsp"+ this.overlays[item].data.properties.id + '</a></li>';
+                // 如果类型为分歧需要显示出分歧类型
+                if (this.overlays[item].data.properties.featType == 'RDBRANCH') {
+                    html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id + '">' + branchTypeObj[this.overlays[item].data.properties.branchType] + '&nbsp' + this.overlays[item].data.properties.id + '</a></li>';
+                } else {
+                    html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id + '">' + App.Temp.relationNameObj[this.overlays[item].data.properties.featType] + '&nbsp' + this.overlays[item].data.properties.id + '</a></li>';
                 }
             }
             html += '</ul>';
@@ -272,7 +263,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         var layertype = '';
                         var tileId = '';
                         for (var key in that.overlays) {
-                            if (e.target.id == that.overlays[key].data.properties.featType+that.overlays[key].id) {
+                            if (e.target.id == that.overlays[key].data.properties.featType + that.overlays[key].id) {
                                 layer = that.overlays[key].layer;
                                 layertype = that.overlays[key].data.properties.featType;
                                 d = that.overlays[key].data;
@@ -281,27 +272,28 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         }
                         that.eventController.fire(that.eventController.eventTypes.GETRELATIONID, {
                             id: d.properties.id,
-                            rowId:d.properties.rowId,
+                            rowId: d.properties.rowId,
                             optype: layertype,
                             selectData: d,
-                            branchType:d.properties.branchType,
-                            tileId:tileId,
-                            event:event
-                        })
+                            branchType: d.properties.branchType,
+                            tileId: tileId,
+                            event: event
+                        });
                     }
-                }
+                };
             });
 
-            //弹出popup，这里如果不用settimeout,弹出的popup会消失，后期在考虑优化  王屯+
+            // 弹出popup，这里如果不用settimeout,弹出的popup会消失，后期在考虑优化  王屯+
             if (this.overlays && this.overlays.length >= 1) {
                 setTimeout(function () {
                     that._map.openPopup(that.popup);
-                }, 200)
+                }, 200);
             }
         }
     },
     unique: function (arr) {
-        var result = [], hash = {};
+        var result = [],
+            hash = {};
         for (var i = 0; i < arr.length; i++) {
             var elem = arr[i].layer.requestType;
             if (!hash[elem]) {
@@ -310,10 +302,9 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             }
         }
         return result;
-
     },
 
-    /***
+    /** *
      *
      * @param {Array}d 几何图形
      * @param {number}x 鼠标x
@@ -331,7 +322,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             return 0;
         }
     },
-    /***
+    /** *
      *
      * @param {Array}d 几何图形
      * @param {number}x 鼠标x
@@ -340,7 +331,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesPath: function(d, x, y, r) {
+    _TouchesPath: function (d, x, y, r) {
         var i;
         var N = d.length;
         var p1x = d[0][0];
@@ -354,22 +345,22 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             var diffy = y - p1y;
             var t = 1 * (diffx * dirx + diffy * diry * 1) / (dirx * dirx + diry * diry * 1);
             if (t < 0) {
-                t = 0
+                t = 0;
             }
             if (t > 1) {
-                t = 1
+                t = 1;
             }
             var closestx = p1x + t * dirx;
             var closesty = p1y + t * diry;
             var dx = x - closestx;
             var dy = y - closesty;
             if ((dx * dx + dy * dy) <= r * r) {
-                return 1
+                return 1;
             }
             p1x = p2x;
-            p1y = p2y
+            p1y = p2y;
         }
-        return 0
+        return 0;
     }
 
 });

@@ -2,7 +2,7 @@
  * Created by liuyang on 2016/6/25.
  */
 fastmap.mapApi.SelectParent = L.Handler.extend({
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -19,7 +19,7 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
         this.catches = [];
         this.insertPoint = null;
         this.clickcount = 1;
-        this.boxLayer = new fastmap.uikit.LayerController().getLayerById('poi')
+        this.boxLayer = new fastmap.uikit.LayerController().getLayerById('poi');
         this.targetGeoIndex = 0;
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
@@ -30,23 +30,23 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
         });
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdLink'));
-        this.validation = fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
+        this.validation = fastmap.uikit.geometryValidation({ transform: new fastmap.mapApi.MecatorTranform() });
         this.options.shapeOptions = {
-                id:'parentLayer',
-                stroke: true,
-                    color: '#f06eaa',
-                    weight: 4,
-                    opacity: 0.5,
-                    fill: true,
-                    fillColor: null, //same as color by default
-                    fillOpacity: 0.2,
-                    clickable: true
-            },
+            id: 'parentLayer',
+            stroke: true,
+            color: '#f06eaa',
+            weight: 4,
+            opacity: 0.5,
+            fill: true,
+            fillColor: null, // same as color by default
+            fillOpacity: 0.2,
+            clickable: true
+        },
             this.options.metric = true, // Whether to use the metric meaurement system or imperial
-            this.options.repeatMode = true
+            this.options.repeatMode = true;
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
@@ -58,10 +58,9 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
         this.container.style.cursor = 'crosshair';
         this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
-
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -70,7 +69,7 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
                 this._map.dragging.enable();
             }
 
-            //TODO refactor: move cursor to styles
+            // TODO refactor: move cursor to styles
             this.container.style.cursor = '';
 
             this._map
@@ -87,20 +86,19 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
             }
         }
         this._isDrawing = false;
-
     },
 
 
     onMouseDown: function (e) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(e.originalEvent.button > 0) {
+        if (e.originalEvent.button > 0) {
             return;
         }
         this._isDrawing = true;
         this._startLatLng = e.latlng;
-        if (this._map.getPanes().overlayPane.style.zIndex === "1") {
-            this._map.getPanes().overlayPane.style.zIndex = "4";
+        if (this._map.getPanes().overlayPane.style.zIndex === '1') {
+            this._map.getPanes().overlayPane.style.zIndex = '4';
         }
 
         L.DomEvent
@@ -142,11 +140,12 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
             this.enable();
         }
         this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
-            {data: dataOfRectangle, layerType: this.type,border:rectangle});
+            { data: dataOfRectangle, layerType: this.type, border: rectangle });
     },
     _getDataOfRectangle: function (layer, tiles) {
-        var points = layer._latlngs, dataOfRectangle = [];
-        if(points.length < 4){
+        var points = layer._latlngs,
+            dataOfRectangle = [];
+        if (points.length < 4) {
             return;
         }
         var transform = new fastmap.mapApi.MecatorTranform();
@@ -160,13 +159,13 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
         var polygon = new fastmap.mapApi.Polygon([lineString]);
         for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
             for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
-                if (tiles[i + ":" + j]) {
-                    var data = tiles[i + ":" + j].data;
+                if (tiles[i + ':' + j]) {
+                    var data = tiles[i + ':' + j].data;
                     for (var item in data) {
                         var pointsLen = data[item].geometry.coordinates;
                         var linePoint = transform.PixelToLonlat(i * 256 + pointsLen[0], j * 256 + pointsLen[1], map.getZoom());
-                            linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
-                        if(polygon.containsPoint(linePoint)) {
+                        linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
+                        if (polygon.containsPoint(linePoint)) {
                             data[item].point = linePoint;
                             dataOfRectangle.push(data[item]);
                         }

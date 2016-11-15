@@ -37,7 +37,7 @@ fastmap.mapApi.symbol.Point = L.Class.extend({
      * @return Number 当前点与目标点之间的距离
      */
     distance: function (p) {
-        return Math.sqrt((this.x - p.x ) * (this.x - p.x ) + (this.y - p.y ) * (this.y - p.y ));
+        return Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) * (this.y - p.y));
     },
 
     /**

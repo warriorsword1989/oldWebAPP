@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2016/3/9.
  */
-var addDirectConnexityApp = angular.module("app");
-addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'dsEdit', function($scope, dsEdit) {
+var addDirectConnexityApp = angular.module('app');
+addDirectConnexityApp.controller('addDirectOfConnexityController', ['$scope', 'dsEdit', function ($scope, dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -13,117 +13,117 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
     $scope.flagNum = 0;
     $scope.laneDirectData = [
         {
-            flag: "a",
-            log: "直"
+            flag: 'a',
+            log: '直'
         },
         {
-            flag: "b",
-            log: "左"
+            flag: 'b',
+            log: '左'
         },
         {
-            flag: "c",
-            log: "右"
+            flag: 'c',
+            log: '右'
         },
         {
-            flag: "d",
-            log: "调"
+            flag: 'd',
+            log: '调'
         },
         {
-            flag: "e",
-            log: "直调"
+            flag: 'e',
+            log: '直调'
         },
         {
-            flag: "f",
-            log: "直右"
+            flag: 'f',
+            log: '直右'
         },
         {
-            flag: "g",
-            log: "直左"
+            flag: 'g',
+            log: '直左'
         },
         {
-            flag: "h",
-            log: "左直右"
+            flag: 'h',
+            log: '左直右'
         },
         {
-            flag: "i",
-            log: "调直右"
+            flag: 'i',
+            log: '调直右'
         },
         {
-            flag: "j",
-            log: "调左值"
+            flag: 'j',
+            log: '调左值'
         },
         {
-            flag: "k",
-            log: "左右"
+            flag: 'k',
+            log: '左右'
         },
         {
-            flag: "i",
-            log: "调右"
+            flag: 'i',
+            log: '调右'
         },
         {
-            flag: "m",
-            log: "调左右"
+            flag: 'm',
+            log: '调左右'
         },
         {
-            flag: "n",
-            log: "调右"
+            flag: 'n',
+            log: '调右'
         },
         {
-            flag: "o",
-            log: "空"
+            flag: 'o',
+            log: '空'
         }
     ];
     var dirTranform = {
-        "a": "a",
-        "b": "b",
-        "c": "c",
-        "d": "d",
-        "e": "ad",
-        "f": "ac",
-        "g": "ab",
-        "h": "bac",
-        "i": "dac",
-        "j": "dab",
-        "k": "bc",
-        "l": "db",
-        "m": "dbc",
-        "n": "dc",
-        "o": "o",
-        "p": "bace",
-        "t": "ar",
-        "u": "br",
-        "v": "cr",
-        "w": "dr",
-        "x": "as",
-        "y": "bs",
-        "z": "cs",
-        "0": "ds",
-        "1": "rs",
-        "2": "abr",
-        "3": "abs",
-        "4": "acr",
-        "5": "acs"
+        a: 'a',
+        b: 'b',
+        c: 'c',
+        d: 'd',
+        e: 'ad',
+        f: 'ac',
+        g: 'ab',
+        h: 'bac',
+        i: 'dac',
+        j: 'dab',
+        k: 'bc',
+        l: 'db',
+        m: 'dbc',
+        n: 'dc',
+        o: 'o',
+        p: 'bace',
+        t: 'ar',
+        u: 'br',
+        v: 'cr',
+        w: 'dr',
+        x: 'as',
+        y: 'bs',
+        z: 'cs',
+        0: 'ds',
+        1: 'rs',
+        2: 'abr',
+        3: 'abs',
+        4: 'acr',
+        5: 'acs'
     };
     var dirCharToNum = {
-        "a": 1,
-        "b": 2,
-        "c": 3,
-        "d": 4,
-        "r": 5,
-        "s": 6
+        a: 1,
+        b: 2,
+        c: 3,
+        d: 4,
+        r: 5,
+        s: 6
     };
-    var intToBinaryArray = function(num) {
+    var intToBinaryArray = function (num) {
         var num = +num;
-        var arr = num.toString(2).split("");
+        var arr = num.toString(2).split('');
         for (var i = 0, len = arr.length; i < 16 - len; i++) {
             arr.unshift('0');
         }
         return arr;
-    }
-    var binaryArrayToInt = function(array) {
+    };
+    var binaryArrayToInt = function (array) {
         return parseInt(array.join(''), 2);
-    }
-    var changeLineInfo = function(laneInfo, index, value) {
+    };
+    var changeLineInfo = function (laneInfo, index, value) {
         var arr = intToBinaryArray(laneInfo);
         arr[index] = value;
         return binaryArrayToInt(arr);
@@ -134,12 +134,12 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
     var outLanesArr = [];
     var selectedLaneInfo = null;
     // 选择道路方向
-    $scope.selectLaneDir = function(item, event) {
-        $(event.target).siblings().removeClass("active");
-        $(event.target).addClass("active");
+    $scope.selectLaneDir = function (item, event) {
+        $(event.target).siblings().removeClass('active');
+        $(event.target).addClass('active');
         currentDirArray.length = 0;
         outLanesArr.length = 0;
-        var tmp = dirTranform[item.flag].split("");
+        var tmp = dirTranform[item.flag].split('');
         for (var k in tmp) {
             currentDirArray.push(dirCharToNum[tmp[k]]);
         }
@@ -153,7 +153,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         }
         enableOutLinkHandler();
     };
-    var enableOutLinkHandler = function() {
+    var enableOutLinkHandler = function () {
         clearMapTool();
         map.currentTool = new fastmap.uikit.SelectPath({
             map: map,
@@ -164,20 +164,22 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         map.currentTool.enable();
         tooltipsCtrl.setCurrentTooltip('请在地图上选择退出线！');
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
-        eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
+        eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             var pid = parseInt(data.id);
             // 退出线不能与进入线相同
             if (pid == CurrentObject.inLinkPid) {
-                tooltipsCtrl.notify("退出线不能与进入线是同一条线，请重新选择!", 'error');
+                tooltipsCtrl.notify('退出线不能与进入线是同一条线，请重新选择!', 'error');
                 return;
             }
             if (parseInt(data.properties.kind) >= 9) { // 不能选择9级路
-                tooltipsCtrl.notify("退出线不能是9级以上道路，请重新选择!", 'error');
+                tooltipsCtrl.notify('退出线不能是9级以上道路，请重新选择!', 'error');
                 return;
             }
             var flag = false,
-                i, topo, param;
-            //如果在当前车道相同方向的退出线内,进行车道信息删除
+                i,
+                topo,
+                param;
+            // 如果在当前车道相同方向的退出线内,进行车道信息删除
             for (i = outLanesArr.length - 1; i >= 0; i--) {
                 topo = outLanesArr[i];
                 if (topo.outLinkPid == pid) {
@@ -187,10 +189,10 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                     flag = true;
                 }
             }
-            //如果不在当前车道相同方向的退出线内,但是在其他车道的相同方向的退出线内，则在其他车道信息退出link信息中增加当前车道
+            // 如果不在当前车道相同方向的退出线内,但是在其他车道的相同方向的退出线内，则在其他车道信息退出link信息中增加当前车道
             if (!flag) {
-                for (i = 0, len = CurrentObject["topos"].length; i < len; i++) {
-                    topo = CurrentObject["topos"][i];
+                for (i = 0, len = CurrentObject.topos.length; i < len; i++) {
+                    topo = CurrentObject.topos[i];
                     if (topo.outLinkPid == pid && currentDirArray.indexOf(topo.reachDir) >= 0) {
                         // topo.inLaneInfo = changeLineInfo(topo.inLaneInfo, currentLaneIndex, 1);
                         outLanesArr.push(topo);
@@ -198,34 +200,34 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                     }
                 }
             }
-            //如果不在所有同方向的退出线内,则进行新增
+            // 如果不在所有同方向的退出线内,则进行新增
             if (!flag) {
                 topo = fastmap.dataApi.rdLaneTopology({
-                    "busLaneInfo": 0,
-                    "connexityPid": CurrentObject["pid"],
-                    "inLaneInfo": changeLineInfo(0, currentLaneIndex, 1),
-                    "outLinkPid": pid,
-                    "reachDir": currentDirArray[0],
-                    "relationshipType": 1,
-                    "vias": []
+                    busLaneInfo: 0,
+                    connexityPid: CurrentObject.pid,
+                    inLaneInfo: changeLineInfo(0, currentLaneIndex, 1),
+                    outLinkPid: pid,
+                    reachDir: currentDirArray[0],
+                    relationshipType: 1,
+                    vias: []
                 });
                 param = {};
-                param["dbId"] = App.Temp.dbId;
-                param["type"] = "RDLANEVIA";
-                param["data"] = {
-                    "inLinkPid": CurrentObject.inLinkPid,
-                    "nodePid": CurrentObject.nodePid,
-                    "outLinkPid": pid,
-                    "type": "RDLANECONNEXITY" // 车信专用
+                param.dbId = App.Temp.dbId;
+                param.type = 'RDLANEVIA';
+                param.data = {
+                    inLinkPid: CurrentObject.inLinkPid,
+                    nodePid: CurrentObject.nodePid,
+                    outLinkPid: pid,
+                    type: 'RDLANECONNEXITY' // 车信专用
                 };
-                dsEdit.getByCondition(param).then(function(data) { //找出经过线
+                dsEdit.getByCondition(param).then(function (data) { // 找出经过线
                     if (data !== -1) {
                         var temp = data.data[0];
                         topo.relationshipType = temp.relationshipType;
                         var via;
                         for (i = 0; i < temp.links.length; i++) {
                             via = fastmap.dataApi.rdLaneVIA({
-                                rowId: "",
+                                rowId: '',
                                 linkPid: temp.links[i],
                                 seqNum: i + 1
                             });
@@ -242,7 +244,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
             tooltipsCtrl.setCurrentTooltip('已选择' + outLanesArr.length + '条退出线，继续选择或者点击“增加”按钮进行车道添加！', 'succ');
         });
     };
-    $scope.addLane = function() {
+    $scope.addLane = function () {
         if (selectedLaneInfo) {
             clearMapTool();
             if (CurrentObject.lanes.length == currentLaneIndex) { // 插入
@@ -252,7 +254,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
             }
             for (var i = 0; i < outLanesArr.length; i++) {
                 if (outLanesArr[i].pid == 0) { // 新增
-                    CurrentObject["topos"].unshift(outLanesArr[i]);
+                    CurrentObject.topos.unshift(outLanesArr[i]);
                 } else {
                     outLanesArr[i].inLaneInfo = changeLineInfo(outLanesArr[i].inLaneInfo, currentLaneIndex, 1);
                 }
@@ -263,7 +265,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
             currentLaneIndex = CurrentObject.lanes.length;
         }
     };
-    var toggleExtend = function() {
+    var toggleExtend = function () {
         var left = 0,
             right = 0,
             i;
@@ -290,13 +292,13 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         }
     };
     // 高亮一个方向
-    var doHighlight = function() {
-        //清除高亮
+    var doHighlight = function () {
+        // 清除高亮
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
         // 进入线
         highRenderCtrl.highLightFeatures.push({
-            id: CurrentObject["inLinkPid"].toString(),
+            id: CurrentObject.inLinkPid.toString(),
             layerid: 'rdLink',
             type: 'line',
             style: {
@@ -337,14 +339,14 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         }
         // 进入点
         highRenderCtrl.highLightFeatures.push({
-            id: CurrentObject["nodePid"].toString(),
+            id: CurrentObject.nodePid.toString(),
             layerid: 'rdLink',
             type: 'node',
             style: {}
         });
         highRenderCtrl.drawHighlight();
     };
-    var clearMapTool = function() {
+    var clearMapTool = function () {
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         if (map.currentTool) {
             map.currentTool.disable();
@@ -354,7 +356,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         }
     };
     // 二级面板关闭时，自动清理地图操作工具（只绑定一次watch）
-    var unwatch = $scope.$watch('suspendPanelOpened', function(newVal, oldVal) {
+    var unwatch = $scope.$watch('suspendPanelOpened', function (newVal, oldVal) {
         if (newVal == false) {
             clearMapTool();
             unwatch();
