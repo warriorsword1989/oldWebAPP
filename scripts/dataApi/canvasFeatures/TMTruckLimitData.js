@@ -6,7 +6,7 @@ fastmap.uikit.canvasTMFeature.TMTruckLimitData = fastmap.uikit.canvasTMFeature.T
   geometry: {},
   properties: {},
   setAttribute: function(data) {
-    var RD_LINK_Colors = [ 'red', 'grey'];
+    var RD_LINK_Colors = [ 'grey', 'red'];
     this.geometry['type'] = 'LineString';
     this.properties["featType"] = "RDLINK";
     this.properties['kind'] = data.m.a;

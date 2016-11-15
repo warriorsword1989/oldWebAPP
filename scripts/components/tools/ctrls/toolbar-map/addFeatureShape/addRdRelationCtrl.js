@@ -1238,10 +1238,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { //进入线;
-                    	if(data.properties.kind == 9 && data.properties.form.indexOf("34")>-1){
+                    	if(data.properties.kind == 9 && data.properties.form.indexOf("34")>-1 || data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf("20")>-1){
 //                    		swal("提示","警示信息不能制作在九级辅路上","warning");
 //                    		return;
-                    		tooltipsCtrl.setCurrentTooltip("警示信息不能制作在九级辅路上!");
+                    		tooltipsCtrl.notify("九级辅路、10级路、步行街、人渡不能作为警示信息的进入线!",'error');
                     		map.currentTool.selectedFeatures.pop();
                     		return;
                     	}

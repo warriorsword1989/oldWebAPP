@@ -26,12 +26,12 @@ fastmap.uikit.canvasFeature.TmcLocation = fastmap.uikit.canvasFeature.Feature.ex
         );*/
         this.properties['forwardtext'] = item.m.b + locDirectObj[item.m.c] + item.m.d + directObj[item.m.e];
         this.properties['forwarddirect'] = item.m.c;
-        this.properties['color'] = '#2368E8';
+        this.properties['color'] = '#006600';
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
                 row: 0,
                 column: 1,
-                color: '#2368E8'
+                color: '#006600'
             })
         );
         /*this.properties['reversetext'] = item.m.b + locDirectObj[item.m.c] + item.m.d + directObj[item.m.e];

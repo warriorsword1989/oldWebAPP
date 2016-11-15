@@ -6,7 +6,7 @@ fastmap.uikit.canvasTMFeature.TMLinkLaneClass = fastmap.uikit.canvasTMFeature.TM
   geometry: {},
   properties: {},
   setAttribute: function(data) {
-    var RD_LINK_Colors = [ 'red', 'blue','grey','pink'];
+    var RD_LINK_Colors = [ '#C0C0C0', '#0000FF','#FF0000','#00FF00'];
     this.geometry['type'] = 'LineString';
     this.properties["featType"] = "RDLINK";
     this.properties['kind'] = data.m.a;
