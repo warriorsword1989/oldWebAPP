@@ -333,6 +333,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 resetPageFlag = false;
                 var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                     laneInfo = objEditCtrl.originalData["limitRelation"];
+                    shapeCtrl.editType = '';
                     laneInfo["infos"] = '';
                 var laneStr = "";
                 if (laneData.length === 0) {

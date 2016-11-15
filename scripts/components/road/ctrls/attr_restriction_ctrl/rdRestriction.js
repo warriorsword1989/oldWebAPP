@@ -7,6 +7,7 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var rdRestriction = layerCtrl.getLayerById('relationData');
     var rdLink = layerCtrl.getLayerById('rdLink');
@@ -125,6 +126,7 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
         //开启link的捕捉功能;
         map.currentTool.snapHandler.addGuideLayer(rdLink);
         map.currentTool.enable();
+        tooltipsCtrl.setCurrentTooltip('开始修改经过线！','info');
         var nodeArr = [$scope.rdRestrictCurrentData.nodePid];
         var linkArr = [];
         var reDrawFlag = true;
@@ -134,37 +136,57 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
             * 对经过线的合法性前判断;
             * （1）经过线不能为退出线;
             * （2）经过线不能为进入线;
-            * （3）经过线必须和最后一根接续线连接;
+            * （3）经过线必须相互连续;
             * */
             if(dataresult.id == $scope.rdRestrictionCurrentDetail.inLinkPid){
-                console.log('退出线和进入线不能为同一条线')
+                tooltipsCtrl.onRemoveTooltip();
+                tooltipsCtrl.setCurrentTooltip('退出线和进入线不能为同一条线！','error');
                 return ;
             }
             if(dataresult.id == $scope.rdRestrictOriginalData.details[$scope.flag].outLinkPid){
-                console.log('经过线和退出线不能为同一条线')
+                tooltipsCtrl.onRemoveTooltip();
+                tooltipsCtrl.setCurrentTooltip('经过线和退出线不能为同一条线！','error');
                 return;
             }
             var selectLink = parseInt(dataresult.id);
-            if(dataresult.properties.direct==1){
-                if(dataresult.properties.enode==nodeArr[nodeArr.length-1]||dataresult.properties.snode==nodeArr[nodeArr.length-1]){
-                    var temp = (dataresult.properties.enode==nodeArr[nodeArr.length-1])?dataresult.properties.snode:dataresult.properties.enode;
-                    nodeArr.push(parseInt(temp));
-                    linkArr.push(dataresult.id);
-                }else{
-                    console.log('不连续');
-                    return;
-                }
+            var repeatNum = linkArr.indexOf(dataresult.id);
+            if(linkArr.length&&repeatNum!=-1){
+                nodeArr.splice(repeatNum+1);
+                linkArr.splice(repeatNum);
             }else{
-                if(dataresult.properties.enode == nodeArr[nodeArr.length - 1] && dataresult.properties.direct == 3){
-                    nodeArr.push(dataresult.properties.snode);
-                }else if(dataresult.properties.snode == nodeArr[nodeArr.length - 1] && dataresult.properties.direct == 2){
-                    nodeArr.push(parseInt(dataresult.properties.enode));
-                    linkArr.push(dataresult.id);
+                if(dataresult.properties.direct==1){
+                    if(dataresult.properties.enode==nodeArr[nodeArr.length-1]||dataresult.properties.snode==nodeArr[nodeArr.length-1]){
+                        var temp = (dataresult.properties.enode==nodeArr[nodeArr.length-1])?dataresult.properties.snode:dataresult.properties.enode;
+                        nodeArr.push(parseInt(temp));
+                        linkArr.push(dataresult.id);
+                        tooltipsCtrl.onRemoveTooltip();
+                        tooltipsCtrl.setCurrentTooltip('已选择一条经过线！','info');
+                    }else{
+                        tooltipsCtrl.onRemoveTooltip();
+                        tooltipsCtrl.setCurrentTooltip('经过线选择错误！','error');
+                        return;
+                    }
                 }else{
-                    console.log('不连续');
-                    return;
+                    if(dataresult.properties.enode == nodeArr[nodeArr.length - 1] && dataresult.properties.direct == 3){
+                        nodeArr.push(dataresult.properties.snode);
+                        linkArr.push(dataresult.id);
+                        tooltipsCtrl.onRemoveTooltip();
+                        tooltipsCtrl.setCurrentTooltip('已选择一条经过线！','info');
+                    }else if(dataresult.properties.snode == nodeArr[nodeArr.length - 1] && dataresult.properties.direct == 2){
+                        nodeArr.push(parseInt(dataresult.properties.enode));
+                        linkArr.push(dataresult.id);
+                        tooltipsCtrl.onRemoveTooltip();
+                        tooltipsCtrl.setCurrentTooltip('已选择一条经过线！','info');
+                    }else{
+                        tooltipsCtrl.onRemoveTooltip();
+                        tooltipsCtrl.setCurrentTooltip('经过线选择错误！','error');
+                        return;
+                    }
                 }
             }
+
+            //重新绘制;
+            $scope.rdRestrictionCurrentDetail.vias = [];
             for(var i=0;i<linkArr.length;i++){
                 $scope.rdRestrictionCurrentDetail.vias.push(fastmap.dataApi.rdRestrictionVias({
                     rowId: "",
@@ -375,11 +397,15 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
             //退出线的合法判断;
             if(dataresult.id == $scope.rdRestrictionCurrentDetail.inLinkPid){
                 //tooltipsCtrl.setCurrentTooltip("退出线和进入线不能为同一条线");
+                tooltipsCtrl.onRemoveTooltip();
+                tooltipsCtrl.setCurrentTooltip('退出线和进入线不能为同一条线！','error');
                 return ;
             }
             //退出线与之前一样则不请求;
             if(dataresult.id == $scope.rdRestrictOriginalData.details[$scope.flag].outLinkPid){
                 //tooltipsCtrl.setCurrentTooltip("退出线和之前一样，请重新选择");
+                tooltipsCtrl.onRemoveTooltip();
+                tooltipsCtrl.setCurrentTooltip('退出线和之前一样，请重新选择！','error');
                 return;
             }
             param = {};
@@ -431,6 +457,7 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.drawHighlight();
                 }else{
+                    tooltipsCtrl.onRemoveTooltip();
                     tooltipsCtrl.setCurrentTooltip("程序计算失败，请重新选择！");
                 }
                 $scope.$emit('showFullLoadingOrNot',false);

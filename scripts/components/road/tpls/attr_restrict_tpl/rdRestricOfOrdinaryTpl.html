@@ -96,16 +96,16 @@
                 </div>
             </div>
             <!--显示经过线部分-->
-            <div ng-if="rdRestrictionCurrentDetail.vias.length" class="fm-panel">
+            <div class="fm-panel">
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
                         <li>
                             <label class="control-label">经过线:</label>
                             <div>
-                                <span style="font-size: 14px;float: right;cursor: pointer" ng-if='editStatus' ng-click="modifyThroughLink()" class="glyphicon glyphicon-edit"></span>
+                                <span title="修改经过线" style="font-size: 14px;float: right;cursor: pointer" ng-if="editStatus && rdRestrictOriginalData.details[flag].vias.length" ng-click="modifyThroughLink()" class="glyphicon glyphicon-edit"></span>
                             </div>
                         </li>
-                        <li ng-repeat="item in rdRestrictionCurrentDetail.vias">
+                        <li ng-repeat="item in rdRestrictOriginalData.details[flag].vias">
                             <label class="control-label">经过线{{$index+1}}</label>
                             <div>
                                 <input type="text" class="chosen-disabled" ng-model="item.linkPid" disabled="disabled" />
