@@ -1674,18 +1674,28 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         });
                         for(var i=0;i<data.data.length;i++){
                             var laneInfos = data.data[i].laneInfos;
-                            for(var j=0;j<laneInfos.length;j++){
-                                if(!(laneInfos[j].lanes && laneInfos[j].lanes.length >0)){
-                                    emitFlag = false;
-                                    errorLink = laneInfos[j].linkPid;
-                                    break;
+                            if(laneInfos && laneInfos.length >0){
+                                for(var j=0;j<laneInfos.length;j++){
+                                    if(!(laneInfos[j].lanes && laneInfos[j].lanes.length >0)){
+                                        emitFlag = false;
+                                        errorLink = laneInfos[j].linkPid;
+                                        break;
+                                    } else {
+                                        emitFlag = false;
+                                    }
                                 }
+                            } else {
+                                emitFlag = false;
                             }
                         }
                         if(emitFlag){
                             scope.$emit("OPENRDLANETOPO");
                         } else {
-                            swal("错误提示","Pid="+errorLink+"的RdLink不存在详细车道，不能制作车道连通！","error");
+                            if(errorLink){
+                                swal("错误提示","Pid="+errorLink+"的RdLink不存在详细车道，不能制作车道连通！","error");
+                            } else {
+                                swal("错误提示","所选的RdLink不存在详细车道，不能制作车道连通！","error");
+                            }
                         }
                     }
                 });
