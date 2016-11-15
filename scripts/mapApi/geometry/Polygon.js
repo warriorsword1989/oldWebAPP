@@ -5,7 +5,7 @@
  * @class Polygon
  */
 fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
-    type: "Polygon",
+    type: 'Polygon',
     components: [],
     options: {},
     /**
@@ -24,11 +24,11 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
      * @method getArea
      * @returns {number}
      */
-    getArea: function() {
+    getArea: function () {
         var area = 0.0;
-        if ( this.components && (this.components.length > 0)) {
+        if (this.components && (this.components.length > 0)) {
             area += Math.abs(this.components[0].getArea());
-            for (var i=1, len=this.components.length; i<len; i++) {
+            for (var i = 1, len = this.components.length; i < len; i++) {
                 area -= Math.abs(this.components[i].getArea());
             }
         }
@@ -43,17 +43,17 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
     containsPoint: function (point) {
         var numRings = this.components.length;
         var contained = false;
-        if(numRings > 0) {
+        if (numRings > 0) {
             // check exterior ring - 1 means on edge, boolean otherwise
             contained = this.components[0].containsPoint(point);
-            if(contained !== 1) {
-                if(contained && numRings > 1) {
+            if (contained !== 1) {
+                if (contained && numRings > 1) {
                     // check interior rings
                     var hole;
-                    for(var i=1; i<numRings; ++i) {
+                    for (var i = 1; i < numRings; ++i) {
                         hole = this.components[i].containsPoint(point);
-                        if(hole) {
-                            if(hole === 1) {
+                        if (hole) {
+                            if (hole === 1) {
                                 // on edge
                                 contained = 1;
                             } else {
@@ -76,42 +76,43 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
      */
     intersects: function (geometry) {
         var intersect = false;
-        var i, len;
-        if(geometry.type == "Point") {
+        var i,
+            len;
+        if (geometry.type == 'Point') {
             intersect = this.containsPoint(geometry);
-        } else if(geometry.type == "LineString" ||
-            geometry.type == "LinearRing") {
+        } else if (geometry.type == 'LineString' ||
+            geometry.type == 'LinearRing') {
             // check if rings/linestrings intersect
-            for(i=0, len=this.components.length; i<len; ++i) {
+            for (i = 0, len = this.components.length; i < len; ++i) {
                 intersect = geometry.intersects(this.components[i]);
-                if(intersect) {
+                if (intersect) {
                     break;
                 }
             }
-            if(!intersect) {
+            if (!intersect) {
                 // check if this poly contains points of the ring/linestring
-                for(i=0, len=geometry.components.length; i<len; ++i) {
+                for (i = 0, len = geometry.components.length; i < len; ++i) {
                     intersect = this.containsPoint(geometry.components[i]);
-                    if(intersect) {
+                    if (intersect) {
                         break;
                     }
                 }
             }
         } else {
-            for(i=0, len=geometry.components.length; i<len; ++ i) {
+            for (i = 0, len = geometry.components.length; i < len; ++i) {
                 intersect = this.intersects(geometry.components[i]);
-                if(intersect) {
+                if (intersect) {
                     break;
                 }
             }
         }
         // check case where this poly is wholly contained by another
-        if(!intersect && geometry.type == "Polygon") {
+        if (!intersect && geometry.type == 'Polygon') {
             // exterior ring points will be contained in the other geometry
             var ring = this.components[0];
-            for(i=0, len=ring.components.length; i<len; ++i) {
+            for (i = 0, len = ring.components.length; i < len; ++i) {
                 intersect = geometry.containsPoint(ring.components[i]);
-                if(intersect) {
+                if (intersect) {
                     break;
                 }
             }
@@ -129,7 +130,7 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
         var edge = !(options && options.edge === false);
         var result;
         // this is the case where we might not be looking for distance to edge
-        if(!edge && this.intersects(geometry)) {
+        if (!edge && this.intersects(geometry)) {
             result = 0;
         } else {
             result = fastmap.mapApi.Collection.prototype.distanceTo.apply(
@@ -153,7 +154,7 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
      * @param sig
      * @returns {number}
      */
-    limitSigDigs: function(num, sig) {
+    limitSigDigs: function (num, sig) {
         var fig = 0;
         if (sig > 0) {
             fig = parseFloat(num.toPrecision(sig));
@@ -161,6 +162,6 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
         return fig;
     }
 });
-fastmap.mapApi.polygon=function(components,options) {
+fastmap.mapApi.polygon = function (components, options) {
     return new fastmap.mapApi.Polygon(components, options);
 };

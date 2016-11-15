@@ -2,8 +2,8 @@
  * Created by liuyang on 2016/8/18.
  */
 var addNodeShapeApp = angular.module('app');
-addNodeShapeApp.controller("addNodeFeatureCtrl", ['$scope', '$ocLazyLoad',
-    function($scope, $ocLazyLoad) {
+addNodeShapeApp.controller('addNodeFeatureCtrl', ['$scope', '$ocLazyLoad',
+    function ($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
@@ -16,19 +16,19 @@ addNodeShapeApp.controller("addNodeFeatureCtrl", ['$scope', '$ocLazyLoad',
         var rwLink = layerCtrl.getLayerById('rwLink');
         var zoneLink = layerCtrl.getLayerById('zoneLink');
 
-        $scope.addNode = function(type) {
+        $scope.addNode = function (type) {
             $scope.resetToolAndMap();
-            $scope.$emit("SWITCHCONTAINERSTATE", {
-                "attrContainerTpl": false,
-                "subAttrContainerTpl": false
+            $scope.$emit('SWITCHCONTAINERSTATE', {
+                attrContainerTpl: false,
+                subAttrContainerTpl: false
             });
-            $("#popoverTips").hide();
-            //大于17级才可以选择地图上各种geometry
+            $('#popoverTips').hide();
+            // 大于17级才可以选择地图上各种geometry
             if (map.getZoom() < 17) {
-                swal("提示","地图缩放等级必须大于16级才可操作","info");
+                swal('提示', '地图缩放等级必须大于16级才可操作', 'info');
                 return;
             }
-            $scope.resetOperator("addNode", type);
+            $scope.resetOperator('addNode', type);
             if (shapeCtrl.shapeEditorResult) {
                 shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                 selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -40,24 +40,24 @@ addNodeShapeApp.controller("addNodeFeatureCtrl", ['$scope', '$ocLazyLoad',
             map.currentTool = shapeCtrl.getCurrentTool();
             map.currentTool.enable();
             map.currentTool.snapHandler._guides = [];
-            //设置捕捉图层
-            if (type === "RDNODE") {
+            // 设置捕捉图层
+            if (type === 'RDNODE') {
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
-            } else if (type === "RWNODE") {
+            } else if (type === 'RWNODE') {
                 map.currentTool.snapHandler.addGuideLayer(rwLink);
-            } else if (type === "ADNODE") {
+            } else if (type === 'ADNODE') {
                 map.currentTool.snapHandler.addGuideLayer(adLink);
-            }else if (type === "ZONENODE") {
+            } else if (type === 'ZONENODE') {
                 map.currentTool.snapHandler.addGuideLayer(zoneLink);
-            } else if (type === "LCNODE") {
+            } else if (type === 'LCNODE') {
                 map.currentTool.snapHandler.addGuideLayer(lcLink);
-            } else if (type === "LUNODE") {
+            } else if (type === 'LUNODE') {
                 map.currentTool.snapHandler.addGuideLayer(luLink);
             }
             tooltipsCtrl.setEditEventType('pointVertexAdd');
             tooltipsCtrl.setCurrentTooltip('开始增加节点！');
-            tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
-            tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
-        }
+            tooltipsCtrl.setChangeInnerHtml('点击增加节点!');
+            tooltipsCtrl.setDbClickChangeInnerHtml('点击空格保存,或者按ESC键取消!');
+        };
     }
-])
+]);

@@ -6,23 +6,23 @@
 fastmap.dataApi.RdTollgatePassage = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDTOLLGATEPASSAGE";
+        this.geoLiveType = 'RDTOLLGATEPASSAGE';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.pid = data["pid"] || 0;
-        this.seqNum = data["seqNum"] || 1;
-        this.tollForm = data["tollForm"] || 0;
-        this.cardType = data["cardType"] || 0;
-        this.vehicle = data["vehicle"] || 0;
-        this.rowId = data["rowId"] || '';
+    setAttributeData: function (data) {
+        this.pid = data.pid || 0;
+        this.seqNum = data.seqNum || 1;
+        this.tollForm = data.tollForm || 0;
+        this.cardType = data.cardType || 0;
+        this.vehicle = data.vehicle || 0;
+        this.rowId = data.rowId || '';
     },
 
     /**
@@ -31,15 +31,15 @@ fastmap.dataApi.RdTollgatePassage = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["seqNum"] = this.seqNum;
-        data["tollForm"]  = this.tollForm;
-        data["cardType"]  = this.cardType;
-        data["vehicle"]  = this.vehicle;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"] = this.geoLiveType;
+        data.pid = this.pid;
+        data.seqNum = this.seqNum;
+        data.tollForm = this.tollForm;
+        data.cardType = this.cardType;
+        data.vehicle = this.vehicle;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -49,20 +49,20 @@ fastmap.dataApi.RdTollgatePassage = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["seqNum"] = this.seqNum;
-        data["tollForm"]  = this.tollForm;
-        data["cardType"]  = this.cardType;
-        data["vehicle"]  = this.vehicle;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"] = this.geoLiveType;
+        data.pid = this.pid;
+        data.seqNum = this.seqNum;
+        data.tollForm = this.tollForm;
+        data.cardType = this.cardType;
+        data.vehicle = this.vehicle;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * RdTollgatePassage初始化函数
  * @param id
  * @param options 其他可选参数
@@ -70,4 +70,4 @@ fastmap.dataApi.RdTollgatePassage = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdTollgatePassage = function (data, options) {
     return new fastmap.dataApi.RdTollgatePassage(data, options);
-}
+};

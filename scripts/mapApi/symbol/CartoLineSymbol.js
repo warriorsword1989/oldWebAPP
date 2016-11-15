@@ -20,10 +20,10 @@ fastmap.mapApi.symbol.CartoLineSymbol = L.Class.extend({
             return;
         }
 
-        //绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
+        // 绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
         ctx.restore();
 
-        //保存一下当前状态，方便绘制完成后恢复状态
+        // 保存一下当前状态，方便绘制完成后恢复状态
         ctx.save();
 
         ctx.strokeStyle = this.color;
@@ -38,7 +38,7 @@ fastmap.mapApi.symbol.CartoLineSymbol = L.Class.extend({
         }
         ctx.stroke();
 
-        //绘制完成后恢复到上次保存的状态，通常是初始状态，避免影响以后的绘制
+        // 绘制完成后恢复到上次保存的状态，通常是初始状态，避免影响以后的绘制
         ctx.restore();
     },
 

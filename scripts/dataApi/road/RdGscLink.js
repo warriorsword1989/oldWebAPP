@@ -7,12 +7,11 @@ fastmap.dataApi.RdGscLink = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "RDGSCLINK";
-        if(!data["pid"]){
-            throw "form对象没有对应link"
-        }
-        else{
-            this.id = data["pid"];
+        this.geoLiveType = 'RDGSCLINK';
+        if (!data.pid) {
+            throw 'form对象没有对应link';
+        } else {
+            this.id = data.pid;
         }
 
         this.setAttributeData(data);
@@ -20,15 +19,14 @@ fastmap.dataApi.RdGscLink = fastmap.dataApi.GeoDataModel.extend({
     /*
      * 返回参数赋值
      */
-    setAttributeData:function(data){
-        this.pid = data["pid"];
-        this.zlevel = data["zlevel"] || 0;
-        this.linkPid = data["linkPid"] || 0;
-        this.tableName = data["tableName"]|| "";
-        this.shpSeqNum = data["shpSeqNum"] || 1;
-        this.startEnd = data["startEnd"] || 0;
-        this.rowId = data["rowId"];
-
+    setAttributeData: function (data) {
+        this.pid = data.pid;
+        this.zlevel = data.zlevel || 0;
+        this.linkPid = data.linkPid || 0;
+        this.tableName = data.tableName || '';
+        this.shpSeqNum = data.shpSeqNum || 1;
+        this.startEnd = data.startEnd || 0;
+        this.rowId = data.rowId;
     },
 
     /*
@@ -36,33 +34,32 @@ fastmap.dataApi.RdGscLink = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["zlevel"] = this.zlevel;
-        data["linkPid"] = this.linkPid;
-        data["tableName"] = this.tableName;
-        data["shpSeqNum"] = this.shpSeqNum;
-        data["startEnd"] = this.startEnd;
-        data["geoLiveType"] = this.geoLiveType;
-        data["rowId"] = this.rowId;
+        data.pid = this.pid;
+        data.zlevel = this.zlevel;
+        data.linkPid = this.linkPid;
+        data.tableName = this.tableName;
+        data.shpSeqNum = this.shpSeqNum;
+        data.startEnd = this.startEnd;
+        data.geoLiveType = this.geoLiveType;
+        data.rowId = this.rowId;
         return data;
-
     },
 
     getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["zlevel"] = this.zlevel;
-        data["linkPid"] = this.linkPid;
-        data["tableName"] = this.tableName;
-        data["shpSeqNum"] = this.shpSeqNum;
-        data["startEnd"] = this.startEnd;
-        data["geoLiveType"] = this.geoLiveType;
-        data["rowId"] = this.rowId;
+        data.pid = this.pid;
+        data.zlevel = this.zlevel;
+        data.linkPid = this.linkPid;
+        data.tableName = this.tableName;
+        data.shpSeqNum = this.shpSeqNum;
+        data.startEnd = this.startEnd;
+        data.geoLiveType = this.geoLiveType;
+        data.rowId = this.rowId;
         return data;
-    },
+    }
 
 });
 
 fastmap.dataApi.rdGscLink = function (data, options) {
     return new fastmap.dataApi.RdGscLink(data, options);
-}
+};

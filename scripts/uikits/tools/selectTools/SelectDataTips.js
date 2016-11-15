@@ -8,7 +8,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
      */
     includes: L.Mixin.Events,
 
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -25,23 +25,23 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
         this.redrawTiles = [];
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        if(L.Browser.touch){
-            this._map.on('click',this.onMouseDown,this);
+        if (L.Browser.touch) {
+            this._map.on('click', this.onMouseDown, this);
         }
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
-        if(L.Browser.touch){
-            this._map.off('click',this.onMouseDown,this);
+        if (L.Browser.touch) {
+            this._map.off('click', this.onMouseDown, this);
         }
     },
 
@@ -57,7 +57,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
     onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(event.originalEvent.button > 0) {
+        if (event.originalEvent.button > 0) {
             return;
         }
         var mouseLatlng = event.latlng;
@@ -66,17 +66,18 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
     },
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
-        var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-        if (this.tiles[tilePoint[0] + ":" + tilePoint[1]] && this.tiles[tilePoint[0] + ":" + tilePoint[1]].hasOwnProperty("data")) {
-            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
+        var x = event.originalEvent.offsetX || event.layerX,
+            y = event.originalEvent.offsetY || event.layerY;
+        if (this.tiles[tilePoint[0] + ':' + tilePoint[1]] && this.tiles[tilePoint[0] + ':' + tilePoint[1]].hasOwnProperty('data')) {
+            var data = this.tiles[tilePoint[0] + ':' + tilePoint[1]].data;
 
             var id = null;
             for (var item in data) {
-                if(data[item].geometry.coordinates){
+                if (data[item].geometry.coordinates) {
                     if (data[item].geometry.coordinates.length <= 2) {
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
                             id = data[item].properties.id;
-                            this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
+                            this.eventController.fire(this.eventController.eventTypes.GETTIPSID, { id: id, tips: 0, optype: 'TIPS' });
 
                             break;
                         }
@@ -91,18 +92,17 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                         for (var i = 0; i < temp.length; i++) {
                             if (this._TouchesPoint(temp[i], x, y, 27)) {
                                 id = data[item].properties.id;
-                                this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
+                                this.eventController.fire(this.eventController.eventTypes.GETTIPSID, { id: id, tips: 0, optype: 'TIPS' });
                                 break;
                             }
                         }
                     }
                 }
-
             }
         }
     },
 
-    /***
+    /** *
      *
      * @param {Array}d 几何图形
      * @param {number}x 鼠标x

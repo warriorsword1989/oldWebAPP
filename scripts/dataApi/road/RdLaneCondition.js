@@ -6,22 +6,22 @@
 fastmap.dataApi.RdLaneCondition = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDLANECONDITION";
+        this.geoLiveType = 'RDLANECONDITION';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.lanePid = data["lanePid"];
-        this.direction = data["direction"] || 1;
-        this.directionTime = data["directionTime"] || null;
-        this.vehicle = data["vehicle"] || 0;
-        this.vehicleTime = data["vehicleTime"] || null;
+    setAttributeData: function (data) {
+        this.lanePid = data.lanePid;
+        this.direction = data.direction || 1;
+        this.directionTime = data.directionTime || null;
+        this.vehicle = data.vehicle || 0;
+        this.vehicleTime = data.vehicleTime || null;
     },
 
     /**
@@ -30,14 +30,14 @@ fastmap.dataApi.RdLaneCondition = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["lanePid"] = this.lanePid;
-        data["direction"] = parseInt(this.direction);
-        data["directionTime"]  = this.directionTime;
-        data["vehicle"]  = this.vehicle;
-        data["vehicleTime"]  = this.vehicleTime;
-        data["geoLiveType"] = this.geoLiveType;
+        data.lanePid = this.lanePid;
+        data.direction = parseInt(this.direction);
+        data.directionTime = this.directionTime;
+        data.vehicle = this.vehicle;
+        data.vehicleTime = this.vehicleTime;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -47,19 +47,19 @@ fastmap.dataApi.RdLaneCondition = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["lanePid"] = this.lanePid;
-        data["direction"] = parseInt(this.direction);
-        data["directionTime"]  = this.directionTime;
-        data["vehicle"]  = this.vehicle;
-        data["vehicleTime"]  = this.vehicleTime;
-        data["geoLiveType"] = this.geoLiveType;
+        data.lanePid = this.lanePid;
+        data.direction = parseInt(this.direction);
+        data.directionTime = this.directionTime;
+        data.vehicle = this.vehicle;
+        data.vehicleTime = this.vehicleTime;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * RdLaneCondition初始化函数
  * @param id
  * @param options 其他可选参数
@@ -67,4 +67,4 @@ fastmap.dataApi.RdLaneCondition = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdLaneCondition = function (data, options) {
     return new fastmap.dataApi.RdLaneCondition(data, options);
-}
+};

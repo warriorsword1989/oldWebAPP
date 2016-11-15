@@ -7,27 +7,24 @@ fastmap.dataApi.RdGsc = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "RDGSC";
+        this.geoLiveType = 'RDGSC';
         this.setAttributeData(data);
     },
     /*
      * 返回参数赋值
      */
-    setAttributeData:function(data){
-        this.pid = data["pid"];
-        this.geometry = data["geometry"];
-        this.processFlag = data["processFlag"] || 1;
+    setAttributeData: function (data) {
+        this.pid = data.pid;
+        this.geometry = data.geometry;
+        this.processFlag = data.processFlag || 1;
 
         this.links = [];
-        if (data["links"]&&data["links"].length > 0) {
-            for (var i = 0, len = data["links"].length; i < len; i++) {
-                var link =fastmap.dataApi.rdGscLink(data["links"][i]);
+        if (data.links && data.links.length > 0) {
+            for (var i = 0, len = data.links.length; i < len; i++) {
+                var link = fastmap.dataApi.rdGscLink(data.links[i]);
                 this.links.push(link);
             }
-
         }
-
-
     },
 
     /*
@@ -35,37 +32,36 @@ fastmap.dataApi.RdGsc = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["geometry"] = this.geometry;
-        data["processFlag"] = this.processFlag;
-        data["geoLiveType"] = this.geoLiveType;
+        data.pid = this.pid;
+        data.geometry = this.geometry;
+        data.processFlag = this.processFlag;
+        data.geoLiveType = this.geoLiveType;
 
         var links = [];
         for (var i = 0, len = this.links.length; i < len; i++) {
             links.push(this.links[i].getIntegrate());
         }
-        data["links"] = links;
+        data.links = links;
         return data;
-
     },
 
     getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["geometry"] = this.geometry;
-        data["processFlag"] = this.processFlag;
-        data["geoLiveType"] = this.geoLiveType;
+        data.pid = this.pid;
+        data.geometry = this.geometry;
+        data.processFlag = this.processFlag;
+        data.geoLiveType = this.geoLiveType;
 
         var links = [];
         for (var i = 0, len = this.links.length; i < len; i++) {
             links.push(this.links[i].getIntegrate());
         }
-        data["links"] = links;
+        data.links = links;
         return data;
-    },
+    }
 });
 
 fastmap.dataApi.rdGsc = function (data, options) {
     return new fastmap.dataApi.RdGsc(data, options);
-}
+};
 

@@ -4,14 +4,14 @@
  */
 
 fastmap.dataApi.RdWarningInfo = fastmap.dataApi.GeoDataModel.extend({
-    /***
+    /** *
      *
      * @param data geometry
      * @param options 其他可选参数
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "RDWARNINGINFO";
+        this.geoLiveType = 'RDWARNINGINFO';
         this.setAttributeData(data);
     },
 
@@ -22,16 +22,16 @@ fastmap.dataApi.RdWarningInfo = fastmap.dataApi.GeoDataModel.extend({
      * @param {object} data.
      */
     setAttributeData: function (data) {
-        this.pid = data["pid"] || null;
-        this.linkPid = data["linkPid"];
-        this.nodePid = data["nodePid"];
-        this.typeCode = data["typeCode"] || null;
-        this.validDis = data["validDis"] || 0;
-        this.warnDis = data["warnDis"] || 0;
-        this.timeDomain = data["timeDomain"] || null;
-        this.vehicle = data["vehicle"] || 0;
-        this.descript = data["descript"] || null;
-        this.rowId = data["rowId"] || null;
+        this.pid = data.pid || null;
+        this.linkPid = data.linkPid;
+        this.nodePid = data.nodePid;
+        this.typeCode = data.typeCode || null;
+        this.validDis = data.validDis || 0;
+        this.warnDis = data.warnDis || 0;
+        this.timeDomain = data.timeDomain || null;
+        this.vehicle = data.vehicle || 0;
+        this.descript = data.descript || null;
+        this.rowId = data.rowId || null;
     },
 
     /**
@@ -42,17 +42,17 @@ fastmap.dataApi.RdWarningInfo = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["linkPid"] = this.linkPid;
-        data["nodePid"] = this.nodePid;
-        data["typeCode"] = this.typeCode;
-        data["validDis"] = this.validDis;
-        data["warnDis"] = this.warnDis;
-        data["timeDomain"] = this.timeDomain;
-        data["vehicle"] = this.vehicle;
-        data["descript"] = this.descript;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"]  = this.geoLiveType;
+        data.pid = this.pid;
+        data.linkPid = this.linkPid;
+        data.nodePid = this.nodePid;
+        data.typeCode = this.typeCode;
+        data.validDis = this.validDis;
+        data.warnDis = this.warnDis;
+        data.timeDomain = this.timeDomain;
+        data.vehicle = this.vehicle;
+        data.descript = this.descript;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
 
         return data;
     },
@@ -65,23 +65,23 @@ fastmap.dataApi.RdWarningInfo = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["linkPid"] = this.linkPid;
-        data["nodePid"] = this.nodePid;
-        data["typeCode"] = this.typeCode;
-        data["validDis"] = this.validDis;
-        data["warnDis"] = this.warnDis;
-        data["timeDomain"] = this.timeDomain;
-        data["vehicle"] = this.vehicle;
-        data["descript"] = this.descript;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"]  = this.geoLiveType;
+        data.pid = this.pid;
+        data.linkPid = this.linkPid;
+        data.nodePid = this.nodePid;
+        data.typeCode = this.typeCode;
+        data.validDis = this.validDis;
+        data.warnDis = this.warnDis;
+        data.timeDomain = this.timeDomain;
+        data.vehicle = this.vehicle;
+        data.descript = this.descript;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
 
         return data;
     }
 });
 
-/***
+/** *
  * RdWarningInfo
  * @param data node数据
  * @param options 其他可选参数
@@ -89,5 +89,5 @@ fastmap.dataApi.RdWarningInfo = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdWarningInfo = function (data, options) {
     return new fastmap.dataApi.RdWarningInfo(data, options);
-}
+};
 

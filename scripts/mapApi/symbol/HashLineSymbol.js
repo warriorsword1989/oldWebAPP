@@ -46,30 +46,30 @@ fastmap.mapApi.symbol.HashLineSymbol = L.Class.extend({
         for (var i = 0; i < marks.length; ++i) {
             var mark = marks[i];
 
-            //以mark的前两个点构造向量
+            // 以mark的前两个点构造向量
             var vector = mark.coordinates[1].minus(mark.coordinates[0]);
             vector.normalize();
 
-            //将向量顺时针旋转指定角度
+            // 将向量顺时针旋转指定角度
             var matrix = new fastmap.mapApi.symbol.Matrix();
             matrix = matrix.makeRotate(this.hashAngle);
             vector = vector.crossMatrix(matrix);
 
-            //hash的偏移向量
+            // hash的偏移向量
             var hashOffsetVector = vector.multiNumber(this.hashOffset);
 
-            //单位向量乘以hash长度
+            // 单位向量乘以hash长度
             vector = vector.multiNumber(this.hashHeight);
 
             var startPoint = mark.coordinates[0].plusVector(hashOffsetVector);
             var endPoint = startPoint.plusVector(vector);
 
-            //用计算出的起点和终点构造hash几何
+            // 用计算出的起点和终点构造hash几何
             var hashGeo = new fastmap.mapApi.symbol.LineString();
             hashGeo.coordinates.push(startPoint);
             hashGeo.coordinates.push(endPoint);
 
-            //设置hashSymbol的geometry并调用draw方法
+            // 设置hashSymbol的geometry并调用draw方法
             this.hashSymbol.geometry = hashGeo;
             this.hashSymbol.draw(ctx);
         }

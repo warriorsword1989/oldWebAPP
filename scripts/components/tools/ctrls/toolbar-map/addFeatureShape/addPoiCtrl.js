@@ -1,8 +1,8 @@
 /**
  * Created by zhaohang on 2016/4/12.
  */
-angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
-    function($scope, $ocLazyLoad) {
+angular.module('app').controller('addPoiCtrl', ['$scope', '$ocLazyLoad',
+    function ($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
@@ -14,7 +14,7 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
          * @param pointB
          * @returns {number}
          */
-        $scope.distance = function(pointA, pointB) {
+        $scope.distance = function (pointA, pointB) {
             var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
             return Math.sqrt(len);
         };
@@ -24,8 +24,9 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
          * @param pointB
          * @returns {*}
          */
-        $scope.includeAngle = function(pointA, pointB) {
-            var angle, dValue = pointA.x - pointB.x,
+        $scope.includeAngle = function (pointA, pointB) {
+            var angle,
+                dValue = pointA.x - pointB.x,
                 PI = Math.PI;
             if (dValue === 0) {
                 angle = PI / 2;
@@ -39,21 +40,21 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
          * 增加POI
          * @param type
          */
-        $scope.addPoi = function(type) {
+        $scope.addPoi = function (type) {
             $scope.resetToolAndMap();
-            $scope.$emit("SWITCHCONTAINERSTATE", {
-                "attrContainerTpl": false,
-                "subAttrContainerTpl": false
+            $scope.$emit('SWITCHCONTAINERSTATE', {
+                attrContainerTpl: false,
+                subAttrContainerTpl: false
             });
-            $("#popoverTips").hide();
-            //大于17级才可以选择地图上各种geometry
+            $('#popoverTips').hide();
+            // 大于17级才可以选择地图上各种geometry
             if (map.getZoom() < 17) {
-                swal("提示","地图缩放等级必须大于16级才可操作","info");
+                swal('提示', '地图缩放等级必须大于16级才可操作', 'info');
                 return;
             }
             // $scope.changeBtnClass(num);
-            if (type === "IXPOI") {
-                $scope.resetOperator("addPointFeature", type);
+            if (type === 'IXPOI') {
+                $scope.resetOperator('addPointFeature', type);
                 if (shapeCtrl.shapeEditorResult) {
                     var feature = {};
                     feature.components = [];
@@ -62,7 +63,7 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
                     feature.components.push(fastmap.mapApi.point(0, 0));
                     feature.points.push(fastmap.mapApi.point(0, 0));
                     feature.points.push(fastmap.mapApi.point(0, 0));
-                    feature.type = "IXPOI";
+                    feature.type = 'IXPOI';
                     shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
@@ -71,11 +72,11 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
-                shapeCtrl.editFeatType = "IXPOI";
+                shapeCtrl.editFeatType = 'IXPOI';
                 map.currentTool.captureHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('poiAdd');
                 tooltipsCtrl.setCurrentTooltip('点击空格保存,或者按ESC键取消!');
             }
-        }
+        };
     }
-])
+]);

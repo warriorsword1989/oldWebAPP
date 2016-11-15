@@ -10,7 +10,7 @@ fastmap.mapApi.PointVertexMove = L.Handler.extend({
      */
     includes: L.Mixin.Events,
 
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -20,13 +20,13 @@ fastmap.mapApi.PointVertexMove = L.Handler.extend({
         L.setOptions(this, options);
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -46,9 +46,9 @@ fastmap.mapApi.PointVertexMove = L.Handler.extend({
 
     drawFeedBack: function () {
     },
-    //两点之间的距离
-    distance:function(pointA, pointB) {
+    // 两点之间的距离
+    distance: function (pointA, pointB) {
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     }
-})
+});

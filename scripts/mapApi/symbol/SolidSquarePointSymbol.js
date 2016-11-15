@@ -29,15 +29,15 @@ fastmap.mapApi.symbol.SolidSquarePointSymbol = L.Class.extend({
 
         this.translate = this.getTranslate();
 
-        //绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
+        // 绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
         ctx.restore();
 
-        //保存一下当前状态，方便绘制完成后恢复状态
+        // 保存一下当前状态，方便绘制完成后恢复状态
         ctx.save();
 
         this.drawSquare(ctx);
 
-        //绘制完成后恢复到上次保存的状态，通常是初始状态，避免影响以后的绘制
+        // 绘制完成后恢复到上次保存的状态，通常是初始状态，避免影响以后的绘制
         ctx.restore();
     },
 
@@ -84,7 +84,7 @@ fastmap.mapApi.symbol.SolidSquarePointSymbol = L.Class.extend({
     },
 
     getSquareGeometry: function () {
-        var squareGeometry = new fastmap.mapApi.symbol.LineString;
+        var squareGeometry = new fastmap.mapApi.symbol.LineString();
         squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y - this.size));
         squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y - this.size));
         squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y + this.size));

@@ -16,11 +16,11 @@ angular.module('fastmap.uikit').directive('showBox', function () {
             onSelect: '&fmSelect',
             beforeDelete: '&fmBeforeDelete',
             afterDelete: '&fmAfterDelete',
-            beforeRotate:'&fmBeforeRotate'
+            beforeRotate: '&fmBeforeRotate'
         },
         controller: function ($scope, $element) {
             $scope.selectMe = function (index) {
-                //$scope.dataTipsOriginImg = { "transform":"", "rotate":"", "transform":""}
+                // $scope.dataTipsOriginImg = { "transform":"", "rotate":"", "transform":""}
                 $scope.page.pageNo = Math.ceil((index + 1) / $scope.page.pageSize);
                 $scope.selectedIndex = index;
                 $scope.selectedImg = $scope.dataList[index];
@@ -38,27 +38,25 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                     });
                 }
                 $scope.isShowBoxModal = true;
-                $scope.dataTipsOriginImg = { "transform":"", "rotate":"", "transform":""}
+                $scope.dataTipsOriginImg = { transform: '', rotate: '', transform: '' };
             };
             $scope.deleteMe = function () {
                 if ($scope.beforeDelete) {
                     var f = $scope.beforeDelete({
                         item: $scope.selectedImg
                     });
-                    if(!f){
-                        return ;
+                    if (!f) {
+                        return;
                     }
                 }
                 $scope.dataList.splice($scope.selectedIndex, 1);
                 if ($scope.selectedIndex > 0) {
                     $scope.selectMe($scope.selectedIndex - 1);
+                } else if ($scope.dataList.length > 0) {
+                    $scope.selectMe(0);
                 } else {
-                    if ($scope.dataList.length > 0) {
-                        $scope.selectMe(0);
-                    } else {
-                        $scope.selectedIndex = -1;
-                        $scope.selectedImg = null;
-                    }
+                    $scope.selectedIndex = -1;
+                    $scope.selectedImg = null;
                 }
                 if ($scope.afterDelete) {
                     $scope.afterDelete({
@@ -76,12 +74,12 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                     $scope.page.pageNo++;
                 }
             };
-            /* 
+            /*
                 当showbox.js和showbox.htm执行结束后，稍微等待一会儿后给imageArray赋值会导致watch方法执行两次,第一次newValue为空，需要对空做处理
             */
-            $scope.$watch("dataList", function (newValue, oldValue) {
-                if($scope.dataList){
-                    if ( newValue && oldValue && (newValue.length > oldValue.length)) { // 新增时，选中最后一个，即选中新增的
+            $scope.$watch('dataList', function (newValue, oldValue) {
+                if ($scope.dataList) {
+                    if (newValue && oldValue && (newValue.length > oldValue.length)) { // 新增时，选中最后一个，即选中新增的
                         $scope.selectMe(newValue.length - 1);
                     } else {
                         $scope.selectMe(0);
@@ -90,26 +88,24 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                 }
             });
             $scope.pageStyle = {
-                "margin-top": "0px"
+                'margin-top': '0px'
             };
-            $scope.$watch("page.pageNo", function () {
-                $scope.pageStyle["margin-top"] = -(($scope.page.pageNo - 1) * 53) + "px";
+            $scope.$watch('page.pageNo', function () {
+                $scope.pageStyle['margin-top'] = -(($scope.page.pageNo - 1) * 53) + 'px';
             });
-            $scope.closePicContainer = function (){
+            $scope.closePicContainer = function () {
                 $scope.isShowBoxModal = false;
             };
-            $scope.switchPic = function (flag){
-                if(flag){
-                    if($scope.selectedIndex < $scope.dataList.length - 1){
+            $scope.switchPic = function (flag) {
+                if (flag) {
+                    if ($scope.selectedIndex < $scope.dataList.length - 1) {
                         $scope.selectMe(++$scope.selectedIndex);
                     }
-                }else {
-                    if($scope.selectedIndex > 0){
-                        $scope.selectMe(--$scope.selectedIndex);
-                    }
+                } else if ($scope.selectedIndex > 0) {
+                    $scope.selectMe(--$scope.selectedIndex);
                 }
             };
-            $scope.rotateImage = function (flag){
+            $scope.rotateImage = function (flag) {
                 // var rotate = $scope.dataTipsOriginImg.rotate ;
                 // if (!rotate){
                 //     rotate = 0;
@@ -119,40 +115,40 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                 // } else {
                 //     rotate = parseInt(rotate) - 90;
                 // }
-                if ($scope.beforeRotate){
+                if ($scope.beforeRotate) {
                     $scope.beforeRotate({
-                        "degree":flag ? 90 : 270,
-                        'item': $scope.selectedImg
+                        degree: flag ? 90 : 270,
+                        item: $scope.selectedImg
                     });
                 }
-                //$scope.dataTipsOriginImg.rotate = rotate;
-                //$scope.dataTipsOriginImg.transform = 'rotate('+rotate+'deg)';
-            }
+                // $scope.dataTipsOriginImg.rotate = rotate;
+                // $scope.dataTipsOriginImg.transform = 'rotate('+rotate+'deg)';
+            };
         },
         link: function (scope, element, attrs) {
             scope.selectedIndex = -1;
             scope.selectedImg = null;
-            var divs = element.children("div");
+            var divs = element.children('div');
             var imgBox = angular.element(divs[0]),
                 toobar = angular.element(divs[1]);
             var thumb = angular.element(divs[2]);
 
             var showboxModal = angular.element(divs[3]);
             var showboxModalParent = angular.element(divs[3])[0].parentElement.parentElement.parentElement;
-            angular.element(showboxModal.children("div")[0]).css({"width":showboxModalParent.scrollWidth-20+"px","height":element[0].clientHeight+"px"});
-            showboxModal.find("img").css({"width":showboxModalParent.scrollWidth-70+"px","height":element[0].clientHeight-70+"px","max-width":showboxModalParent.scrollWidth-20+"px","max-height":element[0].clientHeight-70+"px"});
+            angular.element(showboxModal.children('div')[0]).css({ width: showboxModalParent.scrollWidth - 20 + 'px', height: element[0].clientHeight + 'px' });
+            showboxModal.find('img').css({ width: showboxModalParent.scrollWidth - 70 + 'px', height: element[0].clientHeight - 70 + 'px', 'max-width': showboxModalParent.scrollWidth - 20 + 'px', 'max-height': element[0].clientHeight - 70 + 'px' });
 
 
             if (toobar.children().length > 0) {
                 scope.hasToolbar = true;
-                imgBox.css("height", (element[0].clientHeight - 70 - toobar[0].offsetHeight) + "px");
+                imgBox.css('height', (element[0].clientHeight - 70 - toobar[0].offsetHeight) + 'px');
             } else {
                 scope.hasToolbar = false;
-                imgBox.css("height", (element[0].clientHeight - 70) + "px");
+                imgBox.css('height', (element[0].clientHeight - 70) + 'px');
             }
             var bh = imgBox[0].clientHeight;
             var bw = imgBox[0].clientWidth;
-            imgBox.find('img').on("load", function () {
+            imgBox.find('img').on('load', function () {
                 var that = angular.element(this);
                 var nw = this.naturalWidth;
                 var nh = this.naturalHeight;
@@ -160,17 +156,17 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                 var rH = bh / nh;
                 var r = rW <= rH ? rW : rH;
                 if (r < 1) {
-                    that.css("width", Math.floor(nw * r - 10) + "px");
-                    that.css("height", Math.floor(nh * r) + "px");
+                    that.css('width', Math.floor(nw * r - 10) + 'px');
+                    that.css('height', Math.floor(nh * r) + 'px');
                 }
                 var off = bh - this.offsetHeight;
-                that.parent().css("margin-top", Math.ceil(off / 2) + "px");
+                that.parent().css('margin-top', Math.ceil(off / 2) + 'px');
             });
             scope.page = {
-                pageSize: Math.floor(thumb.children("div")[1].clientWidth / 50),
+                pageSize: Math.floor(thumb.children('div')[1].clientWidth / 50),
                 pageNo: 1
             };
-            //scope.selectMe(0); //此处调用是多余的，因为$scope.$watch("dataList")监听方法会自动执行
+            // scope.selectMe(0); //此处调用是多余的，因为$scope.$watch("dataList")监听方法会自动执行
         }
     };
 });

@@ -3,7 +3,7 @@
  * Class fastmap.mapApi.LayerRender
  */
 fastmap.mapApi.LayerRender = {
-    /***
+    /** *
      * 绘制点
      * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param geom 点对象
@@ -11,13 +11,13 @@ fastmap.mapApi.LayerRender = {
      * @param boolPixelCrs 是否是像素坐标
      * @private
      */
-    _drawPoint: function(options) {
+    _drawPoint: function (options) {
         var p = null;
         if (options.boolPixelCrs) {
             p = {
                 x: options.geom[0],
                 y: options.geom[1]
-            }
+            };
         } else {
             p = this._tilePoint(options.ctx, options.geom);
         }
@@ -41,7 +41,7 @@ fastmap.mapApi.LayerRender = {
         g.fill();
         g.restore();
     },
-    /***
+    /** *
      * 绘制空心圆
      * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param geom 点对象
@@ -49,7 +49,7 @@ fastmap.mapApi.LayerRender = {
      * @param boolPixelCrs 是否是像素坐标
      * @private
      */
-    _drawCircle: function(ctx, geom, style, boolPixelCrs) {
+    _drawCircle: function (ctx, geom, style, boolPixelCrs) {
         if (!style) {
             return;
         }
@@ -58,7 +58,7 @@ fastmap.mapApi.LayerRender = {
             p = {
                 x: geom[0],
                 y: geom[1]
-            }
+            };
         } else {
             p = this._tilePoint(ctx, geom);
         }
@@ -67,10 +67,10 @@ fastmap.mapApi.LayerRender = {
         g.beginPath();
         g.fillStyle = style.color;
         g.arc(p.x, p.y, style.radius, 0, Math.PI * 2);
-        g.stroke(); //画空心圆
+        g.stroke(); // 画空心圆
         g.closePath();
     },
-    /***
+    /** *
      * @param options
      * @param geo几何对象
      * @param boolPixelCrs是否以像素坐标绘制
@@ -82,14 +82,14 @@ fastmap.mapApi.LayerRender = {
      * @param fillStyle边框填充样式
      * @private
      */
-    _drawImg: function(options) {
+    _drawImg: function (options) {
         var p = null;
         var style = options.style;
         if (options.boolPixelCrs) {
             p = {
                 x: options.geo[0],
                 y: options.geo[1]
-            }
+            };
         } else {
             p = this._tilePoint(options.ctx, options.geom);
         }
@@ -98,42 +98,42 @@ fastmap.mapApi.LayerRender = {
         var image = new Image();
         var rotate = options.rotate;
         image.src = style.src;
-        image.onload = function() {
+        image.onload = function () {
             var scalex = options.scalex ? options.scalex : 1;
             var scaley = options.scaley ? options.scaley : 1;
             var drawx = options.drawx ? options.drawx : -image.width * scalex / 2;
             var drawy = options.drawy ? options.drawy : -image.height * scalex / 2;
-            //var drawx = -options.c * image.width/2;
-            //var drawy = 0
+            // var drawx = -options.c * image.width/2;
+            // var drawy = 0
             g.save();
             g.translate(p.x, p.y);
             if (options.fillStyle) {
-                g.strokeStyle = options.fillStyle.lineColor; //边框颜色
+                g.strokeStyle = options.fillStyle.lineColor; // 边框颜色
                 g.fillStyle = options.fillStyle.fillColor;
-                g.linewidth = options.fillStyle.lineWidth; //边框宽
-                if (options.fillStyle.fillType == "IXPOI") {
+                g.linewidth = options.fillStyle.lineWidth; // 边框宽
+                if (options.fillStyle.fillType == 'IXPOI') {
                     g.beginPath();
                     g.arc(0, 0, image.width * scalex / 2 + 2, 0, 2 * Math.PI);
                     g.stroke();
                 } else {
-                    g.fillRect(drawx, drawy, image.width, image.height); //填充颜色 x y坐标 宽 高
-                    g.strokeRect(drawx, drawy, image.width, image.height); //填充边框 x y坐标 宽 高
+                    g.fillRect(drawx, drawy, image.width, image.height); // 填充颜色 x y坐标 宽 高
+                    g.strokeRect(drawx, drawy, image.width, image.height); // 填充边框 x y坐标 宽 高
                 }
             }
             if (rotate) {
-                g.rotate(rotate); //旋转度数
+                g.rotate(rotate); // 旋转度数
             }
             g.drawImage(image, drawx, drawy, image.width * scalex, image.height * scaley);
             g.restore();
-        }
+        };
     },
-    _drawBackground: function(options) {
+    _drawBackground: function (options) {
         var p = null;
         if (options.boolPixelCrs) {
             p = {
                 x: options.geo[0],
                 y: options.geo[1]
-            }
+            };
         } else {
             p = this._tilePoint(options.ctx, options.geom);
         }
@@ -147,25 +147,25 @@ fastmap.mapApi.LayerRender = {
         g.save();
         g.translate(p.x, p.y);
         if (rotate) {
-            g.rotate(rotate); //旋转度数
+            g.rotate(rotate); // 旋转度数
         }
-        g.strokeStyle = options.lineColor; //边框颜色
+        g.strokeStyle = options.lineColor; // 边框颜色
         g.fillStyle = options.fillColor;
-        g.linewidth = options.lineWidth; //边框宽
-        g.fillRect(drawx, drawy, options.width, options.height); //填充颜色 x y坐标 宽 高
-        g.strokeRect(drawx, drawy, options.width, options.height); //填充边框 x y坐标 宽 高
+        g.linewidth = options.lineWidth; // 边框宽
+        g.fillRect(drawx, drawy, options.width, options.height); // 填充颜色 x y坐标 宽 高
+        g.strokeRect(drawx, drawy, options.width, options.height); // 填充边框 x y坐标 宽 高
         g.restore();
     },
-    _drawLinkNameText: function(ctx, geom, name) {
+    _drawLinkNameText: function (ctx, geom, name) {
         var startLen = geom.concat().length;
         geom = this._clip(ctx, geom);
         var endLen = geom.length;
         var c = ctx.canvas;
         var g = c.getContext('2d');
-        g.font = "10px Courier New";
-        g.textAlign = "center";
+        g.font = '10px Courier New';
+        g.textAlign = 'center';
         var angle,
-            nameArr = name.split(""),
+            nameArr = name.split(''),
             nameLen = name.length * 10,
             lineLen = 0;
         if (geom.length === 2) {
@@ -181,7 +181,8 @@ fastmap.mapApi.LayerRender = {
                 textLength = 0,
                 startText = 0,
                 textIndex = 0,
-                betPointsLen, realLineLen = 0,
+                betPointsLen,
+                realLineLen = 0,
                 linkArrLen = geom.length;
             for (var m = 1; m < linkArrLen; m++) {
                 betPointsLen = this.distance(geom[m], startPointForLen);
@@ -189,7 +190,7 @@ fastmap.mapApi.LayerRender = {
                 startPointForLen = geom[m];
             }
             if (nameLen < realLineLen / 2 && realLineLen > 50) {
-                startPoint = geom[2]
+                startPoint = geom[2];
                 for (var linkFLag = 1; linkFLag < linkArrLen; linkFLag++) {
                     if (textLength < nameArr.length) {
                         betPointsLen = this.distance(geom[linkFLag], startPoint);
@@ -206,10 +207,11 @@ fastmap.mapApi.LayerRender = {
             }
         }
     },
-    _drawBridge: function(cav, geom, that) {
+    _drawBridge: function (cav, geom, that) {
         var c = cav.canvas;
         var ctx = c.getContext('2d');
-        var oriStart, oriEnd;
+        var oriStart,
+            oriEnd;
         oriStart = geom[0][0];
         for (var i = 1, len = geom.length; i < len; i++) {
             oriEnd = geom[i][0];
@@ -220,10 +222,10 @@ fastmap.mapApi.LayerRender = {
             oriStart = geom[i][0];
         }
     },
-    _drawObliqueLine: function(ctx, points, angle) {
+    _drawObliqueLine: function (ctx, points, angle) {
         var len = Math.floor(this.distance(points[0], points[1]) / 20);
         ctx.lineWidth = 1;
-        ctx.strokeStyle = "#FF0000";
+        ctx.strokeStyle = '#FF0000';
         ctx.save();
         ctx.translate(points[0][0], points[0][1]);
         ctx.rotate(angle);
@@ -232,7 +234,7 @@ fastmap.mapApi.LayerRender = {
             ctx.moveTo(i * 20, 0);
             ctx.lineTo(i * 20, -6);
         }
-        //最后一个点
+        // 最后一个点
         ctx.moveTo(points[1][0] - points[0][0], 0);
         ctx.lineTo(points[1][0] - points[0][0], -6);
         ctx.stroke();
@@ -245,25 +247,23 @@ fastmap.mapApi.LayerRender = {
      * @returns {*}
      * @private
      */
-    _rotateAngle: function(startPoint, endPoint) {
+    _rotateAngle: function (startPoint, endPoint) {
         var angle;
         if ((startPoint[0] - endPoint[0]) === 0) {
             angle = Math.PI / 2;
+        } else if ((startPoint[1] - endPoint[1]) === 0) {
+            angle = 0;
         } else {
-            if ((startPoint[1] - endPoint[1]) === 0) {
-                angle = 0;
-            } else {
-                angle = Math.atan((startPoint[1] - endPoint[1]) / (startPoint[0] - endPoint[0]));
-            }
+            angle = Math.atan((startPoint[1] - endPoint[1]) / (startPoint[0] - endPoint[0]));
         }
         return angle;
     },
-    _showTextOfAngle: function(ctx, start, name, angle, textGeom, font, align) {
+    _showTextOfAngle: function (ctx, start, name, angle, textGeom, font, align) {
         var c = ctx.canvas;
         var g = c.getContext('2d');
-        g.font = font ? font : "10px Courier New";
-        g.textAlign = align ? align : "center";
-        var nameArr = name.split(""),
+        g.font = font ? font : '10px Courier New';
+        g.textAlign = align ? align : 'center';
+        var nameArr = name.split(''),
             PI = Math.PI,
             end = nameArr.length;
         if (angle === 0) {
@@ -283,32 +283,32 @@ fastmap.mapApi.LayerRender = {
             g.restore();
         }
     },
-    //_drawConditionSpeedLimit: function (ctx, name, angle, textGeom, font, align) {
-    _drawText: function(options) {
+    // _drawConditionSpeedLimit: function (ctx, name, angle, textGeom, font, align) {
+    _drawText: function (options) {
         var c = options.ctx.canvas;
         var g = c.getContext('2d');
-        g.font = options.font ? options.font : "10px Courier New";
-        g.textAlign = options.textAlign ? options.textAlign : "center";
+        g.font = options.font ? options.font : '10px Courier New';
+        g.textAlign = options.textAlign ? options.textAlign : 'center';
         g.save();
         g.translate(options.geo[0], options.geo[1]);
         if (options.rotate) {
             g.rotate(options.rotate);
         }
-        //g.fillText(options.text, 0, 12 / 2);
+        // g.fillText(options.text, 0, 12 / 2);
         g.fillText(options.text, options.drawx, options.drawy);
         g.restore();
     },
-    /***
+    /** *
      * _drawArrow绘制方向箭头
      * @param {Object}ctx
      * @param {Number}direct 绘制方向
      * @param {Array}data 点数组
      * @private
      */
-    _drawArrow: function(ctx, direct, data) {
+    _drawArrow: function (ctx, direct, data) {
         var g = ctx.canvas.getContext('2d');
         g.linewidth = 2;
-        g.strokeStyle = "#ff0000";
+        g.strokeStyle = '#ff0000';
         if (direct == 0 || direct == 1) {
             return;
         }
@@ -322,10 +322,10 @@ fastmap.mapApi.LayerRender = {
                 if (distance < 30) {
                     return;
                 }
-                g.save()
+                g.save();
                 var centerPoint = L.point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
                 g.translate(centerPoint.x, centerPoint.y);
-                //先计算向量与y轴负方向向量(0,-1)的夹角
+                // 先计算向量与y轴负方向向量(0,-1)的夹角
                 var ang = 0;
                 if (point1.y - point2.y == 0) {
                     if (point1.x - point2.x > 0) {
@@ -343,21 +343,19 @@ fastmap.mapApi.LayerRender = {
                     } else if (direct == 3) {
                         g.rotate(-ang + Math.PI);
                     }
-                } else {
-                    if (direct == 2) {
-                        g.rotate(Math.PI - ang); //加个180度，反过来
-                    } else if (direct == 3) {
-                        g.rotate(-ang);
-                    }
+                } else if (direct == 2) {
+                    g.rotate(Math.PI - ang); // 加个180度，反过来
+                } else if (direct == 3) {
+                    g.rotate(-ang);
                 }
                 g.lineTo(-3, -6);
                 g.lineTo(0, 1);
                 g.lineTo(3, -6);
                 g.lineTo(0, 0);
                 g.stroke();
-                g.fill(); //箭头是个封闭图形
+                g.fill(); // 箭头是个封闭图形
                 g.closePath();
-                g.restore(); //恢复到堆的上一个状态，其实这里没什么用。
+                g.restore(); // 恢复到堆的上一个状态，其实这里没什么用。
             }
         }
     },
@@ -369,7 +367,7 @@ fastmap.mapApi.LayerRender = {
      * @param that
      * @private
      */
-    _drawDashLineOfAngle: function(ctx, points, dashLength, that) {
+    _drawDashLineOfAngle: function (ctx, points, dashLength, that) {
         var endPoint,
             startPoint = points[0][0];
         for (var i = 1, len = points.length; i < len; i++) {
@@ -388,10 +386,10 @@ fastmap.mapApi.LayerRender = {
      * @param self
      * @private
      */
-    _drawDashLine: function(ctx, points, angle, dashLength, self) {
+    _drawDashLine: function (ctx, points, angle, dashLength, self) {
         var pointsOfChange = self._pointsFromAngle(points, angle);
         ctx.lineWidth = 2;
-        ctx.strokeStyle = "red";
+        ctx.strokeStyle = 'red';
         var xPos = points[1][0] - points[0][0],
             yPos = points[1][1] - points[0][1];
         var dash = Math.floor(Math.sqrt(xPos * xPos + yPos * yPos) / dashLength);
@@ -409,7 +407,7 @@ fastmap.mapApi.LayerRender = {
         ctx.stroke();
         ctx.restore();
     },
-    /***
+    /** *
      * 绘制线
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param {Array}geom 绘制几何对象
@@ -417,16 +415,16 @@ fastmap.mapApi.LayerRender = {
      * @param {Boolean}boolPixelCrs 是否像素坐标
      * @private
      */
-    _drawLineString: function(ctx, geom, boolPixelCrs, linestyle, nodestyle, properties) {
+    _drawLineString: function (ctx, geom, boolPixelCrs, linestyle, nodestyle, properties) {
         if (!linestyle) {
             return;
         }
         var proj = [],
             coords = this._clip(ctx, geom);
         for (var i = 0; i < coords.length; i++) {
-            //if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
+            // if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
             //    this._drawPoint(ctx, coords[i], nodestyle, true);
-            //}
+            // }
             if (boolPixelCrs) {
                 proj.push({
                     x: coords[i][0],
@@ -439,8 +437,8 @@ fastmap.mapApi.LayerRender = {
         var g = ctx.canvas.getContext('2d');
         g.strokeStyle = linestyle.strokeColor;
         g.lineWidth = linestyle.strokeWidth;
-        g.globalAlpha = linestyle.strokeOpacity || 1;//Opacity
-        g.lineCap = linestyle.lineCap || "butt";
+        g.globalAlpha = linestyle.strokeOpacity || 1;// Opacity
+        g.lineCap = linestyle.lineCap || 'butt';
         g.beginPath();
         for (var j = 0; j < proj.length; j++) {
             var method = (j === 0 ? 'move' : 'line') + 'To';
@@ -449,11 +447,11 @@ fastmap.mapApi.LayerRender = {
         g.stroke();
         g.restore();
         if (properties.hasOwnProperty('symbol')) {
-            //如果有symbol，则使用符号绘制
-            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbol']);
+            // 如果有symbol，则使用符号绘制
+            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties.symbol);
         }
     },
-    /***
+    /** *
      * 根据指定的符号名绘制线
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param {Array}geom 绘制几何对象
@@ -461,12 +459,12 @@ fastmap.mapApi.LayerRender = {
      * @symbol {Array}style 符号
      * @private
      */
-    _drawLineStringWithSymbol: function(ctx, geom, boolPixelCrs, symbol) {
+    _drawLineStringWithSymbol: function (ctx, geom, boolPixelCrs, symbol) {
         if (!symbol) {
             return;
         }
         var geometry = [];
-        //coords = this._clip(ctx, geom);
+        // coords = this._clip(ctx, geom);
         for (var i = 0; i < geom.length; i++) {
             if (boolPixelCrs) {
                 geometry.push([geom[i][0], geom[i][1]]);
@@ -480,14 +478,14 @@ fastmap.mapApi.LayerRender = {
         symbol.geometry = lsGeometry;
         symbol.draw(g);
     },
-    /***
+    /** *
      * 绘制polygon
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param {Array}geom 几何对象
      * @param {Object}style 样式
      * @private
      */
-    _drawPolygon: function(ctx, geom, style, boolPixelCrs) {
+    _drawPolygon: function (ctx, geom, style, boolPixelCrs) {
         if (!style) {
             return;
         }
@@ -523,8 +521,8 @@ fastmap.mapApi.LayerRender = {
             g.stroke();
         }
     },
-    /**互联网rtic*/
-    _drawrdrtic: function(ctx, geom, properties, boolPixelCrs) {
+    /** 互联网rtic*/
+    _drawrdrtic: function (ctx, geom, properties, boolPixelCrs) {
         var direct = null,
             stolecolor = null,
             reversecolor = null,
@@ -552,54 +550,52 @@ fastmap.mapApi.LayerRender = {
             }
         }
         if (properties.forwardLevel == 0) {
-            stolecolor = "#808080"; //灰色
+            stolecolor = '#808080'; // 灰色
         } else if (properties.forwardLevel == 1) {
-            stolecolor = "#FF0000"; //红色
+            stolecolor = '#FF0000'; // 红色
         } else if (properties.forwardLevel == 2) {
-            stolecolor = "#006400"; //绿色
+            stolecolor = '#006400'; // 绿色
         } else if (properties.forwardLevel == 3) {
-            stolecolor = "#00008B"; //蓝色
+            stolecolor = '#00008B'; // 蓝色
         } else if (properties.forwardLevel == 4) {
-            stolecolor = "#FF1493"; //粉色
+            stolecolor = '#FF1493'; // 粉色
         }
         if (properties.reverseLevel == 0) {
-            reversecolor = "#808080"; //灰色
+            reversecolor = '#808080'; // 灰色
         } else if (properties.reverseLevel == 1) {
-            reversecolor = "#FF0000"; //红色
+            reversecolor = '#FF0000'; // 红色
         } else if (properties.reverseLevel == 2) {
-            reversecolor = "#006400"; //绿色
+            reversecolor = '#006400'; // 绿色
         } else if (properties.reverseLevel == 3) {
-            reversecolor = "#00008B"; //蓝色
+            reversecolor = '#00008B'; // 蓝色
         } else if (properties.reverseLevel == 4) {
-            reversecolor = "#FF1493"; //粉色
+            reversecolor = '#FF1493'; // 粉色
         }
         if (properties.forwardLevel && properties.reverseLevel) {
             if (this._map.getZoom() >= this.showNodeLevel) {
                 this._drawIntRticArrow(g, 2, arrowlist, stolecolor);
                 this._drawIntRticArrow(g, 3, arrowlist, reversecolor);
-                this._drawIntRticText(ctx, geom, properties.forwardInformation + "上", 2);
-                this._drawIntRticText(ctx, geom, properties.reverseInformation + "下", 3);
+                this._drawIntRticText(ctx, geom, properties.forwardInformation + '上', 2);
+                this._drawIntRticText(ctx, geom, properties.reverseInformation + '下', 3);
             }
         } else {
             if (properties.forwardLevel) {
-                direct = 2; //顺方向
+                direct = 2; // 顺方向
             } else if (properties.reverseLevel) {
-                direct = 3; //逆方向
+                direct = 3; // 逆方向
             }
-            if (direct == null || typeof(direct) == "undefined" || direct == "") {} else {
-                if (this._map.getZoom() >= this.showNodeLevel) {
-                    this._drawIntRticArrow(g, direct, arrowlist, (direct == 2 ? stolecolor : reversecolor));
-                    if (direct === 2) {
-                        this._drawIntRticText(ctx, geom, properties.forwardInformation + "上", 2);
-                    }
-                    if (direct === 3) {
-                        this._drawIntRticText(ctx, geom, properties.reverseInformation + "下", 3);
-                    }
+            if (direct == null || typeof (direct) === 'undefined' || direct == '') {} else if (this._map.getZoom() >= this.showNodeLevel) {
+                this._drawIntRticArrow(g, direct, arrowlist, (direct == 2 ? stolecolor : reversecolor));
+                if (direct === 2) {
+                    this._drawIntRticText(ctx, geom, properties.forwardInformation + '上', 2);
+                }
+                if (direct === 3) {
+                    this._drawIntRticText(ctx, geom, properties.reverseInformation + '下', 3);
                 }
             }
         }
     },
-    /***
+    /** *
      * _drawArrow绘制方向箭头
      * @param {Object}ctx
      * @param {Number}direct 绘制方向
@@ -607,7 +603,7 @@ fastmap.mapApi.LayerRender = {
      * * @param colors 点数组
      * @private
      */
-    _drawIntRticArrow: function(ctx, direct, data, colors) {
+    _drawIntRticArrow: function (ctx, direct, data, colors) {
         var ctx = ctx.canvas.getContext('2d');
         ctx.linewidth = 2;
         ctx.fillStyle = colors;
@@ -615,7 +611,8 @@ fastmap.mapApi.LayerRender = {
             return;
         }
         ctx.beginPath();
-        var point1, point2;
+        var point1,
+            point2;
         if (direct === 2) {
             point1 = data[data.length - 1][0];
             point2 = data[data.length - 1][1];
@@ -628,14 +625,14 @@ fastmap.mapApi.LayerRender = {
             return;
         }
         ctx.save();
-        //var centerPoint = L.point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
+        // var centerPoint = L.point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
         if (direct == 2) {
             var centerPoint = L.point(point2.x, point2.y);
         } else {
             var centerPoint = L.point(point1.x, point1.y);
         }
         ctx.translate(centerPoint.x, centerPoint.y);
-        //先计算向量与y轴负方向向量(0,-1)的夹角
+        // 先计算向量与y轴负方向向量(0,-1)的夹角
         var ang = 0;
         if (point1.y - point2.y == 0) {
             if (point1.x - point2.x > 0) {
@@ -653,29 +650,27 @@ fastmap.mapApi.LayerRender = {
             } else if (direct == 3) {
                 ctx.rotate(-ang + Math.PI);
             }
-        } else {
-            if (direct == 2) {
-                ctx.rotate(Math.PI - ang); //加个180度，反过来
-            } else if (direct == 3) {
-                ctx.rotate(-ang);
-            }
+        } else if (direct == 2) {
+            ctx.rotate(Math.PI - ang); // 加个180度，反过来
+        } else if (direct == 3) {
+            ctx.rotate(-ang);
         }
         ctx.lineTo(-6, -9);
         ctx.lineTo(0, 1);
         ctx.lineTo(6, -9);
         ctx.stroke();
-        ctx.fill(); //箭头是个封闭图形
+        ctx.fill(); // 箭头是个封闭图形
         ctx.closePath();
-        ctx.restore(); //恢复到堆的上一个状态，其实这里没什么用。
+        ctx.restore(); // 恢复到堆的上一个状态，其实这里没什么用。
     },
-    _drawIntRticText: function(ctx, geom, name, direct) {
+    _drawIntRticText: function (ctx, geom, name, direct) {
         geom = this._clip(ctx, geom);
         var c = ctx.canvas;
         var g = c.getContext('2d');
-        g.font = "10px Courier New";
-        g.textAlign = "center";
+        g.font = '10px Courier New';
+        g.textAlign = 'center';
         var angle,
-            nameArr = name.split(""),
+            nameArr = name.split(''),
             nameLen = name.length * 10,
             lineLen = 0;
         if (geom.length === 2) {
@@ -691,7 +686,8 @@ fastmap.mapApi.LayerRender = {
                 textLength = 0,
                 startText = 0,
                 textIndex = 0,
-                betPointsLen, realLineLen = 0,
+                betPointsLen,
+                realLineLen = 0,
                 linkArrLen = geom.length;
             for (var m = 1; m < linkArrLen; m++) {
                 betPointsLen = this.distance(geom[m], startPointForLen);
@@ -699,7 +695,7 @@ fastmap.mapApi.LayerRender = {
                 startPointForLen = geom[m];
             }
             if (nameLen < realLineLen / 2 && realLineLen > 50) {
-                startPoint = geom[1]
+                startPoint = geom[1];
                 for (var linkFLag = 1; linkFLag < linkArrLen; linkFLag++) {
                     if (textLength < nameArr.length) {
                         betPointsLen = this.distance(geom[linkFLag], startPoint);
@@ -716,8 +712,8 @@ fastmap.mapApi.LayerRender = {
             }
         }
     },
-    _showIntRticTextOfAngle: function(ctx, start, end, name, angle, textGeom, direct) {
-        var nameArr = name.split(""),
+    _showIntRticTextOfAngle: function (ctx, start, end, name, angle, textGeom, direct) {
+        var nameArr = name.split(''),
             PI = Math.PI;
         if (angle === 0) {
             if (direct === 2) {
@@ -761,7 +757,7 @@ fastmap.mapApi.LayerRender = {
      * @param properties
      * @private
      */
-    _drawAdLineString: function(ctx, geom, boolPixelCrs, linestyle, nodestyle, properties) {
+    _drawAdLineString: function (ctx, geom, boolPixelCrs, linestyle, nodestyle, properties) {
         if (!linestyle) {
             return;
         }
@@ -797,4 +793,4 @@ fastmap.mapApi.LayerRender = {
         g.stroke();
         g.restore();
     }
-}
+};
