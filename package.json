@@ -5,7 +5,7 @@
   "homepage": "http://www.navinfo.com/",
   "author": "navinfo",
   "scripts": {
-    "lint": "eslint ./apps ./script ./test/unit",
+    "lint": "eslint ./apps ./scripts ./test/unit",
     "lint:fix": "npm run lint -- --fix",
     "doc": "jsdoc -r -c ./conf.json -d sdk",
     "start": "http-server -a localhost -p 8000 -c-1 ../WebApp"

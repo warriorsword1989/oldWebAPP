@@ -1,4 +1,5 @@
-﻿/**
+﻿/* global fastmap b:true */
+/**
  * Point
  * 基于Geometry的Point类
  *
@@ -12,7 +13,7 @@ fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
      * @property type
      * @type String
      */
-    type: "Point",
+    type: 'Point',
     /**
      * 点的横坐标
      * x
@@ -60,24 +61,26 @@ fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
      * @method distanceTo
      * @return {object} result.
      */
-    distanceTo: function(geometry, options) {
+    distanceTo: function (geometry, options) {
         var edge = !(options && options.edge === false);
         var details = edge && options && options.details;
         var distance, x0, y0, x1, y1, result;
-        if(geometry instanceof fastmap.mapApi.Point) {
+        if (geometry instanceof fastmap.mapApi.Point) {
             x0 = this.x;
             y0 = this.y;
             x1 = geometry.x;
             y1 = geometry.y;
             distance = Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
             result = !details ?
-                distance : {x0: x0, y0: y0, x1: x1, y1: y1, distance: distance};
+                distance : { x0: x0, y0: y0, x1: x1, y1: y1, distance: distance };
         } else {
             result = geometry.distanceTo(this, options);
-            if(details) {
+            if (details) {
                 result = {
-                    x0: result.x1, y0: result.y1,
-                    x1: result.x0, y1: result.y0,
+                    x0: result.x1,
+                    y0: result.y1,
+                    x1: result.x0,
+                    y1: result.y0,
                     distance: result.distance
                 };
             }
@@ -124,18 +127,18 @@ fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
      */
     intersects: function (geometry) {
         var intersect = false;
-        if (geometry.type == "Point") {
+        if (geometry.type === 'Point') {
             intersect = this.equals(geometry);
         } else {
             intersect = geometry.intersects(this);
         }
         return intersect;
     },
-    getVertices: function(nodes) {
+    getVertices: function (nodes) {
         return [this];
     }
 });
-fastmap.mapApi.point=function(x,y) {
+fastmap.mapApi.point = function (x, y) {
     return new fastmap.mapApi.Point(x, y);
 };
 

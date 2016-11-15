@@ -4,9 +4,7 @@
  */
 
 define(['angularMocks', 'rdCrossCtrl'], function () {
-
     describe('rdCrossController测试', function () {
-
         beforeEach(module('mapApp'));
 
         var scope;
@@ -26,7 +24,7 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
         }));
 
         it('构造函数中应该定义一系列行为函数', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
 
             expect(scope.initializeRdCrossData).toBeDefined(true);
             expect(scope.refreshData).toBeDefined(true);
@@ -41,7 +39,7 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
         });
 
         it('构造函数中应该定义一系列事件', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
 
             expect(eventController.eventTypesMap.hasOwnProperty(eventController.eventTypes.SAVEPROPERTY)).toBeTruthy();
             expect(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][0]).toBe(scope.save);
@@ -58,13 +56,13 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
 
         it('构造函数应该调用一次initializeRdCrossData函数', function () {
             objCtrl.data = rdCross;
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
 
             expect(objCtrl.originalData).toEqual(rdCross.getIntegrate());
         });
 
         it('initializeRdCrossData函数', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
 
             scope.initializeRdCrossData();
@@ -75,13 +73,13 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
 
             var highLightFeatures = [];
             highLightFeatures.push({
-                id: "585624",
+                id: '585624',
                 layerid: 'referenceLine',
                 type: 'line',
                 style: {}
             });
             highLightFeatures.push({
-                id: "374229",
+                id: '374229',
                 layerid: 'rdcross',
                 type: 'rdcross',
                 style: {}
@@ -91,41 +89,41 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
         });
 
         it('refreshData函数', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            Application.functions.getRdObjectById = jasmine.createSpy("getRdObjectById").and.callFake(function (id, type, func) {
+            Application.functions.getRdObjectById = jasmine.createSpy('getRdObjectById').and.callFake(function (id, type, func) {
                 var data = {
                     data: rdCross,
                     errcode: 0,
-                    errmsg: "success"
+                    errmsg: 'success'
                 };
                 func(data);
             });
 
-            spyOn(scope, "initializeRdCrossData");
-            spyOn(objCtrl, "setCurrentObject");
+            spyOn(scope, 'initializeRdCrossData');
+            spyOn(objCtrl, 'setCurrentObject');
 
             scope.refreshData();
 
             expect(objCtrl.setCurrentObject.calls.count()).toBe(1);
-            expect(objCtrl.setCurrentObject.calls.argsFor(0)).toEqual(["RDCROSS", rdCross]);
+            expect(objCtrl.setCurrentObject.calls.argsFor(0)).toEqual(['RDCROSS', rdCross]);
 
             expect(scope.initializeRdCrossData.calls.count()).toBe(1);
         });
 
         it('showCrossNames函数', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(scope, "$emit");
+            spyOn(scope, '$emit');
 
             var crossNamesObj = {
-                "loadType": "subAttrTplContainer",
-                "propertyCtrl": 'components/road/ctrls/attr_cross_ctrl/namesCtrl',
-                "propertyHtml": '../../scripts/components/road/tpls/attr_cross_tpl/namesTpl.html'
+                loadType: 'subAttrTplContainer',
+                propertyCtrl: 'components/road/ctrls/attr_cross_ctrl/namesCtrl',
+                propertyHtml: '../../scripts/components/road/tpls/attr_cross_tpl/namesTpl.html'
             };
 
             var nameItem = {
@@ -135,17 +133,17 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             scope.showCrossNames(nameItem);
 
             expect(scope.$emit.calls.count()).toBe(1);
-            expect(scope.$emit.calls.argsFor(0)).toEqual(["transitCtrlAndTpl", crossNamesObj]);
+            expect(scope.$emit.calls.argsFor(0)).toEqual(['transitCtrlAndTpl', crossNamesObj]);
 
-            expect(scope.rdCrossData["oridiRowId"]).toBe(1);
+            expect(scope.rdCrossData.oridiRowId).toBe(1);
         });
 
         it('addRdCrossName函数', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            var newName = fastmap.dataApi.rdCrossName({"linkPid": rdCross.pid, "name": "路口名"});
+            var newName = fastmap.dataApi.rdCrossName({ linkPid: rdCross.pid, name: '路口名' });
 
             scope.addRdCrossName();
 
@@ -153,7 +151,7 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
         });
 
         it('minuscrossName函数', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
@@ -166,50 +164,50 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
         });
 
         it('changeColor函数', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(window, "$").and.callThrough();
-            spyOn($.fn, "css");
+            spyOn(window, '$').and.callThrough();
+            spyOn($.fn, 'css');
 
             scope.changeColor(0);
 
             expect(window.$.calls.count()).toBe(1);
-            expect(window.$.calls.argsFor(0)).toEqual(["#crossnameSpan0"]);
+            expect(window.$.calls.argsFor(0)).toEqual(['#crossnameSpan0']);
 
             expect($.fn.css.calls.count()).toBe(1);
-            expect($.fn.css.calls.argsFor(0)).toEqual(["color", "#FFF"]);
+            expect($.fn.css.calls.argsFor(0)).toEqual(['color', '#FFF']);
         });
 
         it('backColor函数', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(window, "$").and.callThrough();
-            spyOn($.fn, "css");
+            spyOn(window, '$').and.callThrough();
+            spyOn($.fn, 'css');
 
             scope.backColor(0);
 
             expect(window.$.calls.count()).toBe(1);
-            expect(window.$.calls.argsFor(0)).toEqual(["#crossnameSpan0"]);
+            expect(window.$.calls.argsFor(0)).toEqual(['#crossnameSpan0']);
 
             expect($.fn.css.calls.count()).toBe(1);
-            expect($.fn.css.calls.argsFor(0)).toEqual(["color", "darkgray"]);
+            expect($.fn.css.calls.argsFor(0)).toEqual(['color', 'darkgray']);
         });
 
         it('save函数_对象属性没有变化', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(objCtrl, "save").and.callFake(function () {
+            spyOn(objCtrl, 'save').and.callFake(function () {
                 objCtrl.changedProperty = null;
             });
-            spyOn(window, "swal");
+            spyOn(window, 'swal');
 
-            Application.functions.editGeometryOrProperty = jasmine.createSpy("saveLinkGeometry");
+            Application.functions.editGeometryOrProperty = jasmine.createSpy('saveLinkGeometry');
 
             scope.save();
 
@@ -217,37 +215,37 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(objCtrl.save.calls.argsFor(0)).toEqual([]);
 
             expect(window.swal.calls.count()).toBe(1);
-            expect(window.swal.calls.argsFor(0)).toEqual(["操作成功", '属性值没有变化！', "success"]);
+            expect(window.swal.calls.argsFor(0)).toEqual(['操作成功', '属性值没有变化！', 'success']);
 
             expect(Application.functions.editGeometryOrProperty.calls.count()).toBe(0);
         });
 
         it('save函数_对象属性有变化', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(objCtrl, "save").and.callFake(function () {
+            spyOn(objCtrl, 'save').and.callFake(function () {
                 objCtrl.changedProperty = {};
             });
-            spyOn(objCtrl, "setOriginalData");
-            spyOn(window, "swal");
-            spyOn(outPutCtrl, "pushOutput");
-            spyOn(outPutCtrl, "updateOutPuts");
-            spyOn(scope, "refreshData");
+            spyOn(objCtrl, 'setOriginalData');
+            spyOn(window, 'swal');
+            spyOn(outPutCtrl, 'pushOutput');
+            spyOn(outPutCtrl, 'updateOutPuts');
+            spyOn(scope, 'refreshData');
 
-            Application.functions.editGeometryOrProperty = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
+            Application.functions.editGeometryOrProperty = jasmine.createSpy('saveLinkGeometry').and.callFake(function (param, func) {
                 var data = {
-                    "data": {
-                        "log": [{"type": "RDCROSS", "pid": rdCross.pid, "childPid": "", "op": "修改属性"}],
-                        "check": [],
-                        "pid": 0
-                    }, "errmsg": "success", "errcode": 0
+                    data: {
+                        log: [{ type: 'RDCROSS', pid: rdCross.pid, childPid: '', op: '修改属性' }],
+                        check: [],
+                        pid: 0
+                    }, errmsg: 'success', errcode: 0
                 };
                 func(data);
             });
 
-            Application.functions.changeDataTipsState = jasmine.createSpy("changeDataTipsState");
+            Application.functions.changeDataTipsState = jasmine.createSpy('changeDataTipsState');
 
             scope.save();
 
@@ -257,10 +255,10 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(window.swal.calls.count()).toBe(0);
 
             var saveLinkGeometryParam = {
-                "command": "UPDATE",
-                "type": "RDCROSS",
-                "projectId": Application.projectid,
-                "data": objCtrl.changedProperty
+                command: 'UPDATE',
+                type: 'RDCROSS',
+                projectId: Application.projectid,
+                data: objCtrl.changedProperty
             };
 
             expect(Application.functions.editGeometryOrProperty.calls.count()).toBe(1);
@@ -271,14 +269,14 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(objCtrl.setOriginalData.calls.argsFor(0)).toEqual([rdCross.getIntegrate()]);
 
             var info = [{
-                "type": "RDCROSS",
-                "pid": rdCross.pid,
-                "childPid": "",
-                "op": "修改属性"
+                type: 'RDCROSS',
+                pid: rdCross.pid,
+                childPid: '',
+                op: '修改属性'
             }, {
-                "op": "修改RDCROSS成功",
-                "type": "",
-                "pid": ""
+                op: '修改RDCROSS成功',
+                type: '',
+                pid: ''
             }];
             expect(outPutCtrl.pushOutput.calls.count()).toBe(1);
             expect(outPutCtrl.pushOutput.calls.argsFor(0)).toEqual([info]);
@@ -289,27 +287,27 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
         });
 
         it('save函数_对象属性有变化_操作失败', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(objCtrl, "save").and.callFake(function () {
+            spyOn(objCtrl, 'save').and.callFake(function () {
                 objCtrl.changedProperty = {};
             });
-            spyOn(objCtrl, "setOriginalData");
-            spyOn(window, "swal");
-            spyOn(outPutCtrl, "pushOutput");
-            spyOn(outPutCtrl, "updateOutPuts");
-            spyOn(scope, "refreshData");
+            spyOn(objCtrl, 'setOriginalData');
+            spyOn(window, 'swal');
+            spyOn(outPutCtrl, 'pushOutput');
+            spyOn(outPutCtrl, 'updateOutPuts');
+            spyOn(scope, 'refreshData');
 
-            Application.functions.editGeometryOrProperty = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
+            Application.functions.editGeometryOrProperty = jasmine.createSpy('saveLinkGeometry').and.callFake(function (param, func) {
                 var data = {
-                    "data": null, "errmsg": "fail", "errcode": -1
+                    data: null, errmsg: 'fail', errcode: -1
                 };
                 func(data);
             });
 
-            Application.functions.changeDataTipsState = jasmine.createSpy("changeDataTipsState");
+            Application.functions.changeDataTipsState = jasmine.createSpy('changeDataTipsState');
 
             scope.save();
 
@@ -319,10 +317,10 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(window.swal.calls.count()).toBe(0);
 
             var saveLinkGeometryParam = {
-                "command": "UPDATE",
-                "type": "RDCROSS",
-                "projectId": Application.projectid,
-                "data": objCtrl.changedProperty
+                command: 'UPDATE',
+                type: 'RDCROSS',
+                projectId: Application.projectid,
+                data: objCtrl.changedProperty
             };
 
             expect(Application.functions.saveLinkGeometry.calls.count()).toBe(1);
@@ -331,7 +329,7 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
 
             expect(objCtrl.setOriginalData.calls.count()).toBe(0);
 
-            var info = [{"op": -1, "type": "fail", "pid": undefined}];
+            var info = [{ op: -1, type: 'fail', pid: undefined }];
             expect(outPutCtrl.pushOutput.calls.count()).toBe(1);
             expect(outPutCtrl.pushOutput.calls.argsFor(0)).toEqual([info]);
 
@@ -341,38 +339,38 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
         });
 
         it('save函数_对象属性有变化_有对应tips', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
-            selectCtrl.rowkey = {rowkey: "abc"};
+            selectCtrl.rowkey = { rowkey: 'abc' };
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(objCtrl, "save").and.callFake(function () {
+            spyOn(objCtrl, 'save').and.callFake(function () {
                 objCtrl.changedProperty = {};
             });
-            spyOn(objCtrl, "setOriginalData");
-            spyOn(window, "swal");
-            spyOn(outPutCtrl, "pushOutput");
-            spyOn(outPutCtrl, "updateOutPuts");
-            spyOn(scope, "refreshData");
+            spyOn(objCtrl, 'setOriginalData');
+            spyOn(window, 'swal');
+            spyOn(outPutCtrl, 'pushOutput');
+            spyOn(outPutCtrl, 'updateOutPuts');
+            spyOn(scope, 'refreshData');
 
-            Application.functions.saveLinkGeometry = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
+            Application.functions.saveLinkGeometry = jasmine.createSpy('saveLinkGeometry').and.callFake(function (param, func) {
                 var data = {
-                    "data": {
-                        "log": [{"type": "RDCROSS", "pid": rdCross.pid, "childPid": "", "op": "修改属性"}],
-                        "check": [],
-                        "pid": 0
-                    }, "errmsg": "success", "errcode": 0
+                    data: {
+                        log: [{ type: 'RDCROSS', pid: rdCross.pid, childPid: '', op: '修改属性' }],
+                        check: [],
+                        pid: 0
+                    }, errmsg: 'success', errcode: 0
                 };
                 func(data);
             });
 
-            Application.functions.changeDataTipsState = jasmine.createSpy("changeDataTipsState").and.callFake(function (param, func) {
+            Application.functions.changeDataTipsState = jasmine.createSpy('changeDataTipsState').and.callFake(function (param, func) {
                 var data = {
-                    "data": {
-                        "log": [{"type": "RDCROSS", "pid": rdCross.pid, "childPid": "", "op": "修改tips"}],
-                        "check": [],
-                        "pid": 0
-                    }, "errmsg": "success", "errcode": 0
+                    data: {
+                        log: [{ type: 'RDCROSS', pid: rdCross.pid, childPid: '', op: '修改tips' }],
+                        check: [],
+                        pid: 0
+                    }, errmsg: 'success', errcode: 0
                 };
                 func(data);
             });
@@ -385,10 +383,10 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(window.swal.calls.count()).toBe(0);
 
             var saveLinkGeometryParam = {
-                "command": "UPDATE",
-                "type": "RDCROSS",
-                "projectId": Application.projectid,
-                "data": objCtrl.changedProperty
+                command: 'UPDATE',
+                type: 'RDCROSS',
+                projectId: Application.projectid,
+                data: objCtrl.changedProperty
             };
 
             expect(Application.functions.saveLinkGeometry.calls.count()).toBe(1);
@@ -396,9 +394,9 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
 
             expect(selectCtrl.rowkey.rowkey).toBeUndefined(1);
             var changeDataTipsStateParam = {
-                "rowkey": "abc",
-                "stage": 3,
-                "handler": 0
+                rowkey: 'abc',
+                stage: 3,
+                handler: 0
 
             };
             expect(Application.functions.changeDataTipsState.calls.count()).toBe(1);
@@ -408,24 +406,24 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(objCtrl.setOriginalData.calls.argsFor(0)).toEqual([rdCross.getIntegrate()]);
 
             var info1 = [{
-                "type": "RDCROSS",
-                "pid": rdCross.pid,
-                "childPid": "",
-                "op": "修改tips"
+                type: 'RDCROSS',
+                pid: rdCross.pid,
+                childPid: '',
+                op: '修改tips'
             }, {
-                "op": "修改RDCROSS状态成功",
-                "type": "",
-                "pid": ""
+                op: '修改RDCROSS状态成功',
+                type: '',
+                pid: ''
             }];
             var info2 = [{
-                "type": "RDCROSS",
-                "pid": rdCross.pid,
-                "childPid": "",
-                "op": "修改属性"
+                type: 'RDCROSS',
+                pid: rdCross.pid,
+                childPid: '',
+                op: '修改属性'
             }, {
-                "op": "修改RDCROSS成功",
-                "type": "",
-                "pid": ""
+                op: '修改RDCROSS成功',
+                type: '',
+                pid: ''
             }];
             expect(outPutCtrl.pushOutput.calls.count()).toBe(2);
             expect(outPutCtrl.pushOutput.calls.argsFor(0)).toEqual([info1]);
@@ -437,34 +435,34 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
         });
 
         it('save函数_对象属性有变化_有对应tips_tips操作失败', function () {
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
-            selectCtrl.rowkey = {rowkey: "abc"};
+            selectCtrl.rowkey = { rowkey: 'abc' };
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(objCtrl, "save").and.callFake(function () {
+            spyOn(objCtrl, 'save').and.callFake(function () {
                 objCtrl.changedProperty = {};
             });
-            spyOn(objCtrl, "setOriginalData");
-            spyOn(window, "swal");
-            spyOn(outPutCtrl, "pushOutput");
-            spyOn(outPutCtrl, "updateOutPuts");
-            spyOn(scope, "refreshData");
+            spyOn(objCtrl, 'setOriginalData');
+            spyOn(window, 'swal');
+            spyOn(outPutCtrl, 'pushOutput');
+            spyOn(outPutCtrl, 'updateOutPuts');
+            spyOn(scope, 'refreshData');
 
-            Application.functions.saveLinkGeometry = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
+            Application.functions.saveLinkGeometry = jasmine.createSpy('saveLinkGeometry').and.callFake(function (param, func) {
                 var data = {
-                    "data": {
-                        "log": [{"type": "RDCROSS", "pid": rdCross.pid, "childPid": "", "op": "修改属性"}],
-                        "check": [],
-                        "pid": 0
-                    }, "errmsg": "success", "errcode": 0
+                    data: {
+                        log: [{ type: 'RDCROSS', pid: rdCross.pid, childPid: '', op: '修改属性' }],
+                        check: [],
+                        pid: 0
+                    }, errmsg: 'success', errcode: 0
                 };
                 func(data);
             });
 
-            Application.functions.changeDataTipsState = jasmine.createSpy("changeDataTipsState").and.callFake(function (param, func) {
+            Application.functions.changeDataTipsState = jasmine.createSpy('changeDataTipsState').and.callFake(function (param, func) {
                 var data = {
-                    "data": null, "errmsg": "tipsFail", "errcode": -2
+                    data: null, errmsg: 'tipsFail', errcode: -2
                 };
                 func(data);
             });
@@ -477,10 +475,10 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(window.swal.calls.count()).toBe(0);
 
             var saveLinkGeometryParam = {
-                "command": "UPDATE",
-                "type": "RDCROSS",
-                "projectId": Application.projectid,
-                "data": objCtrl.changedProperty
+                command: 'UPDATE',
+                type: 'RDCROSS',
+                projectId: Application.projectid,
+                data: objCtrl.changedProperty
             };
 
             expect(Application.functions.saveLinkGeometry.calls.count()).toBe(1);
@@ -488,9 +486,9 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
 
             expect(selectCtrl.rowkey.rowkey).toBeUndefined(1);
             var changeDataTipsStateParam = {
-                "rowkey": "abc",
-                "stage": 3,
-                "handler": 0
+                rowkey: 'abc',
+                stage: 3,
+                handler: 0
 
             };
             expect(Application.functions.changeDataTipsState.calls.count()).toBe(1);
@@ -500,19 +498,19 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(objCtrl.setOriginalData.calls.argsFor(0)).toEqual([rdCross.getIntegrate()]);
 
             var info1 = [{
-                "op": -2,
-                "type": "tipsFail",
-                "pid": undefined
+                op: -2,
+                type: 'tipsFail',
+                pid: undefined
             }];
             var info2 = [{
-                "type": "RDCROSS",
-                "pid": rdCross.pid,
-                "childPid": "",
-                "op": "修改属性"
+                type: 'RDCROSS',
+                pid: rdCross.pid,
+                childPid: '',
+                op: '修改属性'
             }, {
-                "op": "修改RDCROSS成功",
-                "type": "",
-                "pid": ""
+                op: '修改RDCROSS成功',
+                type: '',
+                pid: ''
             }];
             expect(outPutCtrl.pushOutput.calls.count()).toBe(2);
             expect(outPutCtrl.pushOutput.calls.argsFor(0)).toEqual([info1]);
@@ -525,27 +523,27 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
 
         it('delete函数', function () {
             var rdCrossLayer = jasmine.createSpyObj('rdLayer', ['redraw']);
-            spyOn(layerCtrl, "getLayerById").and.callFake(function () {
+            spyOn(layerCtrl, 'getLayerById').and.callFake(function () {
                 return rdCrossLayer;
             });
 
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(objCtrl, "setOriginalData");
-            spyOn(window, "swal");
-            spyOn(outPutCtrl, "pushOutput");
-            spyOn(outPutCtrl, "updateOutPuts");
-            spyOn(scope, "refreshData");
+            spyOn(objCtrl, 'setOriginalData');
+            spyOn(window, 'swal');
+            spyOn(outPutCtrl, 'pushOutput');
+            spyOn(outPutCtrl, 'updateOutPuts');
+            spyOn(scope, 'refreshData');
 
-            Application.functions.saveProperty = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
+            Application.functions.saveProperty = jasmine.createSpy('saveLinkGeometry').and.callFake(function (param, func) {
                 var data = {
-                    "data": {
-                        "log": [{"type": "RDCROSS", "pid": rdCross.pid, "childPid": "", "op": "删除路口"}],
-                        "check": [],
-                        "pid": 0
-                    }, "errmsg": "success", "errcode": 0
+                    data: {
+                        log: [{ type: 'RDCROSS', pid: rdCross.pid, childPid: '', op: '删除路口' }],
+                        check: [],
+                        pid: 0
+                    }, errmsg: 'success', errcode: 0
                 };
                 func(data);
             });
@@ -555,10 +553,10 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(window.swal.calls.count()).toBe(0);
 
             var savePropertyaram = {
-                "command": "DELETE",
-                "type": "RDCROSS",
-                "projectId": Application.projectid,
-                "objId": rdCross.pid
+                command: 'DELETE',
+                type: 'RDCROSS',
+                projectId: Application.projectid,
+                objId: rdCross.pid
             };
 
             expect(Application.functions.saveProperty.calls.count()).toBe(1);
@@ -566,10 +564,10 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
 
             expect(rdCrossLayer.redraw.calls.count()).toBe(1);
 
-            var info = [{"type": "RDCROSS", "pid": rdCross.pid, "childPid": "", "op": "删除路口"}, {
-                "op": "删除RDCROSS成功",
-                "type": "",
-                "pid": ""
+            var info = [{ type: 'RDCROSS', pid: rdCross.pid, childPid: '', op: '删除路口' }, {
+                op: '删除RDCROSS成功',
+                type: '',
+                pid: ''
             }];
             expect(outPutCtrl.pushOutput.calls.count()).toBe(1);
             expect(outPutCtrl.pushOutput.calls.argsFor(0)).toEqual([info]);
@@ -581,23 +579,23 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
 
         it('delete函数_操作失败', function () {
             var rdCrossLayer = jasmine.createSpyObj('rdLayer', ['redraw']);
-            spyOn(layerCtrl, "getLayerById").and.callFake(function () {
+            spyOn(layerCtrl, 'getLayerById').and.callFake(function () {
                 return rdCrossLayer;
             });
 
-            rdCrossController = $controller('rdCrossController', {$scope: scope});
+            rdCrossController = $controller('rdCrossController', { $scope: scope });
             objCtrl.data = rdCross;
             scope.rdCrossData = objCtrl.data;
 
-            spyOn(objCtrl, "setOriginalData");
-            spyOn(window, "swal");
-            spyOn(outPutCtrl, "pushOutput");
-            spyOn(outPutCtrl, "updateOutPuts");
-            spyOn(scope, "refreshData");
+            spyOn(objCtrl, 'setOriginalData');
+            spyOn(window, 'swal');
+            spyOn(outPutCtrl, 'pushOutput');
+            spyOn(outPutCtrl, 'updateOutPuts');
+            spyOn(scope, 'refreshData');
 
-            Application.functions.saveProperty = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
+            Application.functions.saveProperty = jasmine.createSpy('saveLinkGeometry').and.callFake(function (param, func) {
                 var data = {
-                    "data": null, "errmsg": "fail", "errcode": -1
+                    data: null, errmsg: 'fail', errcode: -1
                 };
                 func(data);
             });
@@ -607,10 +605,10 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(window.swal.calls.count()).toBe(0);
 
             var savePropertyaram = {
-                "command": "DELETE",
-                "type": "RDCROSS",
-                "projectId": Application.projectid,
-                "objId": rdCross.pid
+                command: 'DELETE',
+                type: 'RDCROSS',
+                projectId: Application.projectid,
+                objId: rdCross.pid
             };
 
             expect(Application.functions.saveProperty.calls.count()).toBe(1);
@@ -619,9 +617,9 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(rdCrossLayer.redraw.calls.count()).toBe(0);
 
             var info = [{
-                "op": -1,
-                "type": "fail",
-                "pid": undefined
+                op: -1,
+                type: 'fail',
+                pid: undefined
             }];
             expect(outPutCtrl.pushOutput.calls.count()).toBe(1);
             expect(outPutCtrl.pushOutput.calls.argsFor(0)).toEqual([info]);
@@ -638,7 +636,7 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
 
             outPutCtrl = fastmap.uikit.OutPutController();
             outPutCtrl.outPuts = [];
-            outPutCtrl.updateOutPuts = "";
+            outPutCtrl.updateOutPuts = '';
 
             layerCtrl = fastmap.uikit.LayerController();
             eventController = fastmap.uikit.EventController();
@@ -652,37 +650,37 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             highLightFeatures_static = null;
 
             var data = {
-                "electroeye": 0,
-                "kgFlag": 0,
-                "links": [{"linkPid": 585624, "pid": 374229, "rowId": "2D71EC1A92DDDCE7E050A8C083040693"}],
-                "names": [{
-                    "langCode": "CHI",
-                    "name": "广泽路口北",
-                    "nameGroupid": 5569,
-                    "nameId": 5569,
-                    "phonetic": "Guang Ze Lu Bei Kou",
-                    "pid": 374229,
-                    "rowId": "2D71EC1DFBE4DCE7E050A8C083040693",
-                    "srcFlag": 0
+                electroeye: 0,
+                kgFlag: 0,
+                links: [{ linkPid: 585624, pid: 374229, rowId: '2D71EC1A92DDDCE7E050A8C083040693' }],
+                names: [{
+                    langCode: 'CHI',
+                    name: '广泽路口北',
+                    nameGroupid: 5569,
+                    nameId: 5569,
+                    phonetic: 'Guang Ze Lu Bei Kou',
+                    pid: 374229,
+                    rowId: '2D71EC1DFBE4DCE7E050A8C083040693',
+                    srcFlag: 0
                 }, {
-                    "langCode": "ENG",
-                    "name": "Guangze Rd N Intersection",
-                    "nameGroupid": 5569,
-                    "nameId": 5570,
-                    "phonetic": "",
-                    "pid": 374229,
-                    "rowId": "2D71EC1DFBE3DCE7E050A8C083040693",
-                    "srcFlag": 0
+                    langCode: 'ENG',
+                    name: 'Guangze Rd N Intersection',
+                    nameGroupid: 5569,
+                    nameId: 5570,
+                    phonetic: '',
+                    pid: 374229,
+                    rowId: '2D71EC1DFBE3DCE7E050A8C083040693',
+                    srcFlag: 0
                 }],
-                "nodes": [{
-                    "isMain": 1,
-                    "nodePid": 467051,
-                    "pid": 374229,
-                    "rowId": "2D71EC241962DCE7E050A8C083040693"
-                }, {"isMain": 0, "nodePid": 467052, "pid": 374229, "rowId": "2D71EC22B2FDDCE7E050A8C083040693"}],
-                "pid": 374229,
-                "signal": 0,
-                "type": 1
+                nodes: [{
+                    isMain: 1,
+                    nodePid: 467051,
+                    pid: 374229,
+                    rowId: '2D71EC241962DCE7E050A8C083040693'
+                }, { isMain: 0, nodePid: 467052, pid: 374229, rowId: '2D71EC22B2FDDCE7E050A8C083040693' }],
+                pid: 374229,
+                signal: 0,
+                type: 1
             };
             rdCross = new fastmap.dataApi.RdCross(data);
         }
@@ -695,10 +693,8 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
                 this.drawHighlight = function () {
                     highLightFeatures_static = this.highLightFeatures;
                 };
-            }
+            };
         }
     });
 });
-
-
 

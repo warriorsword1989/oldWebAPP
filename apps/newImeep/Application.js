@@ -1,13 +1,14 @@
-"use strict"
+'use strict';
+
 // web app全局命名空间 //测试版本分支的注释，对程序没有影响；
 var App = {};
 // web app全局配置信息
 App.Config = {
-    appType: "WEB",
+    appType: 'WEB',
     serviceUrl: 'http://192.168.4.188:8000/service',
-    hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
-    resourceUrl: "http://192.168.4.189/resources",
-    specialUrl: "http://192.168.4.189/fos"
+    hbaseServiceUrl: 'http://fastmap.navinfo.com/fos/datum',
+    resourceUrl: 'http://192.168.4.189/resources',
+    specialUrl: 'http://192.168.4.189/fos'
 };
 App.Temp = {
     accessToken: null,
@@ -59,63 +60,63 @@ App.Temp = {
         IXPOI: '兴趣点（POI）',
         RDNODE: '道路点',
         RDLINKSPEEDLIMIT: '线限速',
-        TIPS:"TIPS"
+        TIPS: 'TIPS'
     },
     thematicMapFlag: false,
-    taskType:null
+    taskType: null
 };
 // web app的公用函数命名空间
 App.Util = {
-    getAppPath: function() {
-        return location.pathname.substr(0, location.pathname.indexOf("/apps"));
+    getAppPath: function () {
+        return location.pathname.substr(0, location.pathname.indexOf('/apps'));
     },
-    getFullUrl: function(url) {
-        return App.Config.serviceUrl + "/" + url + "?access_token=" + (App.Temp.accessToken || "");
+    getFullUrl: function (url) {
+        return App.Config.serviceUrl + '/' + url + '?access_token=' + (App.Temp.accessToken || '');
     },
-    getHbaseUrl: function(url) {
-        return App.Config.hbaseServiceUrl + "/" + url;
+    getHbaseUrl: function (url) {
+        return App.Config.hbaseServiceUrl + '/' + url;
     },
-    getSpecUrl: function(url) {
-        return App.Config.specialUrl + "/" + url + "?access_token=" + (App.Temp.accessToken || "");
+    getSpecUrl: function (url) {
+        return App.Config.specialUrl + '/' + url + '?access_token=' + (App.Temp.accessToken || '');
     },
-    createTileRequestObject: function(url, layerOptions) {
+    createTileRequestObject: function (url, layerOptions) {
         var reqObj = {};
         reqObj.url = App.Config.serviceUrl + url;
         reqObj.parameter = {
             dbId: App.Temp.dbId,
             gap: layerOptions.gap || 10
-        }
+        };
         if (layerOptions.requestType) {
-            reqObj.parameter['types'] = layerOptions.requestType.split(',');
+            reqObj.parameter.types = layerOptions.requestType.split(',');
             if (reqObj.parameter.types.indexOf('RDLINK') >= 0 || reqObj.parameter.types.indexOf('RDLINKINTRTIC') >= 0) {
                 reqObj.hbaseUrl = reqObj.url;
             }
         }
         return reqObj;
     },
-    createTileRequestObjectForTips: function(url, layerOptions) {
+    createTileRequestObjectForTips: function (url, layerOptions) {
         var reqObj = {};
         reqObj.url = App.Config.serviceUrl + url;
         reqObj.parameter = {
             gap: layerOptions.gap || 10,
-            mdFlag: App.Temp.mdFlag,
-        }
+            mdFlag: App.Temp.mdFlag
+        };
         if (layerOptions.requestType) {
-            reqObj.parameter['types'] = layerOptions.requestType.split(',');
+            reqObj.parameter.types = layerOptions.requestType.split(',');
         }
         return reqObj;
     },
-    getUrlParam: function(paramName) {
-        var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)");
+    getUrlParam: function (paramName) {
+        var reg = new RegExp('(^|&)' + paramName + '=([^&]*)(&|$)');
         var r = window.location.search.substr(1).match(reg);
         if (r != null) {
             return unescape(r[2]);
         }
         return null;
     },
-    logout: function() {
+    logout: function () {
         window.location.href = '#/login';
     }
 };
-//从url请求中获取token
-App.Temp.accessToken = App.Util.getUrlParam("access_token");
+// 从url请求中获取token
+App.Temp.accessToken = App.Util.getUrlParam('access_token');

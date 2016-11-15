@@ -3,14 +3,14 @@
  */
 App.taskSelectionLayersConfig = [{
     // 第三方的背景地图，以及图幅、网格和照片图层
-    groupId: "backgroundLayers",
-    groupName: "背景",
+    groupId: 'backgroundLayers',
+    groupName: '背景',
     layers: [{
         clazz: L.tileLayer.wms,
-        url: "http://zs.navinfo.com:7090/rest/wms",
+        url: 'http://zs.navinfo.com:7090/rest/wms',
         options: {
             id: 'zisan',
-            name: "资三",
+            name: '资三',
             layers: 'GCJ02',
             crs: L.CRS.EPSG4326,
             version: '1.1.1',
@@ -27,7 +27,7 @@ App.taskSelectionLayersConfig = [{
         options: {
             id: 'tencent',
             name: '腾讯',
-            subdomains: ["rt0", "rt1", "rt2", "rt3"],
+            subdomains: ['rt0', 'rt1', 'rt2', 'rt3'],
             tms: true,
             selected: false,
             visible: false,
@@ -72,12 +72,12 @@ App.taskSelectionLayersConfig = [{
     }]
 }, {
     // 主要用于加载17级以下的从hadoop库中取的路网数据
-    groupId: "referenceLayers",
-    groupName: "参考",
+    groupId: 'referenceLayers',
+    groupName: '参考',
     layers: []
 }, {
-    groupId: "dataLayers",
-    groupName: "数据",
+    groupId: 'dataLayers',
+    groupName: '数据',
     layers: [{
         url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
@@ -151,6 +151,6 @@ App.taskSelectionLayersConfig = [{
             restrictZoom: 10,
             visible: true
         },
-        requestType: "uuuuu" //未用
+        requestType: 'uuuuu' // 未用
     }]
 }];

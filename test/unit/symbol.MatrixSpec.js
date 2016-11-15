@@ -3,9 +3,7 @@
  */
 
 define(['symbol.Matrix'], function () {
-
     describe('symbol.Matrix类', function () {
-
         var matrix1;
         var matrix2;
 
