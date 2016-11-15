@@ -15,10 +15,8 @@ angular.module('app').controller('SearchPanelCtrl', ['$scope', '$interval', 'dsE
         $scope.doExecute = function () {
             if (!$scope.searchType) {
                 swal('请选择一个搜索项', '', 'info');
-                return;
             } else if (!$scope.searchText) {
                 swal('请输入要搜索的内容', '', 'info');
-                return;
             } else {
                 $scope.running = true;
                 $scope.$emit('job-search', {

@@ -38,7 +38,6 @@ crfRoadApp.controller('crfRoadCtrl', ['$scope', 'dsEdit', function ($scope, dsEd
     $scope.save = function () {
         objCtrl.save();
         swal('操作成功', '属性值没有变化！', 'success');
-        return;
     };
 
     $scope.delete = function () {
