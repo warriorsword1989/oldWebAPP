@@ -6,22 +6,22 @@
                     <li>
                         <label>充电站类型</label>
                         <div>
-                            <select fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].chargingType"
+                            <select fm-edit-view class="fm-control" ng-model="poi.chargingstations[0].chargingType"
                                     ng-options="value.id as value.label for value in chargingTypeArr" ng-disabled="isSpecialOperation">
                             </select>
                         </div>
                     </li>
-                    <li ng-if="poi.chargingStation[0].chargingType == 2 || poi.chargingStation[0].chargingType == 4">
+                    <li ng-if="poi.chargingstations[0].chargingType == 2 || poi.chargingstations[0].chargingType == 4">
                         <label>换电车品牌</label>
                         <div>
-                            <select fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].changeBrands"
+                            <select fm-edit-view class="fm-control" ng-model="poi.chargingstations[0].changeBrands"
                                     no_results_text="'--无--'" placeholder_text_single="'--请选择--'"
                                     ng-options="value as lable.chainName for (value, lable) in chainList"
                                     chosen multiple ng-disabled="isSpecialOperation">
                             </select>
                         </div>
                     </li>
-                    <li ng-if="poi.chargingStation[0].chargingType == 2 || poi.chargingStation[0].chargingType == 4">
+                    <li ng-if="poi.chargingstations[0].chargingType == 2 || poi.chargingstations[0].chargingType == 4">
                         <label>换电车开放限制</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in chargingOpenType" class="col-md-5">
@@ -34,14 +34,14 @@
                     <li>
                         <label>充电桩总数</label>
                         <div><input fm-edit-view type="number" class="fm-control"
-                                    ng-model="poi.chargingStation[0].chargingNum" min="0" maxLength="6"
+                                    ng-model="poi.chargingstations[0].chargingNum" min="0" maxLength="6"
                                     onkeyup="this.value=this.value.replace(/\D/g,'')"
                                     onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div>
                     </li>
                     <li>
                         <label>服务提供商</label>
                         <div>
-                            <select fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].serviceProv"
+                            <select fm-edit-view class="fm-control" ng-model="poi.chargingstations[0].serviceProv"
                                     ng-options="value.id as value.label for value in serviceProvArr" ng-disabled="isSpecialOperation">
                             </select>
                         </div>
@@ -49,24 +49,24 @@
                     <li>
                         <label>备注</label>
                         <div>
-                            <input fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].memo">
+                            <input fm-edit-view class="fm-control" ng-model="poi.chargingstations[0].memo">
                         </div>
                     </li>
                     <li>
                         <label>开放时间</label>
                         <div>
-                            <input fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].openHour" rows="">
+                            <input fm-edit-view class="fm-control" ng-model="poi.chargingstations[0].openHour" >
                         </div>
                     </li>
                     <li>
                         <label >停车收费</label>
                         <div>
                             <label>
-                                <input fm-edit-view type="radio" name="indoor" value="0" ng-model="poi.chargingStation[0].parkingFees">
+                                <input fm-edit-view type="radio" name="indoor" value="0" ng-model="poi.chargingstations[0].parkingFees">
                                 免费
                             </label>
                             <label>
-                                <input fm-edit-view type="radio" name="indoor" value="1" ng-model="poi.chargingStation[0].parkingFees">
+                                <input fm-edit-view type="radio" name="indoor" value="1" ng-model="poi.chargingstations[0].parkingFees">
                                 收费
                             </label>
                         </div>
@@ -74,13 +74,13 @@
                     <li>
                         <label>收费备注</label>
                         <div>
-                            <input fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].parkingInfo" rows="">
+                            <input fm-edit-view class="fm-control" ng-model="poi.chargingstations[0].parkingInfo" >
                         </div>
                     </li>
                     <li>
                         <label>可用状态</label>
                         <div>
-                            <select fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].availableState"
+                            <select fm-edit-view class="fm-control" ng-model="poi.chargingstations[0].availableState"
                                     ng-options="value.id as value.label for value in stationAvailableState" ng-disabled="isSpecialOperation">
                             </select>
                         </div>
