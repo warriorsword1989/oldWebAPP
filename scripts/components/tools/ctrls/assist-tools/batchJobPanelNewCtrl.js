@@ -34,7 +34,6 @@ angular.module('app').controller('BatchJobPanelCtrl', ['$scope', '$interval', 'd
             }
             if ($scope.selectedBatches.length == 0) {
                 swal('请选择要执行的批处理', '', 'info');
-                return;
             } else {
                 var param = {
                     taskId: App.Temp.subTaskId,

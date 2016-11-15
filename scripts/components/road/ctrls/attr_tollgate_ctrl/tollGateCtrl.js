@@ -261,10 +261,10 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                         if (i < _times + 2) {
                             _left = 1;
                         } else if (i < ((passageLen + 1) / 3) * 2) {
-                        _middle = 1;
-                    } else {
-                        _right = 1;
-                    }
+                            _middle = 1;
+                        } else {
+                            _right = 1;
+                        }
                     }
                 }
             }
@@ -314,8 +314,8 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                                 for (var n = 0, nu = $scope.nameGroup.length; n < nu; n++) {
                                     if (n >= i) {
                                         for (var m = 0, num = $scope.nameGroup[n].length; m < num; m++) {
-                                        $scope.nameGroup[n][m].nameGroupid--;
-                                    }
+                                            $scope.nameGroup[n][m].nameGroupid--;
+                                        }
                                     }
                                 }
                             } else {
@@ -339,6 +339,42 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             attrContainerTpl: true
         });
     };
+	/* 增加名称*/
+	/* $scope.addItemName = function(nameGroupid){
+		for(var i=0;i<$scope.langCodeOptions.length;i++){
+			for(var j=0;j<$scope.tollGateData.names.length;j++){
+				var flag = false;
+				if($scope.langCodeOptions[i].id == $scope.tollGateData.names[j].langCode){
+					break;
+				}
+				if($scope.langCodeOptions[i].id != $scope.tollGateData.names[j].langCode  && j==$scope.tollGateData.names.length-1){
+					$scope.tollGateData.names.push(fastmap.dataApi.rdTollgateName({"nameGroupid":nameGroupid,"langCode":$scope.langCodeOptions[i].id}));
+					flag = true;
+					break;
+				}
+			}
+			if(flag){
+				break;
+			}
+		}
+		initNameInfo();
+	};*/
+	/* 删除名称*/
+	/* $scope.deleteItemName = function(nameGroupid) {
+		for(var i = 0; i < $scope.tollGateData.names.length; i++) {
+			if($scope.tollGateData.names[i].nameGroupid == nameGroupid) {
+				$scope.tollGateData.names.splice(i,1);
+				i--;
+			} else if ($scope.tollGateData.names[i].nameGroupid > nameGroupid) {
+				$scope.tollGateData.names[i].nameGroupid--;
+			}
+		}
+		if ($scope.tollGateData.names.length) {
+			initNameInfo();
+		} else {
+			$scope.nameGroup = [];
+		}
+	};*/
 	// 保存前把nameId为0的状态改为INSERT
     $scope.beforeSave = function (obj) {
         var newObj = obj;
@@ -389,40 +425,40 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
 		{ id: 3, label: '自助', name: '自助通道' }
     ];
 
-    $scope.langCodeOptions = [
-		{ id: 'CHI', label: '简体中文' },
-		{ id: 'CHT', label: '繁体中文' },
-		{ id: 'ENG', label: '英文' },
-		{ id: 'POR', label: '葡萄牙文' },
-		{ id: 'ARA', label: '阿拉伯语' },
-		{ id: 'BUL', label: '保加利亚语' },
-		{ id: 'CZE', label: '捷克语' },
-		{ id: 'DAN', label: '丹麦语' },
-		{ id: 'DUT', label: '荷兰语' },
-		{ id: 'EST', label: '爱沙尼亚语' },
-		{ id: 'FIN', label: '芬兰语' },
-		{ id: 'FRE', label: '法语' },
-		{ id: 'GER', label: '德语' },
-		{ id: 'HIN', label: '印地语' },
-		{ id: 'HUN', label: '匈牙利语' },
-		{ id: 'ICE', label: '冰岛语' },
-		{ id: 'IND', label: '印度尼西亚语' },
-		{ id: 'ITA', label: '意大利语' },
-		{ id: 'JPN', label: '日语' },
-		{ id: 'KOR', label: '韩语' },
-		{ id: 'LIT', label: '立陶宛语' },
-		{ id: 'NOR', label: '挪威语' },
-		{ id: 'POL', label: '波兰语' },
-		{ id: 'RUM', label: '罗马尼亚语' },
-		{ id: 'RUS', label: '俄语' },
-		{ id: 'SLO', label: '斯洛伐克语' },
-		{ id: 'SPA', label: '西班牙语' },
-		{ id: 'SWE', label: '瑞典语' },
-		{ id: 'THA', label: '泰国语' },
-		{ id: 'TUR', label: '土耳其语' },
-		{ id: 'UKR', label: '乌克兰语' },
-		{ id: 'SCR', label: '克罗地亚语' }
-    ];
+	/* $scope.langCodeOptions = [
+		{"id": "CHI", "label": "简体中文"},
+		{"id": "CHT", "label": "繁体中文"},
+		{"id": "ENG", "label": "英文"},
+		{"id": "POR", "label": "葡萄牙文"},
+		{"id": "ARA", "label": "阿拉伯语"},
+		{"id": "BUL", "label": "保加利亚语"},
+		{"id": "CZE", "label": "捷克语"},
+		{"id": "DAN", "label": "丹麦语"},
+		{"id": "DUT", "label": "荷兰语"},
+		{"id": "EST", "label": "爱沙尼亚语"},
+		{"id": "FIN", "label": "芬兰语"},
+		{"id": "FRE", "label": "法语"},
+		{"id": "GER", "label": "德语"},
+		{"id": "HIN", "label": "印地语"},
+		{"id": "HUN", "label": "匈牙利语"},
+		{"id": "ICE", "label": "冰岛语"},
+		{"id": "IND", "label": "印度尼西亚语"},
+		{"id": "ITA", "label": "意大利语"},
+		{"id": "JPN", "label": "日语"},
+		{"id": "KOR", "label": "韩语"},
+		{"id": "LIT", "label": "立陶宛语"},
+		{"id": "NOR", "label": "挪威语"},
+		{"id": "POL", "label": "波兰语"},
+		{"id": "RUM", "label": "罗马尼亚语"},
+		{"id": "RUS", "label": "俄语"},
+		{"id": "SLO", "label": "斯洛伐克语"},
+		{"id": "SPA", "label": "西班牙语"},
+		{"id": "SWE", "label": "瑞典语"},
+		{"id": "THA", "label": "泰国语"},
+		{"id": "TUR", "label": "土耳其语"},
+		{"id": "UKR", "label": "乌克兰语"},
+		{"id": "SCR", "label": "克罗地亚语"}
+	];*/
 
     $scope.save = function () {
         $scope.refreshNames();
@@ -452,7 +488,6 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 }
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 relationData.redraw();
-				// swal("操作成功", "修改收费站成功！", "success");
                 $('body .carTypeTip:last').hide();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     subAttrContainerTpl: false,

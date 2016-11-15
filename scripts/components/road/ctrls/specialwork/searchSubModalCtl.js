@@ -71,7 +71,7 @@ angular.module('app').controller('SearchSubModalCtl', ['$scope', '$ocLazyLoad', 
 	            	$scope.subSearchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/adminTableSearchTpl.htm';
 	            });
        	 	} else {
-       	 		return;
+
        	 	}
         };
         /** *

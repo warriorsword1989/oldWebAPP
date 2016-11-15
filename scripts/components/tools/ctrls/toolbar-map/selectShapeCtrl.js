@@ -2972,7 +2972,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         if (exLinks.data) {
                             if (exLinks.data.length == 1) {
                                 swal('无法改退出线', '此进入点只有一条可选退出线！', 'info');
-                                return;
                             } else if (exLinks.data.length == 2) {
                                 comPids = [];
                                 comPids.push(exLinks.data[0].pid);
@@ -3075,7 +3074,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 if (conLinks.data) {
                                     if (conLinks.data.length > 2) {
                                         swal('无法改连续Link', '此退出线挂接Link个数大于2！', 'info');
-                                        return;
                                     } else if (conLinks.data.length == 2) {
                                         comPids = [];
                                         comPids.push(conLinks.data[0].pid);

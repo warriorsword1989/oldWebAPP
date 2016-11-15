@@ -259,7 +259,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
             arrlen += data[key].length;
         }
         if (arrlen == 0) {
-            return;
+
         } else if (arrlen == 1) {
             for (var item in data) {
                 if (data[item].length == 1) {

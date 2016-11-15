@@ -339,9 +339,8 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         		 alert('暂无');
         		 $scope.subModalTpl = '';
         		 $scope.subModal = false;
-        		 return;
         	 } else {
-        		 return;
+
         	 }
         };
          /**

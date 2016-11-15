@@ -293,9 +293,9 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
                 id: 8,
                 label: '缓速行驶'
             }, {
-                    id: 9,
-                    label: '未调查'
-                }];
+                id: 9,
+                label: '未调查'
+            }];
             for (var i in $scope.limitSrcOption) {
                 if ($scope.limitSrcOption[i].id == $scope.dataTipsData.src) {
                     $scope.limitSrc = $scope.limitSrcOption[i].label;
@@ -458,12 +458,12 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
                 id: 8,
                 label: '持卡打标识不收费'
             }, {
-                    id: 9,
-                    label: '验票领卡'
-                }, {
-                    id: 10,
-                    label: '交卡不收费'
-                }];
+                id: 9,
+                label: '验票领卡'
+            }, {
+                id: 10,
+                label: '交卡不收费'
+            }];
             for (var i in $scope.TollType) {
                 if ($scope.TollType[i].id == $scope.dataTipsData.tp) {
                     $scope.tollGateTp = $scope.TollType[i].label;

@@ -1741,7 +1741,6 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                                                     }
                                                     if (linkLength && linkLength < 100) {
                                                         tooltipsCtrl.setCurrentTooltip('Link长度为：' + linkLength + '米，请选择坡度接续link!');
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -1820,7 +1819,6 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                                                     }
                                                     if (linkLength && linkLength < 100) {
                                                         tooltipsCtrl.setCurrentTooltip('Link长度为：' + linkLength + '米，请选择坡度接续link!');
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -1884,7 +1882,6 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                                                 }
                                                 if (linkLength && linkLength < 100) {
                                                     tooltipsCtrl.setCurrentTooltip('Link长度为：' + linkLength + '米，请选择坡度接续link!');
-                                                    return;
                                                 }
                                             }
                                         }
@@ -2135,10 +2132,10 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
-                shapeCtrl.setEditingType('addTmcLocation');
+                shapeCtrl.setEditingType('addAdAdmin');
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
-                tooltipsCtrl.setEditEventType('addTmcLocation');
+                tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！');
                 tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
             }

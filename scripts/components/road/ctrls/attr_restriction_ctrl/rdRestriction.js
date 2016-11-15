@@ -72,7 +72,6 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         var len = $scope.rdRestrictCurrentData.details.length;
         if (len === 1) {
             swal('无法操作', '请点击删除按钮删除该交限！', 'info');
-            return;
         } else {
             $scope.rdRestrictCurrentData.details.splice(index, 1);
             var arr = $scope.rdRestrictCurrentData.restricInfo.split(',');
