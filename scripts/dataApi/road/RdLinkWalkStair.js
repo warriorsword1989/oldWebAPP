@@ -4,27 +4,27 @@
  */
 
 fastmap.dataApi.RdLinkWalkStair = fastmap.dataApi.GeoDataModel.extend({
-    /***
+    /** *
      *
      * @param data data
      * @param options 其他可选参数
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "RDLINKWALKSTAIR";
-        if(!data["linkPid"]){
-            throw "form对象没有对应link"
+        this.geoLiveType = 'RDLINKWALKSTAIR';
+        if (!data.linkPid) {
+            throw 'form对象没有对应link';
         }
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.linkPid = data["linkPid"] || "";
-        this.rowId= data["rowId"] || "";
-        this.stairLoc = data["stairLoc"] || 0;
-        this.stairFlag = data["stairFlag"] || 0;
-        this.workDir = data["workDir"] || 0;
-        this.captureFlag = data["captureFlag"] || 0;
+    setAttributeData: function (data) {
+        this.linkPid = data.linkPid || '';
+        this.rowId = data.rowId || '';
+        this.stairLoc = data.stairLoc || 0;
+        this.stairFlag = data.stairFlag || 0;
+        this.workDir = data.workDir || 0;
+        this.captureFlag = data.captureFlag || 0;
     },
 
     /**
@@ -33,17 +33,17 @@ fastmap.dataApi.RdLinkWalkStair = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["linkPid"] = this.linkPid;
-        data["rowId"] = this.rowId;
-        data["stairLoc"] = this.stairLoc;
-        data["stairFlag"] = this.stairFlag;
-        data["workDir"] = this.workDir;
-        data["captureFlag"] = this.captureFlag;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
-        data["geoLiveType"] = this.geoLiveType;
+        data.linkPid = this.linkPid;
+        data.rowId = this.rowId;
+        data.stairLoc = this.stairLoc;
+        data.stairFlag = this.stairFlag;
+        data.workDir = this.workDir;
+        data.captureFlag = this.captureFlag;
+        data.uRecord = this.uRecord;
+        data.uFields = this.uFields;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -53,22 +53,22 @@ fastmap.dataApi.RdLinkWalkStair = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["linkPid"] = this.linkPid;
-        data["rowId"] = this.rowId;
-        data["stairLoc"] = this.stairLoc;
-        data["stairFlag"] = this.stairFlag;
-        data["workDir"] = this.workDir;
-        data["captureFlag"] = this.captureFlag;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
-        data["geoLiveType"] = this.geoLiveType;
+        data.linkPid = this.linkPid;
+        data.rowId = this.rowId;
+        data.stairLoc = this.stairLoc;
+        data.stairFlag = this.stairFlag;
+        data.workDir = this.workDir;
+        data.captureFlag = this.captureFlag;
+        data.uRecord = this.uRecord;
+        data.uFields = this.uFields;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * linkLimit初始化函数
  * @param data 初始化rdnode的点
  * @param options 其他可选参数
@@ -76,5 +76,5 @@ fastmap.dataApi.RdLinkWalkStair = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdLinkWalkStair = function (data, options) {
     return new fastmap.dataApi.RdLinkWalkStair(data, options);
-}
+};
 

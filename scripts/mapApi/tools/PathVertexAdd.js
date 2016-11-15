@@ -3,11 +3,11 @@
  * Class PathVertexAdd
  */
 fastmap.mapApi.PathVertexAdd = L.Handler.extend({
-    /***
+    /** *
      *
      * @param {Object}options
      */
-    initialize: function(options) {
+    initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
@@ -25,10 +25,10 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
         this.end = false;
         this.eventController = fastmap.uikit.EventController();
     },
-    /***
+    /** *
      * 添加事件处理
      */
-    addHooks: function() {
+    addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
             this._map.on('click', this.onMouseDown, this);
@@ -37,10 +37,10 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
         this._map.on('mouseup', this.onMouseUp, this);
         this._map.on('dblclick', this.onDbClick, this);
     },
-    /***
+    /** *
      * 移除事件
      */
-    removeHooks: function() {
+    removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
             this._map.off('click', this.onMouseDown, this);
@@ -49,7 +49,7 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
         this._map.off('mouseup', this.onMouseUp, this);
         this._map.off('dblclick', this.onDbClick, this);
     },
-    disable: function() {
+    disable: function () {
         if (!this._enabled) {
             return;
         }
@@ -57,7 +57,7 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
         this._enabled = false;
         this.removeHooks();
     },
-    onMouseDown: function(event) {
+    onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
         if (event.originalEvent.button > 0) {
@@ -66,18 +66,18 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
         var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
         if (this.start) {
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
-            this.startPoint = fastmap.mapApi.point(mousePoint.lng, mousePoint.lat)
+            this.startPoint = fastmap.mapApi.point(mousePoint.lng, mousePoint.lat);
         } else {
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
-            this.endPoint = fastmap.mapApi.point(mousePoint.lng, mousePoint.lat)
+            this.endPoint = fastmap.mapApi.point(mousePoint.lng, mousePoint.lat);
         }
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
-    onMouseMove: function(event) {
+    onMouseMove: function (event) {
         this.container.style.cursor = 'crosshair';
-        //if (this._mapDraggable) {
+        // if (this._mapDraggable) {
         //    this._map.dragging.disable();
-        //}
+        // }
         var layerPoint = event.layerPoint;
         this.targetPoint = this._map.layerPointToLatLng(layerPoint);
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
@@ -98,7 +98,7 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
             if (this.end == false) {
                 this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, this.insertPoint);
             }
-            //this.startPoint = this.insertPoint;
+            // this.startPoint = this.insertPoint;
             this.start = true;
             this.end = false;
         } else {
@@ -111,25 +111,25 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
             } else {
                 this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex - 1, 1, this.insertPoint);
             }
-            //this.endPoint = this.insertPoint;
+            // this.endPoint = this.insertPoint;
             this.start = false;
             this.end = true;
         }
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
-    onDbClick: function(event) {
+    onDbClick: function (event) {
         if (this.start == true) {
-            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, this.insertPoint)
+            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, this.insertPoint);
         }
         if (this.end == true) {
-            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length, 1, this.insertPoint)
+            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length, 1, this.insertPoint);
         }
         this.shapeEditor.stopEditing();
     },
-    /***
+    /** *
      * 重新设置节点
      */
-    resetVertex: function() {
+    resetVertex: function () {
         if (this.start == true) {
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1);
             this.start = false;
@@ -137,8 +137,8 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
         }
         this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
     },
-    //两点之间的距离
-    distance: function(pointA, pointB) {
+    // 两点之间的距离
+    distance: function (pointA, pointB) {
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     }

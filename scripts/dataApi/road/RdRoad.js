@@ -5,22 +5,22 @@
 
 fastmap.dataApi.RdRoad = fastmap.dataApi.GeoDataModel.extend({
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDROAD";
+        this.geoLiveType = 'RDROAD';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.pid = data["pid"] || "";
+    setAttributeData: function (data) {
+        this.pid = data.pid || '';
         this.links = [];
 
-        for(var i=0;i<data["links"].length;i++){
-            var link = fastmap.dataApi.rdRoadLinks(data["links"][i]);
+        for (var i = 0; i < data.links.length; i++) {
+            var link = fastmap.dataApi.rdRoadLinks(data.links[i]);
             this.links.push(link);
         }
     },
@@ -31,14 +31,14 @@ fastmap.dataApi.RdRoad = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodes"] = [];
-        data["links"] = [];
-        data["geoLiveType"] = this.geoLiveType;
-        for(var i=0;i<this.links.length;i++){
-            data["links"].push(this.links[i].getIntegrate());
+        data.pid = this.pid;
+        data.nodes = [];
+        data.links = [];
+        data.geoLiveType = this.geoLiveType;
+        for (var i = 0; i < this.links.length; i++) {
+            data.links.push(this.links[i].getIntegrate());
         }
 
         return data;
@@ -50,20 +50,20 @@ fastmap.dataApi.RdRoad = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodes"] = [];
-        data["links"] = [];
-        data["geoLiveType"] = this.geoLiveType;
-        for(var i=0;i<this.links.length;i++){
-            data["links"].push(this.links[i].getIntegrate());
+        data.pid = this.pid;
+        data.nodes = [];
+        data.links = [];
+        data.geoLiveType = this.geoLiveType;
+        for (var i = 0; i < this.links.length; i++) {
+            data.links.push(this.links[i].getIntegrate());
         }
         return data;
     }
 });
 
-/***
+/** *
  * rdRoad初始化函数
  * @param id
  * @param options 其他可选参数
@@ -71,5 +71,5 @@ fastmap.dataApi.RdRoad = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdRoad = function (data, options) {
     return new fastmap.dataApi.RdRoad(data, options);
-}
+};
 

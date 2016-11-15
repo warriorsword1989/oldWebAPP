@@ -6,34 +6,34 @@
 fastmap.dataApi.RdSameNodePart = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDSAMENODE";
+        this.geoLiveType = 'RDSAMENODE';
         this.setAttributeData(data);
     },
     /**
      * 设置信息
      */
-    setAttributeData:function(data){
-        this.groupId = data["groupId"];
-        this.nodePid = data["nodePid"];
-        this.tableName = data["tableName"];
-        this.rowId = data["rowId"] || null;
+    setAttributeData: function (data) {
+        this.groupId = data.groupId;
+        this.nodePid = data.nodePid;
+        this.tableName = data.tableName;
+        this.rowId = data.rowId || null;
     },
 
     /**
      * 获取简略信息
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["groupId"] = this.groupId;
-        data["nodePid"] = this.nodePid;
-        data["tableName"] = this.tableName;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"] = this.geoLiveType;
+        data.groupId = this.groupId;
+        data.nodePid = this.nodePid;
+        data.tableName = this.tableName;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -43,18 +43,18 @@ fastmap.dataApi.RdSameNodePart = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["groupId"] = this.groupId;
-        data["nodePid"] = this.nodePid;
-        data["tableName"] = this.tableName;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"] = this.geoLiveType;
+        data.groupId = this.groupId;
+        data.nodePid = this.nodePid;
+        data.tableName = this.tableName;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * RdSameNode初始化函数
  * @param id
  * @param options 其他可选参数

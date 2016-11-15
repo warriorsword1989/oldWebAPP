@@ -1,35 +1,35 @@
 fastmap.uikit.canvasTips.TipsPedestrianStreet = fastmap.uikit.canvasTips.Tips.extend({
-    setAttribute: function (item,i) {
-        this.properties['markerStyle'] = {};
-        this.properties['markerStyle']["icon"] = [];
-        this.properties['id'] = item.i;
-        this.geometry['type'] = 'Point';
-        this.geometry['coordinates'] = [];
-        this.properties["featType"] = item.t;
-        this.properties['status'] = item.m.a;
+    setAttribute: function (item, i) {
+        this.properties.markerStyle = {};
+        this.properties.markerStyle.icon = [];
+        this.properties.id = item.i;
+        this.geometry.type = 'Point';
+        this.geometry.coordinates = [];
+        this.properties.featType = item.t;
+        this.properties.status = item.m.a;
         if (i == 0) {
-            this.geometry['coordinates'] = item.m.c;
+            this.geometry.coordinates = item.m.c;
         } else {
-            this.geometry['coordinates'] = item.m.d;
+            this.geometry.coordinates = item.m.d;
         }
-        this.properties['markerStyle']["icon"].push(
+        this.properties.markerStyle.icon.push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
                 iconName: '../../../images/road/tips/1507/1507_0_0.svg',
                 row: 0,
                 column: 1,
-                location: this.geometry['coordinates'],
-                fillStyle:item.m.a == "0"?this.redFill:this.blueFill
+                location: this.geometry.coordinates,
+                fillStyle: item.m.a == '0' ? this.redFill : this.blueFill
             })
         );
-        this.properties['markerStyle']["icon"].push(
+        this.properties.markerStyle.icon.push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                    text: item.m.c,
-                    row: 0,
-                    column: 3,
-                    location: this.geometry['coordinates'],
-                    dx: 16,
-                    dy: 7
-                }
+                text: item.m.c,
+                row: 0,
+                column: 3,
+                location: this.geometry.coordinates,
+                dx: 16,
+                dy: 7
+            }
             )
         );
     }

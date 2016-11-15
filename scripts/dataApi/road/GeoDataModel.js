@@ -6,45 +6,45 @@
 fastmap.dataApi.GeoDataModel = L.Class.extend({
     options: {},
 
-    /***
+    /** *
      *
      * @param id
      * 模型ID
      */
-    id:null,
-    /***
+    id: null,
+    /** *
      *
      * @param id
      * 模型几何
      */
-    geometry:null,
+    geometry: null,
 
-    /***
+    /** *
      *
      * @param attributes
      * 对象属性
      */
-    attributes:null,
+    attributes: null,
 
-    /***
+    /** *
      *
      * @param snapShot
      * 对象简要属性
      */
-    snapShot:null,
+    snapShot: null,
 
-    /***
+    /** *
      *
      * @param integrate
      * 对象全部属性
      */
-    integrate:null,
+    integrate: null,
 
-    /***
+    /** *
      *
      * @param options
      */
-    initialize: function (geometry,attributes,options) {
+    initialize: function (geometry, attributes, options) {
         this.options = options || {};
         L.setOptions(this, options);
         this.geometry = geometry;
@@ -52,16 +52,15 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
         this.integrate = this.getIntegrate(attributes);
     },
 
-    /***
+    /** *
      * 设置对象概要属性信息
      * @param snapshot
      */
     getSnapShot: function (snapshot) {
-
         return null;
     },
 
-    /***
+    /** *
      * 设置对象完整信息
      * @param integrate
      */
@@ -69,27 +68,24 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
         return null;
     },
 
-    getDiffProperties:function(integrateJson){
-        var difJson={};
+    getDiffProperties: function (integrateJson) {
+        var difJson = {};
         var originJson = this.getIntegrate();
-        for  (property in originJson.hasOwnProperty()) {
-            if (typeof originJson[property]=="number"){
-                if(originJson[property]!=integrateJson[property]){
+        for (property in originJson.hasOwnProperty()) {
+            if (typeof originJson[property] === 'number') {
+                if (originJson[property] != integrateJson[property]) {
                     difJson[property] = originJson[property];
                 }
-            }
-            else if(typeof originJson[property]=="string"){
-                if(originJson[property]!=integrateJson[property]){
+            } else if (typeof originJson[property] === 'string') {
+                if (originJson[property] != integrateJson[property]) {
                     difJson[property] = originJson[property];
                 }
-            }
-            else if(typeof originJson[property]=="boolean"){
-                if(originJson[property]!=integrateJson[property]){
+            } else if (typeof originJson[property] === 'boolean') {
+                if (originJson[property] != integrateJson[property]) {
                     difJson[property] = originJson[property];
                 }
-            }
-            else if(typeof originJson[property]=="object"){
-                if(JSON.stringify(originJson[property]) != JSON.stringify(integrateJson[property])){
+            } else if (typeof originJson[property] === 'object') {
+                if (JSON.stringify(originJson[property]) != JSON.stringify(integrateJson[property])) {
                     difJson[property] = originJson[property];
                 }
             }
@@ -104,7 +100,6 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
      * @return {fastmap.mapApi.Geometry} geometry.
      */
     fromGeoJson: function (geoJson) {
-
         return null;
     },
 

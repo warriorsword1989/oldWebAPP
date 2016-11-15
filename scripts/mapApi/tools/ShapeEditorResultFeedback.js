@@ -15,7 +15,7 @@ fastmap.mapApi.ShapeEditResultFeedback = L.Class.extend({
         this.map = {};
     },
 
-    /***
+    /** *
      *开始编辑
      * @param {Object}data
      * @constructor
@@ -24,10 +24,10 @@ fastmap.mapApi.ShapeEditResultFeedback = L.Class.extend({
         this.eventController.fire(this.eventController.eventTypes.STARTSHAPEEDITRESULTFEEDBACK, data);
     },
 
-    /***
+    /** *
      * 放弃编辑
      */
-    abortFeedback: function(data){
+    abortFeedback: function (data) {
         this.eventController.fire(this.eventController.eventTypes.ABORTSHAPEEDITRESULTFEEDBACK, data);
     },
 
@@ -35,10 +35,10 @@ fastmap.mapApi.ShapeEditResultFeedback = L.Class.extend({
 
     },
 
-    /***
+    /** *
      * 停止编辑
      */
     stopFeedback: function () {
         this.eventController.fire(this.eventController.eventTypes.STOPSHAPEEDITRESULTFEEDBACK);
     }
-})
+});

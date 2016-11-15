@@ -38,7 +38,7 @@ fastmap.mapApi.symbol.MarkerLineSymbol = L.Class.extend({
 
             img.userData = this;
             img.geometry = this.geometry;
-            //图片准备好之后再绘制
+            // 图片准备好之后再绘制
             img.onload = function () {
                 this.userData.markerSymbol.image = this;
                 this.userData.innerDraw(ctx, this.geometry);
@@ -50,10 +50,10 @@ fastmap.mapApi.symbol.MarkerLineSymbol = L.Class.extend({
     },
 
     innerDraw: function (ctx, geometry) {
-        //绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
+        // 绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
         ctx.restore();
 
-        //保存一下当前状态，方便绘制完成后恢复状态
+        // 保存一下当前状态，方便绘制完成后恢复状态
         ctx.save();
 
         this.template.lineString = geometry;
@@ -65,7 +65,7 @@ fastmap.mapApi.symbol.MarkerLineSymbol = L.Class.extend({
         }
         ctx.stroke();
 
-        //绘制完成后恢复到上次保存的状态，通常是初始状态，避免影响以后的绘制
+        // 绘制完成后恢复到上次保存的状态，通常是初始状态，避免影响以后的绘制
         ctx.restore();
     },
 

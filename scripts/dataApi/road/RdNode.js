@@ -6,44 +6,44 @@
 fastmap.dataApi.RdNode = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.id = data["nodePid"];
-        this.geometry = data["geometry"];
-        this.geoLiveType = "RDNODE";
+        this.id = data.nodePid;
+        this.geometry = data.geometry;
+        this.geoLiveType = 'RDNODE';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.pid = data["pid"] || "";
-        this.kind = data["kind"] || 1;
-        this.geometry = data["geometry"] || null;
-        this.adasFlag = data["adasFlag"] || 2;
-        this.editFlag = data["editFlag"] || 1;
+    setAttributeData: function (data) {
+        this.pid = data.pid || '';
+        this.kind = data.kind || 1;
+        this.geometry = data.geometry || null;
+        this.adasFlag = data.adasFlag || 2;
+        this.editFlag = data.editFlag || 1;
 
-        this.difGroupid = data["difGroupid"] || "";
-        this.srcFlag = data["srcFlag"] || 6;
-        this.digitalLevel = data["digitalLevel"] || 0;
-        this.reserved = data["reserved"] || "";
+        this.difGroupid = data.difGroupid || '';
+        this.srcFlag = data.srcFlag || 6;
+        this.digitalLevel = data.digitalLevel || 0;
+        this.reserved = data.reserved || '';
         this.forms = [];
 
-        for(var i=0;i<data["forms"].length;i++){
-            var form = fastmap.dataApi.rdNodeForm(data["forms"][i]);
+        for (var i = 0; i < data.forms.length; i++) {
+            var form = fastmap.dataApi.rdNodeForm(data.forms[i]);
             this.forms.push(form);
         }
-        
+
         this.meshes = [];
         this.meshIdArr = [];
-        for(var i=0;i<data["meshes"].length;i++){
-        	var mesh = fastmap.dataApi.rdNodeMesh(data["meshes"][i]);
+        for (var i = 0; i < data.meshes.length; i++) {
+        	var mesh = fastmap.dataApi.rdNodeMesh(data.meshes[i]);
         	this.meshIdArr.push(mesh.meshId);
         	this.meshes.push(mesh);
         }
-        this.meshIdStr = this.meshIdArr.join(",");
+        this.meshIdStr = this.meshIdArr.join(',');
     },
 
     /**
@@ -52,33 +52,31 @@ fastmap.dataApi.RdNode = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["kind"] = this.kind;
-        data["geometry"]  = this.geometry;
-        data["adasFlag"] = this.adasFlag;
-        data["editFlag"] = this.editFlag;
-        data["difGroupid"] = this.difGroupid;
-        data["srcFlag"] = this.srcFlag;
-        data["digitalLevel"] = this.digitalLevel;
-        data["reserved"]  = this.reserved;
-        data["forms"]=this.forms;
-        data["meshes"]=this.meshes;
-        data["geoLiveType"] = this.geoLiveType;
-        data["forms"] = [];
+        data.pid = this.pid;
+        data.kind = this.kind;
+        data.geometry = this.geometry;
+        data.adasFlag = this.adasFlag;
+        data.editFlag = this.editFlag;
+        data.difGroupid = this.difGroupid;
+        data.srcFlag = this.srcFlag;
+        data.digitalLevel = this.digitalLevel;
+        data.reserved = this.reserved;
+        data.forms = this.forms;
+        data.meshes = this.meshes;
+        data.geoLiveType = this.geoLiveType;
+        data.forms = [];
 
-        for(var i=0;i<this.forms.length;i++){
-            data["forms"].push(this.forms[i].getIntegrate());
+        for (var i = 0; i < this.forms.length; i++) {
+            data.forms.push(this.forms[i].getIntegrate());
         }
-        
-        data["meshes"] = [];
-        for(var i=0;i<this.meshes.length;i++){
-            data["meshes"].push(this.meshes[i].getIntegrate());
+
+        data.meshes = [];
+        for (var i = 0; i < this.meshes.length; i++) {
+            data.meshes.push(this.meshes[i].getIntegrate());
         }
         return data;
-        
-        
     },
 
     /**
@@ -87,35 +85,35 @@ fastmap.dataApi.RdNode = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["kind"] = this.kind;
-        data["geometry"]  = this.geometry;
-        data["adasFlag"] = this.adasFlag;
-        data["editFlag"] = this.editFlag;
-        data["difGroupid"] = this.difGroupid;
-        data["srcFlag"] = this.srcFlag;
-        data["digitalLevel"] = this.digitalLevel;
-        data["reserved"]  = this.reserved;
-        data["forms"]=this.forms;
-        data["meshes"]=this.meshes;
-        data["geoLiveType"] = this.geoLiveType;
-        data["forms"] = [];
+        data.pid = this.pid;
+        data.kind = this.kind;
+        data.geometry = this.geometry;
+        data.adasFlag = this.adasFlag;
+        data.editFlag = this.editFlag;
+        data.difGroupid = this.difGroupid;
+        data.srcFlag = this.srcFlag;
+        data.digitalLevel = this.digitalLevel;
+        data.reserved = this.reserved;
+        data.forms = this.forms;
+        data.meshes = this.meshes;
+        data.geoLiveType = this.geoLiveType;
+        data.forms = [];
 
-        for(var i=0;i<this.forms.length;i++){
-            data["forms"].push(this.forms[i].getIntegrate());
+        for (var i = 0; i < this.forms.length; i++) {
+            data.forms.push(this.forms[i].getIntegrate());
         }
-        
-        data["meshes"] = [];
-        for(var i=0;i<this.meshes.length;i++){
-            data["meshes"].push(this.meshes[i].getIntegrate());
+
+        data.meshes = [];
+        for (var i = 0; i < this.meshes.length; i++) {
+            data.meshes.push(this.meshes[i].getIntegrate());
         }
         return data;
     }
 });
 
-/***
+/** *
  * Rdnode初始化函数
  * @param id
  * @param point 初始化rdnode的点
@@ -124,5 +122,5 @@ fastmap.dataApi.RdNode = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdNode = function (data, options) {
     return new fastmap.dataApi.RdNode(data, options);
-}
+};
 

@@ -1,43 +1,43 @@
 fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
-    setAttribute: function(data) {
-        this.geometry['type'] = 'Point';
-        this.properties["featType"] = "IXPOI";
-        this.properties['markerStyle'] = {};
-        this.properties['markerStyle']["icon"] = [];
-        this.properties['guide'] = data.m.c;
-        this.properties['kindCode'] = data.m.d;
-        this.properties['name'] = data.m.e;
-        this.properties['indoor'] = data.m.g;
+    setAttribute: function (data) {
+        this.geometry.type = 'Point';
+        this.properties.featType = 'IXPOI';
+        this.properties.markerStyle = {};
+        this.properties.markerStyle.icon = [];
+        this.properties.guide = data.m.c;
+        this.properties.kindCode = data.m.d;
+        this.properties.name = data.m.e;
+        this.properties.indoor = data.m.g;
         var redFill = {
             lineColor: '#FF0000',
             fillColor: 'rgba(225,225,225,0.5)',
-            fillType :'IXPOI'
+            fillType: 'IXPOI'
         };
         var blueFill = {
             lineColor: '#0000FF',
             fillColor: 'rgba(225,225,225,0.5)',
-            fillType :'IXPOI'
+            fillType: 'IXPOI'
         };
         var grayFill = {
             lineColor: '#999999',
             fillColor: 'rgba(225,225,225,0.5)',
-            fillType :'IXPOI'
+            fillType: 'IXPOI'
         };
         var poiColor = null;
-        if(data.m.b == 1){
+        if (data.m.b == 1) {
             poiColor = redFill;
-        }else if(data.m.b == 2){
+        } else if (data.m.b == 2) {
             poiColor = blueFill;
-        }else if(data.m.b == 3){
+        } else if (data.m.b == 3) {
             poiColor = grayFill;
         }
-        this.properties['markerStyle']["icon"].push(
+        this.properties.markerStyle.icon.push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
                 iconName: '../../../images/poi/map/poi_n.png',
                 row: 0,
                 column: 1,
-                location: this.geometry['coordinates'],
-                fillStyle:poiColor
+                location: this.geometry.coordinates,
+                fillStyle: poiColor
             })
         );
         // if(data.m.f){

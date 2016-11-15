@@ -4,33 +4,33 @@
  */
 
 fastmap.dataApi.RdLinkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
-    /***
+    /** *
      *
      * @param data data
      * @param options 其他可选参数
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "RDLINKTRUCKLIMIT";
-        if(!data["linkPid"]){
-            throw "form对象没有对应link"
+        this.geoLiveType = 'RDLINKTRUCKLIMIT';
+        if (!data.linkPid) {
+            throw 'form对象没有对应link';
         }
 
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.linkPid = data["linkPid"] || "";
-        this.rowId= data["rowId"] || "";
-        this.limitDir = data["limitDir"] || 0;
-        this.timeDomain = data["timeDomain"] || "";
-        this.resTrailer = data["resTrailer"] || 0;
-        this.resWeigh = data["resWeigh"] || 0;
-        this.resAxleLoad = data["resAxleLoad"] ||0;
-        this.resAxleCount = data["resAxleCount"] || 0;
-        this.resOut = data["resOut"] || 0;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
+    setAttributeData: function (data) {
+        this.linkPid = data.linkPid || '';
+        this.rowId = data.rowId || '';
+        this.limitDir = data.limitDir || 0;
+        this.timeDomain = data.timeDomain || '';
+        this.resTrailer = data.resTrailer || 0;
+        this.resWeigh = data.resWeigh || 0;
+        this.resAxleLoad = data.resAxleLoad || 0;
+        this.resAxleCount = data.resAxleCount || 0;
+        this.resOut = data.resOut || 0;
+        this.uRecord = data.uRecord || 0;
+        this.uFields = data.uFields || '';
     },
 
     /**
@@ -39,18 +39,18 @@ fastmap.dataApi.RdLinkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["linkPid"] = this.linkPid;
-        data["rowId"] = this.rowId;
-        data["limitDir"]  = this.limitDir;
-        data["timeDomain"] = this.timeDomain;
-        data["resTrailer"]  = this.resTrailer;
-        data["resWeigh"] = this.resWeigh;
-        data["resAxleLoad"] = this.resAxleLoad;
-        data["resAxleCount"]  = this.resAxleCount;
-        data["resOut"] = this.resOut;
-        data["geoLiveType"] = this.geoLiveType;
+        data.linkPid = this.linkPid;
+        data.rowId = this.rowId;
+        data.limitDir = this.limitDir;
+        data.timeDomain = this.timeDomain;
+        data.resTrailer = this.resTrailer;
+        data.resWeigh = this.resWeigh;
+        data.resAxleLoad = this.resAxleLoad;
+        data.resAxleCount = this.resAxleCount;
+        data.resOut = this.resOut;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -60,23 +60,23 @@ fastmap.dataApi.RdLinkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["linkPid"] = this.linkPid;
-        data["rowId"] = this.rowId;
-        data["limitDir"]  = this.limitDir;
-        data["timeDomain"] = this.timeDomain;
-        data["resTrailer"]  = this.resTrailer;
-        data["resWeigh"] = this.resWeigh;
-        data["resAxleLoad"] = this.resAxleLoad;
-        data["resAxleCount"]  = this.resAxleCount;
-        data["resOut"] = this.resOut;
-        data["geoLiveType"] = this.geoLiveType;
+        data.linkPid = this.linkPid;
+        data.rowId = this.rowId;
+        data.limitDir = this.limitDir;
+        data.timeDomain = this.timeDomain;
+        data.resTrailer = this.resTrailer;
+        data.resWeigh = this.resWeigh;
+        data.resAxleLoad = this.resAxleLoad;
+        data.resAxleCount = this.resAxleCount;
+        data.resOut = this.resOut;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * linkLimit初始化函数
  * @param data 初始化rdnode的点
  * @param options 其他可选参数
@@ -84,5 +84,5 @@ fastmap.dataApi.RdLinkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdLinkTruckLimit = function (data, options) {
     return new fastmap.dataApi.RdLinkTruckLimit(data, options);
-}
+};
 

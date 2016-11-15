@@ -2,24 +2,23 @@
  * Created by zhaohang on 2016/5/27.
  */
 define(['mapApi.AdLink'], function () {
-
     describe('adLink类', function () {
         var adLink;
         beforeEach(function () {
             var data = {
-                    "changedFields":{},
-                    "eNodePid":100022023,
-                    "editFlag":1,
-                    "form":1,
-                    "geometry":{"type":"LineString","coordinates":[[116.47611,40.01447],[116.47638,40.01458]]},
-                    "kind":1,
-                    "length":26.074,
-                    "mesh":0,
-                    "meshes":[{"linkPid":100031656,"meshId":605603,"rowId":"FFE8C49F2C344095BB6E0D67BB048434"}],
-                    "pid":100031656,
-                    "rowId":"F8B37F759CE349C79B57BF2DD87103DC",
-                    "sNodePid":100022024,
-                    "scale":0};
+                changedFields: {},
+                eNodePid: 100022023,
+                editFlag: 1,
+                form: 1,
+                geometry: { type: 'LineString', coordinates: [[116.47611, 40.01447], [116.47638, 40.01458]] },
+                kind: 1,
+                length: 26.074,
+                mesh: 0,
+                meshes: [{ linkPid: 100031656, meshId: 605603, rowId: 'FFE8C49F2C344095BB6E0D67BB048434' }],
+                pid: 100031656,
+                rowId: 'F8B37F759CE349C79B57BF2DD87103DC',
+                sNodePid: 100022024,
+                scale: 0 };
 
 
             adLink = new fastmap.dataApi.AdLink(data);
@@ -49,4 +48,4 @@ define(['mapApi.AdLink'], function () {
             });
         });
     });
-})
+});

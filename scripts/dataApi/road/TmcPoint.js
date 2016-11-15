@@ -9,36 +9,36 @@ fastmap.dataApi.TMCPoint = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "TMC_POINT";
+        this.geoLiveType = 'TMC_POINT';
         this.setAttributeData(data);
     },
     /*
      * 返回参数赋值
      */
-    setAttributeData:function(data){
-        this.tmcId = data["tmcId"];
-        this.loctableId = data["loctableId"];
-        this.cid = data["cid"];
-        this.locCode = data["locCode"];
-        this.typeCode = data["typeCode"];
-        this.inPos = data["inPos"];
-        this.inNeg = data["inNeg"];
-        this.outNeg = data["outNeg"];
-        this.presentPos = data["presentPos"];
-        this.presentNeg = data["presentNeg"];
-        this.locoffPos = data["locoffPos"];
-        this.locoffNeg = data["locoffNeg"];
-        this.lineTmcId = data["lineTmcId"];
-        this.areaTmcId = data["areaTmcId"];
-        this.juncLoccode = data["juncLoccode"];
-        this.neighbourBound = data["neighbourBound"];
-        this.neighbourTable = data["neighbourTable"];
-        this.urban = data["urban"];
-        this.interuptRoad = data["interuptRoad"];
-        this.geometry = data["geometry"];
-        this.editFlag = data["editFlag"];
-        this.uRecord = data["uRecord"];
-        this.uFields = data['uFields'];
+    setAttributeData: function (data) {
+        this.tmcId = data.tmcId;
+        this.loctableId = data.loctableId;
+        this.cid = data.cid;
+        this.locCode = data.locCode;
+        this.typeCode = data.typeCode;
+        this.inPos = data.inPos;
+        this.inNeg = data.inNeg;
+        this.outNeg = data.outNeg;
+        this.presentPos = data.presentPos;
+        this.presentNeg = data.presentNeg;
+        this.locoffPos = data.locoffPos;
+        this.locoffNeg = data.locoffNeg;
+        this.lineTmcId = data.lineTmcId;
+        this.areaTmcId = data.areaTmcId;
+        this.juncLoccode = data.juncLoccode;
+        this.neighbourBound = data.neighbourBound;
+        this.neighbourTable = data.neighbourTable;
+        this.urban = data.urban;
+        this.interuptRoad = data.interuptRoad;
+        this.geometry = data.geometry;
+        this.editFlag = data.editFlag;
+        this.uRecord = data.uRecord;
+        this.uFields = data.uFields;
     },
 
     /*
@@ -46,60 +46,59 @@ fastmap.dataApi.TMCPoint = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data["tmcId"] = this.tmcId;
-        data["loctableId"] = this.loctableId;
-        data["cid"] = this.cid;
-        data["locCode"] = this.locCode;
-        data["typeCode"] = this.typeCode;
-        data["inPos"] = this.inPos;
-        data["inNeg"] = this.inNeg;
-        data["outNeg"] = this.outNeg;
-        data["presentPos"] = this.presentPos;
-        data["presentNeg"] = this.presentNeg;
-        data["locoffPos"] = this.locoffPos;
-        data["locoffNeg"] = this.locoffNeg;
-        data["lineTmcId"] = this.lineTmcId;
-        data["areaTmcId"] = this.areaTmcId;
-        data["juncLoccode"] = this.juncLoccode;
-        data["neighbourBound"] = this.neighbourBound;
-        data["neighbourTable"] = this.neighbourTable;
-        data["urban"] = this.urban;
-        data["interuptRoad"] = this.interuptRoad;
-        data["geometry"] = this.geometry;
-        data["editFlag"] = this.editFlag;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
+        data.tmcId = this.tmcId;
+        data.loctableId = this.loctableId;
+        data.cid = this.cid;
+        data.locCode = this.locCode;
+        data.typeCode = this.typeCode;
+        data.inPos = this.inPos;
+        data.inNeg = this.inNeg;
+        data.outNeg = this.outNeg;
+        data.presentPos = this.presentPos;
+        data.presentNeg = this.presentNeg;
+        data.locoffPos = this.locoffPos;
+        data.locoffNeg = this.locoffNeg;
+        data.lineTmcId = this.lineTmcId;
+        data.areaTmcId = this.areaTmcId;
+        data.juncLoccode = this.juncLoccode;
+        data.neighbourBound = this.neighbourBound;
+        data.neighbourTable = this.neighbourTable;
+        data.urban = this.urban;
+        data.interuptRoad = this.interuptRoad;
+        data.geometry = this.geometry;
+        data.editFlag = this.editFlag;
+        data.uRecord = this.uRecord;
+        data.uFields = this.uFields;
         return data;
-
     },
 
     getSnapShot: function () {
         var data = {};
-        data["tmcId"] = this.tmcId;
-        data["loctableId"] = this.loctableId;
-        data["cid"] = this.cid;
-        data["locCode"] = this.locCode;
-        data["typeCode"] = this.typeCode;
-        data["inPos"] = this.inPos;
-        data["inNeg"] = this.inNeg;
-        data["outNeg"] = this.outNeg;
-        data["presentPos"] = this.presentPos;
-        data["presentNeg"] = this.presentNeg;
-        data["locoffPos"] = this.locoffPos;
-        data["locoffNeg"] = this.locoffNeg;
-        data["lineTmcId"] = this.lineTmcId;
-        data["areaTmcId"] = this.areaTmcId;
-        data["juncLoccode"] = this.juncLoccode;
-        data["neighbourBound"] = this.neighbourBound;
-        data["neighbourTable"] = this.neighbourTable;
-        data["urban"] = this.urban;
-        data["interuptRoad"] = this.interuptRoad;
-        data["geometry"] = this.geometry;
-        data["editFlag"] = this.editFlag;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
+        data.tmcId = this.tmcId;
+        data.loctableId = this.loctableId;
+        data.cid = this.cid;
+        data.locCode = this.locCode;
+        data.typeCode = this.typeCode;
+        data.inPos = this.inPos;
+        data.inNeg = this.inNeg;
+        data.outNeg = this.outNeg;
+        data.presentPos = this.presentPos;
+        data.presentNeg = this.presentNeg;
+        data.locoffPos = this.locoffPos;
+        data.locoffNeg = this.locoffNeg;
+        data.lineTmcId = this.lineTmcId;
+        data.areaTmcId = this.areaTmcId;
+        data.juncLoccode = this.juncLoccode;
+        data.neighbourBound = this.neighbourBound;
+        data.neighbourTable = this.neighbourTable;
+        data.urban = this.urban;
+        data.interuptRoad = this.interuptRoad;
+        data.geometry = this.geometry;
+        data.editFlag = this.editFlag;
+        data.uRecord = this.uRecord;
+        data.uFields = this.uFields;
         return data;
-    },
+    }
 
 });
 
