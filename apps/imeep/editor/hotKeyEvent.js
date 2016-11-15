@@ -1690,8 +1690,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 });
             } else if(shapeCtrl.editType == "hgwgLimitDirect"){
-                console.info(selectCtrl);
-                //treatmentOfChanged(data, "RDHGWGLIMIT", 'attr_hgwglimit_ctrl/hgwgLimitCtrl', 'attr_hgwglimit_tpl/hgwglimitTpl.html');
                 var temp = selectCtrl.selectedFeatures;
                 if(temp.linkPid){
                     var param = {
@@ -1714,7 +1712,31 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 }else {
                     swal("错误提示","请先创建限高限重！","error");
                 }
-            } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
+            } else if(shapeCtrl.editType == "updateHgwgLimitNode"){
+                console.info(featCodeCtrl.getFeatCode());
+                var temp = featCodeCtrl.getFeatCode();
+                if(temp.linkPid){
+                    var param = {
+                        "command": "MOVE",
+                        "type": "RDHGWGLIMIT",
+                        "dbId": App.Temp.dbId,
+                        "data": {
+                            pid:temp.pid,
+                            linkPid:temp.linkPid,
+                            latitude:temp.lat,
+                            longitude:temp.lng
+                        }
+                    };
+                    dsEdit.save(param).then(function (data) {
+                        if(data != null) {
+                            relationData.redraw();
+                            treatmentOfChanged(data, "RDHGWGLIMIT", 'attr_hgwglimit_ctrl/hgwgLimitCtrl', 'attr_hgwglimit_tpl/hgwglimitTpl.html');
+                        }
+                    });
+                }else {
+                    swal("错误提示","请移动限高限重位置！","error");
+                }
+            }  else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
                 if(geo.nodePids && geo.nodePids.length > 0){
                     var param = {
                         "command": "BATCH",
