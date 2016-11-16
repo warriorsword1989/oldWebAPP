@@ -48,8 +48,8 @@ angular.module('app').controller('chargingStationCtrl', function ($scope) {
     $scope.initChain = function () {
         var allChain = $scope.metaData.allChain;
         for (var i in allChain) {
-            if (i == '230218' || i == '230227'){
-                for (var j = 0 ; j < allChain[i].length ; j++) {
+            if (i === '230218' || i === '230227') {
+                for (var j = 0; j < allChain[i].length; j++) {
                     var cha = allChain[i][j];
                     if (cha.chainCode && cha.chainCode != '0') {
                         $scope.chainList[cha.chainCode] = { // 转换成chosen-select可以解析的格式

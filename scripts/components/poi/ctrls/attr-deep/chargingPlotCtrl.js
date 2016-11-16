@@ -84,7 +84,4 @@ angular.module('app').controller('chargingPlotCtrl', function ($scope) {
             $scope.poi.chargingplots.splice(index, 1);
         }
     };
-    // if ($scope.chargingArr.length === 0) {
-    //     $scope.addChargPole();
-    // }
 });

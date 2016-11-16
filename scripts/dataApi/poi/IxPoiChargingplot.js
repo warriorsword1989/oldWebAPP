@@ -82,7 +82,7 @@ FM.dataApi.IxPoiChargingplot = FM.dataApi.DataModel.extend({
                 openTypeArr.push(key);
             }
         }
-        if(this.isBrandOpen && this.selectedChain){
+        if (this.isBrandOpen && this.selectedChain) {
             openTypeArr.push(this.selectedChain);
         }
         ret.openType = openTypeArr.join('|');

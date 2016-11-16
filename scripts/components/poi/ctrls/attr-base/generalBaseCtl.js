@@ -306,7 +306,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         // 21CHI为空时,增加名称的控制
         var flag = true;
         for (var i = 0, len = $scope.poi.names.length; i < len; i++) {
-            if ($scope.poi.name.langCode == $scope.poi.names[i].langCode && $scope.poi.name.nameClass == $scope.poi.names[i].nameClass && $scope.poi.name.nameType == $scope.poi.names[i].nameType) {
+            if ($scope.poi.name.langCode == $scope.poi.names[i].langCode
+                && $scope.poi.name.nameClass == $scope.poi.names[i].nameClass
+                && $scope.poi.name.nameType == $scope.poi.names[i].nameType) {
                 flag = false;
                 break;
             }
