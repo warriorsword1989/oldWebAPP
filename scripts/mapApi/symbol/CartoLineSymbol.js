@@ -48,7 +48,7 @@ fastmap.mapApi.symbol.CartoLineSymbol = L.Class.extend({
     drawSegment: function (ctx, segment) {
         var i;
         var marks = this.template.getMarks(segment);
-        for ( i = 0; i < marks.length; ++i) {
+        for (i = 0; i < marks.length; ++i) {
             this.drawMark(ctx, marks[i]);
         }
     },
@@ -56,7 +56,7 @@ fastmap.mapApi.symbol.CartoLineSymbol = L.Class.extend({
     drawMark: function (ctx, mark) {
         var i;
         ctx.moveTo(mark.coordinates[0].x, mark.coordinates[0].y);
-        for ( i = 1; i < mark.coordinates.length; ++i) {
+        for (i = 1; i < mark.coordinates.length; ++i) {
             ctx.lineTo(mark.coordinates[i].x, mark.coordinates[i].y);
         }
     }

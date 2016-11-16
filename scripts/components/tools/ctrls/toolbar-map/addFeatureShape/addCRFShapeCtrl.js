@@ -396,7 +396,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                             highRenderCtrl.highLightFeatures.push({
                                                 id: points[i].nodePid.toString(),
                                                 layerid: 'rdLink',
-                                                type: 'rdnode',
+                                                type: 'node',
                                                 style: {
                                                     color: '#4A4AFF'
                                                 }
@@ -518,7 +518,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                         highRenderCtrl.highLightFeatures.push({
                                             id: points[i].nodePid.toString(),
                                             layerid: 'rdLink',
-                                            type: 'rdnode',
+                                            type: 'node',
                                             style: {
                                                 color: '#4A4AFF'
                                             }

@@ -1,17 +1,31 @@
 /**
  * Created by liuyang on 2016/9/9.
  */
-var rdLaneTopoApp = angular.module('app');
+var rdLaneTopoApp = angular.module('app'),
 /*
  * 动态拼的div作用域在controllor之外，只能写到这里
  * */
-// var featCodeCtrl = fastmap.uikit.FeatCodeController();
-var inLanePid = null;
-var outLanePid = null;
-var outLinkPid = null;
-var laneTopoVias = [];
+    inLanePid = null,
+    outLanePid = null,
+    outLinkPid = null,
+    laneTopoVias = [],
+    showPanelIndex = null,
+    panelIndex = null;
 
+function modifyNums() {
+    for (var i = 0; i < laneTopoVias.length; i++) {
+        laneTopoVias[i].seqNum = i + 1;
+        $('#label' + laneTopoVias[i].lanePid).text(laneTopoVias[i].seqNum.toString());
+    }
+}
 function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
+    if (showPanelIndex) {
+        showPanelIndex = null;
+        panelIndex = null;
+        $('.red').removeClass('red');
+        $('.green').removeClass('green');
+        $('.yellow').removeClass('yellow');
+    }
     if (index === 1) { // 选中车道，一条link上的车道只能被选一次
         if (linkPid === inLinkPid) { // 进入车道,只能选一条进入线
             if (inLanePid == null) {
@@ -20,30 +34,28 @@ function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
                 $('#checkbox' + lanePid).prop({
                     checked: true
                 });
-            } else if (inLanePid == lanePid) { // 取消选择
+            } else if (inLanePid === lanePid) { // 取消选择
+                $('#' + inLanePid).removeClass('red');
+                $('#checkbox' + inLanePid).prop({
+                    checked: false
+                });
+                inLanePid = null;
+            } else if (inLanePid === lanePid) { // 取消选择
                 $('#' + inLanePid).removeClass('red');
                 $('#checkbox' + inLanePid).prop({
                     checked: false
                 });
                 inLanePid = null;
             } else {
-                if (inLanePid === lanePid) { // 取消选择
-                    $("#" + inLanePid).removeClass('red');
-                    $("#checkbox" + inLanePid).prop({
-                        checked: false
-                    });
-                    inLanePid = null;
-                } else {
-                    $("#" + inLanePid).removeClass('red');
-                    $("#checkbox" + inLanePid).prop({
-                        checked: false
-                    });
-                    inLanePid = lanePid;
-                    $("#" + lanePid).addClass('red');
-                    $("#checkbox" + lanePid).prop({
-                        checked: true
-                    });
-                }
+                $('#' + inLanePid).removeClass('red');
+                $('#checkbox' + inLanePid).prop({
+                    checked: false
+                });
+                inLanePid = lanePid;
+                $('#' + lanePid).addClass('red');
+                $('#checkbox' + lanePid).prop({
+                    checked: true
+                });
             }
         } else { // 作为经过车道
             var selfFlag = true;
@@ -154,12 +166,6 @@ function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
     }
     modifyNums();
 }
-function modifyNums() {
-    for (var i = 0; i < laneTopoVias.length; i++) {
-        laneTopoVias[i].seqNum = i + 1;
-        $('#label' + laneTopoVias[i].lanePid).text(laneTopoVias[i].seqNum.toString());
-    }
-}
 
 rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sce', '$timeout', '$ocLazyLoad', function ($scope, $compile, dsEdit, $sce, $timeout, $ocLazyLoad) {
     var featCodeCtrl = fastmap.uikit.FeatCodeController();
@@ -177,8 +183,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     $scope.showLaneDetail = false;
     $scope.index = null;
     $scope.laneDetail = null;
-    var showPanel = null;
-    var panelIndex = null;
+    $scope.showPanel = false;
     var laneInfoObject = {};
     var rdLaneTopoDetail = {
         topoIds: [],
@@ -196,7 +201,10 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             direct: $scope.laneInfoArr[i].direct,
             distance: $scope.laneInfoArr[i].length
         };
-        if ($scope.laneInfoArr[i].linkPid == inLinkPid && $scope.laneInfoArr[i].sNodePid == nodePid) {
+        if ($scope.laneInfoArr[i].linkPid === inLinkPid){
+
+        }
+        if ($scope.laneInfoArr[i].linkPid === inLinkPid && $scope.laneInfoArr[i].sNodePid === nodePid) {
             nodeGeo = $scope.laneInfoArr[i].geometry.coordinates[0];
         } else if ($scope.laneInfoArr[i].linkPid == inLinkPid && $scope.laneInfoArr[i].eNodePid == nodePid) {
             nodeGeo = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 1];
@@ -212,7 +220,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     // }
     rdLaneTopoDetail.inLinkPid = $scope.rdLaneData.linkPids[0];
     rdLaneTopoDetail.inNodePid = $scope.rdLaneData.nodePid;
-    topoMap = new L.Map('topoMap', {
+    var topoMap = new L.Map('topoMap', {
         attributionControl: false,
         doubleClickZoom: false,
         zoomControl: false,
@@ -344,7 +352,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
         rdLaneTopoDetail.topoIds.push(item.pid);
         $scope.deleteLaneTopoArr.push(item);
         $scope.laneTopoInfoArr.splice(index, 1);
-        if (index == panelIndex && showPanel == 1) {
+        if (index == panelIndex && showPanelIndex == 1) {
             $('.red').removeClass('red');
             $('.green').removeClass('green');
             $('.yellow').removeClass('yellow');
@@ -354,8 +362,18 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
         $('.red').removeClass('red');
         $('.green').removeClass('green');
         $('.yellow').removeClass('yellow');
-        if (showPanel != panelFlag) {
-            showPanel = panelFlag;
+        $('.number').text("");
+        $('.bottom').prop({
+            checked: false
+        });
+        $scope.resetLaneInfo();
+        if (panelFlag === 2) {
+            $scope.showPanel = true;
+        } else {
+            $scope.showPanel = false;
+        }
+        if (showPanelIndex != panelFlag) {
+            showPanelIndex = panelFlag;
             panelIndex = index;
             $scope.showLaneDetail = true;
             $scope.laneDetail = item;
@@ -366,6 +384,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
                 $('#' + item.topoVias[i].lanePid).addClass('green');
             }
         } else if (panelIndex == index) {
+            showPanelIndex = null;
             panelIndex = null;
             $scope.showLaneDetail = false;
         } else {
@@ -670,18 +689,21 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             });
             var sLatlng = new L.latLng(s_lat, s_lng);
             var eLatlng = new L.latLng(e_lat, e_lng);
-            var distance = sLatlng.distanceTo(eLatlng);
+            // var distance = sLatlng.distanceTo(eLatlng);
+            var distance = laneInfoObject[linkPid].distance;
             if (distance < 150) {
                 var marker = L.marker([s_lat, s_lng], {
                     icon: myIcon,
-                    draggable: true
+                    draggable: true,
+                    title:"linkPid="+linkPid
                 }).on("drag", $scope.changeLineColor).on("dragend", $scope.resetLineColor);
                 marker.id = linkPid;
                 marker.addTo(topoMap);
             } else {
                 var marker = L.marker([(s_lat + e_lat) / 2, (s_lng + e_lng) / 2], {
                     icon: myIcon,
-                    draggable: true
+                    draggable: true,
+                    title:"linkPid="+linkPid
                 }).on("drag", $scope.changeLineColor).on("dragend", $scope.resetLineColor);
                 marker.id = linkPid;
                 marker.addTo(topoMap);
@@ -692,7 +714,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
         $timeout(function () {
             $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
                 $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
-                /*查询数据库取出时间字符串*/
+                /* 查询数据库取出时间字符串 */
                 $timeout(function () {
                     $scope.fmdateTimer($scope.laneDetail.timeDomain);
                     $scope.$broadcast('set-code', $scope.laneDetail.timeDomain);
@@ -715,7 +737,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
 
     topoMap.addLayer(polyLines);
 
-    topoMap.setView([$scope.laneInfoArr[0].geometry.coordinates[0][1], $scope.laneInfoArr[0].geometry.coordinates[0][0]], 17);
+    topoMap.setView([$scope.laneInfoArr[0].geometry.coordinates[0][1], $scope.laneInfoArr[0].geometry.coordinates[0][0]], 18);
     // var miniMap = new L.Control.MiniMap(miniPolyLines, {
     //     width: 200,
     //     height: 200,

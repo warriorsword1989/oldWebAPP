@@ -21,8 +21,12 @@
                     <li>
                         <label>代码语言</label>
                         <div>
-                            <select ng-model="info.langCode" class="fm-control"
+                            <!--<select ng-model="info.langCode" class="fm-control"
                                     ng-options="value.id as value.label for value in langCodeOptions | langCodeFilter: selectedLangcodeArr: info.langCode" ng-change="langCodeChange($event, this)">
+                            </select>-->
+
+                            <select ng-model="info.langCode" class="fm-control" ng-click="langCodeChange(info.langCode);">
+                                <option value="{{value.id}}" ng-repeat="value in langCodeOptions" ng-selected="info.langCode == value.id" ng-disabled="selectedLangcodeArr.indexOf(value.id) > -1"> {{value.label}}</option>
                             </select>
                         </div>
                     </li>

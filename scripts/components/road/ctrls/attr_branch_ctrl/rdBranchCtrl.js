@@ -415,8 +415,8 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
             // 高亮进入点;
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.diverObj.nodePid.toString(),
-                layerid: 'rdNode',
-                type: 'rdnode',
+                layerid: 'rdLink',
+                type: 'node',
                 style: { color: 'yellow' }
             });
             // 高亮分歧图标;

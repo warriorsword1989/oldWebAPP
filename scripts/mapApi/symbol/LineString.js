@@ -5,10 +5,12 @@
 fastmap.mapApi.symbol.LineString = L.Class.extend({
 
     initialize: function (geometry) {
+        var i,
+            point;
         this.coordinates = [];
         if (geometry !== undefined) {
-            for (var i = 0; i < geometry.length; ++i) {
-                var point = new fastmap.mapApi.symbol.Point(geometry[i][0], geometry[i][1]);
+            for (i = 0; i < geometry.length; ++i) {
+                point = new fastmap.mapApi.symbol.Point(geometry[i][0], geometry[i][1]);
                 this.coordinates.push(point);
             }
         }
@@ -20,9 +22,11 @@ fastmap.mapApi.symbol.LineString = L.Class.extend({
      * @return fastmap.mapApi.symbol.LineString 克隆的对象
      */
     clone: function () {
+        var i,
+            point;
         var cloneLineString = new fastmap.mapApi.symbol.LineString();
-        for (var i = 0; i < this.coordinates.length; ++i) {
-            var point = this.coordinates[i].clone();
+        for (i = 0; i < this.coordinates.length; ++i) {
+            point = this.coordinates[i].clone();
             cloneLineString.coordinates.push(point);
         }
 
@@ -35,15 +39,17 @@ fastmap.mapApi.symbol.LineString = L.Class.extend({
      * @return Number 线长度
      */
     length: function () {
+        var length,
+            i,
+            prePoint,
+            point;
         if (this.coordinates.length < 2) {
             return 0;
         }
-
-        var length = 0;
-
-        for (var i = 1; i < this.coordinates.length; ++i) {
-            var prePoint = this.coordinates[i - 1];
-            var point = this.coordinates[i];
+        length = 0;
+        for (i = 1; i < this.coordinates.length; ++i) {
+            prePoint = this.coordinates[i - 1];
+            point = this.coordinates[i];
             length += point.distance(prePoint);
         }
 
@@ -61,28 +67,37 @@ fastmap.mapApi.symbol.LineString = L.Class.extend({
      * @return Array 点坐标
      */
     getPointByLength: function (length) {
-        var result = [];
+        var result = [],
+            geometryLength,
+            tmpLength,
+            i,
+            prePoint,
+            curPoint,
+            segmentLength,
+            remainLength,
+            line,
+            point;
 
         if (length <= 0) {
             result.push('start');
             return result;
         }
 
-        var geometryLength = this.length();
+        geometryLength = this.length();
         if (length >= geometryLength) {
             result.push('end');
             return result;
         }
 
-        var tmpLength = 0;
+        tmpLength = 0;
 
-        for (var i = 1; i < this.coordinates.length; ++i) {
-            var prePoint = this.coordinates[i - 1];
+        for (i = 1; i < this.coordinates.length; ++i) {
+            prePoint = this.coordinates[i - 1];
 
-            var curPoint = this.coordinates[i];
-            var segmentLength = curPoint.distance(prePoint);
+            curPoint = this.coordinates[i];
+            segmentLength = curPoint.distance(prePoint);
             if (tmpLength + segmentLength < length) {
-                tmpLength = tmpLength + segmentLength;
+                tmpLength += segmentLength;
             } else if (tmpLength + segmentLength === length) {
                 result.push('vertex');
                 result.push(i - 1);
@@ -90,9 +105,9 @@ fastmap.mapApi.symbol.LineString = L.Class.extend({
                 result.push(curPoint.clone());
                 break;
             } else {
-                var remainLength = length - tmpLength;
-                var line = new fastmap.mapApi.symbol.LineSegment(prePoint, curPoint);
-                var point = line.getPointByLength(remainLength);
+                remainLength = length - tmpLength;
+                line = new fastmap.mapApi.symbol.LineSegment(prePoint, curPoint);
+                point = line.getPointByLength(remainLength);
                 result.push('betweenVertex');
                 result.push(i - 1);
                 result.push(i);
@@ -137,7 +152,6 @@ fastmap.mapApi.symbol.LineString = L.Class.extend({
             break;
         default :
             throw new Error('运行时未知错误');
-            break;
         }
 
         return [subLineString1, subLineString2];
@@ -152,6 +166,8 @@ fastmap.mapApi.symbol.LineString = L.Class.extend({
      * @return fastmap.mapApi.symbol.LineString
      */
     slice: function (start, end) {
+        var newLineString,
+            i;
         if (end === undefined || end > this.coordinates.length) {
             end = this.coordinates.length;
         }
@@ -160,8 +176,8 @@ fastmap.mapApi.symbol.LineString = L.Class.extend({
             start = 0;
         }
 
-        var newLineString = new fastmap.mapApi.symbol.LineString();
-        for (var i = start; i < end; ++i) {
+        newLineString = new fastmap.mapApi.symbol.LineString();
+        for (i = start; i < end; ++i) {
             newLineString.coordinates.push(this.coordinates[i].clone());
         }
 

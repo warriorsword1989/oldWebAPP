@@ -1270,7 +1270,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.warningInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1291,7 +1291,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     highLightFeatures.push({
                                         id: $scope.warningInfo.nodePid.toString(),
                                         layerid: 'rdLink',
-                                        type: 'rdnode',
+                                        type: 'node',
                                         style: {
                                             color: '#21ed25'
                                         }
@@ -1443,7 +1443,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highLightFeatures.push({
                             id: data.id.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }
@@ -1605,7 +1605,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: slopeData.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {}
                             });
                             highLightFeatures.push({
@@ -1734,7 +1734,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.directRoute.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1756,7 +1756,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.directRoute.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1823,7 +1823,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.speedBumpInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1838,7 +1838,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highLightFeatures.push({
                             id: $scope.speedBumpInfo.nodePid.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }
@@ -2557,7 +2557,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.laneInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2657,7 +2657,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.laneInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2682,7 +2682,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.laneInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2877,6 +2877,31 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 style: {}
                             });
                             highRenderCtrl.drawHighlight();
+                            var param = {
+                                type: 'RDLANE',
+                                dbId: App.Temp.dbId,
+                                data: {
+                                    linkPid: laneTopoData.linkPids[0],
+                                    nodePid: laneTopoData.nodePid
+                                }
+                            };
+                            dsEdit.getByCondition(param).then(function (outData) {
+                                if (outData != null) {
+                                    if (outData.data && outData.data.length > 0) {
+                                        for (var i = 0; i < outData.data.length; i++) {
+                                            highRenderCtrl.highLightFeatures.push({
+                                                id: outData.data[i].toString(),
+                                                layerid: 'rdLink',
+                                                type: 'line',
+                                                style: {
+                                                    color: 'black'
+                                                }
+                                            });
+                                        }
+                                        highRenderCtrl.drawHighlight();
+                                    }
+                                }
+                            });
                             tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
                             map.currentTool.selectedFeatures.push(laneTopoData.nodePid);
                         }
@@ -2889,6 +2914,31 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             style: {}
                         });
                         highRenderCtrl.drawHighlight();
+                        var param = {
+                            type: 'RDLANE',
+                            dbId: App.Temp.dbId,
+                            data: {
+                                linkPid: laneTopoData.linkPids[0],
+                                nodePid: laneTopoData.nodePid
+                            }
+                        };
+                        dsEdit.getByCondition(param).then(function (outData) {
+                            if (outData != null) {
+                                if (outData.data && outData.data.length > 0) {
+                                    for (var i = 0; i < outData.data.length; i++) {
+                                        highRenderCtrl.highLightFeatures.push({
+                                            id: outData.data[i].toString(),
+                                            layerid: 'rdLink',
+                                            type: 'line',
+                                            style: {
+                                                color: 'black'
+                                            }
+                                        });
+                                    }
+                                    highRenderCtrl.drawHighlight();
+                                }
+                            }
+                        });
                         tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
                         map.currentTool.selectedFeatures.push(laneTopoData.nodePid);
                     } else if (data.index > 1 && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0) {
