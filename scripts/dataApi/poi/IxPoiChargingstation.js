@@ -14,11 +14,12 @@ FM.dataApi.IxPoiChargingstation = FM.dataApi.DataModel.extend({
         this.audataId = data['audataId'];
         this.chargingType = data['chargingType'] || 3;
 
-        var changeBrandArr = data["changeBrands"] ? data["changeBrands"].split("|") : [];
-        this.changeBrands = {};
-        for(var i=0;i<changeBrandArr.length;i++) {
-            this.changeBrands[changeBrandArr[i]] = true;
-        }
+        // var changeBrandArr = data["changeBrands"] ? data["changeBrands"].split("|") : [];
+        // this.changeBrands = {};
+        // for(var i=0;i<changeBrandArr.length;i++) {
+        //     this.changeBrands[changeBrandArr[i]] = true;
+        // }
+        this.changeBrands = data["changeBrands"] ? data["changeBrands"].split("|") : [];
         var changeOpenTypeArr = data["changeOpenType"] ? data["changeOpenType"].split("|") : [1];
         this.changeOpenType = {};
         for(var i=0;i<changeOpenTypeArr.length;i++) {
@@ -45,13 +46,14 @@ FM.dataApi.IxPoiChargingstation = FM.dataApi.DataModel.extend({
         ret['audataId'] = this.audataId;
         ret['chargingType'] = this.chargingType;
 
-        var checkedChangeBrandArr = [];
-        for(var key in this.changeBrands){
-            if(this.changeBrands[key] == true){
-                checkedChangeBrandArr.push(key);
-            }
-        }
-        ret["changeBrands"] = checkedChangeBrandArr.join("|");
+        // var checkedChangeBrandArr = [];
+        // for(var key in this.changeBrands){
+        //     if(this.changeBrands[key] == true){
+        //         checkedChangeBrandArr.push(key);
+        //     }
+        // }
+        // ret["changeBrands"] = checkedChangeBrandArr.join("|");
+        ret["changeBrands"] = this.changeBrands.join("|");
         var checkedChangeOpenTypeArr = [];
         for(var key in this.changeOpenType){
             if(this.changeOpenType[key] == true){
