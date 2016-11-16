@@ -33,18 +33,12 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
     $scope.addNameInfo = function () {
 	    getSelectedLangcode();
 	    for (var i=0; i<$scope.langCodeOptions.length; i++) {
-		    var flag = false;
 		    if($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
-			    var langCodeTemp = '';
 			    if(($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
-				    /*if($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT') {
-					    break;
-				    }*/
 			    } else {
 				    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
 				    break;
 			    }
-			    // $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
 		    }
 	    }
         /*for (var i = 0; i < $scope.langCodeOptions.length; i++) {

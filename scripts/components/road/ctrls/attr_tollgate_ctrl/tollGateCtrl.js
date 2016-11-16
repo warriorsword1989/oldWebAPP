@@ -95,9 +95,9 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 return function (object1, object2) {
                     var value1 = object1[propertyName];
                     var value2 = object2[propertyName];
-                    if (value2 < value1) {
+                    if (value1 < value2) {
                         return -1;
-                    } else if (value2 > value1) {
+                    } else if (value1 > value2) {
                         return 1;
                     } else {
                         return 0;
@@ -118,13 +118,12 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                     if ($scope.tollGateData.names[j].nameGroupid == nameGroupidArr[i]) {
                         tempArr.push($scope.tollGateData.names[j]);
 	                    tempArr.sort(function( a, b) {
-		                    return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.laneCode];
+		                    return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
 	                    });
                     }
                 }
                 $scope.nameGroup.push(tempArr);
             }
-	        // console.log($scope.nameGroup)
 //			for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){
 //				var tempArr = [];
 //				for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
@@ -319,7 +318,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             if ($scope.tollGateData.names.length > 0) {
                 maxNameGroupId = Utils.getArrMax($scope.tollGateData.names, 'nameGroupid');
             }
-            objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({
+            objCtrl.data.names.unshift(fastmap.dataApi.rdTollgateName({
 	            nameGroupid: maxNameGroupId + 1
             }));
             initNameInfo();
@@ -410,7 +409,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
 		}
 	};*/
 	// 保存前把nameId为0的状态改为INSERT
-    $scope.beforeSave = function (obj) {
+    /*$scope.beforeSave = function (obj) {
         var newObj = obj;
         for (var i = 0; i < newObj.names.length; i++) {
             if (newObj.names[i].nameId === 0) {
@@ -424,7 +423,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             delete newObj.names[i].geoLiveType;
         }
         return newObj;
-    };
+    };*/
 	/* 监听刷新ETC代码*/
     $scope.$on('refreshEtcCode', function (event, data) {
         $scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
