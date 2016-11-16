@@ -35,7 +35,7 @@ fastmap.dataApi.RdTollgateName = fastmap.dataApi.GeoDataModel.extend({
     getSnapShot: function () {
         var data = {};
         data.pid = this.pid;
-        data.nameId = this.nameId;
+//        data.nameId = this.nameId;
         data.nameGroupid = this.nameGroupid;
         data.langCode = this.langCode;
         data.name = this.name;
@@ -54,7 +54,7 @@ fastmap.dataApi.RdTollgateName = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate: function () {
         var data = {};
         data.pid = this.pid;
-        data.nameId = this.nameId;
+//        data.nameId = this.nameId;
         data.nameGroupid = this.nameGroupid;
         data.langCode = this.langCode;
         data.name = this.name;
