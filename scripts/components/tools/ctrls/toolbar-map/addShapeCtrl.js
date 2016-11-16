@@ -1103,7 +1103,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highRenderCtrl.highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: { color: 'yellow' }
                             });
                             highRenderCtrl.drawHighlight();
@@ -1267,7 +1267,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1290,7 +1290,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1549,7 +1549,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.warningInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1565,7 +1565,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                         highLightFeatures.push({
                             id: $scope.warningInfo.nodePid.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }
@@ -1680,7 +1680,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                         highLightFeatures.push({
                             id: data.id.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }
@@ -1837,7 +1837,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: slopeData.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {}
                             });
                             highLightFeatures.push({
@@ -1963,7 +1963,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1986,7 +1986,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2059,7 +2059,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.speedBumpInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2075,7 +2075,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                         highLightFeatures.push({
                             id: $scope.speedBumpInfo.nodePid.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }

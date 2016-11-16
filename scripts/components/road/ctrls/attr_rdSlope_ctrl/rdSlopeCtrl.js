@@ -31,7 +31,7 @@ rdSlopeApp.controller('rdSlopeCtl', ['$scope', 'dsEdit', function ($scope, dsEdi
         highLightFeatures.push({
             id: $scope.slopeData.nodePid.toString(),
             layerid: 'rdLink',
-            type: 'rdnode',
+            type: 'node',
             style: {}
         });
         var linkArr = $scope.slopeData.slopeVias,

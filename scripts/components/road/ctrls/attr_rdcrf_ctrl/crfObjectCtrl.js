@@ -78,7 +78,7 @@ rdcrfObjectApp.controller('crfObjectCtrl', ['$scope', 'dsEdit', function ($scope
                     highRenderCtrl.highLightFeatures.push({
                         id: points[i].nodePid.toString(),
                         layerid: 'rdLink',
-                        type: 'rdnode',
+                        type: 'node',
                         style: {}
                     });
                 }
