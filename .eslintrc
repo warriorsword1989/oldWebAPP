@@ -4,9 +4,11 @@
   // 添加全局函数和对象
   "globals": {
     "fastmap":true,
+    "FM":true,
     "L":true,
     "angular":true,
     "App":true,
+    "swal":true,
     "$":true
   },
   "plugins": ["angular"],
