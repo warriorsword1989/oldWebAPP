@@ -502,6 +502,52 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             return;
         }
         // objCtrl.changedProperty.names = objCtrl.data.names.concat($scope.deleteNames);
+	    /*objCtrl.changedProperty.names = compareJsonObject(objCtrl.originalData.names, objCtrl.data.names);
+	    function compareJsonObject ( originalData, objData) {
+		    var changeNames = [],
+			    originNames = [],
+			    objDataNames = [];
+		    for(var i=0;i<originalData.length;i++){
+			    originNames.push(originalData[i].rowId);
+			    for(var j=0;j<objData.length;j++){
+				    objDataNames.push(objData[j].getIntergrate().rowId);
+				    if(objData[j].getIntergrate().rowId && originalData[i].rowId == objData[j].getIntergrate().rowId){
+					    var temp = {};
+					    for(p in objData[j].getIntergrate()){
+						    if(originalData[i][p] != objData[j].getIntergrate()[p]){
+							    temp[p] = objData[j].getIntergrate()[p];
+							    temp.rowId= objData[j].getIntergrate().rowId;
+							    temp.pid = objData[j].getIntergrate().pid;
+							    temp.objStatus = 'UPDATE';
+						    }
+					    }
+					    if(JSON.stringify(temp) == "{}") {
+						    changeNames.push(temp);
+					    }
+				    }
+				    if(objData[j].getIntergrate().rowId === '') {
+					    var temp = {};
+					    for(p in objData[j].getIntergrate()){
+						    temp[p] = objData[j].getIntergrate()[p];
+					    }
+					    temp.rowId= objData[j].getIntergrate().rowId;
+					    temp.pid = objData[j].getIntergrate().pid;
+					    temp.objStatus = 'INSERT';
+					    changeNames.push(temp);
+				    }
+			    }
+		    }
+		    for(var i=0;i<originalData.length;i++){
+			    if(originNames.indexOf(originalData[i].rowId) === -1) {
+				    var temp = {};
+				    temp.objStatus = 'DELETE';
+				    temp.rowId = originalData[i].rowId;
+				    temp.pid = objCtrl.data.pid;
+				    changeNames.push(temp);
+			    }
+		    }
+		    return changeNames;
+	    }*/
         var param = {
             command: 'UPDATE',
             type: 'RDTOLLGATE',
