@@ -43,41 +43,41 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
     };
-	//语言代码对应关系
-	$scope.langCodeRelation = {
-		CHI: 1,
-		CHT: 2,
-		ENG: 3,
-		POR: 4,
-		ARA: 5,
-		BUL: 6,
-		CZE: 7,
-		DAN: 8,
-		DUT: 9,
-		EST: 10,
-		FIN: 11,
-		FRE: 12,
-		GER: 13,
-		HIN: 14,
-		HUN: 15,
-		ICE: 16,
-		IND: 17,
-		ITA: 18,
-		JPN: 19,
-		KOR: 20,
-		LIT: 21,
-		NOR: 22,
-		POL: 23,
-		RUM: 24,
-		RUS: 25,
-		SLO: 26,
-		SPA: 27,
-		SWE: 28,
-		THA: 29,
-		TUR: 30,
-		UKR: 31,
-		SCR: 32
-	};
+	// 语言代码对应关系
+    $scope.langCodeRelation = {
+        CHI: 1,
+        CHT: 2,
+        ENG: 3,
+        POR: 4,
+        ARA: 5,
+        BUL: 6,
+        CZE: 7,
+        DAN: 8,
+        DUT: 9,
+        EST: 10,
+        FIN: 11,
+        FRE: 12,
+        GER: 13,
+        HIN: 14,
+        HUN: 15,
+        ICE: 16,
+        IND: 17,
+        ITA: 18,
+        JPN: 19,
+        KOR: 20,
+        LIT: 21,
+        NOR: 22,
+        POL: 23,
+        RUM: 24,
+        RUS: 25,
+        SLO: 26,
+        SPA: 27,
+        SWE: 28,
+        THA: 29,
+        TUR: 30,
+        UKR: 31,
+        SCR: 32
+    };
 	// 刷新tollGateData.names
     $scope.refreshNames = function () {
         $scope.tollGateData.names = [];
@@ -117,7 +117,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 for (var j = 0, le = $scope.tollGateData.names.length; j < le; j++) {
                     if ($scope.tollGateData.names[j].nameGroupid == nameGroupidArr[i]) {
                         tempArr.push($scope.tollGateData.names[j]);
-	                    tempArr.sort(function( a, b) {
+	                    tempArr.sort(function (a, b) {
 		                    return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
 	                    });
                     }
@@ -409,7 +409,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
 		}
 	};*/
 	// 保存前把nameId为0的状态改为INSERT
-    /*$scope.beforeSave = function (obj) {
+    /* $scope.beforeSave = function (obj) {
         var newObj = obj;
         for (var i = 0; i < newObj.names.length; i++) {
             if (newObj.names[i].nameId === 0) {
@@ -458,7 +458,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
 		{ id: 3, label: '自助', name: '自助通道' }
     ];
 
-	$scope.langCodeOptions = [
+    $scope.langCodeOptions = [
 		{ id: 'CHI', label: '简体中文' },
 		{ id: 'CHT', label: '繁体中文' },
 		{ id: 'ENG', label: '英文' },
@@ -491,7 +491,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
 		{ id: 'TUR', label: '土耳其语' },
 		{ id: 'UKR', label: '乌克兰语' },
 		{ id: 'SCR', label: '克罗地亚语' }
-	];
+    ];
 
     $scope.save = function () {
         $scope.refreshNames();
@@ -501,7 +501,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             return;
         }
         // objCtrl.changedProperty.names = objCtrl.data.names.concat($scope.deleteNames);
-	    /*objCtrl.changedProperty.names = compareJsonObject(objCtrl.originalData.names, objCtrl.data.names);
+	    /* objCtrl.changedProperty.names = compareJsonObject(objCtrl.originalData.names, objCtrl.data.names);
 	    function compareJsonObject ( originalData, objData) {
 		    var changeNames = [],
 			    originNames = [],

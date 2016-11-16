@@ -9,34 +9,34 @@ angular.module('app').controller('luFaceCtrl', ['$scope', 'dsEdit', 'appPath', '
     var luFace = layerCtrl.getLayerById('luFace');
     var outputCtrl = fastmap.uikit.OutPutController({});
     $scope.kind = [
-	       { id: 0, label: '未分类' },
-	       { id: 1, label: '大学' },
-	       { id: 2, label: '购物中心' },
-	       { id: 3, label: '医院' },
-	       { id: 4, label: '体育场' },
-	       { id: 5, label: '公墓' },
-	       { id: 6, label: '地上停车场' },
-	       { id: 7, label: '工业区' },
-	       { id: 11, label: '机场' },
-	       { id: 12, label: '机场跑道' },
-	       { id: 21, label: 'BUA面' },
-	       { id: 22, label: '邮编面' },
-	       { id: 23, label: 'FM面' },
-	       { id: 24, label: '车厂面' },
-	       { id: 31, label: '休闲娱乐' },
-	       { id: 31, label: '景区' },
-	       { id: 32, label: '会展中心' },
-	       { id: 33, label: '火车站' },
-	       { id: 34, label: '文化厂区' },
-	       { id: 35, label: '商务区' },
-	       { id: 36, label: '商业区' },
-	       { id: 37, label: '小区' },
-	       { id: 38, label: '广场' },
-	       { id: 39, label: '特色区域' },
-	       { id: 40, label: '地下停车场' },
-	       { id: 41, label: '地铁出入口面' }
-	   ];
-    //语言代码对应关系
+        { id: 0, label: '未分类' },
+        { id: 1, label: '大学' },
+        { id: 2, label: '购物中心' },
+        { id: 3, label: '医院' },
+        { id: 4, label: '体育场' },
+        { id: 5, label: '公墓' },
+        { id: 6, label: '地上停车场' },
+        { id: 7, label: '工业区' },
+        { id: 11, label: '机场' },
+        { id: 12, label: '机场跑道' },
+        { id: 21, label: 'BUA面' },
+        { id: 22, label: '邮编面' },
+        { id: 23, label: 'FM面' },
+        { id: 24, label: '车厂面' },
+        { id: 31, label: '休闲娱乐' },
+        { id: 31, label: '景区' },
+        { id: 32, label: '会展中心' },
+        { id: 33, label: '火车站' },
+        { id: 34, label: '文化厂区' },
+        { id: 35, label: '商务区' },
+        { id: 36, label: '商业区' },
+        { id: 37, label: '小区' },
+        { id: 38, label: '广场' },
+        { id: 39, label: '特色区域' },
+        { id: 40, label: '地下停车场' },
+        { id: 41, label: '地铁出入口面' }
+    ];
+    // 语言代码对应关系
     $scope.langCodeRelation = {
         CHI: 1,
         CHT: 2,
@@ -244,7 +244,7 @@ angular.module('app').controller('luFaceCtrl', ['$scope', 'dsEdit', 'appPath', '
                 for (var j = 0, le = $scope.luFaceData.faceNames.length; j < le; j++) {
                     if ($scope.luFaceData.faceNames[j].nameGroupid == nameGroupidArr[i]) {
                         tempArr.push($scope.luFaceData.faceNames[j]);
-                        tempArr.sort(function( a, b) {
+                        tempArr.sort(function (a, b) {
                             return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
                         });
                     }

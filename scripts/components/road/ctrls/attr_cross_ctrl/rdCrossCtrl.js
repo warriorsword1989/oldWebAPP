@@ -54,7 +54,7 @@ selectApp.controller('rdCrossController', ['$scope', 'dsEdit', 'dsFcc', 'appPath
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
     };
-    //语言代码对应关系
+    // 语言代码对应关系
     $scope.langCodeRelation = {
         CHI: 1,
         CHT: 2,
@@ -129,7 +129,7 @@ selectApp.controller('rdCrossController', ['$scope', 'dsEdit', 'dsFcc', 'appPath
                 for (var j = 0, le = $scope.rdCrossData.names.length; j < le; j++) {
                     if ($scope.rdCrossData.names[j].nameGroupid == nameGroupidArr[i]) {
                         tempArr.push($scope.rdCrossData.names[j]);
-                        tempArr.sort(function( a, b) {
+                        tempArr.sort(function (a, b) {
                             return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
                         });
                     }

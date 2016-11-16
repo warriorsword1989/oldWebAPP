@@ -55,9 +55,9 @@ namesOfCross.controller('namesController', ['$scope', 'dsMeta', '$timeout', func
     // 增加名称信息
     $scope.addNameInfo = function () {
         getSelectedLangcode();
-        for (var i=0; i<$scope.langCodeOptions.length; i++) {
-            if($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
-                if(($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
+        for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+            if ($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
+                if (($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
                 } else {
                     $scope.rdCrossNames.push(fastmap.dataApi.rdCrossName({ nameGroupid: $scope.rdCrossNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
                     break;
@@ -65,7 +65,7 @@ namesOfCross.controller('namesController', ['$scope', 'dsMeta', '$timeout', func
             }
         }
         $scope.refreshNameLangCode();
-    	/*for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+    	/* for (var i = 0; i < $scope.langCodeOptions.length; i++) {
             for (var j = 0; j < $scope.rdCrossNames.length; j++) {
                 var flag = false;
                 if ($scope.langCodeOptions[i].id == $scope.rdCrossNames[j].langCode) {
@@ -86,39 +86,39 @@ namesOfCross.controller('namesController', ['$scope', 'dsMeta', '$timeout', func
     };
     // 代码语言字段切换时，判断语言不能重复
     $scope.langCodeChange = function (langCode) {
-        //如果当前所选既不是简体也不是繁体，则控制不允许选择简繁体
+        // 如果当前所选既不是简体也不是繁体，则控制不允许选择简繁体
         getSelectedLangcode();
-        if(langCode != 'CHI' && langCode != 'CHT') {
+        if (langCode != 'CHI' && langCode != 'CHT') {
             if ($scope.selectedLangcodeArr.indexOf('CHI') === -1) {
                 $scope.selectedLangcodeArr.push('CHI');
             }
             if ($scope.selectedLangcodeArr.indexOf('CHT') === -1) {
                 $scope.selectedLangcodeArr.push('CHT');
             }
-        } else if (langCode == 'CHI') { //如果是简体中文或繁体中文其他语言不可用
+        } else if (langCode == 'CHI') { // 如果是简体中文或繁体中文其他语言不可用
             $scope.selectedLangcodeArr = [];
-            for (var i=0; i<$scope.langCodeOptions.length; i++) {
-                if($scope.langCodeOptions[i].id != 'CHT') {
+            for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+                if ($scope.langCodeOptions[i].id != 'CHT') {
                     $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
                 }
             }
         } else if (langCode == 'CHT') {
             $scope.selectedLangcodeArr = [];
-            for (var i=0; i<$scope.langCodeOptions.length; i++) {
-                if($scope.langCodeOptions[i].id != 'CHI') {
+            for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+                if ($scope.langCodeOptions[i].id != 'CHI') {
                     $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
                 }
             }
         }
         $scope.refreshNameLangCode();
-        $timeout(function() {
+        $timeout(function () {
             $scope.$apply();
         });
     };
 
-    //重新排列名称信息
+    // 重新排列名称信息
     $scope.refreshNameLangCode = function () {
-        $scope.rdCrossNames.sort(function( a, b) {
+        $scope.rdCrossNames.sort(function (a, b) {
             return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
         });
     };
@@ -156,7 +156,7 @@ namesOfCross.controller('namesController', ['$scope', 'dsMeta', '$timeout', func
             $scope.rdCrossNames[index].srcFlag = 0;
         }
     };
-    //语言代码对应关系
+    // 语言代码对应关系
     $scope.langCodeRelation = {
         CHI: 1,
         CHT: 2,
