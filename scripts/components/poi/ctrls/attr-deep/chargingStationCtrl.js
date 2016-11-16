@@ -29,8 +29,9 @@ angular.module('app').controller('chargingStationCtrl', function ($scope) {
     ];
     $scope.chargingOpenType = FM.dataApi.Constant.chargingOpenType;
     $scope.chargingOpenTypeChange = function (event) {
-        var obj = $scope.poi.chargingstations[0].changeOpenType;
-        var rejectVal = '1';
+        var rejectVal = '1',
+            obj;
+        obj = $scope.poi.chargingstations[0].changeOpenType;
         Utils.setCheckboxMutex(event, obj, rejectVal);
     };
     $scope.parkingFeesArr = FM.dataApi.Constant.parkingFees;
@@ -47,10 +48,10 @@ angular.module('app').controller('chargingStationCtrl', function ($scope) {
     $scope.initChain = function () {
         var allChain = $scope.metaData.allChain;
         for (var i in allChain) {
-            if(i == '230218' || i == '230227'){
-                for (var j = 0 ; j < allChain[i].length ; j++){
+            if (i === '230218' || i === '230227') {
+                for (var j = 0; j < allChain[i].length; j++) {
                     var cha = allChain[i][j];
-                    if(cha.chainCode && cha.chainCode != '0'){
+                    if (cha.chainCode && cha.chainCode != '0') {
                         $scope.chainList[cha.chainCode] = { // 转换成chosen-select可以解析的格式
                             category: cha.category,
                             chainCode: cha.chainCode,
@@ -61,7 +62,6 @@ angular.module('app').controller('chargingStationCtrl', function ($scope) {
                 }
             }
         }
-        console.info($scope.chainList);
     };
     $scope.initChain();
 });
