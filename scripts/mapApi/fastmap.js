@@ -1,4 +1,4 @@
-﻿/**
+/**
  * fastmap模块
  *
  * @module fastmap

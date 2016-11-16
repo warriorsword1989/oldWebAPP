@@ -104,8 +104,8 @@ fastmap.uikit.ObjectEditController = (function () {
                     this.data = fastmap.dataApi.rwLink(obj);
                     break;
                 case 'RWNODE':
-                    	this.data = fastmap.dataApi.rwNode(obj);
-                    	break;
+                    this.data = fastmap.dataApi.rwNode(obj);
+                    break;
                 case 'ZONELINK':
                     this.data = fastmap.dataApi.zoneLink(obj);
                     break;
@@ -169,9 +169,6 @@ fastmap.uikit.ObjectEditController = (function () {
                 case 'RDTOLLGATE': // 收费站
                     this.data = fastmap.dataApi.rdTollgate(obj);
                     break;
-                case 'RDTOLLGATE': // 收费站
-                    this.data = fastmap.dataApi.rdTollgate(obj);
-                    break;
                 case 'RDSAMENODE': // 同一点
                     this.data = fastmap.dataApi.rdSameNode(obj);
                     break;
@@ -188,8 +185,8 @@ fastmap.uikit.ObjectEditController = (function () {
                     this.data = fastmap.dataApi.rdLinkSpeedLimit(obj);
                     break;
                 case 'ROADNAME':// 道路名称
-                    	this.data = fastmap.dataApi.roadName(obj);
-                    	break;
+                    this.data = fastmap.dataApi.roadName(obj);
+                    break;
                 case 'RDHGWGLIMIT':// 限高限重
                     this.data = fastmap.dataApi.rdHgwgLimit(obj);
                     break;

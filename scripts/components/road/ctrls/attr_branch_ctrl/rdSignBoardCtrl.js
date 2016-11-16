@@ -15,7 +15,7 @@ namesOfBranch.controller('SignBoardOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
         $scope.diverObj.signboards[0].names = [];
         for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
             for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
-                $scope.diverObj.signboards[0].names.push($scope.nameGroup[i][j]);
+                $scope.diverObj.signboards[0].names.unshift($scope.nameGroup[i][j]);
             }
         }
     };
@@ -229,7 +229,7 @@ namesOfBranch.controller('SignBoardOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.diverObj.nodePid.toString(),
                 layerid: 'rdLink',
-                type: 'rdnode',
+                type: 'node',
                 style: { color: 'yellow' }
             });
             // 高亮分歧图标;

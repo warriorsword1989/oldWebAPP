@@ -43,12 +43,47 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
     };
+	// 语言代码对应关系
+    $scope.langCodeRelation = {
+        CHI: 1,
+        CHT: 2,
+        ENG: 3,
+        POR: 4,
+        ARA: 5,
+        BUL: 6,
+        CZE: 7,
+        DAN: 8,
+        DUT: 9,
+        EST: 10,
+        FIN: 11,
+        FRE: 12,
+        GER: 13,
+        HIN: 14,
+        HUN: 15,
+        ICE: 16,
+        IND: 17,
+        ITA: 18,
+        JPN: 19,
+        KOR: 20,
+        LIT: 21,
+        NOR: 22,
+        POL: 23,
+        RUM: 24,
+        RUS: 25,
+        SLO: 26,
+        SPA: 27,
+        SWE: 28,
+        THA: 29,
+        TUR: 30,
+        UKR: 31,
+        SCR: 32
+    };
 	// 刷新tollGateData.names
     $scope.refreshNames = function () {
         $scope.tollGateData.names = [];
         for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
             for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
-                $scope.tollGateData.names.push($scope.nameGroup[i][j]);
+                $scope.tollGateData.names.unshift($scope.nameGroup[i][j]);
             }
         }
     };
@@ -60,9 +95,9 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 return function (object1, object2) {
                     var value1 = object1[propertyName];
                     var value2 = object2[propertyName];
-                    if (value2 < value1) {
+                    if (value1 < value2) {
                         return -1;
-                    } else if (value2 > value1) {
+                    } else if (value1 > value2) {
                         return 1;
                     } else {
                         return 0;
@@ -82,6 +117,9 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 for (var j = 0, le = $scope.tollGateData.names.length; j < le; j++) {
                     if ($scope.tollGateData.names[j].nameGroupid == nameGroupidArr[i]) {
                         tempArr.push($scope.tollGateData.names[j]);
+	                    tempArr.sort(function (a, b) {
+		                    return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
+	                    });
                     }
                 }
                 $scope.nameGroup.push(tempArr);
@@ -105,7 +143,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
         dsEdit.getByPid(parseInt($scope.tollGateData.pid), 'RDTOLLGATE').then(function (data) {
             if (data) {
                 objCtrl.setCurrentObject('RDTOLLGATE', data);
-                $scope.initializeData();
+	            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             }
         });
     };
@@ -280,7 +318,9 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             if ($scope.tollGateData.names.length > 0) {
                 maxNameGroupId = Utils.getArrMax($scope.tollGateData.names, 'nameGroupid');
             }
-            objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({ nameGroupid: maxNameGroupId + 1 }));
+            objCtrl.data.names.unshift(fastmap.dataApi.rdTollgateName({
+	            nameGroupid: maxNameGroupId + 1
+            }));
             initNameInfo();
         } else if (objCtrl.data.passages.length < 32) {
             if ($scope.tollGateData.type == 1 || $scope.tollGateData.type == 8 || $scope.tollGateData.type == 9 || $scope.tollGateData.type == 10) {
@@ -302,13 +342,6 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 if ($scope.nameGroup[i]) {
                     for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
                         if ($scope.nameGroup[i][j] === item) {
-                            if (item.nameId != 0) {
-                                var tempDel = {
-                                    rowId: item.rowId,
-                                    objStatus: 'DELETE'
-                                };
-                                $scope.deleteNames.push(tempDel);
-                            }
                             if ($scope.nameGroup[i].length == 1) {
                                 $scope.nameGroup.splice(i, 1);
                                 for (var n = 0, nu = $scope.nameGroup.length; n < nu; n++) {
@@ -376,7 +409,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
 		}
 	};*/
 	// 保存前把nameId为0的状态改为INSERT
-    $scope.beforeSave = function (obj) {
+    /* $scope.beforeSave = function (obj) {
         var newObj = obj;
         for (var i = 0; i < newObj.names.length; i++) {
             if (newObj.names[i].nameId === 0) {
@@ -390,7 +423,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             delete newObj.names[i].geoLiveType;
         }
         return newObj;
-    };
+    };*/
 	/* 监听刷新ETC代码*/
     $scope.$on('refreshEtcCode', function (event, data) {
         $scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
@@ -425,40 +458,40 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
 		{ id: 3, label: '自助', name: '自助通道' }
     ];
 
-	/* $scope.langCodeOptions = [
-		{"id": "CHI", "label": "简体中文"},
-		{"id": "CHT", "label": "繁体中文"},
-		{"id": "ENG", "label": "英文"},
-		{"id": "POR", "label": "葡萄牙文"},
-		{"id": "ARA", "label": "阿拉伯语"},
-		{"id": "BUL", "label": "保加利亚语"},
-		{"id": "CZE", "label": "捷克语"},
-		{"id": "DAN", "label": "丹麦语"},
-		{"id": "DUT", "label": "荷兰语"},
-		{"id": "EST", "label": "爱沙尼亚语"},
-		{"id": "FIN", "label": "芬兰语"},
-		{"id": "FRE", "label": "法语"},
-		{"id": "GER", "label": "德语"},
-		{"id": "HIN", "label": "印地语"},
-		{"id": "HUN", "label": "匈牙利语"},
-		{"id": "ICE", "label": "冰岛语"},
-		{"id": "IND", "label": "印度尼西亚语"},
-		{"id": "ITA", "label": "意大利语"},
-		{"id": "JPN", "label": "日语"},
-		{"id": "KOR", "label": "韩语"},
-		{"id": "LIT", "label": "立陶宛语"},
-		{"id": "NOR", "label": "挪威语"},
-		{"id": "POL", "label": "波兰语"},
-		{"id": "RUM", "label": "罗马尼亚语"},
-		{"id": "RUS", "label": "俄语"},
-		{"id": "SLO", "label": "斯洛伐克语"},
-		{"id": "SPA", "label": "西班牙语"},
-		{"id": "SWE", "label": "瑞典语"},
-		{"id": "THA", "label": "泰国语"},
-		{"id": "TUR", "label": "土耳其语"},
-		{"id": "UKR", "label": "乌克兰语"},
-		{"id": "SCR", "label": "克罗地亚语"}
-	];*/
+    $scope.langCodeOptions = [
+		{ id: 'CHI', label: '简体中文' },
+		{ id: 'CHT', label: '繁体中文' },
+		{ id: 'ENG', label: '英文' },
+		{ id: 'POR', label: '葡萄牙文' },
+		{ id: 'ARA', label: '阿拉伯语' },
+		{ id: 'BUL', label: '保加利亚语' },
+		{ id: 'CZE', label: '捷克语' },
+		{ id: 'DAN', label: '丹麦语' },
+		{ id: 'DUT', label: '荷兰语' },
+		{ id: 'EST', label: '爱沙尼亚语' },
+		{ id: 'FIN', label: '芬兰语' },
+		{ id: 'FRE', label: '法语' },
+		{ id: 'GER', label: '德语' },
+		{ id: 'HIN', label: '印地语' },
+		{ id: 'HUN', label: '匈牙利语' },
+		{ id: 'ICE', label: '冰岛语' },
+		{ id: 'IND', label: '印度尼西亚语' },
+		{ id: 'ITA', label: '意大利语' },
+		{ id: 'JPN', label: '日语' },
+		{ id: 'KOR', label: '韩语' },
+		{ id: 'LIT', label: '立陶宛语' },
+		{ id: 'NOR', label: '挪威语' },
+		{ id: 'POL', label: '波兰语' },
+		{ id: 'RUM', label: '罗马尼亚语' },
+		{ id: 'RUS', label: '俄语' },
+		{ id: 'SLO', label: '斯洛伐克语' },
+		{ id: 'SPA', label: '西班牙语' },
+		{ id: 'SWE', label: '瑞典语' },
+		{ id: 'THA', label: '泰国语' },
+		{ id: 'TUR', label: '土耳其语' },
+		{ id: 'UKR', label: '乌克兰语' },
+		{ id: 'SCR', label: '克罗地亚语' }
+    ];
 
     $scope.save = function () {
         $scope.refreshNames();
@@ -467,12 +500,58 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             swal('操作成功', '属性值没有变化！', 'success');
             return;
         }
-        objCtrl.changedProperty.names = objCtrl.data.names.concat($scope.deleteNames);
+        // objCtrl.changedProperty.names = objCtrl.data.names.concat($scope.deleteNames);
+	    /* objCtrl.changedProperty.names = compareJsonObject(objCtrl.originalData.names, objCtrl.data.names);
+	    function compareJsonObject ( originalData, objData) {
+		    var changeNames = [],
+			    originNames = [],
+			    objDataNames = [];
+		    for(var i=0;i<originalData.length;i++){
+			    originNames.push(originalData[i].rowId);
+			    for(var j=0;j<objData.length;j++){
+				    objDataNames.push(objData[j].getIntergrate().rowId);
+				    if(objData[j].getIntergrate().rowId && originalData[i].rowId == objData[j].getIntergrate().rowId){
+					    var temp = {};
+					    for(p in objData[j].getIntergrate()){
+						    if(originalData[i][p] != objData[j].getIntergrate()[p]){
+							    temp[p] = objData[j].getIntergrate()[p];
+							    temp.rowId= objData[j].getIntergrate().rowId;
+							    temp.pid = objData[j].getIntergrate().pid;
+							    temp.objStatus = 'UPDATE';
+						    }
+					    }
+					    if(JSON.stringify(temp) == "{}") {
+						    changeNames.push(temp);
+					    }
+				    }
+				    if(objData[j].getIntergrate().rowId === '') {
+					    var temp = {};
+					    for(p in objData[j].getIntergrate()){
+						    temp[p] = objData[j].getIntergrate()[p];
+					    }
+					    temp.rowId= objData[j].getIntergrate().rowId;
+					    temp.pid = objData[j].getIntergrate().pid;
+					    temp.objStatus = 'INSERT';
+					    changeNames.push(temp);
+				    }
+			    }
+		    }
+		    for(var i=0;i<originalData.length;i++){
+			    if(originNames.indexOf(originalData[i].rowId) === -1) {
+				    var temp = {};
+				    temp.objStatus = 'DELETE';
+				    temp.rowId = originalData[i].rowId;
+				    temp.pid = objCtrl.data.pid;
+				    changeNames.push(temp);
+			    }
+		    }
+		    return changeNames;
+	    }*/
         var param = {
             command: 'UPDATE',
             type: 'RDTOLLGATE',
             dbId: App.Temp.dbId,
-            data: $scope.beforeSave(objCtrl.changedProperty)
+            data: objCtrl.changedProperty
         };
         dsEdit.save(param).then(function (data) {
             if (data) {
@@ -486,7 +565,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 relationData.redraw();
                 $('body .carTypeTip:last').hide();
                 $scope.$emit('SWITCHCONTAINERSTATE', {

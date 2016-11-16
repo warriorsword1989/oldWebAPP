@@ -10,17 +10,35 @@ fastmap.mapApi.symbol.Matrix = L.Class.extend({
     cross: function (other) {
         var m = new fastmap.mapApi.symbol.Matrix();
 
-        m.data[0][0] = this.data[0][0] * other.data[0][0] + this.data[0][1] * other.data[1][0] + this.data[0][2] * other.data[2][0];
-        m.data[0][1] = this.data[0][0] * other.data[0][1] + this.data[0][1] * other.data[1][1] + this.data[0][2] * other.data[2][1];
-        m.data[0][2] = this.data[0][0] * other.data[0][2] + this.data[0][1] * other.data[1][2] + this.data[0][2] * other.data[2][2];
+        m.data[0][0] = (this.data[0][0] * other.data[0][0]) +
+                       (this.data[0][1] * other.data[1][0]) +
+                       (this.data[0][2] * other.data[2][0]);
+        m.data[0][1] = (this.data[0][0] * other.data[0][1]) +
+                       (this.data[0][1] * other.data[1][1]) +
+                       (this.data[0][2] * other.data[2][1]);
+        m.data[0][2] = (this.data[0][0] * other.data[0][2]) +
+                       (this.data[0][1] * other.data[1][2]) +
+                       (this.data[0][2] * other.data[2][2]);
 
-        m.data[1][0] = this.data[1][0] * other.data[0][0] + this.data[1][1] * other.data[1][0] + this.data[1][2] * other.data[2][0];
-        m.data[1][1] = this.data[1][0] * other.data[0][1] + this.data[1][1] * other.data[1][1] + this.data[1][2] * other.data[2][1];
-        m.data[1][2] = this.data[1][0] * other.data[0][2] + this.data[1][1] * other.data[1][2] + this.data[1][2] * other.data[2][2];
+        m.data[1][0] = (this.data[1][0] * other.data[0][0]) +
+                       (this.data[1][1] * other.data[1][0]) +
+                       (this.data[1][2] * other.data[2][0]);
+        m.data[1][1] = (this.data[1][0] * other.data[0][1]) +
+                       (this.data[1][1] * other.data[1][1]) +
+                       (this.data[1][2] * other.data[2][1]);
+        m.data[1][2] = (this.data[1][0] * other.data[0][2]) +
+                       (this.data[1][1] * other.data[1][2]) +
+                       (this.data[1][2] * other.data[2][2]);
 
-        m.data[2][0] = this.data[2][0] * other.data[0][0] + this.data[2][1] * other.data[1][0] + this.data[2][2] * other.data[2][0];
-        m.data[2][1] = this.data[2][0] * other.data[0][1] + this.data[2][1] * other.data[1][1] + this.data[2][2] * other.data[2][1];
-        m.data[2][2] = this.data[2][0] * other.data[0][2] + this.data[2][1] * other.data[1][2] + this.data[2][2] * other.data[2][2];
+        m.data[2][0] = (this.data[2][0] * other.data[0][0]) +
+                       (this.data[2][1] * other.data[1][0]) +
+                       (this.data[2][2] * other.data[2][0]);
+        m.data[2][1] = (this.data[2][0] * other.data[0][1]) +
+                       (this.data[2][1] * other.data[1][1]) +
+                       (this.data[2][2] * other.data[2][1]);
+        m.data[2][2] = (this.data[2][0] * other.data[0][2]) +
+                       (this.data[2][1] * other.data[1][2]) +
+                       (this.data[2][2] * other.data[2][2]);
 
         return m;
     },
