@@ -313,7 +313,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 map.currentTool = new fastmap.uikit.SelectFeature({
                     map: map,
                     shapeEditor: shapeCtrl
-                }); 是;
+                });
                 map.currentTool.enable();
                 $scope.toolTipText = '请选择要素！';
                 eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
@@ -601,6 +601,34 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 }
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
+                $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml, toolsObj);
+                break;
+            case 'RDMILEAGEPILE': // 里程桩;
+                toolsObj = {
+                    items: [{
+                        text: "<span class='float-option-bar'>修</span>",
+                        title: '修改里程桩位置',
+                        type: 'MODIFYMILEAGEPILE',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
+                    }]
+                };
+                // 当在移动端进行编辑时,弹出此按钮
+                if (L.Browser.touch) {
+                    toolsObj.items.push({
+                        text: "<span class='float-option-bar'>存</span>",
+                        title: '保存',
+                        type: shapeCtrl.editType,
+                        class: 'feaf',
+                        callback: function () {
+                            var e = $.Event('keydown');
+                            e.keyCode = 32;
+                            $(document).trigger(e);
+                        }
+                    });
+                }
+                ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_mileagepile_ctrl/mileagePileCtrl';
+                ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_mileagepile_tpl/mileagePile.html';
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml, toolsObj);
                 break;
             case 'RDELECTRONICEYE':
@@ -2667,7 +2695,26 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         }
                     });
                     return;
-                } else if (type === 'MODIFYHGWGLIMITNODE') { // 限高限重点位
+                }else if(type === 'MODIFYMILEAGEPILE'){
+                    var pid = parseInt(selectCtrl.selectedFeatures.id), linkPid = parseInt(selectCtrl.selectedFeatures.linkPid), currentLink = null;
+                    if (shapeCtrl.shapeEditorResult) {
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
+                        selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                        layerCtrl.pushLayerFront('edit');
+                    }
+                    shapeCtrl.setEditingType('updateRdMileagepile');
+                    shapeCtrl.startEditing();
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.enable();
+                    map.currentTool.snapHandler.addGuideLayer(rdLink);
+                    tooltipsCtrl.setEditEventType('updateSpeedNode');
+                    tooltipsCtrl.setCurrentTooltip('请选择新的位置点！');
+                    eventController.off(eventController.eventTypes.RESETCOMPLETE);
+                    eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
+
+                    })
+                }
+                else if (type === 'MODIFYHGWGLIMITNODE') { // 限高限重点位
                     var hgwgLimitData = selectCtrl.selectedFeatures;
                     if (shapeCtrl.shapeEditorResult) {
                         // shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));

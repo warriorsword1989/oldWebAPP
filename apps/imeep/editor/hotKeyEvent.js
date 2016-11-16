@@ -578,7 +578,29 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'RDSPEEDLIMIT', 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
                     }
                 });
-            } else if (shapeCtrl.editType === 'pathVertexReMove' || shapeCtrl.editType === 'pathVertexInsert' || shapeCtrl.editType === 'pathVertexMove') {
+            }
+            else if(shapeCtrl.editType === "mileagePile"){
+                feature = selectCtrl.selectedFeatures;
+                param = {
+                    command: 'CREATE',
+                    type: 'RDMILEAGEPILE',
+                    dbId: App.Temp.dbId,
+                    data: {
+                        direct: 0,
+                        linkPid: parseInt(feature.id),
+                        longitude: feature.point.x,
+                        latitude: feature.point.y
+                    }
+                };
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        selectCtrl.selectedFeatures = null;
+                        relationData.redraw();
+                        treatmentOfChanged(data, 'RDMILEAGEPILE', 'attr_mileagepile_ctrl/mileagePileCtrl', 'attr_mileagepile_tpl/mileagePile.html');
+                    }
+                });
+            }
+            else if (shapeCtrl.editType === 'pathVertexReMove' || shapeCtrl.editType === 'pathVertexInsert' || shapeCtrl.editType === 'pathVertexMove') {
                 if (geo) {
                     var repairContent,
                         ctrl,

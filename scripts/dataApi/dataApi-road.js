@@ -95,6 +95,7 @@
         'dataApi/road/RdTollgateName.js',
         'dataApi/road/RdTollgatePassage.js',
         'dataApi/road/RdVariableSpeed.js',
+        'dataApi/road/RdMileagePile.js',
         'dataApi/road/RdVariableSpeedLinks.js',
         'dataApi/road/RdVoiceGuide.js',
         'dataApi/road/RdVoiceGuideDetail.js',

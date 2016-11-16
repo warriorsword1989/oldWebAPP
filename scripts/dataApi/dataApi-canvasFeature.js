@@ -55,6 +55,7 @@
         'RdElectronicEye.js',
         'RdTollgate.js',
         'RdVariableSpeed.js',
+        'RdMileagePile.js',
         'RdSe.js',
         'RdSpeedBump.js',
         'RdDirectRoute.js',
