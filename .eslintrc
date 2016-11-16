@@ -28,10 +28,12 @@
     "no-bitwise":0,
     // 允许使用一元操作符 ++ 和 --
     "no-plusplus":0,
+    // 允许var声明不在代码开始声明
+    "vars-on-top":0,
     // 允许标识符中含有下划线
     "no-underscore-dangle": 0,
-    // 允许一个var声明多个变量
-    "one-var": [2, { "var": "always" }],
+    // 强制函数中的变量要么一起声明要么分开声明
+    "one-var": [2, { "initialized": "never" }],
     // 允许对 function 的参数进行重新赋值
     "no-param-reassign": 0
   }

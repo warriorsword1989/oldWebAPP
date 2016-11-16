@@ -38,8 +38,8 @@ fastmap.mapApi.symbol.CirclePointSymbol = L.Class.extend({
     },
 
     getTranslate: function () {
-        var translates = [],
-            matrix;
+        var translates = [];
+        var matrix;
         matrix = new fastmap.mapApi.symbol.Matrix();
         translates.push(matrix.makeTranslate(this.offsetX, this.offsetY));
 
