@@ -62,8 +62,12 @@ fastmap.mapApi.symbol.Point = L.Class.extend({
     crossMatrix: function (m) {
         var tmpVec = [this.x, this.y, 1];
         var newVec = new fastmap.mapApi.symbol.Point(0, 0);
-        newVec.x = tmpVec[0] * m.data[0][0] + tmpVec[1] * m.data[1][0] + tmpVec[2] * m.data[2][0];
-        newVec.y = tmpVec[0] * m.data[0][1] + tmpVec[1] * m.data[1][1] + tmpVec[2] * m.data[2][1];
+        newVec.x = (tmpVec[0] * m.data[0][0]) +
+                   (tmpVec[1] * m.data[1][0]) +
+                   (tmpVec[2] * m.data[2][0]);
+        newVec.y = (tmpVec[0] * m.data[0][1]) +
+                   (tmpVec[1] * m.data[1][1]) +
+                   (tmpVec[2] * m.data[2][1]);
 
         return newVec;
     },
