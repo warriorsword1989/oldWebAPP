@@ -83,7 +83,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
         $scope.tollGateData.names = [];
         for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
             for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
-                $scope.tollGateData.names.push($scope.nameGroup[i][j]);
+                $scope.tollGateData.names.unshift($scope.nameGroup[i][j]);
             }
         }
     };
@@ -124,7 +124,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 }
                 $scope.nameGroup.push(tempArr);
             }
-	        console.log($scope.nameGroup)
+	        // console.log($scope.nameGroup)
 //			for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){
 //				var tempArr = [];
 //				for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
@@ -144,7 +144,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
         dsEdit.getByPid(parseInt($scope.tollGateData.pid), 'RDTOLLGATE').then(function (data) {
             if (data) {
                 objCtrl.setCurrentObject('RDTOLLGATE', data);
-                $scope.initializeData();
+	            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             }
         });
     };
@@ -319,7 +319,9 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             if ($scope.tollGateData.names.length > 0) {
                 maxNameGroupId = Utils.getArrMax($scope.tollGateData.names, 'nameGroupid');
             }
-            objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({ nameGroupid: maxNameGroupId + 1 }));
+            objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({
+	            nameGroupid: maxNameGroupId + 1
+            }));
             initNameInfo();
         } else if (objCtrl.data.passages.length < 32) {
             if ($scope.tollGateData.type == 1 || $scope.tollGateData.type == 8 || $scope.tollGateData.type == 9 || $scope.tollGateData.type == 10) {
@@ -341,13 +343,6 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 if ($scope.nameGroup[i]) {
                     for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
                         if ($scope.nameGroup[i][j] === item) {
-                            if (item.nameId != 0) {
-                                var tempDel = {
-                                    rowId: item.rowId,
-                                    objStatus: 'DELETE'
-                                };
-                                $scope.deleteNames.push(tempDel);
-                            }
                             if ($scope.nameGroup[i].length == 1) {
                                 $scope.nameGroup.splice(i, 1);
                                 for (var n = 0, nu = $scope.nameGroup.length; n < nu; n++) {
@@ -506,12 +501,12 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             swal('操作成功', '属性值没有变化！', 'success');
             return;
         }
-        objCtrl.changedProperty.names = objCtrl.data.names.concat($scope.deleteNames);
+        // objCtrl.changedProperty.names = objCtrl.data.names.concat($scope.deleteNames);
         var param = {
             command: 'UPDATE',
             type: 'RDTOLLGATE',
             dbId: App.Temp.dbId,
-            data: $scope.beforeSave(objCtrl.changedProperty)
+            data: objCtrl.changedProperty
         };
         dsEdit.save(param).then(function (data) {
             if (data) {
@@ -525,7 +520,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 relationData.redraw();
                 $('body .carTypeTip:last').hide();
                 $scope.$emit('SWITCHCONTAINERSTATE', {

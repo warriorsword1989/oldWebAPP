@@ -9,7 +9,7 @@ angular.module('fastmap.uikit').filter('langCodeFilter', function () {
 				ret.push(origin[p]);
 			}
 		}
-		if(selectedLangcode.indexOf('CHT') >= 0) {
+		/*if(selectedLangcode.indexOf('CHT') >= 0) {
 			for (var i in ret) {
 				if(ret[i].id == 'CHI') {
 					delete ret[i];
@@ -21,7 +21,7 @@ angular.module('fastmap.uikit').filter('langCodeFilter', function () {
 					delete ret[i];
 				}
 			}
-		}
+		}*/
 		return ret;
 	};
 });

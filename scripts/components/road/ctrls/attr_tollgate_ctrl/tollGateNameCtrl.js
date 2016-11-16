@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/8/10.
  */
 
-angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta', function ($scope, dsEdit, dsMeta) {
+angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta', '$timeout', function ($scope, dsEdit, dsMeta, $timeout) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.tollGateNames = objCtrl.namesInfos;
     $scope.selectedLangcodeArr = [];
@@ -31,18 +31,30 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
     };
 	// 增加名称信息
     $scope.addNameInfo = function () {
-        for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+	    getSelectedLangcode();
+	    for (var i=0; i<$scope.langCodeOptions.length; i++) {
+		    var flag = false;
+		    if($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
+			    var langCodeTemp = '';
+			    if(($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
+				    /*if($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT') {
+					    break;
+				    }*/
+			    } else {
+				    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
+				    break;
+			    }
+			    // $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
+		    }
+	    }
+        /*for (var i = 0; i < $scope.langCodeOptions.length; i++) {
             for (var j = 0; j < $scope.tollGateNames.length; j++) {
                 var flag = false;
                 if ($scope.langCodeOptions[i].id == $scope.tollGateNames[j].langCode) {
                     break;
                 }
                 if ($scope.langCodeOptions[i].id != $scope.tollGateNames[j].langCode && j == $scope.tollGateNames.length - 1) {
-	                /*if($scope.tollGateNames[j].langCode == 'CHI') {
-		                $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i+1].id }));
-	                } else {*/
-		                $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
-	                // }
+	                $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
                     flag = true;
                     break;
                 }
@@ -50,14 +62,40 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
             if (flag) {
                 break;
             }
-        }
+        }*/
 	    $scope.refreshNameLangCode();
 //		$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.tollGateNames[0].nameGroupid}));
     };
 	// 代码语言字段切换时，判断语言不能重复
-    $scope.langCodeChange = function (event, obj) {
-        getSelectedLangcode();
+    $scope.langCodeChange = function (langCode) {
+	    //如果当前所选既不是简体也不是繁体，则控制不允许选择简繁体
+	    getSelectedLangcode();
+	    if(langCode != 'CHI' && langCode != 'CHT') {
+		    if ($scope.selectedLangcodeArr.indexOf('CHI') === -1) {
+			    $scope.selectedLangcodeArr.push('CHI');
+		    }
+		    if ($scope.selectedLangcodeArr.indexOf('CHT') === -1) {
+			    $scope.selectedLangcodeArr.push('CHT');
+		    }
+	    } else if (langCode == 'CHI') { //如果是简体中文或繁体中文其他语言不可用
+		    $scope.selectedLangcodeArr = [];
+		    for (var i=0; i<$scope.langCodeOptions.length; i++) {
+			    if($scope.langCodeOptions[i].id != 'CHT') {
+				    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
+			    }
+		    }
+	    } else if (langCode == 'CHT') {
+		    $scope.selectedLangcodeArr = [];
+		    for (var i=0; i<$scope.langCodeOptions.length; i++) {
+			    if($scope.langCodeOptions[i].id != 'CHI') {
+				    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
+			    }
+		    }
+	    }
 	    $scope.refreshNameLangCode();
+	    $timeout(function() {
+		    $scope.$apply();
+	    });
     };
     //重新排列名称信息
 	$scope.refreshNameLangCode = function () {
