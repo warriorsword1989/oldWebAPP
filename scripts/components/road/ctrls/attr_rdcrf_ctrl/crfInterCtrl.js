@@ -33,7 +33,7 @@ rdSlopeApp.controller('crfInterCtrl', ['$scope', 'dsEdit', function ($scope, dsE
             highLightFeatures.push({
                 id: points[i].nodePid.toString(),
                 layerid: 'rdLink',
-                type: 'rdnode',
+                type: 'node',
                 style: {
                     color: '#0066CC'
                 }

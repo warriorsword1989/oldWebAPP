@@ -90,7 +90,7 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
                 } else if (type == 'RDNODE') {
                     highRenderCtrl.highLightFeatures.push({
                         id: data.pid.toString(),
-                        layerid: 'rdNode',
+                        layerid: 'rdLink',
                         type: 'node',
                         style: {}
                     });

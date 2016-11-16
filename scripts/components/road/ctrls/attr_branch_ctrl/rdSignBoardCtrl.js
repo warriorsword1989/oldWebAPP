@@ -229,7 +229,7 @@ namesOfBranch.controller('SignBoardOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.diverObj.nodePid.toString(),
                 layerid: 'rdLink',
-                type: 'rdnode',
+                type: 'node',
                 style: { color: 'yellow' }
             });
             // 高亮分歧图标;
