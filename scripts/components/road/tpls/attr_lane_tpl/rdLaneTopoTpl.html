@@ -128,7 +128,7 @@
                                                 <li>
                                                     <label style="width: 30%">处理标志：</label>
                                                     <div class="inline" style="width: 70%">
-                                                        <select ng-model="laneDetail.processFlag" ng-options="value.id as value.label for value in processFlagOption">
+                                                        <select ng-model="laneDetail.processFlag" ng-options="value.id as value.label for value in processFlagOption" ng-disabled="showPanel">
                                                             <option>--</option>
                                                         </select>
                                                     </div>
@@ -136,7 +136,7 @@
                                                 <li>
                                                     <label style="width: 30%">是否借道：</label>
                                                     <div class="inline" style="width: 70%">
-                                                        <select ng-model="laneDetail.throughTurn" ng-options="value.id as value.label for value in throughTurnOption">
+                                                        <select ng-model="laneDetail.throughTurn" ng-options="value.id as value.label for value in throughTurnOption" ng-disabled="showPanel">
                                                             <option>--</option>
                                                         </select>
                                                     </div>
@@ -162,7 +162,7 @@
                                                     <!--</div>-->
                                                 <!--</li>-->
 
-                                                <li class="list-group-item">
+                                                <li class="list-group-item" ng-show="!showPanel">
                                                     <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{laneDetail.timeDomain}}' style="width:100%;padding: 5px;"></div>
                                                 </li>
                                             </ul>
