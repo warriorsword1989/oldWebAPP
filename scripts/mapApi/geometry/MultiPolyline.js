@@ -48,15 +48,15 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
      * @return {Array} 几何对象集合
      */
     split: function (geometry, options) {
-        var results = null;
-        var mutual = options && options.mutual;
-        var splits,
+        var results = null,
+            mutual = options && options.mutual,
+            splits,
             sourceLine,
             sourceLines,
             sourceSplit,
-            targetSplit;
-        var sourceParts = [];
-        var targetParts = [geometry];
+            targetSplit,
+            sourceParts = [],
+            targetParts = [geometry];
         for (var i = 0, len = this.components.length; i < len; ++i) {
             sourceLine = this.components[i];
             sourceSplit = false;
@@ -132,9 +132,9 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
      * @return {Array} 几何对象集合
      */
     splitWith: function (geometry, options) {
-        var results = null;
-        var mutual = options && options.mutual;
-        var splits,
+        var results = null,
+            mutual = options && options.mutual,
+            splits,
             targetLine,
             sourceLines,
             sourceSplit,
@@ -274,8 +274,8 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
      * @returns {L.MultiPolyline}
      */
     getSimplifiedGeometryInternal: function (squaredTolerance) {
-        var simplifiedFlatCoordinates = [];
-        var simplifiedMultiLineString = new fastmap.mapApi.MultiPolyline(null);
+        var simplifiedFlatCoordinates = [],
+            simplifiedMultiLineString = new fastmap.mapApi.MultiPolyline(null);
         return simplifiedMultiLineString;
     }
 });

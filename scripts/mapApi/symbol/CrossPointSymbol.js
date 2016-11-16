@@ -43,8 +43,9 @@ fastmap.mapApi.symbol.CrossPointSymbol = L.Class.extend({
     },
 
     getTranslate: function () {
-        var translates = [];
-        var matrix = new fastmap.mapApi.symbol.Matrix();
+        var translates = [],
+            matrix;
+        matrix = new fastmap.mapApi.symbol.Matrix();
         translates.push(matrix.makeTranslate(-this.geometry.x, -this.geometry.y));
         translates.push(matrix.makeRotate(this.angle));
         translates.push(matrix.makeTranslate(this.offsetX, this.offsetY));
@@ -54,7 +55,8 @@ fastmap.mapApi.symbol.CrossPointSymbol = L.Class.extend({
     },
 
     transform: function (geometry) {
-        for (var i = 0; i < this.translate.length; ++i) {
+        var i;
+        for (i = 0; i < this.translate.length; ++i) {
             geometry = geometry.crossMatrix(this.translate[i]);
         }
 
@@ -62,12 +64,17 @@ fastmap.mapApi.symbol.CrossPointSymbol = L.Class.extend({
     },
 
     drawSquare: function (ctx) {
+        var crossGeometry,
+            i,
+            j,
+            k,
+            geometry;
         ctx.strokeStyle = this.color;
         ctx.lineWidth = this.width;
 
-        var crossGeometry = this.getCrossGeometry();
+        crossGeometry = this.getCrossGeometry();
 
-        for (var i = 0; i < crossGeometry.coordinates.length; ++i) {
+        for (i = 0; i < crossGeometry.coordinates.length; ++i) {
             crossGeometry.coordinates[i] = this.transform(crossGeometry.coordinates[i]);
         }
 
@@ -82,16 +89,16 @@ fastmap.mapApi.symbol.CrossPointSymbol = L.Class.extend({
             ctx.strokeStyle = this.outLineColor;
             ctx.lineWidth = this.outLineWidth;
 
-            var geometry = this.getSquareGeometry();
+            geometry = this.getSquareGeometry();
 
-            for (var i = 0; i < geometry.coordinates.length; ++i) {
-                geometry.coordinates[i] = this.transform(geometry.coordinates[i]);
+            for (j = 0; j < geometry.coordinates.length; ++j) {
+                geometry.coordinates[j] = this.transform(geometry.coordinates[j]);
             }
 
             ctx.beginPath();
             ctx.moveTo(geometry.coordinates[0].x, geometry.coordinates[0].y);
-            for (var i = 1; i < geometry.coordinates.length; ++i) {
-                ctx.lineTo(geometry.coordinates[i].x, geometry.coordinates[i].y);
+            for (k = 1; k < geometry.coordinates.length; ++k) {
+                ctx.lineTo(geometry.coordinates[k].x, geometry.coordinates[k].y);
             }
             ctx.stroke();
         }
@@ -99,21 +106,30 @@ fastmap.mapApi.symbol.CrossPointSymbol = L.Class.extend({
 
     getCrossGeometry: function () {
         var crossGeometry = new fastmap.mapApi.symbol.LineString();
-        crossGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y));
-        crossGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y));
-        crossGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x, this.geometry.y - this.size));
-        crossGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x, this.geometry.y + this.size));
+        crossGeometry.coordinates.push(
+          new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y));
+        crossGeometry.coordinates.push(
+          new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y));
+        crossGeometry.coordinates.push(
+          new fastmap.mapApi.symbol.Point(this.geometry.x, this.geometry.y - this.size));
+        crossGeometry.coordinates.push(
+          new fastmap.mapApi.symbol.Point(this.geometry.x, this.geometry.y + this.size));
 
         return crossGeometry;
     },
 
     getSquareGeometry: function () {
         var squareGeometry = new fastmap.mapApi.symbol.LineString();
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y - this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y - this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y + this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y + this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y - this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x - this.size, this.geometry.y - this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x + this.size, this.geometry.y - this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x + this.size, this.geometry.y + this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x - this.size, this.geometry.y + this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x - this.size, this.geometry.y - this.size));
 
         return squareGeometry;
     }
