@@ -38,7 +38,11 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
                     break;
                 }
                 if ($scope.langCodeOptions[i].id != $scope.tollGateNames[j].langCode && j == $scope.tollGateNames.length - 1) {
-                    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
+	                /*if($scope.tollGateNames[j].langCode == 'CHI') {
+		                $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i+1].id }));
+	                } else {*/
+		                $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
+	                // }
                     flag = true;
                     break;
                 }
@@ -47,12 +51,20 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
                 break;
             }
         }
+	    $scope.refreshNameLangCode();
 //		$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.tollGateNames[0].nameGroupid}));
     };
 	// 代码语言字段切换时，判断语言不能重复
     $scope.langCodeChange = function (event, obj) {
         getSelectedLangcode();
+	    $scope.refreshNameLangCode();
     };
+    //重新排列名称信息
+	$scope.refreshNameLangCode = function () {
+		$scope.tollGateNames.sort(function( a, b) {
+			return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
+		});
+	};
     $scope.langCodeOptions = [
 		{ id: 'CHI', label: '简体中文' },
 		{ id: 'CHT', label: '繁体中文' },
@@ -87,6 +99,41 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
 		{ id: 'UKR', label: '乌克兰语' },
 		{ id: 'SCR', label: '克罗地亚语' }
     ];
+	//语言代码对应关系
+	$scope.langCodeRelation = {
+		CHI: 1,
+		CHT: 2,
+		ENG: 3,
+		POR: 4,
+		ARA: 5,
+		BUL: 6,
+		CZE: 7,
+		DAN: 8,
+		DUT: 9,
+		EST: 10,
+		FIN: 11,
+		FRE: 12,
+		GER: 13,
+		HIN: 14,
+		HUN: 15,
+		ICE: 16,
+		IND: 17,
+		ITA: 18,
+		JPN: 19,
+		KOR: 20,
+		LIT: 21,
+		NOR: 22,
+		POL: 23,
+		RUM: 24,
+		RUS: 25,
+		SLO: 26,
+		SPA: 27,
+		SWE: 28,
+		THA: 29,
+		TUR: 30,
+		UKR: 31,
+		SCR: 32
+	};
     $scope.$on('refreshTollgateName', function (data) {
         $scope.tollGateNames = objCtrl.namesInfos;
     });

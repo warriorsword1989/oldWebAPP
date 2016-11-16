@@ -3,7 +3,7 @@
         <div class="add-icon" ng-click="addNameInfo();">
           <i class="glyphicon glyphicon-plus-sign"></i>
         </div>
-        <div class="content" ng-repeat="info in tollGateNames | orderBy: 'nameId'">
+        <div class="content" ng-repeat="info in tollGateNames | orderBy: 'info.langCode'">
             <form>
                 <ul class="fm-ul fm-ul-form">
                     <li>
