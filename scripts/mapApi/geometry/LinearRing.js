@@ -14,7 +14,7 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
      * @property type
      * @type String
      */
-    type: "LinearRing",
+    type: 'LinearRing',
 
     /**
      * 构造函数
@@ -38,7 +38,7 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
     addComponent: function (point, index) {
         var added = false;
 
-        //remove last point
+        // remove last point
         var lastPoint = this.components.pop();
 
         // given an index, add the point
@@ -48,7 +48,7 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
                 arguments);
         }
 
-        //append copy of first point
+        // append copy of first point
         var firstPoint = this.components[0];
         fastmap.mapApi.Collection.prototype.addComponent.apply(this,
             [firstPoint]);
@@ -64,13 +64,13 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
     removeComponent: function (point) {
         var removed = this.components && (this.components.length > 3);
         if (removed) {
-            //remove last point
+            // remove last point
             this.components.pop();
 
-            //remove our point
+            // remove our point
             fastmap.mapApi.Collection.prototype.removeComponent.apply(this,
                 arguments);
-            //append copy of first point
+            // append copy of first point
             var firstPoint = this.components[0];
             fastmap.mapApi.Collection.prototype.addComponent.apply(this,
                 [firstPoint]);
@@ -217,15 +217,22 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
         }
 
         var numSeg = this.components.length - 1;
-        var start, end, x1, y1, x2, y2, cx, cy;
+        var start,
+            end,
+            x1,
+            y1,
+            x2,
+            y2,
+            cx,
+            cy;
         var crosses = 0;
         for (var i = 0; i < numSeg; ++i) {
             start = this.components[i];
-            x1 = this.limitSigDigs(start.x?start.x:start[0], digs);
-            y1 = this.limitSigDigs(start.y?start.y:start[1], digs);
+            x1 = this.limitSigDigs(start.x ? start.x : start[0], digs);
+            y1 = this.limitSigDigs(start.y ? start.y : start[1], digs);
             end = this.components[i + 1];
-            x2 = this.limitSigDigs(end.x?end.x:end[0], digs);
-            y2 = this.limitSigDigs(end.y?end.y:end[1], digs);
+            x2 = this.limitSigDigs(end.x ? end.x : end[0], digs);
+            y2 = this.limitSigDigs(end.y ? end.y : end[1], digs);
 
             /**
              * The following conditions enforce five edge-crossing rules:
@@ -291,11 +298,11 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
      */
     intersects: function (geometry) {
         var intersect = false;
-        if (geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+        if (geometry.CLASS_NAME == 'OpenLayers.Geometry.Point') {
             intersect = this.containsPoint(geometry);
-        } else if (geometry.CLASS_NAME == "OpenLayers.Geometry.LineString") {
+        } else if (geometry.CLASS_NAME == 'OpenLayers.Geometry.LineString') {
             intersect = geometry.intersects(this);
-        } else if (geometry.CLASS_NAME == "OpenLayers.Geometry.LinearRing") {
+        } else if (geometry.CLASS_NAME == 'OpenLayers.Geometry.LinearRing') {
             intersect = OpenLayers.Geometry.LineString.prototype.intersects.apply(
                 this, [geometry]
             );
@@ -318,7 +325,7 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
     getVertices: function (nodes) {
         return (nodes === true) ? [] : this.components.slice(0, this.components.length - 1);
     }
-})
+});
 fastmap.mapApi.linearRing = function (coordiates, options) {
     return new fastmap.mapApi.LinearRing(coordiates, options);
 };

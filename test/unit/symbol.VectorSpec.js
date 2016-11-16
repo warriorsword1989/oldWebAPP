@@ -3,9 +3,7 @@
  */
 
 define(['symbol.Vector'], function () {
-
     describe('symbol.Vector类', function () {
-
         var vector1;
         var vector2;
 

@@ -3,7 +3,7 @@
  * Class EventController
  */
 
-fastmap.uikit.EventController=(function() {
+fastmap.uikit.EventController = (function () {
     var instantiated;
     var eventsKey = '_leaflet_events';
     function init(options) {
@@ -12,15 +12,22 @@ fastmap.uikit.EventController=(function() {
              * 事件管理器
              * @property includes
              */
-            includes: [L.Mixin.Events,{
-                addEventListener: function (types, fn, context) { // (String, Function[, Object]) or (Object[, Object])
+            includes: [L.Mixin.Events, {
+                addEventListener: function (types, fn, context) {
+ // (String, Function[, Object]) or (Object[, Object])
 
                     // types can be a map of types/handlers
                     if (L.Util.invokeEach(types, this.addEventListener, this, fn, context)) { return this; }
 
-                    var events = this['_leaflet_events'] = this['_leaflet_events'] || {},
+                    var events = this._leaflet_events = this._leaflet_events || {},
                         contextId = context && context !== this && L.stamp(context),
-                        i, len, event, type, indexKey, indexLenKey, typeIndex;
+                        i,
+                        len,
+                        event,
+                        type,
+                        indexKey,
+                        indexLenKey,
+                        typeIndex;
 
                     // types can be a string of space-separated words
                     types = L.Util.splitWords(types);
@@ -49,15 +56,13 @@ fastmap.uikit.EventController=(function() {
                             }
 
                             typeIndex[contextId].push(event);
-
-
                         } else {
                             events[type] = events[type] || [];
                             events[type].push(event);
                         }
 
 
-                        if( !this.eventTypesMap[type]){
+                        if (!this.eventTypesMap[type]) {
                             this.eventTypesMap[type] = [];
                         }
                         this.eventTypesMap[type].push(fn);
@@ -65,7 +70,8 @@ fastmap.uikit.EventController=(function() {
 
                     return this;
                 },
-                removeEventListener: function (types, fn, context) { // ([String, Function, Object]) or (Object[, Object])
+                removeEventListener: function (types, fn, context) {
+ // ([String, Function, Object]) or (Object[, Object])
 
                     if (!this[eventsKey]) {
                         return this;
@@ -79,7 +85,15 @@ fastmap.uikit.EventController=(function() {
 
                     var events = this[eventsKey],
                         contextId = context && context !== this && L.stamp(context),
-                        i, len, type, listeners, j, indexKey, indexLenKey, typeIndex, removed;
+                        i,
+                        len,
+                        type,
+                        listeners,
+                        j,
+                        indexKey,
+                        indexLenKey,
+                        typeIndex,
+                        removed;
 
                     types = L.Util.splitWords(types);
 
@@ -96,7 +110,6 @@ fastmap.uikit.EventController=(function() {
                             delete events[indexKey];
                             delete events[indexLenKey];
                             delete eventTypesMap[type];
-
                         } else {
                             listeners = contextId && typeIndex ? typeIndex[contextId] : events[type];
 
@@ -116,12 +129,11 @@ fastmap.uikit.EventController=(function() {
                                 }
                             }
 
-                            for (var i= 0,len =this.eventTypesMap[type].length;i<len;i++){
-                                if(this.eventTypesMap[type][i] === fn){
-                                    this.eventTypesMap[type].splice(j,1);
+                            for (var i = 0, len = this.eventTypesMap[type].length; i < len; i++) {
+                                if (this.eventTypesMap[type][i] === fn) {
+                                    this.eventTypesMap[type].splice(j, 1);
                                 }
                             }
-
                         }
                     }
 
@@ -129,7 +141,7 @@ fastmap.uikit.EventController=(function() {
                 },
                 clearAllEventListeners: function () {
                     // delete this[eventsKey];
-                    this.eventTypesMap={};
+                    this.eventTypesMap = {};
                     return this;
                 }
             }],
@@ -138,7 +150,7 @@ fastmap.uikit.EventController=(function() {
             options: {
             },
 
-            /***
+            /** *
              *
              * @param {Object}options
              */
@@ -154,11 +166,11 @@ fastmap.uikit.EventController=(function() {
         });
         return new eventController(options);
     }
-    return function(options) {
+    return function (options) {
         if (!instantiated) {
             instantiated = init(options);
         }
         return instantiated;
-    }
-})();
+    };
+}());
 

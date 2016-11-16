@@ -6,25 +6,25 @@
 fastmap.dataApi.RdSpeedBump = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDSPEEDBUMP";
+        this.geoLiveType = 'RDSPEEDBUMP';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.bumpPid = data["bumpPid"] || "";
-        this.nodePid = data["nodePid"];
-        this.linkPid = data["linkPid"];
-        this.pid = data["pid"];
-        this.memo = data["memo"] || null;
-        this.reserved = data["reserved"] || null;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || null;
+    setAttributeData: function (data) {
+        this.bumpPid = data.bumpPid || '';
+        this.nodePid = data.nodePid;
+        this.linkPid = data.linkPid;
+        this.pid = data.pid;
+        this.memo = data.memo || null;
+        this.reserved = data.reserved || null;
+        this.uRecord = data.uRecord || 0;
+        this.uFields = data.uFields || null;
     },
 
     /**
@@ -33,17 +33,17 @@ fastmap.dataApi.RdSpeedBump = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["bumpPid"] = this.bumpPid;
-        data["nodePid"] = this.nodePid;
-        data["linkPid"]  = this.linkPid;
-        data["memo"] = this.memo;
-        data["pid"] = this.pid;
-        data["reserved"] = this.reserved;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
-        data["geoLiveType"] = this.geoLiveType;
+        data.bumpPid = this.bumpPid;
+        data.nodePid = this.nodePid;
+        data.linkPid = this.linkPid;
+        data.memo = this.memo;
+        data.pid = this.pid;
+        data.reserved = this.reserved;
+        data.uRecord = this.uRecord;
+        data.uFields = this.uFields;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -53,22 +53,22 @@ fastmap.dataApi.RdSpeedBump = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["bumpPid"] = this.bumpPid;
-        data["nodePid"] = this.nodePid;
-        data["linkPid"]  = this.linkPid;
-        data["memo"] = this.memo;
-        data["pid"] = this.pid;
-        data["reserved"] = this.reserved;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
-        data["geoLiveType"] = this.geoLiveType;
+        data.bumpPid = this.bumpPid;
+        data.nodePid = this.nodePid;
+        data.linkPid = this.linkPid;
+        data.memo = this.memo;
+        data.pid = this.pid;
+        data.reserved = this.reserved;
+        data.uRecord = this.uRecord;
+        data.uFields = this.uFields;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * RdSpeedBump初始化函数
  * @param id
  * @param options 其他可选参数
@@ -76,5 +76,5 @@ fastmap.dataApi.RdSpeedBump = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdSpeedBump = function (data, options) {
     return new fastmap.dataApi.RdSpeedBump(data, options);
-}
+};
 

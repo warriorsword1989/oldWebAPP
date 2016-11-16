@@ -9,27 +9,27 @@ fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
 	 */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "LCLINK";
+        this.geoLiveType = 'LCLINK';
         this.setAttributeData(data);
     },
     /*
      * 返回参数赋值
      */
-    setAttributeData:function(data){
-        this.pid = data["pid"];
-        this.sNodePid = data["sNodePid"];
-        this.eNodePid = data["eNodePid"];
-        this.geometry = data["geometry"];
-        this.length = data["length"] || 0;
+    setAttributeData: function (data) {
+        this.pid = data.pid;
+        this.sNodePid = data.sNodePid;
+        this.eNodePid = data.eNodePid;
+        this.geometry = data.geometry;
+        this.length = data.length || 0;
         this.kinds = [];
-        if (data["kinds"].length) {
-            for (var i = 0, len = data["kinds"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.lcLinkKind(data["kinds"][i]));
+        if (data.kinds.length) {
+            for (var i = 0, len = data.kinds.length; i < len; i++) {
+                this.kinds.push(fastmap.dataApi.lcLinkKind(data.kinds[i]));
             }
         }
-        this.editFlag = data["editFlag"] || 1;
+        this.editFlag = data.editFlag || 1;
         var str = [];
-        for (var i = 0; i<data.meshes.length;i++) {
+        for (var i = 0; i < data.meshes.length; i++) {
             str.push(data.meshes[i].meshId);
         }
         this.meshId = str.join(',');
@@ -40,40 +40,39 @@ fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["sNodePid"] = this.sNodePid;
-        data["eNodePid"] = this.eNodePid;
-        data["geometry"] = this.geometry;
-        data["length"] = this.length;
-        data["geoLiveType"] = this.geoLiveType;
-        data["kinds"] = [];
+        data.pid = this.pid;
+        data.sNodePid = this.sNodePid;
+        data.eNodePid = this.eNodePid;
+        data.geometry = this.geometry;
+        data.length = this.length;
+        data.geoLiveType = this.geoLiveType;
+        data.kinds = [];
         if (this.kinds) {
             for (var i = 0, len = this.kinds.length; i < len; i++) {
-                data["kinds"].push(this.kinds[i].getIntegrate());
+                data.kinds.push(this.kinds[i].getIntegrate());
             }
         }
-        data["editFlag"] = this.editFlag;
-        data["meshId"] = this.meshId;
+        data.editFlag = this.editFlag;
+        data.meshId = this.meshId;
         return data;
-
     },
 
     getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["sNodePid"] = this.sNodePid;
-        data["eNodePid"] = this.eNodePid;
-        data["geometry"] = this.geometry;
-        data["length"] = this.length;
-        data["geoLiveType"] = this.geoLiveType;
-        data["kinds"] = [];
+        data.pid = this.pid;
+        data.sNodePid = this.sNodePid;
+        data.eNodePid = this.eNodePid;
+        data.geometry = this.geometry;
+        data.length = this.length;
+        data.geoLiveType = this.geoLiveType;
+        data.kinds = [];
         if (this.kinds) {
             for (var i = 0, len = this.kinds.length; i < len; i++) {
-                data["kinds"].push(this.kinds[i].getIntegrate());
+                data.kinds.push(this.kinds[i].getIntegrate());
             }
         }
-        data["editFlag"] = this.editFlag;
-        data["meshId"] = this.meshId;
+        data.editFlag = this.editFlag;
+        data.meshId = this.meshId;
         return data;
     }
 

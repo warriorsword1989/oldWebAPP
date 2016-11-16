@@ -5,7 +5,7 @@
  */
 fastmap.mapApi.Snap = L.Handler.extend({
 
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -22,19 +22,19 @@ fastmap.mapApi.Snap = L.Handler.extend({
         this.snapNode = this.options.snapNode == true ? this.options.snapNode : false;
         this.snapLine = this.options.snapLine == true ? this.options.snapLine : false;
         this.selectedSnap = this.options.selectedSnap == true ? this.options.selectedSnap : false;
-        //鼠标点位，按瓦片坐标计算
+        // 鼠标点位，按瓦片坐标计算
         this.point = null;
         this.selectedLink = null;
         this._guides = [];
         this.snaped = false;
     },
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
         this._map.on('mousemove', this.onMouseMove, this);
     },
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -44,9 +44,11 @@ fastmap.mapApi.Snap = L.Handler.extend({
     * 先加的优先捕捉
     * */
     addGuideLayer: function (layer) {
-        for (var i = 0, n = this._guides.length; i < n; i++)
-            if (L.stamp(layer) === L.stamp(this._guides[i]))
+        for (var i = 0, n = this._guides.length; i < n; i++) {
+            if (L.stamp(layer) === L.stamp(this._guides[i])) {
                 return;
+            }
+        }
         this._guides.push(layer);
     },
 
@@ -58,17 +60,17 @@ fastmap.mapApi.Snap = L.Handler.extend({
         this.selectedLink = link;
     },
     setSnapOptions: function (obj) {
-        if(obj.snapVertex){
+        if (obj.snapVertex) {
             this.snapVertex = obj.snapVertex;
         }
-        if(obj.snapNode){
+        if (obj.snapNode) {
             this.snapNode = obj.snapNode;
         }
-        if(obj.snapLine){
+        if (obj.snapLine) {
             this.snapLine = obj.snapLine;
         }
     },
-    getSnapOptions:function() {
+    getSnapOptions: function () {
         var obj = {};
         obj.snapVertex = this.snapVertex;
         obj.snapNode = this.snapNode;
@@ -84,25 +86,24 @@ fastmap.mapApi.Snap = L.Handler.extend({
         }
         var latlng = event.latlng;
         var pixels = this.transform.lonlat2Pixel(latlng.lng, latlng.lat, this._map.getZoom());
-        //根据鼠标点计算所在的瓦片坐标
+        // 根据鼠标点计算所在的瓦片坐标
         var tiles = this.transform.lonlat2Tile(latlng.lng, latlng.lat, this._map.getZoom());
         var tilePixcel = new fastmap.mapApi.Point(pixels[0] - tiles[0] * 256, pixels[1] - tiles[1] * 256);
         for (var layerindex in this._guides) {
-
-            //设置捕捉级别
-            if(this._map.getZoom() < this._guides[layerindex].showNodeLevel){
+            // 设置捕捉级别
+            if (this._map.getZoom() < this._guides[layerindex].showNodeLevel) {
                 return;
             }
             this.selectedId = this._guides[layerindex].selectedid;
             this.currentTileData = this._guides[layerindex].tiles[tiles[0] + ':' + tiles[1]];
-            if (this.currentTileData&&this.currentTileData.data) {
+            if (this.currentTileData && this.currentTileData.data) {
                 var closest = null;
                 closest = this.closeestSnap({
-                    tolerance:10,
-                    point:tilePixcel,
-                    data:this.currentTileData.data,
-                    candidateId:this._guides[layerindex].selectedid
-                })
+                    tolerance: 10,
+                    point: tilePixcel,
+                    data: this.currentTileData.data,
+                    candidateId: this._guides[layerindex].selectedid
+                });
                 if (closest) {
                     this.snaped = true;
                     this.properties = closest.properties;
@@ -110,10 +111,9 @@ fastmap.mapApi.Snap = L.Handler.extend({
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
-                    break;//增加break，多个捕捉层的时候要用到
-                }
-                else {
-                    //this.selectedVertex = closest.selectedVertexe;
+                    break;// 增加break，多个捕捉层的时候要用到
+                } else {
+                    // this.selectedVertex = closest.selectedVertexe;
                     this.snaped = false;
                 }
             }
@@ -126,31 +126,32 @@ fastmap.mapApi.Snap = L.Handler.extend({
         this.disable();
         this.addHooks();
     },
-    /***
+    /** *
      * 捕捉实现
      * @param options
      * @returns {*}
      */
-    closeestSnap:function(options){
-        //捕捉的阈值
-        var tolerance = typeof options.tolerance == 'number' ? options.tolerance : Infinity;
-        //鼠标在当前瓦片中的坐标
+    closeestSnap: function (options) {
+        // 捕捉的阈值
+        var tolerance = typeof options.tolerance === 'number' ? options.tolerance : Infinity;
+        // 鼠标在当前瓦片中的坐标
         var mousePoint = options.point;
-        //当前瓦片中缓存的数据
+        // 当前瓦片中缓存的数据
         var data = options.data;
-        //捕捉候选id
-        var candidateId = options.candidateId?options.candidateId:null;
+        // 捕捉候选id
+        var candidateId = options.candidateId ? options.candidateId : null;
 
-        var mindistline = Infinity, mindistvertex = Infinity, mindistnode = Infinity,
+        var mindistline = Infinity,
+            mindistvertex = Infinity,
+            mindistnode = Infinity,
             result = null,
             distaceResult = null,
             distance = Infinity;
         for (var i = 0, n = data.length; i < n; i++) {
-
             var geometry = null;
-            //根据几何类型判断计算距离的方法；点/线；如果用户将三种捕捉全部打开，则优先捕捉node，然后是vertex，最后是line
-            //捕捉线
-            if (data[i].geometry.type == "LineString") {
+            // 根据几何类型判断计算距离的方法；点/线；如果用户将三种捕捉全部打开，则优先捕捉node，然后是vertex，最后是line
+            // 捕捉线
+            if (data[i].geometry.type == 'LineString') {
                 if (this.snapLine) {
                     if (this.selectedSnap == true) {
                         if (data[i].properties.id == this.selectedId) {
@@ -170,7 +171,6 @@ fastmap.mapApi.Snap = L.Handler.extend({
                                 };
                             }
                         }
-
                     } else {
                         geometry = data[i].geometry.coordinates;
 
@@ -196,14 +196,14 @@ fastmap.mapApi.Snap = L.Handler.extend({
 
                             distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
                             if (distaceResult.distance < mindistvertex && (distaceResult.index > 0 && distaceResult.index < geometry.length - 1)) {
-                                mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]))
+                                mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]));
 
                                 result = {
                                     latlng: [distaceResult.x, distaceResult.y],
                                     distance: mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
                                     index: distaceResult.index,
                                     selectedVertexe: true
-                                }
+                                };
                             }
                         }
                     } else {
@@ -211,21 +211,19 @@ fastmap.mapApi.Snap = L.Handler.extend({
 
                         distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
                         if (distaceResult.distance < mindistvertex && (distaceResult.index > 0 && distaceResult.index < geometry.length - 1)) {
-                            mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]))
+                            mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]));
 
                             result = {
-                                latlng:[distaceResult.x, distaceResult.y],
-                                distance:mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
+                                latlng: [distaceResult.x, distaceResult.y],
+                                distance: mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
                                 index: distaceResult.index,
-                                selectedVertexe:true
-                            }
+                                selectedVertexe: true
+                            };
                         }
                     }
                 }
-
-
             }
-            if (data[i].geometry.type == "Point") {
+            if (data[i].geometry.type == 'Point') {
                 if (this.snapNode) {
                     geometry = data[i].geometry.coordinates;
                     distaceResult = mousePoint.distanceTo(new fastmap.mapApi.point(geometry[0], geometry[1]));
@@ -237,42 +235,40 @@ fastmap.mapApi.Snap = L.Handler.extend({
                             properties: data[i].properties,
                             index: -2
                         };
-
                     }
                 }
 
                // distaceResult = mousePoint.distanceTo(new fastmap.mapApi.point(geometry[0],geometry[1]));
-
             }
-
         }
-        if (!result || result.distance > tolerance)
+        if (!result || result.distance > tolerance) {
             return null;
+        }
 
         return result;
-
     },
 
-    /***
+    /** *
      * 计算点到线的最近距离
      * @param layer
      * @param p
      * @param vertices
      * @returns {*}
      */
-    closest: function ( layer, p, vertices) {
-        if (typeof layer.getLatLngs != 'function')
-
-        var latlngs = layer,
-            mindist = Infinity,
-            result = null,
-            i, n, distance;
+    closest: function (layer, p, vertices) {
+        if (typeof layer.getLatLngs !== 'function') {
+            var latlngs = layer,
+                mindist = Infinity,
+                result = null,
+                i,
+                n,
+                distance;
+        }
 
         // Lookup vertices
         if (vertices) {
             result = {};
             for (i = 0, n = latlngs.length; i < n; i++) {
-
                 if (i != 0 || i != n - 1) {
                     var ll = latlngs[i];
                     var point = new fastmap.mapApi.Point(ll[0], ll[1]);
@@ -286,7 +282,6 @@ fastmap.mapApi.Snap = L.Handler.extend({
                         result.index = i;
                     }
                 }
-
             }
             return result;
         }
@@ -297,11 +292,10 @@ fastmap.mapApi.Snap = L.Handler.extend({
 
         // Keep the closest point of all segments
         for (i = 0, n = latlngs.length; i < n - 1; i++) {
-
             var latlngA = latlngs[i],
                 latlngB = latlngs[i + 1];
 
-            var line = new fastmap.mapApi.LineString([new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1])])
+            var line = new fastmap.mapApi.LineString([new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1])]);
             distance = line.pointToSegmentDistance(p, new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1]));
 
             if (distance.distance <= mindist) {

@@ -63,8 +63,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
          */
         $scope.containsRdLink = function(data) {
             return data.filter(function(item) {
-                return item["type"] === "RDLINK";
-            }).length !== 0;
+                    return item["type"] === "RDLINK";
+                }).length !== 0;
         };
         /**
          * 数据中是否有rwLink
@@ -73,8 +73,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
          */
         $scope.containsRwLink = function(data) {
             return data.filter(function(item) {
-                return item["type"] === "RWLINK";
-            }).length !== 0;
+                    return item["type"] === "RWLINK";
+                }).length !== 0;
         };
         /**
          * 数据中是否有lcLink
@@ -83,8 +83,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
          */
         $scope.containsLcLink = function(data) {
             return data.filter(function(item) {
-                return item["type"] === "LCLINK";
-            }).length !== 0;
+                    return item["type"] === "LCLINK";
+                }).length !== 0;
         };
         /**
          * 计算角度
@@ -267,58 +267,58 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
          * 调整link层级高低
          */
         $scope.changeLevel = function() {
-                editLayer.drawGeometry = null;
-                map.currentTool.options.repeatMode = false;
-                shapeCtrl.stopEditing();
-                editLayer.bringToBack();
-                $(editLayer.options._div).unbind();
-                // $scope.changeBtnClass("");
-                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-                editLayer.clear();
-                $scope.$emit("SWITCHCONTAINERSTATE", {
-                    "attrContainerTpl": false
+            editLayer.drawGeometry = null;
+            map.currentTool.options.repeatMode = false;
+            shapeCtrl.stopEditing();
+            editLayer.bringToBack();
+            $(editLayer.options._div).unbind();
+            // $scope.changeBtnClass("");
+            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+            editLayer.clear();
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false
+            });
+            map._container.style.cursor = '';
+            if ($scope.containsRdLink($scope.jsonData.linkObjs)) {
+                map.currentTool = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: rdLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
                 });
-                map._container.style.cursor = '';
-                if ($scope.containsRdLink($scope.jsonData.linkObjs)) {
-                    map.currentTool = new fastmap.uikit.SelectPath({
-                        map: map,
-                        currentEditLayer: rdLink,
-                        linksFlag: true,
-                        shapeEditor: shapeCtrl
-                    });
-                    map.currentTool.enable();
-                }
-                if ($scope.containsRwLink($scope.jsonData.linkObjs)) {
-                    map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
-                        map: map,
-                        currentEditLayer: rwLink,
-                        linksFlag: true,
-                        shapeEditor: shapeCtrl
-                    });
-                    map.currentTool.rwEvent.enable();
-                }
-                if ($scope.containsLcLink($scope.jsonData.linkObjs)) {
-                    map.currentTool.lcEvent = new fastmap.uikit.SelectPath({
-                        map: map,
-                        currentEditLayer: lcLink,
-                        linksFlag: true,
-                        shapeEditor: shapeCtrl
-                    });
-                    map.currentTool.lcEvent.enable();
-                }
-                rdLink.options.selectType = 'link';
-                rdLink.options.editable = true;
-                eventController.off(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback)
-                eventController.on(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback)
+                map.currentTool.enable();
             }
-            /**
-             *  路口创建中的方法 根据node删除对象中的重复
-             * @param nodesArr
-             * @param linksArr
-             * @param nodes
-             * @returns {{link: Array, node: Array}}
-             */
+            if ($scope.containsRwLink($scope.jsonData.linkObjs)) {
+                map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: rwLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.rwEvent.enable();
+            }
+            if ($scope.containsLcLink($scope.jsonData.linkObjs)) {
+                map.currentTool.lcEvent = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: lcLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.lcEvent.enable();
+            }
+            rdLink.options.selectType = 'link';
+            rdLink.options.editable = true;
+            eventController.off(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback)
+            eventController.on(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback)
+        }
+        /**
+         *  路口创建中的方法 根据node删除对象中的重复
+         * @param nodesArr
+         * @param linksArr
+         * @param nodes
+         * @returns {{link: Array, node: Array}}
+         */
         $scope.minusArrByNode = function(nodesArr, linksArr, nodes) {
             var nodesObj = {},
                 linksObj = {};
@@ -1238,13 +1238,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { //进入线;
-                    	if(data.properties.kind == 9 && data.properties.form.indexOf("34")>-1 || data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf("20")>-1){
+                        if(data.properties.kind == 9 && data.properties.form.indexOf("34")>-1 || data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf("20")>-1){
 //                    		swal("提示","警示信息不能制作在九级辅路上","warning");
 //                    		return;
-                    		tooltipsCtrl.notify("九级辅路、10级路、步行街、人渡不能作为警示信息的进入线!",'error');
-                    		map.currentTool.selectedFeatures.pop();
-                    		return;
-                    	}
+                            tooltipsCtrl.notify("九级辅路、10级路、步行街、人渡不能作为警示信息的进入线!",'error');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -1693,21 +1693,21 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink); //添加自动吸附的图层
                 //获取退出线并高亮;
                 $scope.getOutLink = function(dataId) {
-                        $scope.directRoute.outLinkPid = parseInt(dataId);
-                        if (highLightFeatures.length === 3) {
-                            highLightFeatures.pop();
-                        }
-                        highRenderCtrl._cleanHighLight();
-                        highLightFeatures.push({
-                            id: $scope.directRoute.outLinkPid.toString(),
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {}
-                        });
-                        highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
+                    $scope.directRoute.outLinkPid = parseInt(dataId);
+                    if (highLightFeatures.length === 3) {
+                        highLightFeatures.pop();
                     }
-                    //选择分歧监听事件;
+                    highRenderCtrl._cleanHighLight();
+                    highLightFeatures.push({
+                        id: $scope.directRoute.outLinkPid.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {}
+                    });
+                    highRenderCtrl.drawHighlight();
+                    tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
+                }
+                //选择分歧监听事件;
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) {
                         //清除吸附的十字
@@ -2501,70 +2501,36 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     map.currentTool.snapHandler.addGuideLayer(rdnode);
                     // 过滤
                     $scope.unique = function(arr) {
-                            var result = [],
-                                hash = {};
-                            for (var i = 0, elem;
-                                (elem = arr[i]) != null; i++) {
-                                if (!hash[elem]) {
-                                    result.push(elem);
-                                    hash[elem] = true;
-                                }
+                        var result = [],
+                            hash = {};
+                        for (var i = 0, elem;
+                             (elem = arr[i]) != null; i++) {
+                            if (!hash[elem]) {
+                                result.push(elem);
+                                hash[elem] = true;
                             }
-                            return result;
                         }
-                        // 追踪高亮
+                        return result;
+                    }
+                    // 追踪高亮
                     $scope.getTrackLinks = function(laneInfo) {
-                            var param = {
-                                command: 'CREATE',
-                                dbId: 42,
-                                type: 'RDLINK',
-                                data: {
-                                    linkPid: laneInfo.inLinkPid,
-                                    nodePidDir: laneInfo.nodePid
-                                }
-                            };
-                            dsEdit.getByCondition(param).then(function(data) {
-                                $scope.linkArray = data.data;
-                                $scope.laneInfo.links = data.data;
-                                for (var i = 0, len = data.data.length; i < len; i++) {
-                                    // $scope.linkArray.push(data.data[i].pid);
-                                    if (i === 0) {
-                                        highLightFeatures.push({
-                                            id: data.data[i].pid.toString(),
-                                            layerid: 'rdLink',
-                                            type: 'line',
-                                            style: {
-                                                color: 'rgb(255, 0, 0)'
-                                            }
-                                        });
-                                    } else {
-                                        highLightFeatures.push({
-                                            id: data.data[i].pid.toString(),
-                                            layerid: 'rdLink',
-                                            type: 'line',
-                                            style: {
-                                                color: 'rgb(0, 245, 255)'
-                                            }
-                                        });
-                                    }
-                                }
-                                highRenderCtrl.drawHighlight();
-                            });
-                        }
-                        // link高亮
-                    $scope.linkHighLight = function() {
-                            for (var i = 0, len = $scope.linkArray.length; i < len; i++) {
-                                highLightFeatures.push({
-                                    id: $scope.laneInfo.nodePid.toString(),
-                                    layerid: 'rdLink',
-                                    type: 'rdnode',
-                                    style: {
-                                        color: 'yellow'
-                                    }
-                                });
-                                if (i == 0) {
+                        var param = {
+                            command: 'CREATE',
+                            dbId: 42,
+                            type: 'RDLINK',
+                            data: {
+                                linkPid: laneInfo.inLinkPid,
+                                nodePidDir: laneInfo.nodePid
+                            }
+                        };
+                        dsEdit.getByCondition(param).then(function(data) {
+                            $scope.linkArray = data.data;
+                            $scope.laneInfo.links = data.data;
+                            for (var i = 0, len = data.data.length; i < len; i++) {
+                                // $scope.linkArray.push(data.data[i].pid);
+                                if (i === 0) {
                                     highLightFeatures.push({
-                                        id: $scope.linkArray[i].pid.toString(),
+                                        id: data.data[i].pid.toString(),
                                         layerid: 'rdLink',
                                         type: 'line',
                                         style: {
@@ -2573,7 +2539,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     });
                                 } else {
                                     highLightFeatures.push({
-                                        id: $scope.linkArray[i].pid.toString(),
+                                        id: data.data[i].pid.toString(),
                                         layerid: 'rdLink',
                                         type: 'line',
                                         style: {
@@ -2582,37 +2548,71 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     });
                                 }
                             }
-                            highRenderCtrl.highLightFeatures = highLightFeatures;
                             highRenderCtrl.drawHighlight();
-                            for (var i = 0, len = $scope.linkArray.length; i < len; i++) {
-                                $scope.laneInfo.links.push($scope.linkArray[i].pid);
+                        });
+                    }
+                    // link高亮
+                    $scope.linkHighLight = function() {
+                        for (var i = 0, len = $scope.linkArray.length; i < len; i++) {
+                            highLightFeatures.push({
+                                id: $scope.laneInfo.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'rdnode',
+                                style: {
+                                    color: 'yellow'
+                                }
+                            });
+                            if (i == 0) {
+                                highLightFeatures.push({
+                                    id: $scope.linkArray[i].pid.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {
+                                        color: 'rgb(255, 0, 0)'
+                                    }
+                                });
+                            } else {
+                                highLightFeatures.push({
+                                    id: $scope.linkArray[i].pid.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {
+                                        color: 'rgb(0, 245, 255)'
+                                    }
+                                });
                             }
-                            $scope.laneInfo.links = $scope.unique($scope.laneInfo.links);
                         }
-                        // 反选link
+                        highRenderCtrl.highLightFeatures = highLightFeatures;
+                        highRenderCtrl.drawHighlight();
+                        for (var i = 0, len = $scope.linkArray.length; i < len; i++) {
+                            $scope.laneInfo.links.push($scope.linkArray[i].pid);
+                        }
+                        $scope.laneInfo.links = $scope.unique($scope.laneInfo.links);
+                    }
+                    // 反选link
                     $scope.chargeTrackLink = function(linkObj) {
-                            highRenderCtrl._cleanHighLight();
-                            highLightFeatures = [];
-                            for (var j = 0, le = $scope.linkArray.length; j < le; j++) {
-                                if ($scope.linkArray[j].pid == parseInt(linkObj.pid)) {
-                                    $scope.linkArray.splice(j, $scope.linkArray.length - j + 1);
-                                    $scope.linkHighLight();
-                                    return;
-                                } else {
-                                    if (j == $scope.linkArray.length - 1) {
-                                        if (
-                                            (parseInt(linkObj.direct) == 2 && ($scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.sNodePid))) || (parseInt(linkObj.direct) == 3 && ($scope.linkArray[$scope.linkArray.length - 1].sNodePid == parseInt(linkObj.eNodePid))) || (parseInt(linkObj.direct) == 1 && ($scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.sNodePid) ||
-                                                // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.eNodePid) ||
-                                                // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.sNodePid) ||
-                                                $scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.eNodePid)))) {
-                                            $scope.linkArray.push(linkObj);
-                                        }
+                        highRenderCtrl._cleanHighLight();
+                        highLightFeatures = [];
+                        for (var j = 0, le = $scope.linkArray.length; j < le; j++) {
+                            if ($scope.linkArray[j].pid == parseInt(linkObj.pid)) {
+                                $scope.linkArray.splice(j, $scope.linkArray.length - j + 1);
+                                $scope.linkHighLight();
+                                return;
+                            } else {
+                                if (j == $scope.linkArray.length - 1) {
+                                    if (
+                                        (parseInt(linkObj.direct) == 2 && ($scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.sNodePid))) || (parseInt(linkObj.direct) == 3 && ($scope.linkArray[$scope.linkArray.length - 1].sNodePid == parseInt(linkObj.eNodePid))) || (parseInt(linkObj.direct) == 1 && ($scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.sNodePid) ||
+                                            // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.eNodePid) ||
+                                            // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.sNodePid) ||
+                                        $scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.eNodePid)))) {
+                                        $scope.linkArray.push(linkObj);
                                     }
                                 }
                             }
-                            $scope.linkHighLight();
                         }
-                        // 格式化link
+                        $scope.linkHighLight();
+                    }
+                    // 格式化link
                     $scope.formatLink = function(link) {
                         var newLink = link;
                         for (var k in newLink) {
@@ -2902,8 +2902,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl.drawHighlight();
                         tooltipsCtrl.setCurrentTooltip("继续选退出线, 或者点击空格创建,或者按ESC键取消!");
                     }
-                        shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
-                        // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
+                    // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
                 });
 
                 // map.currentTool = new fastmap.uikit.SelectRelation({

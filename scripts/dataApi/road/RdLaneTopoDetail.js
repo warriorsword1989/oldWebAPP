@@ -6,32 +6,32 @@
 fastmap.dataApi.RdLaneTopoDetail = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDLANETOPODETAIL";
+        this.geoLiveType = 'RDLANETOPODETAIL';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.pid = data["pid"];//topoId
-        this.inLanePid = data["inLanePid"];
-        this.outLanePid = data["outLanePid"];
-        this.inLinkPid = data["inLinkPid"];
-        this.outLinkPid = data["outLinkPid"];
-        this.nodePid = data["nodePid"];
-        this.reachDir = data["reachDir"] || 0;
-        this.vehicle = data["vehicle"] || 0;
-        this.timeDomain = data["timeDomain"] || null;
-        this.processFlag = data["processFlag"] || 2;
-        this.throughTurn = data["throughTurn"] || 0;
+    setAttributeData: function (data) {
+        this.pid = data.pid;// topoId
+        this.inLanePid = data.inLanePid;
+        this.outLanePid = data.outLanePid;
+        this.inLinkPid = data.inLinkPid;
+        this.outLinkPid = data.outLinkPid;
+        this.nodePid = data.nodePid;
+        this.reachDir = data.reachDir || 0;
+        this.vehicle = data.vehicle || 0;
+        this.timeDomain = data.timeDomain || null;
+        this.processFlag = data.processFlag || 2;
+        this.throughTurn = data.throughTurn || 0;
         this.topoVias = [];
-        if(data["topoVias"] && data["topoVias"].length > 0){
-            for(var i=0;i<data["topoVias"].length;i++){
-                var topoVias = fastmap.dataApi.rdLaneTopoVia(data["topoVias"][i]);
+        if (data.topoVias && data.topoVias.length > 0) {
+            for (var i = 0; i < data.topoVias.length; i++) {
+                var topoVias = fastmap.dataApi.rdLaneTopoVia(data.topoVias[i]);
                 this.topoVias.push(topoVias);
             }
         }
@@ -43,24 +43,24 @@ fastmap.dataApi.RdLaneTopoDetail = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["inLanePid"] = this.inLanePid;
-        data["outLanePid"] = this.outLanePid;
-        data["inLinkPid"] = this.inLinkPid;
-        data["outLinkPid"] = this.outLinkPid;
-        data["nodePid"] = this.nodePid;
-        data["reachDir"]  = this.reachDir;
-        data["vehicle"]  = this.vehicle;
-        data["timeDomain"]  = this.timeDomain;
-        data["processFlag"]  = this.processFlag;
-        data["throughTurn"]  = this.throughTurn;
-        data["topoVias"] = [];
+        data.pid = this.pid;
+        data.inLanePid = this.inLanePid;
+        data.outLanePid = this.outLanePid;
+        data.inLinkPid = this.inLinkPid;
+        data.outLinkPid = this.outLinkPid;
+        data.nodePid = this.nodePid;
+        data.reachDir = this.reachDir;
+        data.vehicle = this.vehicle;
+        data.timeDomain = this.timeDomain;
+        data.processFlag = this.processFlag;
+        data.throughTurn = this.throughTurn;
+        data.topoVias = [];
         for (var i = 0; i < this.topoVias.length; i++) {
-            data["topoVias"].push(this.topoVias[i].getIntegrate());
+            data.topoVias.push(this.topoVias[i].getIntegrate());
         }
-        data["geoLiveType"] = this.geoLiveType;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -70,29 +70,29 @@ fastmap.dataApi.RdLaneTopoDetail = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["inLanePid"] = this.inLanePid;
-        data["outLanePid"] = this.outLanePid;
-        data["inLinkPid"] = this.inLinkPid;
-        data["outLinkPid"] = this.outLinkPid;
-        data["nodePid"] = this.nodePid;
-        data["reachDir"]  = this.reachDir;
-        data["vehicle"]  = this.vehicle;
-        data["timeDomain"]  = this.timeDomain;
-        data["processFlag"]  = this.processFlag;
-        data["throughTurn"]  = this.throughTurn;
-        data["topoVias"] = [];
+        data.pid = this.pid;
+        data.inLanePid = this.inLanePid;
+        data.outLanePid = this.outLanePid;
+        data.inLinkPid = this.inLinkPid;
+        data.outLinkPid = this.outLinkPid;
+        data.nodePid = this.nodePid;
+        data.reachDir = this.reachDir;
+        data.vehicle = this.vehicle;
+        data.timeDomain = this.timeDomain;
+        data.processFlag = this.processFlag;
+        data.throughTurn = this.throughTurn;
+        data.topoVias = [];
         for (var i = 0; i < this.topoVias.length; i++) {
-            data["topoVias"].push(this.topoVias[i].getIntegrate());
+            data.topoVias.push(this.topoVias[i].getIntegrate());
         }
-        data["geoLiveType"] = this.geoLiveType;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * RdLaneTopoDetail初始化函数
  * @param data
  * @param options 其他可选参数
@@ -100,4 +100,4 @@ fastmap.dataApi.RdLaneTopoDetail = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdLaneTopoDetail = function (data, options) {
     return new fastmap.dataApi.RdLaneTopoDetail(data, options);
-}
+};

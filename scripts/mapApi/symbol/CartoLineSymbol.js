@@ -12,6 +12,9 @@ fastmap.mapApi.symbol.CartoLineSymbol = L.Class.extend({
     },
 
     draw: function (ctx) {
+        var segments,
+            i;
+
         if (this.geometry.length < 2) {
             return;
         }
@@ -20,38 +23,40 @@ fastmap.mapApi.symbol.CartoLineSymbol = L.Class.extend({
             return;
         }
 
-        //绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
+        // 绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
         ctx.restore();
 
-        //保存一下当前状态，方便绘制完成后恢复状态
+        // 保存一下当前状态，方便绘制完成后恢复状态
         ctx.save();
 
         ctx.strokeStyle = this.color;
         ctx.lineWidth = this.width;
 
         this.template.lineString = this.geometry;
-        var segments = this.template.getSegments();
+        segments = this.template.getSegments();
 
         ctx.beginPath();
-        for (var i = 0; i < segments.length; ++i) {
+        for (i = 0; i < segments.length; ++i) {
             this.drawSegment(ctx, segments[i]);
         }
         ctx.stroke();
 
-        //绘制完成后恢复到上次保存的状态，通常是初始状态，避免影响以后的绘制
+        // 绘制完成后恢复到上次保存的状态，通常是初始状态，避免影响以后的绘制
         ctx.restore();
     },
 
     drawSegment: function (ctx, segment) {
+        var i;
         var marks = this.template.getMarks(segment);
-        for (var i = 0; i < marks.length; ++i) {
+        for ( i = 0; i < marks.length; ++i) {
             this.drawMark(ctx, marks[i]);
         }
     },
 
     drawMark: function (ctx, mark) {
+        var i;
         ctx.moveTo(mark.coordinates[0].x, mark.coordinates[0].y);
-        for (var i = 1; i < mark.coordinates.length; ++i) {
+        for ( i = 1; i < mark.coordinates.length; ++i) {
             ctx.lineTo(mark.coordinates[i].x, mark.coordinates[i].y);
         }
     }

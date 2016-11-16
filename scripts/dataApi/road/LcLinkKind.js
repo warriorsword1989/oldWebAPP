@@ -7,17 +7,17 @@ fastmap.dataApi.LcLinkKind = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "LCLINKKIND";
+        this.geoLiveType = 'LCLINKKIND';
         this.setAttributeData(data);
     },
     /*
      * 返回参数赋值
      */
-    setAttributeData:function(data){
-        this.linkPid = data["linkPid"];
-        this.kind = data["kind"] || 0;
-        this.form = data["form"] || 0;
-        this.rowId = data['rowId']
+    setAttributeData: function (data) {
+        this.linkPid = data.linkPid;
+        this.kind = data.kind || 0;
+        this.form = data.form || 0;
+        this.rowId = data.rowId;
     },
 
     /*
@@ -25,10 +25,10 @@ fastmap.dataApi.LcLinkKind = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data["linkPid"] = this.linkPid;
-        data["kind"] = this.kind;
-        data["form"] = this.form;
-        data["rowId"] = this.rowId;
+        data.linkPid = this.linkPid;
+        data.kind = this.kind;
+        data.form = this.form;
+        data.rowId = this.rowId;
         return data;
     }
 
@@ -37,7 +37,4 @@ fastmap.dataApi.LcLinkKind = fastmap.dataApi.GeoDataModel.extend({
 fastmap.dataApi.lcLinkKind = function (data, options) {
     return new fastmap.dataApi.LcLinkKind(data, options);
 };
-
-
-
 

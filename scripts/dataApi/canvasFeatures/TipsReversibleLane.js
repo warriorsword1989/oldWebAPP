@@ -10,7 +10,7 @@ fastmap.uikit.canvasTips.TipsReversibleLane = fastmap.uikit.canvasTips.Tips.exte
                 scalex: 1,
                 scaley: 1,
                 rotate: (item.m.c - 180) * (Math.PI / 180),
-                fillStyle:item.m.a == "0"?this.redFill:this.blueFill
+                fillStyle: item.m.a == '0' ? this.redFill : this.blueFill
             })
         );
     }

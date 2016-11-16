@@ -89,8 +89,7 @@ fastmap.mapApi.symbol.LineString = L.Class.extend({
                 result.push(i + 1);
                 result.push(curPoint.clone());
                 break;
-            }
-            else {
+            } else {
                 var remainLength = length - tmpLength;
                 var line = new fastmap.mapApi.symbol.LineSegment(prePoint, curPoint);
                 var point = line.getPointByLength(remainLength);
@@ -121,24 +120,24 @@ fastmap.mapApi.symbol.LineString = L.Class.extend({
         var subLineString1;
         var subLineString2;
         switch (result[0]) {
-            case 'start':
-                subLineString1 = null;
-                subLineString2 = this.clone();
-                break;
-            case 'end':
-                subLineString1 = this.clone();
-                subLineString2 = null;
-                break;
-            case 'vertex':
-            case 'betweenVertex':
-                subLineString1 = this.slice(0, result[1] + 1);//获取从0到result[1]部分
-                subLineString1.coordinates.push(result[3]);
-                subLineString2 = this.slice(result[2]);//获取从result[1]到结束部分
-                subLineString2.coordinates.unshift(result[3]);//在subGeometry2起始出插入result[2]
-                break;
-            default :
-                throw new Error('运行时未知错误');
-                break;
+        case 'start':
+            subLineString1 = null;
+            subLineString2 = this.clone();
+            break;
+        case 'end':
+            subLineString1 = this.clone();
+            subLineString2 = null;
+            break;
+        case 'vertex':
+        case 'betweenVertex':
+            subLineString1 = this.slice(0, result[1] + 1);// 获取从0到result[1]部分
+            subLineString1.coordinates.push(result[3]);
+            subLineString2 = this.slice(result[2]);// 获取从result[1]到结束部分
+            subLineString2.coordinates.unshift(result[3]);// 在subGeometry2起始出插入result[2]
+            break;
+        default :
+            throw new Error('运行时未知错误');
+            break;
         }
 
         return [subLineString1, subLineString2];

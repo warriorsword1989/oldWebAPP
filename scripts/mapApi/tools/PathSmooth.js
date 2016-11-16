@@ -3,7 +3,7 @@
  * Class PathSmooth
  */
 fastmap.mapApi.PathSmooth = L.Handler.extend({
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -17,13 +17,13 @@ fastmap.mapApi.PathSmooth = L.Handler.extend({
         this._enabled = false;
         this.removeHooks();
     },
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -39,4 +39,4 @@ fastmap.mapApi.PathSmooth = L.Handler.extend({
     drawFeedBack: function () {
     }
 
-})
+});

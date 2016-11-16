@@ -3,193 +3,193 @@
  * GeoLive模型枚举，统一用枚举来判断类型及服务表名
  */
 
-fastmap.dataApi.GeoLiveModelType={
+fastmap.dataApi.GeoLiveModelType = {
     /*
      行政区划点
      */
-    "ADADMIN":"ADADMIN",
+    ADADMIN: 'ADADMIN',
     /*
      行政区划点名称
      */
-    "ADADMINNAME":"ADADMINNAME",
+    ADADMINNAME: 'ADADMINNAME',
     /*
      行政区划面
      */
-    "ADFACE":"ADFACE",
+    ADFACE: 'ADFACE',
     /*
      行政区划线
      */
-    "ADLINK":"ADLINK",
+    ADLINK: 'ADLINK',
     /*
       分歧
      */
-    "RDBRANCH":"RDBRANCH",
+    RDBRANCH: 'RDBRANCH',
     /*
       分歧详细信息
      */
-    "RDBRANCHDETAIL":"RDBRANCHDETAIL",
+    RDBRANCHDETAIL: 'RDBRANCHDETAIL',
     /*
       分歧名称
      */
-    "RDBRANCHNAME":"RDBRANCHNAME",
+    RDBRANCHNAME: 'RDBRANCHNAME',
     /*
       分歧实景图
      */
-    "RDBRANCHREALIMAGE":"RDBRANCHREALIMAGE",
+    RDBRANCHREALIMAGE: 'RDBRANCHREALIMAGE',
     /*
      分歧模式图
      */
-    "RDBRANCHSCHEMATIC":"RDBRANCHSCHEMATIC",
+    RDBRANCHSCHEMATIC: 'RDBRANCHSCHEMATIC',
     /*
       连续分歧
      */
-    "RDBRANCHSERIESBRANCH":"RDBRANCHSERIESBRANCH",
+    RDBRANCHSERIESBRANCH: 'RDBRANCHSERIESBRANCH',
      /*
       实景看板
       */
-    "RDBRANCHSIGNASREAL":"RDBRANCHSIGNASREAL",
+    RDBRANCHSIGNASREAL: 'RDBRANCHSIGNASREAL',
     /*
       方向看板名称
      */
-    "RDBRANCHSIGNBOARDNAME":"RDBRANCHSIGNBOARDNAME",
+    RDBRANCHSIGNBOARDNAME: 'RDBRANCHSIGNBOARDNAME',
     /*
      分歧经过
      */
-    "RDBRANCHVIA":"RDBRANCHVIA",
+    RDBRANCHVIA: 'RDBRANCHVIA',
 
     /*
       路口
      */
-    "RDCROSS":"RDCROSS",
+    RDCROSS: 'RDCROSS',
     /*
       路口内道路
      */
-    "RDCROSSLINK":"RDCROSSLINK",
+    RDCROSSLINK: 'RDCROSSLINK',
     /*
      路口名称
      */
-    "RDCROSSNAME":"RDCROSSNAME",
+    RDCROSSNAME: 'RDCROSSNAME',
     /*
       路口内道路端点
      */
-    "RDCROSSNODE":"RDCROSSNODE",
+    RDCROSSNODE: 'RDCROSSNODE',
     /*
       立交
      */
-    "RDGSC":"RDGSC",
+    RDGSC: 'RDGSC',
     /*
       立交组成道路
      */
-    "RDGSCLINK":"RDGSCLINK",
+    RDGSCLINK: 'RDGSCLINK',
     /*
        车信
      */
-    "RDLANECONNEXITY":"RDLANECONNEXITY",
+    RDLANECONNEXITY: 'RDLANECONNEXITY',
     /*
       车信联通
      */
-    "RDLANETOPOLOGY":"RDLANETOPOLOGY",
+    RDLANETOPOLOGY: 'RDLANETOPOLOGY',
     /*
       车信经过LINK
      */
-    "RDLANEVIA":"RDLANEVIA",
+    RDLANEVIA: 'RDLANEVIA',
     /*
      道路形态
      */
-    "RDLINKFORM":"RDLINKFORM",
+    RDLINKFORM: 'RDLINKFORM',
     /*
       道路与Rtic关系（互联网客户）
      */
-    "RDLINKINTRTIC":"RDLINKINTRTIC",
+    RDLINKINTRTIC: 'RDLINKINTRTIC',
     /*
       道路名
      */
-    "RDLINKNAME":"RDLINKNAME",
+    RDLINKNAME: 'RDLINKNAME',
     /*
     "道路与RTIC关系"
      */
-    "RDLINKRTIC":"RDLINKRTIC",
+    RDLINKRTIC: 'RDLINKRTIC',
     /*
      道路人行便道
      */
-    "RDLINKSIDEWALK":"RDLINKSIDEWALK",
+    RDLINKSIDEWALK: 'RDLINKSIDEWALK',
     /*
      道路限速
      */
-    "RDLINKSPEEDLIMIT":"RDLINKSPEEDLIMIT",
+    RDLINKSPEEDLIMIT: 'RDLINKSPEEDLIMIT',
     /*
      道路卡车限速
      */
-    "RDLINKTRUCKLIMIT":"RDLINKTRUCKLIMIT",
+    RDLINKTRUCKLIMIT: 'RDLINKTRUCKLIMIT',
     /*
      道路人行阶梯
      */
-    "RDLINKWALKSTAIR":"RDLINKWALKSTAIR",
+    RDLINKWALKSTAIR: 'RDLINKWALKSTAIR',
     /*
      道路与ZONE关系
      */
-    "RDLINKZONE":"RDLINKZONE",
+    RDLINKZONE: 'RDLINKZONE',
     /*
        道路
      */
-    "RDLINK":"RDLINK",
+    RDLINK: 'RDLINK',
     /*
        道路端点
      */
-    "RDNODE":"RDNODE",
+    RDNODE: 'RDNODE',
     /*
       道路端点形态
      */
-    "RDNODEFORM":"RDNODEFORM",
+    RDNODEFORM: 'RDNODEFORM',
     /*
 
      */
     /*
       交限
      */
-    "RDRESTRICTION":"RDRESTRICTION",
+    RDRESTRICTION: 'RDRESTRICTION',
     /*
       交限时间段与车辆限制
      */
-    "RDRESTRICTIONCONDITION":"RDRESTRICTIONCONDITION",
+    RDRESTRICTIONCONDITION: 'RDRESTRICTIONCONDITION',
     /*
       交限详细信息
      */
-    "RDRESTRICTIONDETAIL":"RDRESTRICTIONDETAIL",
+    RDRESTRICTIONDETAIL: 'RDRESTRICTIONDETAIL',
     /*
       限速
      */
-    "RDSPEEDLIMIT":"RDSPEEDLIMIT",
+    RDSPEEDLIMIT: 'RDSPEEDLIMIT',
     /*
      铁路
      */
-    "RWLINK":"RWLINK",
+    RWLINK: 'RWLINK',
     /*
      电子眼
      */
-    "RDELECTRONICEYE":"RDELECTRONICEYE",
+    RDELECTRONICEYE: 'RDELECTRONICEYE',
     /*
      电子眼旋转
      */
-    "ELECTRANSFORMDIRECT":"ELECTRANSFORMDIRECT",
+    ELECTRANSFORMDIRECT: 'ELECTRANSFORMDIRECT',
     /*
      坡度
      */
-    "RDSLOPE":"RDSLOPE",
+    RDSLOPE: 'RDSLOPE',
     /*
      限高限重
      */
-    "RDHGWGLIMIT":"RDHGWGLIMIT",
+    RDHGWGLIMIT: 'RDHGWGLIMIT',
     /*
      坡度连续link
      */
-    "RDSLOPELINKS":"RDSLOPELINKS",
+    RDSLOPELINKS: 'RDSLOPELINKS',
     /*
      TMC点
      */
-    "TMCPOINT":"TMCPOINT",
+    TMCPOINT: 'TMCPOINT',
     /*
      TMC匹配信息
      */
-    "RDTMCLOCATION":"RDTMCLOCATION"
+    RDTMCLOCATION: 'RDTMCLOCATION'
 };

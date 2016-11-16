@@ -1,128 +1,128 @@
 /**
  * Created by liwanchong on 2016/3/4.
  */
-var directConnexityApp = angular.module("app");
-directConnexityApp.controller("directOfConnexityController", function($scope) {
+var directConnexityApp = angular.module('app');
+directConnexityApp.controller('directOfConnexityController', function ($scope) {
     map.currentTool.disable();
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.laneDirectData = [
         {
-            flag: "a",
-            log: "直"
+            flag: 'a',
+            log: '直'
         },
         {
-            flag: "b",
-            log: "左"
+            flag: 'b',
+            log: '左'
         },
         {
-            flag: "c",
-            log: "右"
+            flag: 'c',
+            log: '右'
         },
         {
-            flag: "d",
-            log: "调"
+            flag: 'd',
+            log: '调'
         },
         {
-            flag: "e",
-            log: "直调"
+            flag: 'e',
+            log: '直调'
         },
         {
-            flag: "f",
-            log: "直右"
+            flag: 'f',
+            log: '直右'
         },
         {
-            flag: "g",
-            log: "直左"
+            flag: 'g',
+            log: '直左'
         },
         {
-            flag: "h",
-            log: "左直右"
+            flag: 'h',
+            log: '左直右'
         },
         {
-            flag: "i",
-            log: "调直右"
+            flag: 'i',
+            log: '调直右'
         },
         {
-            flag: "j",
-            log: "调左值"
+            flag: 'j',
+            log: '调左值'
         },
         {
-            flag: "k",
-            log: "左右"
+            flag: 'k',
+            log: '左右'
         },
         {
-            flag: "i",
-            log: "调右"
+            flag: 'i',
+            log: '调右'
         },
         {
-            flag: "m",
-            log: "调左右"
+            flag: 'm',
+            log: '调左右'
         },
         {
-            flag: "n",
-            log: "调右"
+            flag: 'n',
+            log: '调右'
         },
         {
-            flag: "o",
-            log: "空"
+            flag: 'o',
+            log: '空'
         }
     ];
     var dirTranform = {
-        "a": "a",
-        "b": "b",
-        "c": "c",
-        "d": "d",
-        "e": "ad",
-        "f": "ac",
-        "g": "ab",
-        "h": "bac",
-        "i": "dac",
-        "j": "dab",
-        "k": "bc",
-        "l": "db",
-        "m": "dbc",
-        "n": "dc",
-        "o": "o",
-        "p": "bace",
-        "t": "ar",
-        "u": "br",
-        "v": "cr",
-        "w": "dr",
-        "x": "as",
-        "y": "bs",
-        "z": "cs",
-        "0": "ds",
-        "1": "rs",
-        "2": "abr",
-        "3": "abs",
-        "4": "acr",
-        "5": "acs"
+        a: 'a',
+        b: 'b',
+        c: 'c',
+        d: 'd',
+        e: 'ad',
+        f: 'ac',
+        g: 'ab',
+        h: 'bac',
+        i: 'dac',
+        j: 'dab',
+        k: 'bc',
+        l: 'db',
+        m: 'dbc',
+        n: 'dc',
+        o: 'o',
+        p: 'bace',
+        t: 'ar',
+        u: 'br',
+        v: 'cr',
+        w: 'dr',
+        x: 'as',
+        y: 'bs',
+        z: 'cs',
+        0: 'ds',
+        1: 'rs',
+        2: 'abr',
+        3: 'abs',
+        4: 'acr',
+        5: 'acs'
     };
     var dirCharToNum = {
-        "a": 1,
-        "b": 2,
-        "c": 3,
-        "d": 4,
-        "r": 5,
-        "s": 6
+        a: 1,
+        b: 2,
+        c: 3,
+        d: 4,
+        r: 5,
+        s: 6
     };
-    var intToBinaryArray = function(num) {
+    var intToBinaryArray = function (num) {
         var num = +num;
-        var arr = num.toString(2).split("");
+        var arr = num.toString(2).split('');
         for (var i = 0, len = arr.length; i < 16 - len; i++) {
             arr.unshift('0');
         }
         return arr;
-    }
-    var binaryArrayToInt = function(array) {
+    };
+    var binaryArrayToInt = function (array) {
         return parseInt(array.join(''), 2);
-    }
-    var changeLineInfo = function(laneInfo, index, value) {
+    };
+    var changeLineInfo = function (laneInfo, index, value) {
         var arr = intToBinaryArray(laneInfo);
         arr[index] = value;
         return binaryArrayToInt(arr);
     };
-    var getLaneDirFlag = function(laneInfo, index) {
+    var getLaneDirFlag = function (laneInfo, index) {
         var arr = intToBinaryArray(laneInfo);
         return parseInt(arr[index]);
     };
@@ -130,9 +130,9 @@ directConnexityApp.controller("directOfConnexityController", function($scope) {
     var currentLaneIndex = CurrentObject.selectedLaneIndex;
     var currentLane = CurrentObject.lanes[currentLaneIndex];
     var flag = CurrentObject.changeLaneDirectFlag;
-    $scope.selectLaneDir = function(item, index, event) {
-        $(event.target).siblings().removeClass("active");
-        $(event.target).addClass("active");
+    $scope.selectLaneDir = function (item, index, event) {
+        $(event.target).siblings().removeClass('active');
+        $(event.target).addClass('active');
         if (flag == 1) {
             changeLaneDir(item.flag, currentLane.dir.flag);
             currentLane.dir.flag = item.flag;
@@ -142,9 +142,9 @@ directConnexityApp.controller("directOfConnexityController", function($scope) {
         }
     };
     // 关联维护topo中的inLaneInfo
-    var changeLaneDir = function(newDir, oldDir) {
-        var n = dirTranform[newDir].split("");
-        var o = dirTranform[oldDir].split("");
+    var changeLaneDir = function (newDir, oldDir) {
+        var n = dirTranform[newDir].split('');
+        var o = dirTranform[oldDir].split('');
         var d = []; // 被删除的通行方向
         for (var k in o) {
             if (n.indexOf(o[k]) < 0) {
@@ -160,9 +160,9 @@ directConnexityApp.controller("directOfConnexityController", function($scope) {
         }
     };
     // 关联维护topo中的busLaneInfo
-    var changeBusLaneDir = function(newDir, oldDir) {
-        var n = dirTranform[newDir].split("");
-        var o = dirTranform[oldDir].split("");
+    var changeBusLaneDir = function (newDir, oldDir) {
+        var n = dirTranform[newDir].split('');
+        var o = dirTranform[oldDir].split('');
         var d = [],
             k; // 被删除的通行方向
         for (k in o) {

@@ -4,20 +4,20 @@
 
 fastmap.dataApi.RdNodeMesh = fastmap.dataApi.GeoDataModel.extend({
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDNODEMESH";
+        this.geoLiveType = 'RDNODEMESH';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.nodePid = data["nodePid"] || "";
-        this.meshId = data["meshId"] || 0;
-        this.rowId = data["rowId"] || "";
+    setAttributeData: function (data) {
+        this.nodePid = data.nodePid || '';
+        this.meshId = data.meshId || 0;
+        this.rowId = data.rowId || '';
     },
 
     /**
@@ -26,11 +26,11 @@ fastmap.dataApi.RdNodeMesh = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["nodePid"] = this.nodePid;
-        data["meshId"] = this.formOfWay;
-        data["rowId"] = this.rowId;
+        data.nodePid = this.nodePid;
+        data.meshId = this.formOfWay;
+        data.rowId = this.rowId;
         return data;
     },
 
@@ -40,16 +40,16 @@ fastmap.dataApi.RdNodeMesh = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["nodePid"] = this.nodePid;
-        data["meshId"] = this.formOfWay;
-        data["rowId"] = this.rowId;
+        data.nodePid = this.nodePid;
+        data.meshId = this.formOfWay;
+        data.rowId = this.rowId;
         return data;
     }
 });
 
-/***
+/** *
  * Rdnode初始化函数
  * @param id
  * @param point 初始化rdnode的点
@@ -58,5 +58,5 @@ fastmap.dataApi.RdNodeMesh = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdNodeMesh = function (data, options) {
     return new fastmap.dataApi.RdNodeMesh(data, options);
-}
+};
 

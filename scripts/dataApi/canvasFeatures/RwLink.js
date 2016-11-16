@@ -1,14 +1,14 @@
 fastmap.uikit.canvasFeature.RwLink = fastmap.uikit.canvasFeature.Feature.extend({
-    setAttribute: function(item) {
-        this.properties['featType'] = "RWLINK";
-        this.geometry['type'] = 'LineString';
-        this.properties['name'] = item.m.a;
-        this.properties['color'] = item.m.b;
-        this.properties['snode'] = item.m.c;
-        this.properties['enode'] = item.m.d;
+    setAttribute: function (item) {
+        this.properties.featType = 'RWLINK';
+        this.geometry.type = 'LineString';
+        this.properties.name = item.m.a;
+        this.properties.color = item.m.b;
+        this.properties.snode = item.m.c;
+        this.properties.enode = item.m.d;
         var color = 'black';
-        if(item.m.b){
-            color = '#' + this.properties['color'];
+        if (item.m.b) {
+            color = '#' + this.properties.color;
         }
         var symbolData = {
             type: 'CompositeLineSymbol',
@@ -33,6 +33,6 @@ fastmap.uikit.canvasFeature.RwLink = fastmap.uikit.canvasFeature.Feature.extend(
                 }
             ]
         };
-        this.properties['symbol'] = fastmap.mapApi.symbol.GetSymbolFactory().dataToSymbol(symbolData);
+        this.properties.symbol = fastmap.mapApi.symbol.GetSymbolFactory().dataToSymbol(symbolData);
     }
 });

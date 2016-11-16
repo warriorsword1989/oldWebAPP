@@ -1,8 +1,8 @@
 fastmap.uikit.canvasFeature.TmcLineString = fastmap.uikit.canvasFeature.Feature.extend({
-    setAttribute: function(item) {
-        this.properties['featType'] = "TMCLINESTRING";
-        this.geometry['type'] = 'LineString';
-        this.properties['color'] = 'yellow';
+    setAttribute: function (item) {
+        this.properties.featType = 'TMCLINESTRING';
+        this.geometry.type = 'LineString';
+        this.properties.color = 'yellow';
         var color = '#CCCC00';
         var symbolData = {
             type: 'CompositeLineSymbol',
@@ -15,6 +15,6 @@ fastmap.uikit.canvasFeature.TmcLineString = fastmap.uikit.canvasFeature.Feature.
                 }
             ]
         };
-        this.properties['symbol'] = fastmap.mapApi.symbol.GetSymbolFactory().dataToSymbol(symbolData);
+        this.properties.symbol = fastmap.mapApi.symbol.GetSymbolFactory().dataToSymbol(symbolData);
     }
 });

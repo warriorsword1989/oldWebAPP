@@ -3,7 +3,7 @@
  * 此指令
  *
  */
-angular.module('fastmap.uikit').directive('fmTable', function() {
+angular.module('fastmap.uikit').directive('fmTable', function () {
     return {
         restrict: 'EA',
         replace: true,
@@ -13,49 +13,49 @@ angular.module('fastmap.uikit').directive('fmTable', function() {
             fmList: '=',
             showToolbar: '@'
         },
-        controller: function($scope, $element) {
+        controller: function ($scope, $element) {
             $scope.columns = [];
-            $scope.test = function() {
-                console.log("test");
+            $scope.test = function () {
+                console.log('test');
             };
-            this.addColumn = function(fmColumn) {
-                console.log("table func");
-            }
+            this.addColumn = function (fmColumn) {
+                console.log('table func');
+            };
         },
         controllerAs: 'tableCtl',
-        link: function(scope, element, attrs) {
-            console.log("test");
+        link: function (scope, element, attrs) {
+            console.log('test');
         }
     };
-}).directive('fmTr', function() {
+}).directive('fmTr', function () {
     return {
         restrict: 'EA',
         require: '^fmTable',
         transclude: true,
         replace: true,
-        template: "<tr ng-transclude></tr>",
-        controller: function($scope, $element) {
-            this.addTd = function(tdObj) {
+        template: '<tr ng-transclude></tr>',
+        controller: function ($scope, $element) {
+            this.addTd = function (tdObj) {
                 $scope.$parent.columns.push(tdObj);
             };
         },
-        link: function(scope, element, attrs, tableCtl) {
-            console.log("test tr link");
+        link: function (scope, element, attrs, tableCtl) {
+            console.log('test tr link');
         }
     };
-}).directive('fmTd', function() {
+}).directive('fmTd', function () {
     return {
         restrict: 'EA',
         require: '^fmTr',
         transclude: true,
         replace: true,
-        template: "<th ng-transclude></th>",
-        controller: function($scope, $element) {
-            this.addTd = function() {
-                console.log("td func");
+        template: '<th ng-transclude></th>',
+        controller: function ($scope, $element) {
+            this.addTd = function () {
+                console.log('td func');
             };
         },
-        link: function(scope, element, attrs, trCtl, trans) {
+        link: function (scope, element, attrs, trCtl, trans) {
             trCtl.addTd({
                 field: attrs.field,
                 title: element.text(),

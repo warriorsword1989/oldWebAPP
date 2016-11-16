@@ -4,9 +4,8 @@
  */
 
 
-
 fastmap.mapApi.DrawPolygon = L.Handler.extend({
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -33,33 +32,30 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
         });
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdLink'));
-        this.validation = fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
-
+        this.validation = fastmap.uikit.geometryValidation({ transform: new fastmap.mapApi.MecatorTranform() });
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
-
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
-
     },
 
 
     onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(event.originalEvent.button > 0) {
+        if (event.originalEvent.button > 0) {
             return;
         }
         var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
@@ -80,13 +76,9 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
             mousePoint = this.targetPoint;
         }
         if (this.clickcount == 1) {
-
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
-
         } else {
-
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length - 1, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
-
         }
         this.clickcount++;
         if (this.snapHandler.snaped == true) {
@@ -107,10 +99,8 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
                     linkPid: parseInt(this.snapHandler.properties.id),
                     lon: mousePoint.lng,
                     lat: mousePoint.lat
-                })
-            }
-
-            else {
+                });
+            } else {
                 if (this.clickcount == 2) {
                     this.snodePid = parseInt(this.snapHandler.properties.enode);
                 } else {
@@ -120,9 +110,8 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
                     nodePid: parseInt(this.snapHandler.properties.enode),
                     lon: mousePoint.lng,
                     lat: mousePoint.lat
-                })
+                });
             }
-
         } else {
 
         }
@@ -143,8 +132,8 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
         this.snapHandler.setTargetIndex(0);
         var that = this;
         if (this.snapHandler.snaped == true) {
-            this.eventController.fire( this.eventController.eventTypes.SNAPED, {'snaped': true});
-            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0])
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: true });
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
             this.insertPoint = fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat);
             if (this.clickcount > 1) {
                 var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
@@ -162,7 +151,7 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
                 }
             });
         } else {
-            this.eventController.fire( this.eventController.eventTypes.SNAPED, {'snaped': false});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: false });
 
             this.insertPoint = fastmap.mapApi.point(this._map.layerPointToLatLng(layerPoint).lng, this._map.layerPointToLatLng(layerPoint).lat);
             if (this.clickcount > 1) {
@@ -176,7 +165,6 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
             }
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
-
     },
     disable: function () {
         if (!this._enabled) {
@@ -187,7 +175,7 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
         this.removeHooks();
     },
 
-    /***
+    /** *
      * 重新设置节点
      */
     resetVertex: function () {
@@ -197,7 +185,6 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 0, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
         }
         this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
-
     }
 
 });

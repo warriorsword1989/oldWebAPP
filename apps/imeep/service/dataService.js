@@ -1,4 +1,4 @@
-angular.module("dataService", [], function($httpProvider) {
+angular.module('dataService', [], function ($httpProvider) {
     // Use x-www-form-urlencoded Content-Type
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     /**
@@ -6,9 +6,15 @@ angular.module("dataService", [], function($httpProvider) {
      * @param {Object} obj
      * @return {String}
      */
-    var param = function(obj) {
+    var param = function (obj) {
         var query = '',
-            name, value, fullSubName, subName, subValue, innerObj, i;
+            name,
+            value,
+            fullSubName,
+            subName,
+            subValue,
+            innerObj,
+            i;
         for (name in obj) {
             value = obj[name];
             if (value instanceof Array) {
@@ -32,23 +38,23 @@ angular.module("dataService", [], function($httpProvider) {
         return query.length ? query.substr(0, query.length - 1) : query;
     };
     // Override $http service's default transformRequest
-    $httpProvider.defaults.transformRequest = [function(data) {
+    $httpProvider.defaults.transformRequest = [function (data) {
         return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
     }];
     // Add interceptors
-    $httpProvider.interceptors.push(function($q) {
+    $httpProvider.interceptors.push(function ($q) {
         return {
             // optional method
-            'request': function(config) {
+            request: function (config) {
                 // do something with config
-                if (config.url.indexOf("fos:") == 0) {
+                if (config.url.indexOf('fos:') == 0) {
                     // config.rqtype = "fos";
                     config.url = App.Util.getFullUrl(config.url.substr(4));
                 }
                 return config;
             },
             // optional method
-            'requestError': function(rejection) {
+            requestError: function (rejection) {
                 // do something on error
                 // if (canRecover(rejection)) {
                 //     return responseOrNewPromise
@@ -56,23 +62,23 @@ angular.module("dataService", [], function($httpProvider) {
                 return $q.reject(rejection);
             },
             // optional method
-            'response': function(response) {
+            response: function (response) {
                 // do something with response
                 return response;
             },
             // optional method
-            'responseError': function(rejection) {
+            responseError: function (rejection) {
                 // do something on error
                 // if (canRecover(rejection)) {
                 //     return responseOrNewPromise
                 // }
-                console.log("啊哦，服务请求报错，请检查网络后重试！");
+                console.log('啊哦，服务请求报错，请检查网络后重试！');
                 return $q.reject(rejection);
             }
         };
     });
-}).service("ajax", ["$http", function($http) {
-    this.get = function(url, param) {
+}).service('ajax', ['$http', function ($http) {
+    this.get = function (url, param) {
         if (param.urlType == 'spec') {
             return $http.get(App.Util.getSpecUrl(url), {
                 params: param
@@ -83,49 +89,49 @@ angular.module("dataService", [], function($httpProvider) {
             });
         }
     };
-    this.hbaseGet = function(url, param) {
+    this.hbaseGet = function (url, param) {
         return $http.get(App.Util.getHbaseUrl(url), {
             params: param
         });
     };
-    this.post = function(url, param) {
+    this.post = function (url, param) {
         return $http.post(App.Util.getFullUrl(url), param);
     };
-    this.getLocalJson = function(url) {
+    this.getLocalJson = function (url) {
         return $http.get(url, {});
     };
-    this.tokenExpired = function(defer) {
+    this.tokenExpired = function (defer) {
         swal({
-            title: "Token已失效，请重新登陆！",
-            type: "error",
+            title: 'Token已失效，请重新登陆！',
+            type: 'error',
             animation: 'slide-from-top',
             closeOnConfirm: true,
-            confirmButtonText: "重新登陆"
-        }, function() {
+            confirmButtonText: '重新登陆'
+        }, function () {
             App.Util.logout();
         });
         defer.reject(null);
     };
-    this.error = function(defer, rejection) {
-        swal("啊哦，服务程序开小差了，请稍后再试！", rejection, "error");
+    this.error = function (defer, rejection) {
+        swal('啊哦，服务程序开小差了，请稍后再试！', rejection, 'error');
         defer.reject(rejection);
     };
-}]).service("dsOutput", [function() {
+}]).service('dsOutput', [function () {
     this.output = [];
-    this.push = function(data) {
+    this.push = function (data) {
         this.output.unshift(data);
     };
-    this.pushAll = function(dataArray) {
-        if(dataArray){
+    this.pushAll = function (dataArray) {
+        if (dataArray) {
             for (var i = 0; i < dataArray.length; i++) {
                 this.output.unshift(dataArray[i]);
             }
         }
     };
-    this.pop = function() {
+    this.pop = function () {
         return this.output.pop();
     };
-    this.clear = function() {
+    this.clear = function () {
         this.output.length = 0;
     };
-}])
+}]);

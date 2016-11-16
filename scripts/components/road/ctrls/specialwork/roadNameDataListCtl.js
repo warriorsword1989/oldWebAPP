@@ -1,5 +1,5 @@
 angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout',
-    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout) {
+    function (scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -7,16 +7,16 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
         var poiLayer = layerCtrl.getLayerById('poi');
         var _self = scope;
         scope.radio_select = '名称';
-        //当前表格数据;
+        // 当前表格数据;
         scope.finalData = null;
-        /*初始化显示table提示*/
+        /* 初始化显示table提示*/
         scope.poiListTableMsg = '数据加载中...';
-        /*切换poi列表类型*/
+        /* 切换poi列表类型*/
 //        scope.changeDataList = function(val) {
 //            scope.dataListType = val;
 //            initPoiTable();
 //        };
-        /*选择数据查找poi详情*/
+        /* 选择数据查找poi详情*/
 //        scope.selectData = function(data, index) {
 //            scope.$parent.$parent.selectPoiInMap = false; //表示poi是列表中选择的
 //            scope.$emit('closePopoverTips', false);
@@ -86,8 +86,8 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
 //                }
 //            }
 //        });
-        /*键盘控制poilist切换*/
-        $document.bind("keyup", function(event) {
+        /* 键盘控制poilist切换*/
+        $document.bind('keyup', function (event) {
             if (event.keyCode == 34 || event.keyCode == 33) {
                 if (scope.itemActive < scope.poiList.length - 1 && event.keyCode == 34) {
                     scope.itemActive++;
@@ -97,65 +97,65 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
                     scope.itemActive--;
                     _refreshData();
                 }
-                /*刷新poi，弹出tips*/
+                /* 刷新poi，弹出tips*/
                 function _refreshData() {
                     scope.selectData(scope.poiList[scope.itemActive], scope.itemActive);
                     scope.$apply();
                 }
             }
         });
-        //初始化ng-table表头;
+        // 初始化ng-table表头;
         scope.cols = [{
-                field: "num_index",
-                title: "序号",
-                width: '35px',
-                show: true,
-                getValue: formatHtmlfn
-            }, {
-                field: "name",
-                title: "名称",
-                width: '135px',
-                sortable: "name",
-                show: true
-            }, {
-                field: "kindCode",
-                title: "分类",
-                width: '60px',
-                sortable: "kindCode",
-                getValue: getKindName,
-                show: true
-            }, {
-                field: "state",
-                title: "更新记录",
-                width: '60px',
-                sortable: "state",
-                show: false
-            }, {
-                field: "collectTime",
-                title: "采集时间",
-                width: '130px',
-                sortable: "collectTime",
-                show: false,
-                getValue: getCollectTime
-            }, {
-                field: "pid",
-                title: "PID",
-                width: '100px',
-                sortable: "pid",
-                show: false
-            },
+            field: 'num_index',
+            title: '序号',
+            width: '35px',
+            show: true,
+            getValue: formatHtmlfn
+        }, {
+            field: 'name',
+            title: '名称',
+            width: '135px',
+            sortable: 'name',
+            show: true
+        }, {
+            field: 'kindCode',
+            title: '分类',
+            width: '60px',
+            sortable: 'kindCode',
+            getValue: getKindName,
+            show: true
+        }, {
+            field: 'state',
+            title: '更新记录',
+            width: '60px',
+            sortable: 'state',
+            show: false
+        }, {
+            field: 'collectTime',
+            title: '采集时间',
+            width: '130px',
+            sortable: 'collectTime',
+            show: false,
+            getValue: getCollectTime
+        }, {
+            field: 'pid',
+            title: 'PID',
+            width: '100px',
+            sortable: 'pid',
+            show: false
+        },
             // {field: "geometry", title: "几何", sortable: "geometry", show: false},
-            {
-                field: "freshnessVefication",
-                title: "鲜度验证",
-                width: '60px',
-                sortable: "freshnessVefication",
-                show: false,
-                getValue: getFreshnessVefication
-            }
+        {
+            field: 'freshnessVefication',
+            title: '鲜度验证',
+            width: '60px',
+            sortable: 'freshnessVefication',
+            show: false,
+            getValue: getFreshnessVefication
+        }
         ];
-        //初始化显示表格字段方法;
-        scope.initShowField = function(params) {
+        // 初始化显示表格字段方法;
+        scope.initShowField = function (params) {
             for (var i = 0; i < scope.cols.length; i++) {
                 for (var j = 0; j < params.length; j++) {
                     if (scope.cols[i].title == params[j]) {
@@ -164,36 +164,36 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
                 }
             }
         };
-        //重置表格字段显示方法;
-        scope.resetTableField = function() {
+        // 重置表格字段显示方法;
+        scope.resetTableField = function () {
             for (var i = 0; i < scope.cols.length; i++) {
                 if (scope.cols[i].show) {
                     scope.cols[i].show = !scope.cols[i].show;
                 }
             }
         };
-        //表格配置搜索;
+        // 表格配置搜索;
         scope.filters = {
             value: '',
             name: '',
             pid: 0
         };
         scope.searchType = 'name';
-        /*改变搜索类型*/
-        scope.changeSearchType = function(type) {
+        /* 改变搜索类型*/
+        scope.changeSearchType = function (type) {
             scope.searchType = type;
             scope.filters.value = '';
             scope.filters.name = '';
             scope.filters.pid = 0;
         };
-        //切换搜索条件清空输入;
-        /*scope.$watch('radio_select',function(newValue,oldValue,scope){
+        // 切换搜索条件清空输入;
+        /* scope.$watch('radio_select',function(newValue,oldValue,scope){
          scope.filters.value = '';
          scope.filters.name = '';
          scope.filters.pid = 0;
          });*/
-        //刷新表格方法;
-        var refreshData = function() {
+        // 刷新表格方法;
+        var refreshData = function () {
             _self.tableParams.reload();
         };
 
@@ -204,7 +204,7 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
                 filter: scope.filters
             }, {
                 counts: [],
-                getData: function($defer, params) {
+                getData: function ($defer, params) {
                     var param = {
                         dbId: App.Temp.dbId,
                         subtaskId: App.Temp.subTaskId,
@@ -214,7 +214,7 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
                         pidName: params.filter().name,
                         pid: parseInt(params.filter().pid)
                     };
-                    dsEdit.getPoiList(param).then(function(data) {
+                    dsEdit.getPoiList(param).then(function (data) {
                         scope.poiListTableMsg = '列表无数据';
                         scope.poiList = data.rows;
                         _self.tableParams.total(data.total);
@@ -222,18 +222,18 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
                     });
                 }
             });
-        };
-        //给每条数据安排序号;
-        ngTableEventsChannel.onAfterReloadData(function() {
+        }
+        // 给每条数据安排序号;
+        ngTableEventsChannel.onAfterReloadData(function () {
             scope.itemActive = -1;
-            angular.forEach(scope.tableParams.data, function(data, index) {
+            angular.forEach(scope.tableParams.data, function (data, index) {
                 data.num_index = (scope.tableParams.page() - 1) * scope.tableParams.count() + index + 1;
-            })
+            });
         });
-        /*初始化方法*/
+        /* 初始化方法*/
         initPoiTable();
-        /*-----------------------------------格式化函数部分----------------------------------*/
-        /*采集时间*/
+        /* -----------------------------------格式化函数部分----------------------------------*/
+        /* 采集时间*/
         function getCollectTime(scope, row) {
             var temp = '';
             if (row.collectTime) {
@@ -243,15 +243,15 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
             }
             return $sce.trustAsHtml(temp);
         }
-        /*新鲜度验证*/
+        /* 新鲜度验证*/
         function getFreshnessVefication(scope, row) {
             return $sce.trustAsHtml(row.freshnessVefication == 0 ? '否' : '是');
         }
-        /*新鲜度验证*/
+        /* 新鲜度验证*/
         function getKindName(scope, row) {
             return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
         }
-        scope.highlightPoi = function(pid) {
+        scope.highlightPoi = function (pid) {
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             // $scope.clearMap();
@@ -262,7 +262,7 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
                 type: 'IXPOI',
                 style: {}
             });
-            //高亮
+            // 高亮
             highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
             map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]], 18);
