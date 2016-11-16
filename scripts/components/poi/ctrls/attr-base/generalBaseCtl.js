@@ -332,6 +332,18 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
             $scope.poi.addresses.splice(addIndex, 1);
         }
     }
+    // 比较后某些字段的特殊处理
+    function specialDetail(changed) {
+        var i = 0,
+            len;
+        // 增加充电桩控制，因为充电桩的数组的长度会发生变化
+        if (changed.chargingplots && changed.chargingplots.length > 0) {
+            len = changed.chargingplots.length;
+            for (; i < len; i++) {
+                delete changed.chargingplots[i]._flag_;
+            }
+        }
+    }
     /* 默认显示baseInfo的tab页*/
     function initShowTag() {
         if (App.Util.getUrlParam('deepType')) {
@@ -465,6 +477,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         attrToDBC(); // 部分属性转全角
         objectCtrl.save();
         var changed = objectCtrl.changedProperty;
+        specialDetail(changed);
         if (!changed) {
             swal({
                 title: '属性值没有变化，是否保存？',
