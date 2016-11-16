@@ -36,12 +36,47 @@ angular.module('app').controller('luFaceCtrl', ['$scope', 'dsEdit', 'appPath', '
 	       { id: 40, label: '地下停车场' },
 	       { id: 41, label: '地铁出入口面' }
 	   ];
+    //语言代码对应关系
+    $scope.langCodeRelation = {
+        CHI: 1,
+        CHT: 2,
+        ENG: 3,
+        POR: 4,
+        ARA: 5,
+        BUL: 6,
+        CZE: 7,
+        DAN: 8,
+        DUT: 9,
+        EST: 10,
+        FIN: 11,
+        FRE: 12,
+        GER: 13,
+        HIN: 14,
+        HUN: 15,
+        ICE: 16,
+        IND: 17,
+        ITA: 18,
+        JPN: 19,
+        KOR: 20,
+        LIT: 21,
+        NOR: 22,
+        POL: 23,
+        RUM: 24,
+        RUS: 25,
+        SLO: 26,
+        SPA: 27,
+        SWE: 28,
+        THA: 29,
+        TUR: 30,
+        UKR: 31,
+        SCR: 32
+    };
     // 刷新luFaceData.faceNames
     $scope.refreshNames = function () {
         $scope.luFaceData.faceNames = [];
         for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
             for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
-                $scope.luFaceData.faceNames.push($scope.nameGroup[i][j]);
+                $scope.luFaceData.faceNames.unshift($scope.nameGroup[i][j]);
             }
         }
     };
@@ -81,7 +116,7 @@ angular.module('app').controller('luFaceCtrl', ['$scope', 'dsEdit', 'appPath', '
         dsEdit.update($scope.luFaceData.pid, 'LUFACE', objCtrl.changedProperty).then(function (data) {
             if (data) {
             	luFace.redraw();
-            	dsEdit.getByPid($scope.lcFaceData.pid, 'LUFACE').then(function (ret) {
+            	dsEdit.getByPid($scope.luFaceData.pid, 'LUFACE').then(function (ret) {
                 if (ret) {
                     objCtrl.setCurrentObject('LUFACE', ret);
                     objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -209,6 +244,9 @@ angular.module('app').controller('luFaceCtrl', ['$scope', 'dsEdit', 'appPath', '
                 for (var j = 0, le = $scope.luFaceData.faceNames.length; j < le; j++) {
                     if ($scope.luFaceData.faceNames[j].nameGroupid == nameGroupidArr[i]) {
                         tempArr.push($scope.luFaceData.faceNames[j]);
+                        tempArr.sort(function( a, b) {
+                            return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
+                        });
                     }
                 }
                 $scope.nameGroup.push(tempArr);
@@ -223,7 +261,7 @@ angular.module('app').controller('luFaceCtrl', ['$scope', 'dsEdit', 'appPath', '
         if ($scope.luFaceData.faceNames.length > 0) {
             maxNameGroupId = Utils.getArrMax($scope.luFaceData.faceNames, 'nameGroupid');
         }
-        objCtrl.data.faceNames.push(fastmap.dataApi.luFaceName({
+        objCtrl.data.faceNames.unshift(fastmap.dataApi.luFaceName({
             nameGroupid: maxNameGroupId + 1,
             pid: $scope.luFaceData.pid
         }));
