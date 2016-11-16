@@ -1,4 +1,4 @@
-﻿/**
+/**
  * modified by liuyang on 2016/05/04.
  */
 requirejs.config({
@@ -42,7 +42,7 @@ requirejs.config({
         fmEditView: 'scripts/components/directives/fmEditView/fmEditView',
         langcodeFilter: 'scripts/components/filter/langCodeFilter'
     },
-    urlArgs: "bust=" + (new Date()).getTime(),
+    urlArgs: 'bust=' + (new Date()).getTime(),
     waitSeconds: 0,
     shim: {
         angular: {

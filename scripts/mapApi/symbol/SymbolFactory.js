@@ -124,8 +124,8 @@ fastmap.mapApi.symbol.GetSymbolFactory = (function () {
                 symbol.template.pattern = data.pattern;
                 break;
             case 'CompositeLineSymbol':
-                for (var i = 0; i < data.symbols.length; ++i) {
-                    symbol.symbols.push(this.dataToSymbol(data.symbols[i]));
+                for (var j = 0; j < data.symbols.length; ++j) {
+                    symbol.symbols.push(this.dataToSymbol(data.symbols[j]));
                 }
                 break;
             default:

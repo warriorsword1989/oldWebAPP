@@ -28,6 +28,10 @@
     "linebreak-style": 0,
     // 允许二进制运算符
     "no-bitwise":0,
+    // 允许直接使用 Object.prototypes 的内置属性
+    "no-prototype-builtins":0,
+    // 允许使用特定的语法
+    "no-restricted-syntax":0,
     // 允许使用一元操作符 ++ 和 --
     "no-plusplus":0,
     // 允许var声明不在代码开始声明

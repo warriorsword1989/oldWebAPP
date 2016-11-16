@@ -634,7 +634,6 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             } else {
                 kk = (sLng - eLng) / (sLat - eLat);
             }
-
             var deg = Math.round((Math.atan(Math.abs(kk)) * 180) / Math.PI); // 旋转角度,此方法算出来的角度不分方向
             if (($scope.laneInfoArr[i].direct === 2) &&
                 (e1Lng > eLng || (e1Lng === eLng && e1Lat > eLat))) {
