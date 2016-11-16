@@ -46,7 +46,8 @@
                                                 <li>
                                                     <label style="width: 10%;">{{$index +1}}.</label>
                                                     <label style="width: 70%;"
-                                                           ng-click="showLaneDetails(cItem,$index,1)">连通PID：{{cItem.pid}}</label>
+                                                           ng-click="showLaneDetails(cItem,$index,1)">连通PID：{{cItem.pid}}
+                                                    <span style="color: #9acfea;padding-left: 10px">{{formatInlink(cItem.inLanePid)}}</span></label>
                                                     <div style="width: 10%;">
                                                             <span class="glyphicon glyphicon-remove-sign remove" ng-click="deleteLaneDetails(cItem, $index)"></span>
                                                     </div>

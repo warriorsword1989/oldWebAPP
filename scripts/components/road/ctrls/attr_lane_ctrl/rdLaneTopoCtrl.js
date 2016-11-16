@@ -191,6 +191,10 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
         inNodePid: null,
         laneTopoInfos: []
     };
+    var inLinkToLane = {};
+    $scope.formatInlink = function (topoId) {
+      return inLinkToLane[topoId];
+    };
     var inLinkPid = $scope.rdLaneData.linkPids[0];//进入线
     var nodePid = $scope.rdLaneData.nodePid;//进入点
     var nodeGeo = null;
@@ -201,8 +205,14 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             direct: $scope.laneInfoArr[i].direct,
             distance: $scope.laneInfoArr[i].length
         };
-        if ($scope.laneInfoArr[i].linkPid === inLinkPid){
-
+        if ($scope.laneInfoArr[i].linkPid === inLinkPid) {
+            for (var j = 0; j < $scope.laneInfoArr[i].lanes.length; j++) {
+                inLinkToLane[$scope.laneInfoArr[i].lanes[j].pid] = '进' + (j + 1);
+                // var tem = {};
+                // tem.id = $scope.laneInfoArr[i].lanes[j].pid;
+                // tem.label = '进' + (j + 1);
+                // $scope.formatInlink.push(tem);
+            }
         }
         if ($scope.laneInfoArr[i].linkPid === inLinkPid && $scope.laneInfoArr[i].sNodePid === nodePid) {
             nodeGeo = $scope.laneInfoArr[i].geometry.coordinates[0];
@@ -650,7 +660,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             if (($scope.laneInfoArr[i].direct == 1)) {
                 if ((directFlag == 3 && inLinkPid == $scope.laneInfoArr[i].linkPid)) {
                     deg = 180 + deg;
-                } else if (inLinkPid != $scope.laneInfoArr[i].linkPid) {
+                } else if (inLinkPid !== $scope.laneInfoArr[i].linkPid) {
                     if (L.latLng(s_lat, s_lng).distanceTo(new L.latLng(nodeGeo[1], nodeGeo[0])) > L.latLng(e_lat, e_lng).distanceTo(new L.latLng(nodeGeo[1], nodeGeo[0]))) {
                         deg = 180 + deg;
                     }
@@ -660,7 +670,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             var _width = lanesArr.length * 30 + 20;
             var xtrans = _width / 2 * Math.sin(deg);
             var ytrans = _width / 2 * Math.cos(deg);
-            var html = "<div class ='lane-img-container' style='width:" + _width + 'px;-webkit-transform:rotate(' + deg + "deg);'>";
+            var html = "<div class ='lane-img-container' id ='html" + linkPid + "' style='width:" + _width + 'px;-webkit-transform:rotate(' + deg + "deg);-webkit-transform:scale(0.7,0.7);'>";
             html += "<div class='roadside-left'>";
             html += '</div>';
             for (var k = 0; k < lanesArr.length; k++) {
@@ -737,7 +747,8 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
 
     topoMap.addLayer(polyLines);
 
-    topoMap.setView([$scope.laneInfoArr[0].geometry.coordinates[0][1], $scope.laneInfoArr[0].geometry.coordinates[0][0]], 18);
+    topoMap.setView(
+        [$scope.laneInfoArr[0].geometry.coordinates[0][1], $scope.laneInfoArr[0].geometry.coordinates[0][0]], 18);
     // var miniMap = new L.Control.MiniMap(miniPolyLines, {
     //     width: 200,
     //     height: 200,
@@ -748,6 +759,10 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     //     },
     //     position: 'bottomleft'
     // }).addTo(topoMap);
+    topoMap.on('zoomend', function (e) {
+        var scale = (topoMap.getZoom() - 17) * 0.05 + 0.8;
+        $('.lane-img-container').css('-webkit-transform', 'scale(' + scale + ',' + scale + ')');
+    });
     // 防止地图视口加载不全;
     topoMap.on('resize', function () {
         setTimeout(function () {
