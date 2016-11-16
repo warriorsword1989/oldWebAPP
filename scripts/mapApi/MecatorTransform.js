@@ -4,8 +4,8 @@
  */
 fastmap.mapApi.MecatorTranform = function () {
     this.M_PI = Math.PI;
-    this.originShift = 2 * this.M_PI * 6378137 / 2.0; // 原先为6378137，wt修改
-    this.initialResolution = 2 * this.M_PI * 6378137 / 256;
+    this.originShift = (2 * this.M_PI * 6378137) / 2.0; // 原先为6378137，wt修改
+    this.initialResolution = (2 * this.M_PI * 6378137) / 256;
 };
 /** *
  * 计算当前地图分辨率
@@ -23,9 +23,9 @@ fastmap.mapApi.MecatorTranform.prototype.resolution = function (zoom) {
  */
 fastmap.mapApi.MecatorTranform.prototype.lonLat2Mercator = function (lon, lat) {
     var xy = [];
-    var x = lon * this.originShift / 180;
-    var y = Math.log(Math.tan((90 + lat) * this.M_PI / 360)) / (this.M_PI / 180);
-    y = y * this.originShift / 180;
+    var x = (lon * this.originShift) / 180;
+    var y = Math.log(Math.tan(((90 + lat) * this.M_PI) / 360)) / (this.M_PI / 180);
+    y = (y * this.originShift) / 180;
     xy.push(x);
     xy.push(y);
     return xy;
@@ -41,7 +41,8 @@ fastmap.mapApi.MecatorTranform.prototype.mer2lonlat = function (mx, my) {
     var lonlat = [];
     lonlat.push((mx / this.originShift) * 180);
     lonlat.push((my / this.originShift) * 180);
-    lonlat[1] = 180 / this.M_PI * (2 * Math.atan(Math.exp(lonlat[1] * this.M_PI / 180)) - this.M_PI / 2);
+    lonlat[1] = (180 / this.M_PI) *
+      ((2 * Math.atan(Math.exp((lonlat[1] * this.M_PI) / 180))) - (this.M_PI / 2));
     return lonlat;
 };
 /** *
@@ -69,8 +70,8 @@ fastmap.mapApi.MecatorTranform.prototype.mercator2Pixel = function (x, y, zoom) 
  */
 fastmap.mapApi.MecatorTranform.prototype.mercator2PixelQQ = function (x, y, zoom) {
     var res = this.resolution(zoom);
-    var px = (x + originShift) / res;
-    var py = (y + originShift) / res;
+    var px = (x + this.originShift) / res;
+    var py = (y + this.originShift) / res;
     var xy = [];
     xy.push(px);
     xy.push(py);
@@ -98,8 +99,8 @@ fastmap.mapApi.MecatorTranform.prototype.pixels2Tile = function (x, y) {
  */
 fastmap.mapApi.MecatorTranform.prototype.mercator2Tile = function (x, y, zoom) {
     var merXY = [];
-    merXY = this.mercator2Pixel(x, y, zoom);
     var xy = [];
+    merXY = this.mercator2Pixel(x, y, zoom);
     xy = this.pixels2Tile(merXY[0], merXY[1]);
     return xy;
 };
@@ -111,9 +112,10 @@ fastmap.mapApi.MecatorTranform.prototype.mercator2Tile = function (x, y, zoom) {
  */
 fastmap.mapApi.MecatorTranform.prototype.lonlat2Tile = function (lon, lat, zoom) {
     var xy = [];
+    var res;
     xy = this.lonLat2Mercator(lon, lat);
     xy = this.mercator2Pixel(xy[0], xy[1], zoom);
-    var res = this.pixels2Tile(xy[0], xy[1]);
+    res = this.pixels2Tile(xy[0], xy[1]);
     return res;
 };
 /** *
@@ -131,7 +133,7 @@ fastmap.mapApi.MecatorTranform.prototype.lonlat2Pixel = function (lon, lat, zoom
 fastmap.mapApi.MecatorTranform.prototype.PixelToLonlat = function (pixelX, pixelY, zoom) {
     var x = 360 * ((pixelX / (256 << zoom)) - 0.5);
     var y = 0.5 - (pixelY / (256 << zoom));
-    y = 90 - 360 * Math.atan(Math.exp(-y * 2 * Math.PI)) / Math.PI;
+    y = 90 - ((360 * Math.atan(Math.exp(-y * 2 * Math.PI))) / Math.PI);
     return [x, y];
 };
 /** *
@@ -146,14 +148,14 @@ fastmap.mapApi.MecatorTranform.prototype.scale = function (map) {
      return res;*/
     var bounds = map.getBounds();
     var centerLat = bounds.getCenter().lat;
-    var halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180);
-    var dist = halfWorldMeters * (bounds.getNorthEast().lng - bounds.getSouthWest().lng) / 180;
+    var halfWorldMeters = 6378137 * Math.PI * Math.cos((centerLat * Math.PI) / 180);
+    var dist = (halfWorldMeters * (bounds.getNorthEast().lng - bounds.getSouthWest().lng)) / 180;
     var size = map.getSize();
     var res = dist / size.x;
     return res;
 };
 fastmap.mapApi.MecatorTranform.prototype.rad = function (d) {
-    return d * Math.PI / 180.0;
+    return (d * Math.PI) / 180.0;
 };
 /** *
  * 地图经纬度到实际距离转换
@@ -163,9 +165,18 @@ fastmap.mapApi.MecatorTranform.prototype.rad = function (d) {
  */
 fastmap.mapApi.MecatorTranform.prototype.distance = function (lat1, lon1, lat2, lon2) {
     var radius = 6378137;
-    var a = fastmap.mapApi.MecatorTranform.prototype.rad(lat1) - fastmap.mapApi.MecatorTranform.prototype.rad(lat2);
-    var b = fastmap.mapApi.MecatorTranform.prototype.rad(lon1) - fastmap.mapApi.MecatorTranform.prototype.rad(lon2);
-    var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(fastmap.mapApi.MecatorTranform.prototype.rad(lat1)) * Math.cos(fastmap.mapApi.MecatorTranform.prototype.rad(lat2)) * Math.pow(Math.sin(b / 2), 2)));
-    s = s * radius;
+    var a = fastmap.mapApi.MecatorTranform.prototype.rad(lat1)
+      - fastmap.mapApi.MecatorTranform.prototype.rad(lat2);
+    var b = fastmap.mapApi.MecatorTranform.prototype.rad(lon1)
+      - fastmap.mapApi.MecatorTranform.prototype.rad(lon2);
+    var s = 2 * Math.asin(
+          Math.sqrt(
+            (Math.pow(Math.sin(a / 2), 2) + (
+            Math.cos(fastmap.mapApi.MecatorTranform.prototype.rad(lat1)) *
+            Math.cos(fastmap.mapApi.MecatorTranform.prototype.rad(lat2)) *
+            Math.pow(Math.sin(b / 2), 2)))
+          )
+      );
+    s *= radius;
     return Math.abs(s);
 };

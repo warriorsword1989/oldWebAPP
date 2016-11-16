@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Bounds类
  * 用于表示包围框
  *
@@ -50,7 +50,8 @@ fastmap.mapApi.Bounds = L.Class.extend({
     equals: function (bounds) {
         var equals = false;
         if (bounds != null) {
-            equals = ((this.left == bounds.left) && (this.right == bounds.right) && (this.top == bounds.top) && (this.bottom == bounds.bottom));
+            equals = ((this.left === bounds.left) && (this.right === bounds.right)
+            && (this.top === bounds.top) && (this.bottom === bounds.bottom));
         }
         return equals;
     }
