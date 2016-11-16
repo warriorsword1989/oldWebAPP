@@ -46,22 +46,25 @@ fastmap.mapApi.symbol.LineSegment = L.Class.extend({
      * @return Point 坐标点
      */
     getPointByLength: function (length) {
+        var lineLength,
+            vector,
+            point;
         if (length <= 0) {
             return this.start.clone();
         }
 
-        var lineLength = this.length();
+        lineLength = this.length();
 
         if (length >= lineLength) {
             return this.end.clone();
         }
 
-        var vector = this.end.minus(this.start);
+        vector = this.end.minus(this.start);
         vector.normalize();
 
         vector = vector.multiNumber(length);
 
-        var point = this.start.plusVector(vector);
+        point = this.start.plusVector(vector);
 
         return point;
     }
