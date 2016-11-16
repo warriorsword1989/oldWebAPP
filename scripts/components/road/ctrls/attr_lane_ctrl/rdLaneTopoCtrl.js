@@ -193,10 +193,10 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     };
     var inLinkToLane = {};
     $scope.formatInlink = function (topoId) {
-      return inLinkToLane[topoId];
+        return inLinkToLane[topoId];
     };
-    var inLinkPid = $scope.rdLaneData.linkPids[0];//进入线
-    var nodePid = $scope.rdLaneData.nodePid;//进入点
+    var inLinkPid = $scope.rdLaneData.linkPids[0];// 进入线
+    var nodePid = $scope.rdLaneData.nodePid;// 进入点
     var nodeGeo = null;
     for (var i = 0; i < $scope.laneInfoArr.length; i++) {
         laneInfoObject[$scope.laneInfoArr[i].linkPid] = {
