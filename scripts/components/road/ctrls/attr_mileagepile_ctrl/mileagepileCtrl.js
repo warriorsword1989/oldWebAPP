@@ -20,10 +20,10 @@ rdElectronicEyeApp.controller('mileagepileController', ['$scope', 'dsEdit', '$oc
         { id: 3, label: '省道' }
     ];
     $scope.source = [
-        {id: 1, label: '外业采集'},
-        {id: 2, label: '内插制作'},
-        {id: 3, label: '外业采集'}
-    ]
+        { id: 1, label: '外业采集' },
+        { id: 2, label: '内插制作' },
+        { id: 3, label: '外业采集' }
+    ];
 
     // 初始化函数;
     $scope.initializeData = function () {
@@ -42,7 +42,7 @@ rdElectronicEyeApp.controller('mileagepileController', ['$scope', 'dsEdit', '$oc
             direct: $scope.mileagepile.direct,
             point: $scope.mileagepile.geometry.coordinates
         });
-        //高亮关系;
+        // 高亮关系;
         highRenderCtrl.highLightFeatures.length = 0;
         highRenderCtrl.highLightFeatures.push({
             id: $scope.mileagepile.linkPid.toString(),

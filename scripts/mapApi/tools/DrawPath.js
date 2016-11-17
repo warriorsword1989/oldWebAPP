@@ -115,7 +115,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                             // lon: mousePoint.lng,
                             // lat: mousePoint.lat
                         });
-                    }else{
+                    } else {
                         this.catches.push({
                             nodePid: parseInt(this.snapHandler.properties.id),
                             seqNum: comp.length - 1,

@@ -7,11 +7,11 @@ fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        if (!data.regionId) {
+        /* if (!data.regionId) {
             throw 'form对象没有对应link';
         } else {
             this.id = data.regionId;
-        }
+        }*/
         this.geoLiveType = 'ADADMINNAME';
         this.setAttributeData(data);
     },
@@ -19,15 +19,15 @@ fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData: function (data) {
-        this.pid = data.pid;
-        this.rowId = data.rowId;
-        this.nameId = data.nameId;
-        this.regionId = data.regionId;
-        this.nameGroupId = data.nameGroupId || 1;
-        this.langCode = data.langCode || 'CHI' || 'CHT';
+        this.pid = data.pid || 0;
+        this.rowId = data.rowId || '';
+        this.regionId = data.regionId || 0;
+        this.nameId = data.nameId || 0;
+        this.nameGroupid = data.nameGroupid || 1;
+        this.langCode = data.langCode || 'CHI';
         this.nameClass = data.nameClass || 1;
-        this.name = data.name || '';
-        this.phonetic = data.phonetic || '';
+        this.name = data.name || '名称';
+        this.phonetic = data.phonetic || 'Ming Cheng';
         this.srcFlag = data.srcFlag || 0;
         this.geoLiveType = data.geoLiveType;
     },
@@ -39,9 +39,8 @@ fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data.pid = this.pid;
         data.rowId = this.rowId;
-        data.nameId = this.nameId;
         data.regionId = this.regionId;
-        data.nameGroupId = this.nameGroupId;
+        data.nameGroupid = this.nameGroupid;
         data.langCode = this.langCode;
         data.nameClass = this.nameClass;
         data.name = this.name;
@@ -55,9 +54,8 @@ fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data.pid = this.pid;
         data.rowId = this.rowId;
-        data.nameId = this.nameId;
         data.regionId = this.regionId;
-        data.nameGroupId = this.nameGroupId;
+        data.nameGroupid = this.nameGroupid;
         data.langCode = this.langCode;
         data.nameClass = this.nameClass;
         data.name = this.name;

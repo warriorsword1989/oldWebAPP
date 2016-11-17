@@ -618,8 +618,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'RDMILEAGEPILE', 'attr_mileagepile_ctrl/mileagePileCtrl', 'attr_mileagepile_tpl/mileagePile.html');
                     }
                 });
-            }
-            else if (shapeCtrl.editType === 'pathVertexReMove' || shapeCtrl.editType === 'pathVertexInsert' || shapeCtrl.editType === 'pathVertexMove') {
+            } else if (shapeCtrl.editType === 'pathVertexReMove' || shapeCtrl.editType === 'pathVertexInsert' || shapeCtrl.editType === 'pathVertexMove') {
                 if (geo) {
                     var repairContent,
                         ctrl,

@@ -29,6 +29,12 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
             }
         });
     };
+	//翻译英文
+	$scope.translateLang = function (type, name) {
+		var _name = '';
+		_name = name;
+		return _name;
+	};
 	// 增加名称信息
     $scope.addNameInfo = function () {
 	    getSelectedLangcode();
@@ -36,27 +42,22 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
 		    if ($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
 			    if (($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
 			    } else {
-				    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
+				    if($scope.langCodeOptions[i].id === 'ENG') {
+					    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({
+						    nameGroupid: $scope.tollGateNames[0].nameGroupid,
+						    langCode: $scope.langCodeOptions[i].id,
+						    name:$scope.translateLang($scope.langCodeOptions[i].id, $scope.tollGateNames[0].name)
+					    }));
+				    } else {
+					    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({
+						    nameGroupid: $scope.tollGateNames[0].nameGroupid,
+						    langCode: $scope.langCodeOptions[i].id
+					    }));
+				    }
 				    break;
 			    }
 		    }
 	    }
-        /* for (var i = 0; i < $scope.langCodeOptions.length; i++) {
-            for (var j = 0; j < $scope.tollGateNames.length; j++) {
-                var flag = false;
-                if ($scope.langCodeOptions[i].id == $scope.tollGateNames[j].langCode) {
-                    break;
-                }
-                if ($scope.langCodeOptions[i].id != $scope.tollGateNames[j].langCode && j == $scope.tollGateNames.length - 1) {
-	                $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({ nameGroupid: $scope.tollGateNames[0].nameGroupid, langCode: $scope.langCodeOptions[i].id }));
-                    flag = true;
-                    break;
-                }
-            }
-            if (flag) {
-                break;
-            }
-        }*/
 	    $scope.refreshNameLangCode();
 //		$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.tollGateNames[0].nameGroupid}));
     };
