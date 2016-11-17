@@ -87,7 +87,7 @@ otherApp.controller('adAdminNameController', ['$scope', 'dsMeta', '$timeout', fu
         });
     };
     /* 新增名称信息*/
-    /*$scope.nameInfoAdd = function () {
+    /* $scope.nameInfoAdd = function () {
         var newName = fastmap.dataApi.adAdminName({
             regionId: objCtrl.data.regionId,
             langCode: $scope.languageCode[0].code,

@@ -7,7 +7,7 @@ fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        /*if (!data.regionId) {
+        /* if (!data.regionId) {
             throw 'form对象没有对应link';
         } else {
             this.id = data.regionId;

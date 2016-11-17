@@ -2694,8 +2694,10 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         }
                     });
                     return;
-                }else if(type === 'MODIFYMILEAGEPILE'){
-                    var pid = parseInt(selectCtrl.selectedFeatures.id), linkPid = parseInt(selectCtrl.selectedFeatures.linkPid), currentLink = null;
+                } else if (type === 'MODIFYMILEAGEPILE') {
+                    var pid = parseInt(selectCtrl.selectedFeatures.id),
+                        linkPid = parseInt(selectCtrl.selectedFeatures.linkPid),
+                        currentLink = null;
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -2707,27 +2709,27 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     map.currentTool.enable();
                     tooltipsCtrl.setEditEventType('updateSpeedNode');
-                    tooltipsCtrl.setCurrentTooltip('请选择新的位置点！','info');
+                    tooltipsCtrl.setCurrentTooltip('请选择新的位置点！', 'info');
                     eventController.off(eventController.eventTypes.RESETCOMPLETE);
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
                         var pro = e.property;
-                        /*判断所选的位置是否满足条件*/
-                        if(['1','2','3','4'].indexOf(pro.kind)==-1){
+                        /* 判断所选的位置是否满足条件*/
+                        if (['1', '2', '3', '4'].indexOf(pro.kind) == -1) {
                             editLayer.drawGeometry = null;
                             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                             editLayer.clear();
-                            tooltipsCtrl.notify('里程桩关联link不能是1,2,3,4级以外的道路！','error');
+                            tooltipsCtrl.notify('里程桩关联link不能是1,2,3,4级以外的道路！', 'error');
                             return;
                         }
-                        dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
-                            if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 1){
+                        dsEdit.getByPid(pro.id, 'RDLINK').then(function (data) {
+                            if (e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1], data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length - 1][1], data.geometry.coordinates[data.geometry.coordinates.length - 1][0])) < 1) {
                                 selectCtrl.selectedFeatures = null;
                                 editLayer.drawGeometry = null;
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                                 editLayer.clear();
-                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！','error');
+                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！', 'error');
                                 return;
                             }
                             var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -2740,12 +2742,11 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             featCodeCtrl.setFeatCode({
                                 mileagePile: mileagePile
                             });
-                            tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!','info');
-                        })
-                    })
+                            tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!', 'info');
+                        });
+                    });
                     return;
-                }
-                else if (type === 'MODIFYHGWGLIMITNODE') { // 限高限重点位
+                } else if (type === 'MODIFYHGWGLIMITNODE') { // 限高限重点位
                     var hgwgLimitData = selectCtrl.selectedFeatures;
                     if (shapeCtrl.shapeEditorResult) {
                         // shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));

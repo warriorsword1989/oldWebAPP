@@ -369,7 +369,7 @@ angular.module('app').controller('RoadNameEditPanelCtl', ['$scope', '$ocLazyLoad
             		var param = {
                 			data: $scope.roadNameData,
                 			dbId: App.Temp.dbId,
-                			subtaskId: parseInt(App.Temp.subTaskId),
+                			subtaskId: parseInt(App.Temp.subTaskId)
                 	};
                 	dsMeta.roadNameSave(param).then(function (data) {
                 		if (data) {
