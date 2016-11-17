@@ -7,7 +7,7 @@ angular.module('app').controller('chargingPlotCtrl', function ($scope) {
     $scope.initChain = function () {
         var allChain = $scope.metaData.allChain;
         for (var i in allChain) {
-            if (i === '230218' || i === '230227'){
+            if (i === '230218' || i === '230227') {
                 for (var j = 0; j < allChain[i].length; j++) {
                     var cha = allChain[i][j];
                     if (cha.chainCode && cha.chainCode !== '0') {

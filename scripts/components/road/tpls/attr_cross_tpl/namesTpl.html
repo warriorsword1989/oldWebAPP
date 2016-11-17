@@ -3,7 +3,7 @@
         <div class="add-icon">
             <i class="glyphicon glyphicon-plus-sign" ng-click="addNameInfo();"></i>
         </div>
-        <div class="content" ng-repeat="info in rdCrossNames  | orderBy:'nameId'">
+        <div class="content" ng-repeat="info in rdCrossNames   track by $index">
             <form>
                 <ul class="fm-ul fm-ul-form">
                     <li>
@@ -15,8 +15,11 @@
                     <li>
                         <label>代码语言</label>
                         <div>
-                            <select ng-model="info.langCode" class="fm-control" ng-change="changeLanguage($index);"
+                            <!--<select ng-model="info.langCode" class="fm-control" ng-change="changeLanguage($index);"
                                     ng-options="value.id as value.label for value in langCodeOptions | langCodeFilter: selectedLangcodeArr: info.langCode">
+                            </select>-->
+                            <select ng-model="info.langCode" class="fm-control" ng-click="langCodeChange(info.langCode);">
+                                <option value="{{value.id}}" ng-repeat="value in langCodeOptions" ng-selected="info.langCode == value.id" ng-disabled="selectedLangcodeArr.indexOf(value.id) > -1"> {{value.label}}</option>
                             </select>
                         </div>
                     </li>
