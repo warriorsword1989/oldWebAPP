@@ -2,7 +2,6 @@
  * Created by linglong on 2016/11/16.
  * Class Rdnode
  */
-
 fastmap.dataApi.RdMileagePile = fastmap.dataApi.GeoDataModel.extend({
 
 
@@ -17,7 +16,7 @@ fastmap.dataApi.RdMileagePile = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData: function (data) {
-        this.pid = data.pid || '';
+        this.pid = data['pid'] || '';
         this.mileageNum = data["mileageNum"];
         this.linkPid = data["linkPid"];
         this.direct = data["direct"];
