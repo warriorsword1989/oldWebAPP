@@ -12,15 +12,10 @@
         position: absolute;
     }
 
-    .arrow-left {
-        background: url("../../../images/road/img/arrow-left.png") no-repeat center center;
-        float: right;
-        display: inline-block;
-        border: 1px solid grey;
-        width: 15px;
-        height: 30px;
-        border-right: 0;
-        margin-top: 25px;
+    .openLeftPanel {
+        position: absolute;
+        left: 10px;
+        top: 10px;
     }
 
     .arrow-right {
@@ -184,7 +179,6 @@
 
         </div>
     </div>
-    <div class="arrow-right" ng-click="closeLeftPanel()" ng-style="{'display':leftPanelFlag?'none':'block'}">
-
-    </div>
+    <img src="../../../images/newPoi/leftPanelIcon/icon-back-right.png" class="openLeftPanel"
+         ng-click="closeLeftPanel()" ng-style="{'display':leftPanelFlag?'none':'block'}">
 </div>
