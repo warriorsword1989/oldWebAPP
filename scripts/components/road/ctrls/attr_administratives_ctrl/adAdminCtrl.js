@@ -71,6 +71,14 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
             $scope.adAdminForm.$setPristine();
         }
     };
+    $scope.refreshData = function () {
+        dsEdit.getByPid(parseInt($scope.adAdminData.pid), 'ADADMIN').then(function (data) {
+            if (data) {
+                objCtrl.setCurrentObject('ADADMIN', data);
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+            }
+        });
+    };
     // 语言代码对应关系
     $scope.langCodeRelation = {
         CHI: 1,
@@ -260,6 +268,7 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
 
     // 保存
     $scope.save = function () {
+        $scope.refreshNames();
         objCtrl.save();
         if (!objCtrl.changedProperty) {
             swal('操作成功', '属性值没有变化！', 'success');
@@ -280,8 +289,12 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+                $scope.$emit('SWITCHCONTAINERSTATE', {
+                    subAttrContainerTpl: false,
+                    attrContainerTpl: true
+                });
             }
+            $scope.refreshData();
         });
     };
 
