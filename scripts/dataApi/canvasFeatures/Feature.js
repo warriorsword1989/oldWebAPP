@@ -175,6 +175,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
             case 47:// 限高限重
                 ret = new fastmap.uikit.canvasFeature.RdHgwgLimit(data);
                 break;
+            case 50:// 里程桩
+                ret = new fastmap.uikit.canvasFeature.RdMileagePile(data);
+                break;
             }
             return ret;
         },
