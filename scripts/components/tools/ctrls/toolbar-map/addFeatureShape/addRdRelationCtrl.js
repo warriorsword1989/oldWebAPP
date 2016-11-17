@@ -2078,17 +2078,29 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             map.currentTool.clearCross();
                             map.currentTool.snapHandler._guides = [];
                             $scope.rdTollgateData.nodePid = parseInt(linkDirect == 2 ? data.properties.enode : data.properties.snode);
-                            highLightFeatures.push({
-                                id: $scope.rdTollgateData.nodePid.toString(),
-                                layerid: 'rdLink',
-                                type: 'node',
-                                style: {
-                                    color: 'yellow'
+                            dsEdit.getByPid($scope.rdTollgateData.nodePid, 'RDNODE').then(function (data) {
+                                if (data) {
+                                    if (data.kind == 2 || data.kind == 3) {
+                                        tooltipsCtrl.notify('属性变化点和路上点不能作为收费站的进入点!', 'error');
+                                        map.currentTool.selectedFeatures.pop();
+                                        tooltipsCtrl.setCurrentTooltip('请重新选择进入线');
+                                    } else {
+                                        highLightFeatures.push({
+                                            id: $scope.rdTollgateData.nodePid.toString(),
+                                            layerid: 'rdLink',
+                                            type: 'node',
+                                            style: {
+                                                color: 'yellow'
+                                            }
+                                        });
+                                        highRenderCtrl.drawHighlight();
+                                        map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
+                                        automaticCommand();
+                                    }
+                                } else {
+                                    tooltipsCtrl.setCurrentTooltip('请重新选择进入点!');
                                 }
                             });
-                            highRenderCtrl.drawHighlight();
-                            map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
-                            automaticCommand();
                             // featCodeCtrl.setFeatCode($scope.rdTollgateData);
                             // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         }
@@ -2099,17 +2111,28 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         map.currentTool.snapHandler._guides = [];
                         // map.currentTool.snapHandler.addGuideLayer(rdLink); //增加吸附图层
                         $scope.rdTollgateData.nodePid = parseInt(data.id);
-                        highLightFeatures.push({
-                            id: $scope.rdTollgateData.nodePid.toString(),
-                            layerid: 'rdLink',
-                            type: 'node',
-                            style: {
-                                color: 'yellow'
+                        dsEdit.getByPid($scope.rdTollgateData.nodePid, 'RDNODE').then(function (data) {
+                            if (data) {
+                                if (data.kind == 2 || data.kind == 3) {
+                                    tooltipsCtrl.notify('属性变化点和路上点不能作为收费站的进入点!', 'error');
+                                    map.currentTool.selectedFeatures.pop();
+                                } else {
+                                    highLightFeatures.push({
+                                        id: $scope.rdTollgateData.nodePid.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'node',
+                                        style: {
+                                            color: 'yellow'
+                                        }
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
+                                    automaticCommand();
+                                }
+                            } else {
+                                tooltipsCtrl.setCurrentTooltip('请重新选择进入点!');
                             }
                         });
-                        highRenderCtrl.drawHighlight();
-                        map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
-                        automaticCommand();
                     } else if (data.index >= 2) { // 退出线
                         $scope.rdTollgateData.outLinkPid = parseInt(data.id);
                         if (highLightFeatures.length === 3) {
