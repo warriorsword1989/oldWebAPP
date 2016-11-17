@@ -154,9 +154,9 @@ namesOfLinkApp.controller('crfObjectNameCtrl', ['$scope', '$timeout', 'dsMeta', 
         }, 100);
     };
 
-    $scope.selectNamesId = function (num,name) {
+    $scope.selectNamesId = function (num, name) {
         $('.pic-show').hide();
-        $scope.changePinyin(num,name);
+        $scope.changePinyin(num, name);
     };
 
     /* 点击关闭隐藏选择图片界面*/

@@ -223,7 +223,7 @@ rdcrfObjectApp.controller('crfObjectCtrl', ['$scope', 'dsEdit', function ($scope
     };
 
     $scope.addRdName = function () {
-        /*var newName = fastmap.dataApi.rdObjectNames({ pid: $scope.crfObjData.pid, langCode: 'CHI', nameId: 0 });
+        /* var newName = fastmap.dataApi.rdObjectNames({ pid: $scope.crfObjData.pid, langCode: 'CHI', nameId: 0 });
         $scope.crfObjData.names.unshift(newName);*/
         $scope.refreshNames();
         var maxNameGroupId = 0;
