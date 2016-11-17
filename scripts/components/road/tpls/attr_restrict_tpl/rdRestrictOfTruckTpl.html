@@ -1,8 +1,9 @@
-<div ng-app="truckApp" ng-controller="truckController" class="panel panel-default" id="truckLimitDiv">
-    <div class="panel-heading font-bold" style=" text-align: center;">
+<div ng-controller="normalController" class="fm-component" >
+    <div class="title">
         卡车交限
-        <span>({{data.pid}})</span>
+        <span class="label label-info">{{rdRestrictCurrentData.pid}}</span>
     </div>
+
     <div class="panel-body">
         <form class="form-horizontal" method="get">
             <div class="form-group">

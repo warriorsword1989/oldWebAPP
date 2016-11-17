@@ -112,7 +112,9 @@ fastmap.uikit.HighRenderController = (function () {
                                         });
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSPEEDLIMIT') {
                                         this.drawSpeedLimit(id, hightlightfeature, ctx);
-                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDCROSS') {
+                                    } else if(this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDMILEAGEPILE'){
+                                        this.drawMileagePile(id, hightlightfeature, ctx)
+                                    }else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDCROSS') {
                                         // this.drawPoint(id, hightlightfeature, ctx, style);
                                         this.drawCross(id, hightlightfeature, ctx, style);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDINTER') {
@@ -452,6 +454,29 @@ fastmap.uikit.HighRenderController = (function () {
                 }
             },
             drawSpeedLimit: function (id, feature, ctx) {
+                var type = feature.geometry.type;
+                var geom = feature.geometry.coordinates;
+                if (feature.properties.id == id) {
+                    if (type == 'Point') {
+                        var newGeom = [];
+                        newGeom[0] = (parseInt(geom[0]));
+                        newGeom[1] = (parseInt(geom[1]));
+                        this.layer._drawBackground({
+                            ctx: ctx,
+                            geo: newGeom,
+                            boolPixelCrs: true,
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(225,225,225, 0)',
+                            lineWidth: 1,
+                            width: 20,
+                            height: 20,
+                            drawx: -10,
+                            drawy: -10
+                        });
+                    }
+                }
+            },
+            drawMileagePile: function (id, feature, ctx) {
                 var type = feature.geometry.type;
                 var geom = feature.geometry.coordinates;
                 if (feature.properties.id == id) {
