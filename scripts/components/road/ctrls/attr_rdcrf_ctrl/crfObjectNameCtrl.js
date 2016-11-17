@@ -4,7 +4,18 @@
 var namesOfLinkApp = angular.module('app');
 namesOfLinkApp.controller('crfObjectNameCtrl', ['$scope', '$timeout', 'dsMeta', 'dsEdit', function ($scope, $timeout, dsMeta, dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.routeAttOptions = [
+    $scope.crfObjectNames = objCtrl.namesInfos;
+    $scope.selectedLangcodeArr = [];
+    var getSelectedLangcode = function () {
+        $scope.selectedLangcodeArr.length = 0;
+        for (var k in $scope.crfObjectNames) {
+            if ($scope.selectedLangcodeArr.indexOf($scope.crfObjectNames[k].langCode) < 0) {
+                $scope.selectedLangcodeArr.push($scope.crfObjectNames[k].langCode);
+            }
+        }
+    };
+    getSelectedLangcode();
+    $scope.langCodeOptions = [
         { id: 'CHI', label: '简体中文' },
         { id: 'CHT', label: '繁体中文' },
         { id: 'ENG', label: '英文' },
@@ -46,20 +57,73 @@ namesOfLinkApp.controller('crfObjectNameCtrl', ['$scope', '$timeout', 'dsMeta', 
 
     $scope.addRoadName = function () {
         var newName = fastmap.dataApi.rdObjectNames({ pid: objCtrl.data.pid });
-        $scope.names.unshift(newName);
+        $scope.crfObjectNames.unshift(newName);
+    };
+    // 增加名称信息
+    $scope.addNameInfo = function () {
+        getSelectedLangcode();
+        for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+            if ($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
+                if (($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
+                } else {
+                    $scope.crfObjectNames.push(fastmap.dataApi.rdObjectNames({
+                        nameGroupid: $scope.crfObjectNames[0].nameGroupid,
+                        langCode: $scope.langCodeOptions[i].id
+                    }));
+                    break;
+                }
+            }
+        }
+        $scope.refreshNameLangCode();
+    };
+    // 代码语言字段切换时，判断语言不能重复
+    $scope.langCodeChange = function (langCode) {
+        // 如果当前所选既不是简体也不是繁体，则控制不允许选择简繁体
+        getSelectedLangcode();
+        if (langCode != 'CHI' && langCode != 'CHT') {
+            if ($scope.selectedLangcodeArr.indexOf('CHI') === -1) {
+                $scope.selectedLangcodeArr.push('CHI');
+            }
+            if ($scope.selectedLangcodeArr.indexOf('CHT') === -1) {
+                $scope.selectedLangcodeArr.push('CHT');
+            }
+        } else if (langCode == 'CHI') { // 如果是简体中文或繁体中文其他语言不可用
+            $scope.selectedLangcodeArr = [];
+            for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+                if ($scope.langCodeOptions[i].id != 'CHT') {
+                    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
+                }
+            }
+        } else if (langCode == 'CHT') {
+            $scope.selectedLangcodeArr = [];
+            for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+                if ($scope.langCodeOptions[i].id != 'CHI') {
+                    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
+                }
+            }
+        }
+        $scope.refreshNameLangCode();
+        $timeout(function () {
+            $scope.$apply();
+        });
+    };
+    // 重新排列名称信息
+    $scope.refreshNameLangCode = function () {
+        $scope.crfObjectNames.sort(function (a, b) {
+            return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
+        });
     };
     $scope.minusRoadName = function (id) {
-        $scope.names.splice(id, 1);
-        if ($scope.names.length === 0) {
-        }
+        $scope.crfObjectNames.splice(id, 1);
     };
-    $scope.changePinyin = function (name) {
+    $scope.changePinyin = function (num, name) {
         var param = {
             word: name
         };
         dsMeta.getNamePronunciation(param).then(function (data) {
             if (data != -1) {
-                $scope.oridiData.phoneTic = data.data.phonetic;
+                $scope.crfObjectNames[num].phonetic = data.data.phonetic;
+                $scope.crfObjectNames[num].name = name;
             }
         });
     };
@@ -76,9 +140,9 @@ namesOfLinkApp.controller('crfObjectNameCtrl', ['$scope', '$timeout', 'dsMeta', 
         });
     };
 
-    $scope.searchGroupidByNames = function () {
+    $scope.searchGroupidByNames = function (index) {
         $('#name').css('display', 'block');
-        $scope.inNmae = $scope.oridiData.name;
+        $scope.inNmae = $scope.names[index];
         $timeout(function () {
             $scope.getObjName();
             if ($.trim($scope.inNmae) == '') {
@@ -90,11 +154,9 @@ namesOfLinkApp.controller('crfObjectNameCtrl', ['$scope', '$timeout', 'dsMeta', 
         }, 100);
     };
 
-    $scope.selectNamesId = function (num) {
-        $scope.oridiData.nameGroupid = num + 1;
-        $scope.oridiData.name = $scope.objNames[num];
+    $scope.selectNamesId = function (num,name) {
         $('.pic-show').hide();
-        $scope.changePinyin($scope.oridiData.name);
+        $scope.changePinyin(num,name);
     };
 
     /* 点击关闭隐藏选择图片界面*/
@@ -107,5 +169,40 @@ namesOfLinkApp.controller('crfObjectNameCtrl', ['$scope', '$timeout', 'dsMeta', 
     };
     $scope.backColor = function (ind) {
         $('#minusNameSpan' + ind).css('color', 'darkgray');
+    };
+    // 语言代码对应关系
+    $scope.langCodeRelation = {
+        CHI: 1,
+        CHT: 2,
+        ENG: 3,
+        POR: 4,
+        ARA: 5,
+        BUL: 6,
+        CZE: 7,
+        DAN: 8,
+        DUT: 9,
+        EST: 10,
+        FIN: 11,
+        FRE: 12,
+        GER: 13,
+        HIN: 14,
+        HUN: 15,
+        ICE: 16,
+        IND: 17,
+        ITA: 18,
+        JPN: 19,
+        KOR: 20,
+        LIT: 21,
+        NOR: 22,
+        POL: 23,
+        RUM: 24,
+        RUS: 25,
+        SLO: 26,
+        SPA: 27,
+        SWE: 28,
+        THA: 29,
+        TUR: 30,
+        UKR: 31,
+        SCR: 32
     };
 }]);

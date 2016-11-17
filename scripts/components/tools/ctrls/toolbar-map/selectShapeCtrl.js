@@ -313,7 +313,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 map.currentTool = new fastmap.uikit.SelectFeature({
                     map: map,
                     shapeEditor: shapeCtrl
-                }); 是;
+                });
                 map.currentTool.enable();
                 $scope.toolTipText = '请选择要素！';
                 eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
