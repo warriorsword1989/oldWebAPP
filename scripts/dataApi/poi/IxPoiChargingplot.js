@@ -37,7 +37,6 @@ FM.dataApi.IxPoiChargingplot = FM.dataApi.DataModel.extend({
             } else {
                 this.openType[openTypeArr[i]] = true;
             }
-
         }
         this.availableState = data.availableState || 0;
         this.manufacturer = data.manufacturer || '';
