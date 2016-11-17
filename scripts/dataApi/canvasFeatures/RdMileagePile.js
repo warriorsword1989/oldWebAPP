@@ -14,10 +14,10 @@ fastmap.uikit.canvasFeature.RdMileagePile = fastmap.uikit.canvasFeature.Feature.
                 dy: 0
             })
         );
-        // ���׮ֵ;
+        // 里程桩值;
         this.properties.markerStyle.icon.push(
             {
-                text: data.m.a+'KM',
+                text: item.m.a?item.m.a:'0'+'KM',
                 row: 0,
                 column: 2,
                 location: this.geometry.coordinates,
