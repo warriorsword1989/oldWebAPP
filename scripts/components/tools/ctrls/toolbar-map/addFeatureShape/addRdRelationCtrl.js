@@ -2115,6 +2115,11 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         map.currentTool.snapHandler._guides = [];
                         map.currentTool.snapHandler.addGuideLayer(rdnode);
                         $scope.rdTollgateData.inLinkPid = parseInt(data.id);
+                        if (data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
+                            tooltipsCtrl.notify('10级路、步行街、人渡不能作为收费站的进入线!', 'error');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
                         highLightFeatures.push({
                             id: $scope.rdTollgateData.inLinkPid.toString(),
                             layerid: 'rdLink',
@@ -2189,6 +2194,11 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         });
                     } else if (data.index >= 2) { // 退出线
                         $scope.rdTollgateData.outLinkPid = parseInt(data.id);
+                        if (data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
+                            tooltipsCtrl.notify('10级路、步行街、人渡不能作为收费站的退出线!', 'error');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
                         if (highLightFeatures.length === 3) {
                             highLightFeatures.pop();
                             highRenderCtrl._cleanHighLight();
