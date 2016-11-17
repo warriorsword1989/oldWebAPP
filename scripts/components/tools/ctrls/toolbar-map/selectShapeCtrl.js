@@ -2695,6 +2695,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     });
                     return;
                 }else if(type === 'MODIFYMILEAGEPILE'){
+                    shapeCtrl.editFeatType = null;
                     var pid = parseInt(selectCtrl.selectedFeatures.id), linkPid = parseInt(selectCtrl.selectedFeatures.linkPid), currentLink = null;
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
@@ -2730,17 +2731,21 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！','error');
                                 return;
                             }
-                            var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
-                            var mileagePile = {
-                                pid: pid,
-                                longitude: point.x,
-                                latitude: point.y,
-                                linkPid: parseInt(pro.id)
-                            };
-                            featCodeCtrl.setFeatCode({
-                                mileagePile: mileagePile
-                            });
-                            tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!','info');
+                            if(data){
+                                shapeCtrl.editFeatType = 'mileagePile';
+                                var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
+                                var mileagePile = {
+                                    pid: pid,
+                                    longitude: point.x,
+                                    latitude: point.y,
+                                    linkPid: parseInt(pro.id)
+                                };
+                                featCodeCtrl.setFeatCode({
+                                    mileagePile: mileagePile
+                                });
+                                tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!','info');
+                            }
+
                         })
                     })
                     return;

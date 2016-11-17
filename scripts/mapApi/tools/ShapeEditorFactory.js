@@ -40,6 +40,7 @@ fastmap.mapApi.ShapeEditorFactory = (function () {
                     pathNodeMove: new fastmap.mapApi.PathNodeMove({ shapeEditor: shapeEditor }),
                     pointVertexAdd: new fastmap.mapApi.PointVertexAdd({ shapeEditor: shapeEditor }),
                     updateSpeedNode: new fastmap.mapApi.PointVertexAdd({ shapeEditor: shapeEditor }),
+                    addMileagePile: new fastmap.mapApi.PointVertexAdd({ shapeEditor: shapeEditor }),
                     updateMileagePile: new fastmap.mapApi.PointVertexAdd({ shapeEditor: shapeEditor }),
                     addAdAdmin: new fastmap.mapApi.adAdminAdd({ shapeEditor: shapeEditor }),
                     addTmcLocation: new fastmap.mapApi.adTmcAdd({ shapeEditor: shapeEditor }),
