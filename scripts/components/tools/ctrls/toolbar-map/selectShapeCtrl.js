@@ -471,14 +471,13 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 $scope.getFeatDataCallback(data, data.id, 'RDVOICEGUIDE', ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDRESTRICTION':
-                    // if (data.restrictionType === 1) {
-                ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestriction';
-                ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html';
-                    // }
-                    // else {
-                    //    ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
-                    //    ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html";
-                    // }
+                if (data.restrictionType === '0') { // 普通交限
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestriction';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html';
+                } else { // 卡车交限
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestrictionOfTruckCtl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html';
+                }
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDLANECONNEXITY':
