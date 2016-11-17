@@ -1,17 +1,17 @@
 <div ng-controller="chargingPlotCtrl">
     <div ng-show="propertyType=='deep'">
         <div class="fm-panel" form-disabled>
-            <div class="content" ng-repeat="charging in chargingArr">
+            <div class="content" ng-repeat="charging in poi.chargingplots">
                 <ul>
                     <a href="#deepInfoOne" data-toggle="tab" data-width="">专有信息{{$index+1}}
                         <div class="btn-group" style="display: inline-block;float: right;"
-                             ng-if="chargingArr.length==2">
+                             ng-if="poi.chargingplots.length==2">
                             <button data-toggle="tooltip" data-index="{{$index}}" title="删除"
                                     class="glyphicon glyphicon-remove" type="button"
                                     ng-click="removeChargPole($index)" ng-disabled="isSpecialOperation"/>
                         </div>
                         <div class="btn-group" style="display: inline-block;float: right;"
-                             ng-if="chargingArr.length==1 ||chargingArr.length==0">
+                             ng-if="poi.chargingplots.length==1 ||poi.chargingplots.length==0">
                             <button data-toggle="tooltip" title="添加" class="glyphicon glyphicon-plus"
                                     style="margin-right: 5px;" type="button" ng-click="addChargPole()" ng-disabled="isSpecialOperation"/>
                         </div>
@@ -20,24 +20,24 @@
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>充电桩组</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.groupId"/></div>
+                        <div><input fm-edit-view type="text" disabled class="fm-control chosen-disabled" ng-model="charging.groupId"/></div>
                     </li>
                     <li>
                         <label>同组桩数</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.count"/></div>
+                        <div><input fm-edit-view type="text" disabled class="fm-control chosen-disabled" ng-model="charging.count"/></div>
                     </li>
                     <li>
-                        <label>交直流电</label>
+                        <label>电流类型</label>
                         <div>
                             <label>
-                                <input fm-edit-view fm-edit-view type="radio" name="indoor" value="0"
+                                <input fm-edit-view fm-edit-view type="radio" name="acdc{{$index}}" value="0"
                                        ng-model="charging.acdc">
-                                交流
+                                充电充电
                             </label>
                             <label>
-                                <input fm-edit-view fm-edit-view type="radio" name="indoor" value="1"
+                                <input fm-edit-view fm-edit-view type="radio" name="acdc{{$index}}" value="1"
                                        ng-model="charging.acdc">
-                                直流
+                                直流充电
                             </label>
                         </div>
                     </li>
@@ -47,7 +47,7 @@
                             <label ng-repeat="(key, value) in chargingPlugType" class="col-md-5">
                                 <input fm-edit-view fm-edit-view type="checkbox" value="{{key}}"
                                        ng-model="charging.plugType[key]"
-                                       ng-click="chargingPlugTypeChange($event)" ng-disabled="isSpecialOperation"> {{value}}
+                                       ng-click="chargingPlugTypeChange($event,charging)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -67,11 +67,11 @@
                         <label>充电模式</label>
                         <div>
                             <label>
-                                <input fm-edit-view type="radio" name="indoor" value="0" ng-model="charging.mode">
+                                <input fm-edit-view type="radio" name="mode{{$index}}" value="0" ng-model="charging.mode"><!-- name必须增加$index,因为repeat会导致name重复 -->
                                 常规充电
                             </label>
                             <label>
-                                <input fm-edit-view type="radio" name="indoor" value="1" ng-model="charging.mode">
+                                <input fm-edit-view type="radio" name="mode{{$index}}" value="1" ng-model="charging.mode">
                                 快速充电
                             </label>
                         </div>
@@ -79,7 +79,7 @@
                     <li>
                         <label>备注信息</label>
                         <div>
-                            <input fm-edit-view class="fm-control" ng-model="charging.memo">
+                            <input fm-edit-view type="text" class="fm-control" ng-model="charging.memo">
                         </div>
                     </li>
                     <li>
@@ -102,10 +102,17 @@
                                 <input fm-edit-view type="checkbox" value="{{key}}" ng-model="charging.openType[key]"
                                        ng-click="changeOpenType($event,charging)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
-                            <div>
-                                <select fm-edit-view class="fm-control" ng-model="charging.selectedChain"
-                                        ng-options="value as lable.chainName for (value, lable) in charging.chargeChainObj"
-                                        chosen style="width: 80%;" ng-change="chianChange($event, charging)" ng-disabled="isSpecialOperation">
+                            <label >
+                                <input fm-edit-view type="checkbox" ng-model="charging.isBrandOpen"
+                                       ng-click="changeBrandOpen($event,charging)" ng-checked="charging.isBrandOpen">
+                                对某品牌汽车开放
+                            </label>
+                            <div class="selectChain">
+                                <select fm-edit-view class="fm-control"  ng-model="charging.selectedChain"
+                                        no_results_text="'--无--'"  placeholder_text_single="'--请选择--'" search_contains=true
+                                        ng-options="value as lable.chainName for (value, lable) in chainListPlot"
+                                        chosen ng-change="brandChange($event, this)" ng-disabled="!charging.isBrandOpen">
+                                    <option></option>
                                 </select>
                             </div>
                         </div>
@@ -137,23 +144,18 @@
                     <li>
                         <label>位置类型</label>
                         <div>
-                            <label ng-repeat="(key, value) in locationtype">
-                                <input type="radio" value="{{key}}" ng-model="charging.locationType"> {{value}}
-                            </label>
-                        </div>
-                        <div>
                             <label>
-                                <input fm-edit-view type="radio" name="indoor" value="0"
+                                <input fm-edit-view type="radio" name="locationType{{$index}}" value="0"
                                        ng-model="charging.locationType">
                                 室外
                             </label>
                             <label>
-                                <input fm-edit-view type="radio" name="indoor" value="1"
+                                <input fm-edit-view type="radio" name="locationType{{$index}}" value="1"
                                        ng-model="charging.locationType">
                                 室内地上
                             </label>
                             <label>
-                                <input fm-edit-view type="radio" name="indoor" value="1"
+                                <input fm-edit-view type="radio" name="locationType{{$index}}" value="2"
                                        ng-model="charging.locationType">
                                 地下
                             </label>
@@ -172,12 +174,10 @@
                     <li>
                         <label>支付方式</label>
                         <div>
-                            <div>
-                                <select fm-edit-view class="fm-control" ng-model="charging.chargingPayment"
-                                        ng-options="value as lable.chainName for (value, lable) in charging.chargingPayment"
-                                        chosen style="width: 80%;" ng-change="chianChange($event, charging)" ng-disabled="isSpecialOperation">
-                                </select>
-                            </div>
+                            <label ng-repeat="(key, value) in charginPayment" class="col-md-5">
+                                <input fm-edit-view type="checkbox" value="{{key}}"
+                                       ng-model="charging.payment[key]" ng-disabled="isSpecialOperation"> {{value}}
+                            </label>
                         </div>
                     </li>
                 </ul>

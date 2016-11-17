@@ -790,6 +790,9 @@ a.fm-panel-controlArrowRight > span {
 .chosen-container-multi ul.chosen-choices li.search-field {
   background-color: #333;
 }
+.selectChain .chosen-container-single {
+  width: 170px !important;
+}
 .tel-empty {
   border: solid #ff8888 1px !important;
 }

@@ -164,12 +164,15 @@ fastmap.mapApi.MecatorTranform.prototype.rad = function (d) {
  * @returns {Array}
  */
 fastmap.mapApi.MecatorTranform.prototype.distance = function (lat1, lon1, lat2, lon2) {
-    var radius = 6378137;
-    var a = fastmap.mapApi.MecatorTranform.prototype.rad(lat1)
+    var radius = 6378137,
+        a,
+        b,
+        s;
+    a = fastmap.mapApi.MecatorTranform.prototype.rad(lat1)
       - fastmap.mapApi.MecatorTranform.prototype.rad(lat2);
-    var b = fastmap.mapApi.MecatorTranform.prototype.rad(lon1)
+    b = fastmap.mapApi.MecatorTranform.prototype.rad(lon1)
       - fastmap.mapApi.MecatorTranform.prototype.rad(lon2);
-    var s = 2 * Math.asin(
+    s = 2 * Math.asin(
           Math.sqrt(
             (Math.pow(Math.sin(a / 2), 2) + (
             Math.cos(fastmap.mapApi.MecatorTranform.prototype.rad(lat1)) *

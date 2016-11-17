@@ -1,76 +1,312 @@
-<div style="height:100%;background-color:#f0f0f0" ng-controller="poiLeftPanelCtrl">
-    <div style="width: 100%;height: 80px;background-color: white;line-height: 80px">
-        <div style="width: 120px;padding-left: 10px;display: inline-block">
-            <strong>博泰嘉华酒店</strong>
+<style>
+    .poiLeftPanel_container {
+        height:100%;
+        background-color: #ffffff;
+    }
+    .poiLeftPanel {
+        font-size: 12px;
+        height: 470px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: #ffffff;
+        background: -webkit-linear-gradient(#6666FF, #ffffff); /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(#6666FF, #ffffff); /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(#6666FF, #ffffff); /* Firefox 3.6 - 15 */
+        background: linear-gradient(#6666FF, #ffffff); /* 标准的语法（必须放在最后） */
+    }
+    .poiLeftPanel_son_div {
+        height: 100px
+    }
+    .poiLeftPanel_line {
+        width: 100%;
+        height: 40px;
+        line-height: 40px
+    }
+    .poiLeftPanel_top_first {
+        width: 220px;
+        display: inline-block
+    }
+    .poiLeftPanel_top_second {
+        width: 130px;
+        display: inline-block;
+        padding-left: 30px
+    }
+    .poiLeftPanel_top_third {
+        width: 150px;
+        display: inline-block;
+        padding-left: 30px
+    }
+    .poiLeftPanel_intercepted {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .poiLeftPanel_div_name {
+        width: 166px;
+        padding-left: 10px;
+        font-size: 16px;
+    }
+    .poiLeftPanel_div_type {
+        width: 100px;
+    }
+    .poiLeftPanel_div_img {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    .poiLeftPanel_universally {
+        display: inline-block;
+        overflow: hidden;
+    }
+
+    .poiLeftPanel_universally > img {
+        margin-top: -2px
+    }
+    .poiLeftPanel_img_show_container {
+        height: 360px;
+        width: 100%;
+        background: url(../../../../images/newPoi/leftPanelIcon/photo-bg.png) no-repeat
+    }
+    .poiLeftPanel_img_show_container >img{
+        position: absolute;
+        right: 10px;
+        top: 90px
+    }
+    .poiLeftPanel_operate {
+        padding-top: 8px;
+        height: 32px;
+        font-size: 12px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: #ffffff;
+    }
+    .poiLeftPanel_select {
+        color: #182848;
+        display: inline-block;
+        width: 120px;
+        height: 24px;
+        border-color: #8b93a3;
+        border-radius: 3px;
+        padding: 0;
+        margin-right: 10px;
+    }
+    .poiLeftPanel_Thumbnails {
+        padding-top: 12px;
+        height: 132px;
+        font-size: 12px;
+        padding-left: 22px;
+        padding-right: 22px;
+        color: #ffffff;
+    }
+    .poiLeftPanel_Thumbnails_div{
+        width: 120px;
+        height: 120px;
+        overflow: auto;
+        line-height: 119px;
+        display: inline-block;
+        text-align: center;
+        background: url(../../../../images/newPoi/leftPanelIcon/photo-bg-small.png) no-repeat
+    }
+    .poiLeftPanel_Thumbnails_div >img{
+        width: auto;
+        height: auto;
+        max-height: 100%;
+        max-width: 100%
+    }
+    .poiLeftPanel_Thumbnails_left {
+        background: url(../../../../images/newPoi/leftPanelIcon/left.png) no-repeat;
+        position: absolute;
+        width: 24px;
+        height: 48px;
+        left: 12px;
+        top: 550px;
+        cursor: pointer
+    }
+    .poiLeftPanel_Thumbnails_left:hover {
+        background: url(../../../../images/newPoi/leftPanelIcon/left-active.png) no-repeat;
+    }
+    .poiLeftPanel_Thumbnails_right {
+        background: url(../../../../images/newPoi/leftPanelIcon/right.png) no-repeat;
+        position: absolute;
+        width: 24px;
+        height: 48px;
+        right: 12px;
+        top: 550px;
+        cursor: pointer
+    }
+    .poiLeftPanel_Thumbnails_right:hover {
+        background: url(../../../../images/newPoi/leftPanelIcon/right-active.png) no-repeat;
+    }
+</style>
+<div class="poiLeftPanel_container" ng-controller="poiLeftPanelCtrl">
+    <div class="poiLeftPanel">
+        <div class="poiLeftPanel_son_div">
+            <div class="poiLeftPanel_top_first">
+                <div class="poiLeftPanel_line">
+                    <div class="poiLeftPanel_universally">
+                        <img src="../../../../images/newPoi/leftPanelIcon/icon-add.png">
+                    </div>
+                    <div class="poiLeftPanel_div_name poiLeftPanel_universally poiLeftPanel_intercepted">
+                        <strong>博泰嘉华酒店四维图新</strong>
+                    </div>
+                </div>
+                <div class="poiLeftPanel_line">
+                    <div class="poiLeftPanel_universally">
+                        <strong>审核状态：</strong>
+                        <span>已作业</span>
+                    </div>
+                    <div class="poiLeftPanel_universally" style="float: right">
+                        <strong>鲜度认证：</strong>
+                        <span>否</span>
+                    </div>
+                </div>
+            </div>
+            <div class="poiLeftPanel_top_second">
+                <div class="poiLeftPanel_line">
+                    <div class="poiLeftPanel_div_type poiLeftPanel_universally poiLeftPanel_intercepted">
+                        <strong>
+                        分类：
+                        </strong>
+                        <span>博泰嘉华酒店四维图新</span>
+                    </div>
+                </div>
+                <div class="poiLeftPanel_line">
+                    <div class="poiLeftPanel_universally">
+                        <strong>3D标识：</strong>
+                        <span>否</span>
+                    </div>
+                </div>
+            </div>
+            <div class="poiLeftPanel_top_third">
+                <div class="poiLeftPanel_line">
+                    <div class="poiLeftPanel_universally">
+                        <strong>2015-10-26 09:32:10</strong>
+                    </div>
+                </div>
+                <div class="poiLeftPanel_line">
+                    <div class="poiLeftPanel_universally">
+                        <strong>重要POI：</strong>
+                        <span>否</span>
+                    </div>
+                </div>
+            </div>
+            <img src="../../../../images/newPoi/leftPanelIcon/icon-back-left.png" class="poiLeftPanel_div_img"
+                 ng-click="closeLeftPanel()">
         </div>
-        <div style="width: 120px;padding-left: 10px;display: inline-block">
-            <strong>分类：</strong>
-            <span>酒店</span>
+        <div class="poiLeftPanel_img_show_container">
+            <img src="../../../../images/newPoi/leftPanelIcon/icon-close.png">
+            <div style="width: 540px;height: 360px;overflow: auto;text-align: center;line-height: 359px">
+                <img ng-src="{{bigImgSrc.src}}" img-show ng-style="bigImgStyle">
+            </div>
         </div>
-        <div style="padding-left: 10px;display: inline-block">
-            <span>2015-10-26 09:32:10</span>
+    </div>
+    <div class="poiLeftPanel_operate">
+        <select class="form-control poiLeftPanel_select">
+            <option>当前作业季</option>
+            <option>全部</option>
+        </select>
+        <select class="form-control poiLeftPanel_select">
+            <option>全貌</option>
+            <option>水牌</option>
+            <option>名称</option>
+            <option>名片</option>
+            <option>英文名</option>
+        </select>
+        <div style="display: inline-block;float: right">
+            <img src="../../../../images/newPoi/leftPanelIcon/icon-left.png" ng-click="rotateBigImg(-90)" style="padding-right: 10px">
+            <img src="../../../../images/newPoi/leftPanelIcon/icon-right.png" ng-click="rotateBigImg(90)" style="padding-right: 10px">
+            <img src="../../../../images/newPoi/leftPanelIcon/button-zengjia.png">
         </div>
-        <div class="arrow-left" ng-click="closeLeftPanel()">
+    </div>
+    <div class="poiLeftPanel_Thumbnails">
+        <div class="poiLeftPanel_Thumbnails_div" ng-repeat="item in imgSrcList" ng-style="{'margin-right':$index !== 3 ? '12px' : '0'}" ng-click="changeBigImg(item)">
+            <img ng-src="{{item.src}}">
+        </div>
+        <div class="poiLeftPanel_Thumbnails_left" ng-click="lastImg()">
+
+        </div>
+        <div class="poiLeftPanel_Thumbnails_right" ng-click="nextImg()">
 
         </div>
     </div>
-    <div style="width: 100%;height: 80px;;line-height: 80px;border-bottom: 1px solid white">
-        <div style="width: 140px;padding-left: 10px;display: inline-block">
-            <strong>审核状态：</strong>
-            <span>已作业</span>
-        </div>
-        <div style="width: 100px;display: inline-block">
-            <strong>鲜度验证：</strong>
-            <span>否</span>
-        </div>
-        <div style="width: 100px;display: inline-block">
-            <strong>3D标识：</strong>
-            <span>否</span>
-        </div>
-        <div style="width: 100px;display: inline-block">
-            <strong>重要POI：</strong>
-            <span>否</span>
-        </div>
-    </div>
-    <div>
-        <div ng-style="imgContainer"
-             style="width: 560px;height: 550px;overflow: auto;text-align: center;line-height: 549px">
-            <img ng-src="{{bigImgSrc.src}}" img-show ng-style="bigImgStyle">
-        </div>
-        <div style="display: inline-block">
-            <select>
-                <option value="aaaa">当前作业季</option>
-                <option value="saab">全部</option>
-            </select>
-        </div>
-        <div style="display: inline-block">
-            <select>
-                <option value="aaaa">全貌</option>
-                <option value="saab">水牌</option>
-                <option value="aaaa">名称</option>
-                <option value="saab">名片</option>
-                <option value="saab">英文名</option>
-            </select>
-        </div>
-        <div style="display: inline-block" ng-click="rotateBigImg(-90)">
-            逆时针
-        </div>
-        <div style="display: inline-block; padding-left: 20px" ng-click="rotateBigImg(90)">
-            顺时针
-        </div>
-    </div>
-    <div style="padding-top: 20px">
-        <div style="display: inline-block" ng-click="lastImg()">
-            <
-        </div>
-        <div style="display: inline-block">
-            <div style="height: 100px;width: 100px;display: inline-block;text-align: center"
-                 ng-repeat="item in imgSrcList">
-                <img ng-src="{{item.src}}" style="height: 80px;width: 80px" ng-click="changeBigImg(item)">
-            </div>
-        </div>
-        <div style="display: inline-block" ng-click="nextImg()">
-            >
-        </div>
-    </div>
 </div>
+<!--<div style="height:100%;background-color: #ffffff" ng-controller="poiLeftPanelCtrl">-->
+<!--<div class="grad1">-->
+<!--<div style="width: 100%;height: 80px;line-height: 80px">-->
+<!--<div style="width: 120px;padding-left: 10px;display: inline-block">-->
+<!--<strong>博泰嘉华酒店</strong>-->
+<!--</div>-->
+<!--<div style="width: 120px;padding-left: 10px;display: inline-block">-->
+<!--<strong>分类：</strong>-->
+<!--<span>酒店</span>-->
+<!--</div>-->
+<!--<div style="padding-left: 10px;display: inline-block">-->
+<!--<span>2015-10-26 09:32:10</span>-->
+<!--</div>-->
+<!--<div class="arrow-left" ng-click="closeLeftPanel()">-->
+
+<!--</div>-->
+<!--</div>-->
+<!--<div style="width: 100%;height: 80px;line-height: 80px;">-->
+<!--<div style="width: 140px;padding-left: 10px;display: inline-block">-->
+<!--<strong>审核状态：</strong>-->
+<!--<span>已作业</span>-->
+<!--</div>-->
+<!--<div style="width: 100px;display: inline-block">-->
+<!--<strong>鲜度验证：</strong>-->
+<!--<span>否</span>-->
+<!--</div>-->
+<!--<div style="width: 100px;display: inline-block">-->
+<!--<strong>3D标识：</strong>-->
+<!--<span>否</span>-->
+<!--</div>-->
+<!--<div style="width: 100px;display: inline-block">-->
+<!--<strong>重要POI：</strong>-->
+<!--<span>否</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div>-->
+<!--<div ng-style="imgContainer"-->
+<!--style="width: 560px;height: 550px;overflow: auto;text-align: center;line-height: 549px">-->
+<!--<img ng-src="{{bigImgSrc.src}}" img-show ng-style="bigImgStyle">-->
+<!--</div>-->
+<!--<div style="display: inline-block">-->
+<!--<select>-->
+<!--<option value="aaaa">当前作业季</option>-->
+<!--<option value="saab">全部</option>-->
+<!--</select>-->
+<!--</div>-->
+<!--<div style="display: inline-block">-->
+<!--<select>-->
+<!--<option value="aaaa">全貌</option>-->
+<!--<option value="saab">水牌</option>-->
+<!--<option value="aaaa">名称</option>-->
+<!--<option value="saab">名片</option>-->
+<!--<option value="saab">英文名</option>-->
+<!--</select>-->
+<!--</div>-->
+<!--<div style="display: inline-block" ng-click="rotateBigImg(-90)">-->
+<!--逆时针-->
+<!--</div>-->
+<!--<div style="display: inline-block; padding-left: 20px" ng-click="rotateBigImg(90)">-->
+<!--顺时针-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div style="padding-top: 20px">-->
+<!--<div style="display: inline-block" ng-click="lastImg()">-->
+<!--<-->
+<!--</div>-->
+<!--<div style="display: inline-block">-->
+<!--<div style="height: 100px;width: 100px;display: inline-block;text-align: center"-->
+           <!--ng-repeat="item in imgSrcList">-->
+    <!--<img ng-src="{{item.src}}" style="height: 80px;width: 80px" ng-click="changeBigImg(item)">-->
+<!--</div>-->
+<!--</div>-->
+<!--<div style="display: inline-block" ng-click="nextImg()">-->
+<!--&gt;-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
