@@ -196,6 +196,9 @@ fastmap.uikit.ObjectEditController = (function () {
                 case 'RDLANETOPODETAIL':// 车道连通
                     this.data = fastmap.dataApi.RdLaneTopoDetail(obj);
                     break;
+                case 'RDMILEAGEPILE':
+                    this.data = fastmap.dataApi.rdMileagePile(obj);
+                    break;
                 default:
                     throw '无法解析当前选择的类型!';
                     break;
