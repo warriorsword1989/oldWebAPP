@@ -1772,6 +1772,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     dsEdit.save(param).then(function (data) {
                         if (data != null) {
                             rdCross.redraw();
+                            relationData.redraw();
                             treatmentOfChanged(data, 'RDCROSS', 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
                         }
                     });
