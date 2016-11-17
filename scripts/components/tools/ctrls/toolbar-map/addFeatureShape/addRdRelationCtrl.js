@@ -667,8 +667,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
-                map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
+                map.currentTool.enable();
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('在link上点击增加里程桩!！','info');
                 eventController.off(eventController.eventTypes.RESETCOMPLETE);
@@ -707,7 +707,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                             });
                             tooltipsCtrl.setEditEventType('mileagePile');
-                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!');
+                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!','succ');
                             shapeCtrl.setEditingType("mileagePile");
                         }
                     })

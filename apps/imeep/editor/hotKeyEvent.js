@@ -600,6 +600,22 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 });
             }
+            else if(shapeCtrl.editType === "updateMileagePile"){
+                feature = selectCtrl.selectedFeatures;
+                param = {
+                    command: 'MOVE',
+                    type: 'RDMILEAGEPILE',
+                    dbId: App.Temp.dbId,
+                    data: featCodeCtrl.getFeatCode().mileagePile
+                };
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        selectCtrl.selectedFeatures = null;
+                        relationData.redraw();
+                        treatmentOfChanged(data, 'RDMILEAGEPILE', 'attr_mileagepile_ctrl/mileagePileCtrl', 'attr_mileagepile_tpl/mileagePile.html');
+                    }
+                });
+            }
             else if (shapeCtrl.editType === 'pathVertexReMove' || shapeCtrl.editType === 'pathVertexInsert' || shapeCtrl.editType === 'pathVertexMove') {
                 if (geo) {
                     var repairContent,

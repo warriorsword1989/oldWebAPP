@@ -8,6 +8,7 @@ rdElectronicEyeApp.controller('mileagepileController', ['$scope', 'dsEdit', '$oc
     var eventController = fastmap.uikit.EventController();
     var relationData = layerCtrl.getLayerById('relationData');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var selectCtrl = fastmap.uikit.SelectController();
     $scope.direct = [
         { id: 0, label: '双向', isSelect: false },
         { id: 1, label: '上行', isSelect: false },
@@ -28,6 +29,19 @@ rdElectronicEyeApp.controller('mileagepileController', ['$scope', 'dsEdit', '$oc
     $scope.initializeData = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.mileagepile = objCtrl.data;
+        var geo = {};
+        geo.points = [];
+        geo.points.push(fastmap.mapApi.point($scope.mileagepile.geometry.coordinates[0], $scope.mileagepile.geometry.coordinates[1]));
+        geo.components = geo.points;
+        geo.type = 'Mileagepile';
+        selectCtrl.onSelected({
+            geometry: geo,
+            id: $scope.mileagepile.pid,
+            linkPid: $scope.mileagepile.linkPid,
+            type: 'Marker',
+            direct: $scope.mileagepile.direct,
+            point: $scope.mileagepile.geometry.coordinates
+        });
         //高亮关系;
         highRenderCtrl.highLightFeatures.length = 0;
         highRenderCtrl.highLightFeatures.push({
