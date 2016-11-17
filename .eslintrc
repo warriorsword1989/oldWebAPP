@@ -9,10 +9,8 @@
     "angular":true,
     "App":true,
     "$":true,
-    "FM":true,
     "Utils":true,
-    "swal":true,
-    "$":true
+    "swal":true
   },
   "plugins": ["angular"],
   /**
