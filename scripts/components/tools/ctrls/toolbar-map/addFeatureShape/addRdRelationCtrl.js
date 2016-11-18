@@ -668,7 +668,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 map.currentTool.enable();
                 tooltipsCtrl.setEditEventType('addMileagePile');
-                tooltipsCtrl.setCurrentTooltip('在link上点击增加里程桩!！','info');
+                tooltipsCtrl.setCurrentTooltip('在link上点击增加里程桩!！', 'info');
 
                 eventController.off(eventController.eventTypes.RESETCOMPLETE);
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
