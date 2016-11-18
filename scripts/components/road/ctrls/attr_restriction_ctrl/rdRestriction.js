@@ -275,6 +275,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
                 highRenderCtrl.highLightFeatures = [];
                 $scope.refreshData();
                 map.currentTool.disable();
+                tooltipsCtrl.onRemoveTooltip();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     subAttrContainerTpl: false
                 });
