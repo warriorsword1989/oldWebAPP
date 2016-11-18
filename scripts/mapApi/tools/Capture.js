@@ -133,11 +133,9 @@ fastmap.mapApi.Capture = L.Handler.extend({
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
                     this.captureLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
-                        // break;
                 } else {
                     this.captured = false;
                 }
-                // }
             }
         }
     },

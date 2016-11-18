@@ -2134,8 +2134,13 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                 }
                 shapeCtrl.setEditingType('addAdAdmin');
                 shapeCtrl.startEditing();
+                shapeCtrl.editFeatType = null;
+
                 map.currentTool = shapeCtrl.getCurrentTool();
-                tooltipsCtrl.setEditEventType('pointVertexAdd');
+                map.currentTool.enable();
+                map.currentTool.captureHandler.addGuideLayer(rdLink);
+
+                tooltipsCtrl.setEditEventType('addAdAdmin');
                 tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！','info');
                 tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
             }

@@ -25,9 +25,11 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
-        this.snapHandler = new fastmap.mapApi.Snap({ map: this._map, shapeEditor: this.shapeEditor, selectedSnap: false, snapLine: true, snapNode: false, snapVertex: false });
-        this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('adAdmin'));
+        this.captureHandler = new fastmap.mapApi.Capture({ map: this._map, shapeEditor: this.shapeEditor, selectedCapture: false, captureLine: true });
+        this.captureHandler.enable();
+        //this.snapHandler = new fastmap.mapApi.Snap({ map: this._map, shapeEditor: this.shapeEditor, selectedSnap: false, snapLine: true, snapNode: false, snapVertex: false });
+        //this.snapHandler.enable();
+        //this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('adAdmin'));
         this.validation = fastmap.uikit.geometryValidation({ transform: new fastmap.mapApi.MecatorTranform() });
     },
 
@@ -36,7 +38,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        this._map.on('tap', this.onMouseDown, this);
+        //this._map.on('tap', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
     },
 
@@ -49,27 +51,35 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
     },
 
     onMouseMove: function (event) {
+        this.captureHandler.setTargetIndex(0);
         this.container.style.cursor = 'pointer';
-        this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: false });
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        this.targetPoint = this._map.layerPointToLatLng(event.layerPoint);
+        //if (this.captureHandler.captured) {
+        //    this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
+        //    this.selectCtrl.selectedFeatures = this.snapHandler.properties;
+        //    this.shapeEditor.shapeEditorResultFeedback.setupFeedback({ point: { x: this.targetPoint.lng, y: this.targetPoint.lat } });
+        //} else {
+        //    this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        //}
+
     },
 
 
     onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if (event.originalEvent.button > 0) {
-            return;
-        }
-        var mouseLatlng;
-        if (this.snapHandler.snaped == true) {
-            mouseLatlng = this.targetPoint;
-        } else {
-            mouseLatlng = event.latlng;
-        }
-        this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(mouseLatlng.lng, mouseLatlng.lat));
-        var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
-        this.drawGeomCanvasHighlight(tileCoordinate, event);
+        //if (event.originalEvent.button > 0) {
+        //    return;
+        //}
+        //var mouseLatlng;
+        //if (this.snapHandler.snaped == true) {
+        //    mouseLatlng = this.targetPoint;
+        //} else {
+        //    mouseLatlng = event.latlng;
+        //}
+        //this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(mouseLatlng.lng, mouseLatlng.lat));
+        //var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
+        //this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
         if (this.tiles[tilePoint[0] + ':' + tilePoint[1]]) {
@@ -203,7 +213,8 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
                 }
             }
         }
-    },
+    },
+
     /** *
      * 绘制高亮
      * @param id
