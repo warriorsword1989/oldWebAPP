@@ -38,6 +38,7 @@ fastmap.mapApi.Capture = L.Handler.extend({
     removeHooks: function () {
         this._map.off('mousemove', this.onMouseMove, this);
     },
+
     addGuideLayer: function (layer) {
         for (var i = 0, n = this._guides.length; i < n; i++) {
             if (L.stamp(layer) === L.stamp(this._guides[i])) {
