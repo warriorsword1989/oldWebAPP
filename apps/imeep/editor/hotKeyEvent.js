@@ -1811,7 +1811,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     };
                     // 调用编辑接口;
                     dsEdit.save(param).then(function (data) {
-                        if (data != null) {
+                        if (data && data !== '属性值未发生变化') {
                             rdCross.redraw();
                             relationData.redraw();
                             treatmentOfChanged(data, 'RDCROSS', 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
