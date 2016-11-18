@@ -1801,10 +1801,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
               var selectShapeType = shapeCtrl.editFeatType;
               var catchInfos = [];
               if (map.currentTool.snapStart.length != 0) {
-                catchInfos = catchInfos.concat(map.currentTool.snapStart);
+                catchInfos = catchInfos.concat(map.currentTool.snapStart[0].catches);
               }
               if (map.currentTool.snapEnd.length != 0) {
-                catchInfos = catchInfos.concat(map.currentTool.snapEnd);
+                catchInfos = catchInfos.concat(map.currentTool.snapEnd[0].catches);
               }
               param["command"] = "REPAIR";
               param["dbId"] = App.Temp.dbId;
@@ -1862,7 +1862,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 }
               })
             }
-              
+
             else if (shapeCtrl.editType === '') {    // 非正常情况下按空格
                 return;
             }

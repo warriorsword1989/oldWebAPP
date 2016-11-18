@@ -17,7 +17,7 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var compare = new fastmap.dataApi.geoDataModelComparison();
+    $scope.selectedFeatures = objectCtrl.datas;
     $scope.speedAndDirect = shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex = 0;
     $scope.modelArray = [false, false, false, false, false, false];
@@ -56,6 +56,13 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
                         objectCtrl.updateObject();
                     }
                     $scope.currentURL = appPath.root + appPath.road + 'tpls/attr_link_tpl/basicTpl.html';
+
+                    if(objectCtrl.datas.length > 0){
+                        $ocLazyLoad.load(appPath.road + 'ctrls/attr_link_ctrl/listOfMultiFeaturesCtrl').then(function () {
+                            $scope.currentList = appPath.root + appPath.road + 'tpls/attr_link_tpl/listOfMultiFeatures.html';
+                        })
+                    }
+
                 });
             }
         }
@@ -63,7 +70,7 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         $scope.linkData = objectCtrl.data;
 
-//         //測試數據
+// //         //測試數據
 //         var obj1 = eval({
 //
 //                 "adasFlag": 0,
@@ -205,7 +212,7 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
 //         "imiCode": 0,
 //           "intRtics": [],
 //           "isViaduct": 0,
-//           "kind": 7,
+//           "kind": 8,
 //           "laneClass": 1,
 //           "laneLeft": 0,
 //           "laneNum": 2,
@@ -285,7 +292,8 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
 //     });
 //
 //         $scope.linkData = compare.abstract([obj1, obj2]);
-// console.log(JSON.stringify($scope.linkData))
+//       objectCtrl.data =$scope.linkData
+//       //objectCtrl.setCurrentObject('RDLINK',$scope.linkData)
         $scope.currentURL = "";
         //随着地图的变化 高亮的线不变
 

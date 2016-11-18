@@ -51,6 +51,8 @@ fastmap.mapApi.PathSmooth = L.Handler.extend({
     if (!this._enabled) {
       return;
     }
+    this.snapStart = [];
+    this.snapEnd = [];
     this._map.dragging.enable();
     this._enabled = false;
     this.removeHooks();
@@ -215,11 +217,12 @@ fastmap.mapApi.PathSmooth = L.Handler.extend({
         //设置当前的捕捉对象
         if(this.targetIndex==0){
 
-          this.snapStart = this.createSnapObjs(selects.snode)
+          this.snapStart = this.createSnapObjs(selects.snode, event)
         }
 
+
         if((this.targetIndex==selects.geometry.components.length - 1)){
-          this.snapEnd = this.createSnapObjs(selects.enode)
+          this.snapEnd = this.createSnapObjs(selects.enode, event)
         }
 
       }
@@ -256,27 +259,35 @@ fastmap.mapApi.PathSmooth = L.Handler.extend({
 
 
 
-  createSnapObjs:function (nodeid) {
+  createSnapObjs:function (nodeid, event) {
     var snaps = [];
+    var obj = {};
     if(this.snapHandler.snaped == true){
-      var obj = {};
+
       if(this.snapHandler.snapType == 'line' || this.snapHandler.snapType == 'vertex'){
-        obj.catchLinks = {
-          preNodePid:nodeid,
-          linkPid:this.snapHandler.properties.id,
+        obj.catches = {
+          nodePid:nodeid,
+          catchLinkPid:this.snapHandler.properties.id,
           longitude:this.snapHandler.snapLatlng[0],
           latitude:this.snapHandler.snapLatlng[1]
         }
       }else if(this.snapHandler.snapType == 'node') {
-        obj.catchNodes = {
-          preNodePid:nodeid,
-          nodePid:this.snapHandler.properties.id
+        obj.catches = {
+          nodePid:nodeid,
+          catchNodePid:this.snapHandler.properties.id
         }
       }
 
       snaps.push (obj);
     }else{
-      snaps = [];
+
+      obj.catches ={
+          nodePid:nodeid,
+          longitude:event.latlng.lng,
+          latitude:event.latlng.lat
+      }
+
+      snaps.push (obj);
     }
 
     return snaps;
@@ -289,7 +300,7 @@ fastmap.mapApi.PathSmooth = L.Handler.extend({
     this.isMouseDownMove = false;
     this._map.dragging.enable();
     this.snapHandler.snapType = null;
-
+    this.selectType = null;
     this.targetIndex == null
     this.snapHandler.setTargetIndex(-1);
 

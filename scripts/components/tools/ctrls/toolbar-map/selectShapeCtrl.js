@@ -21,6 +21,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
         var crfData = layerCtrl.getLayerById('crfData');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
+        var compare = new fastmap.dataApi.geoDataModelComparison();
         var popup = L.popup();
         $scope.toolTipText = '';
         $scope.angleOfLink = function (pointA, pointB) {
@@ -313,7 +314,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 map.currentTool = new fastmap.uikit.SelectFeature({
                     map: map,
                     shapeEditor: shapeCtrl
-                }); 是;
+                });
                 map.currentTool.enable();
                 $scope.toolTipText = '请选择要素！';
                 eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
@@ -4299,7 +4300,400 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
             }
 
             function getByPidCallback(type, ctrl, tpl, data, selectedData, toolsObj) {
-                objCtrl.setCurrentObject(type, data);
+                //         //測試數據
+                var obj1 = eval({
+                    "adasFlag": 0,
+                    "adasMemo": 0,
+                    "appInfo": 1,
+                    "centerDivider": 0,
+                    "developState": 1,
+                    "diciType": 1,
+                    "difGroupid": "",
+                    "digitalLevel": 0,
+                    "direct": 2,
+                    "eNodePid": 773649,
+                    "editFlag": 1,
+                    "feeFlag": 0,
+                    "feeStd": 0,
+                    "forms": [
+                        {
+                            "auxiFlag": 0,
+                            "extendedForm": 0,
+                            "formOfWay": 34,
+                            "kgFlag": 0,
+                            "linkPid": 15255089,
+                            "rowId": "3AE1FC15FE2392F7E050A8C08304EE4C"
+                        }
+                    ],
+                    "functionClass": 5,
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": [
+                            [
+                                116.43692,
+                                39.94129
+                            ],
+                            [
+                                116.43687,
+                                39.94129
+                            ],
+                            [
+                                116.43632,
+                                39.94128
+                            ],
+                            [
+                                116.43594,
+                                39.94128
+                            ],
+                            [
+                                116.4353,
+                                39.94127
+                            ]
+                        ]
+                    },
+                    "imiCode": 0,
+                    "intRtics": [],
+                    "isViaduct": 0,
+                    "kind": 9,
+                    "laneClass": 1,
+                    "laneLeft": 1,
+                    "laneNum": 4,
+                    "laneRight": 0,
+                    "laneWidthLeft": 1,
+                    "laneWidthRight": 1,
+                    "leftRegionId": 1879,
+                    "length": 138.059,
+                    "limitTrucks": [],
+                    "limits": [
+                        {
+                            "inputTime": "",
+                            "limitDir": 0,
+                            "linkPid": 15255089,
+                            "processFlag": 0,
+                            "rowId": "3AE1F5D7316592F7E050A8C08304EE4C",
+                            "timeDomain": "[[(t2)(t6)]*[[(h7m0)(h9m0)]+[(h17m0)(h20m0)]]]",
+                            "tollType": 9,
+                            "type": 8,
+                            "vehicle": 0,
+                            "weather": 9
+                        },
+                        {
+                            "inputTime": "",
+                            "limitDir": 0,
+                            "linkPid": 15255089,
+                            "processFlag": 0,
+                            "rowId": "3AE1F5D9F66992F7E050A8C08304EE4C",
+                            "timeDomain": "[[(t2)(t6)]*[(h7m0)(h20m0)]]",
+                            "tollType": 9,
+                            "type": 9,
+                            "vehicle": 0,
+                            "weather": 9
+                        },
+                        {
+                            "inputTime": "",
+                            "limitDir": 0,
+                            "linkPid": 15255089,
+                            "processFlag": 2,
+                            "rowId": "3AE1F5CD68AF92F7E050A8C08304EE4C",
+                            "timeDomain": "",
+                            "tollType": 9,
+                            "type": 3,
+                            "vehicle": 0,
+                            "weather": 9
+                        }
+                    ],
+                    "memo": "",
+                    "meshId": 595673,
+                    "multiDigitized": 0,
+                    "names": [
+                        {
+                            "code": 0,
+                            "inputTime": "",
+                            "linkPid": 15255089,
+                            "name": "东直门外大街",
+                            "nameClass": 1,
+                            "nameGroupid": 15309,
+                            "nameType": 0,
+                            "routeAtt": 0,
+                            "rowId": "3AE1F927B66292F7E050A8C08304EE4C",
+                            "seqNum": 1,
+                            "srcFlag": 9
+                        }
+                    ],
+                    "onewayMark": 0,
+                    "originLinkPid": 15255089,
+                    "parkingFlag": 0,
+                    "parkingLot": 0,
+                    "paveStatus": 0,
+                    "pid": 15255088,
+                    "rightRegionId": 1879,
+                    "routeAdopt": 0,
+                    "rtics": [],
+                    "sNodePid": 12576510,
+                    "sidewalkFlag": 2,
+                    "sidewalks": [
+                        {
+                            "captureFlag": 1,
+                            "dividerType": 0,
+                            "linkPid": 15255089,
+                            "processFlag": 1,
+                            "rowId": "3AE1FA1A68CD92F7E050A8C08304EE4C",
+                            "sidewalkLoc": 1,
+                            "workDir": 1
+                        }
+                    ],
+                    "specialTraffic": 0,
+                    "speedlimits": [
+                        {
+                            "fromLimitSrc": 9,
+                            "fromSpeedLimit": 15,
+                            "linkPid": 15255089,
+                            "rowId": "3AE1FEFBA5D392F7E050A8C08304EE4C",
+                            "speedClass": 7,
+                            "speedClassWork": 1,
+                            "speedDependent": 0,
+                            "speedType": 0,
+                            "timeDomain": "",
+                            "toLimitSrc": 0,
+                            "toSpeedLimit": 0
+                        }
+                    ],
+                    "srcFlag": 6,
+                    "streetLight": 0,
+                    "systemId": 0,
+                    "tmclocations": [],
+                    "tollInfo": 2,
+                    "truckFlag": 0,
+                    "urban": 1,
+                    "walkFlag": 1,
+                    "walkstairFlag": 0,
+                    "walkstairs": [],
+                    "width": 30,
+                    "zones": [
+                        {
+                            "linkPid": 15255089,
+                            "regionId": 387274,
+                            "rowId": "3AE1FC668BA492F7E050A8C08304EE4C",
+                            "side": 0,
+                            "type": 1
+                        },
+                        {
+                            "linkPid": 15255089,
+                            "regionId": 387274,
+                            "rowId": "3AE1FC668BA392F7E050A8C08304EE4C",
+                            "side": 1,
+                            "type": 1
+                        }
+                    ]
+                });
+
+                var obj2 = eval({
+                    "adasFlag": 2,
+                    "adasMemo": 0,
+                    "appInfo": 1,
+                    "centerDivider": 0,
+                    "developState": 1,
+                    "diciType": 1,
+                    "difGroupid": "",
+                    "digitalLevel": 0,
+                    "direct": 2,
+                    "eNodePid": 773649,
+                    "editFlag": 1,
+                    "feeFlag": 0,
+                    "feeStd": 0,
+                    "forms": [
+                        {
+                            "auxiFlag": 0,
+                            "extendedForm": 0,
+                            "formOfWay": 34,
+                            "kgFlag": 0,
+                            "linkPid": 15255089,
+                            "rowId": "3AE1FC15FE2392F7E050A8C08304EE4C"
+                        }
+                    ],
+                    "functionClass": 5,
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": [
+                            [
+                                116.43692,
+                                39.94129
+                            ],
+                            [
+                                116.43687,
+                                39.94129
+                            ],
+                            [
+                                116.43632,
+                                39.94128
+                            ],
+                            [
+                                116.43594,
+                                39.94128
+                            ],
+                            [
+                                116.4353,
+                                39.94127
+                            ]
+                        ]
+                    },
+                    "imiCode": 0,
+                    "intRtics": [],
+                    "isViaduct": 0,
+                    "kind": 1,
+                    "laneClass": 1,
+                    "laneLeft": 0,
+                    "laneNum": 1,
+                    "laneRight": 0,
+                    "laneWidthLeft": 1,
+                    "laneWidthRight": 1,
+                    "leftRegionId": 1879,
+                    "length": 138.059,
+                    "limitTrucks": [],
+                    "limits": [
+                        {
+                            "inputTime": "",
+                            "limitDir": 0,
+                            "linkPid": 15255089,
+                            "processFlag": 0,
+                            "rowId": "3AE1F5D7316592F7E050A8C08304EE4C",
+                            "timeDomain": "[[(t2)(t6)]*[[(h7m0)(h9m0)]+[(h17m0)(h20m0)]]]",
+                            "tollType": 9,
+                            "type": 8,
+                            "vehicle": 0,
+                            "weather": 9
+                        },
+                        {
+                            "inputTime": "",
+                            "limitDir": 0,
+                            "linkPid": 15255089,
+                            "processFlag": 0,
+                            "rowId": "3AE1F5D9F66992F7E050A8C08304EE4C",
+                            "timeDomain": "[[(t2)(t6)]*[(h7m0)(h20m0)]]",
+                            "tollType": 9,
+                            "type": 9,
+                            "vehicle": 0,
+                            "weather": 9
+                        },
+                        {
+                            "inputTime": "",
+                            "limitDir": 0,
+                            "linkPid": 15255089,
+                            "processFlag": 2,
+                            "rowId": "3AE1F5CD68AF92F7E050A8C08304EE4C",
+                            "timeDomain": "",
+                            "tollType": 9,
+                            "type": 3,
+                            "vehicle": 0,
+                            "weather": 9
+                        }
+                    ],
+                    "memo": "",
+                    "meshId": 595673,
+                    "multiDigitized": 0,
+                    "names": [
+                        {
+                            "code": 0,
+                            "inputTime": "",
+                            "linkPid": 15255089,
+                            "name": "东直门外大街22",
+                            "nameClass": 1,
+                            "nameGroupid": 15309,
+                            "nameType": 0,
+                            "routeAtt": 0,
+                            "rowId": "3AE1F927B66292F7E050A8C08304EE4C",
+                            "seqNum": 1,
+                            "srcFlag": 9
+                        },
+
+                        {
+                            "code": 0,
+                            "inputTime": "",
+                            "linkPid": 15255089,
+                            "name": "东直门外大街",
+                            "nameClass": 1,
+                            "nameGroupid": 15309,
+                            "nameType": 0,
+                            "routeAtt": 0,
+                            "rowId": "3AE1F927B66292F7E050A8C08304EE4C",
+                            "seqNum": 1,
+                            "srcFlag": 9
+                        }
+                    ],
+                    "onewayMark": 0,
+                    "originLinkPid": 15255089,
+                    "parkingFlag": 0,
+                    "parkingLot": 0,
+                    "paveStatus": 0,
+                    "pid": 15255089,
+                    "rightRegionId": 1879,
+                    "routeAdopt": 0,
+                    "rtics": [],
+                    "sNodePid": 12576510,
+                    "sidewalkFlag": 2,
+                    "sidewalks": [
+                        {
+                            "captureFlag": 1,
+                            "dividerType": 0,
+                            "linkPid": 15255089,
+                            "processFlag": 1,
+                            "rowId": "3AE1FA1A68CD92F7E050A8C08304EE4C",
+                            "sidewalkLoc": 1,
+                            "workDir": 1
+                        }
+                    ],
+                    "specialTraffic": 0,
+                    "speedlimits": [
+                        {
+                            "fromLimitSrc": 9,
+                            "fromSpeedLimit": 15,
+                            "linkPid": 15255089,
+                            "rowId": "3AE1FEFBA5D392F7E050A8C08304EE4C",
+                            "speedClass": 7,
+                            "speedClassWork": 1,
+                            "speedDependent": 0,
+                            "speedType": 0,
+                            "timeDomain": "",
+                            "toLimitSrc": 0,
+                            "toSpeedLimit": 0
+                        }
+                    ],
+                    "srcFlag": 6,
+                    "streetLight": 0,
+                    "systemId": 0,
+                    "tmclocations": [],
+                    "tollInfo": 2,
+                    "truckFlag": 0,
+                    "urban": 1,
+                    "walkFlag": 1,
+                    "walkstairFlag": 0,
+                    "walkstairs": [],
+                    "width": 30,
+                    "zones": [
+                        {
+                            "linkPid": 15255089,
+                            "regionId": 387274,
+                            "rowId": "3AE1FC668BA492F7E050A8C08304EE4C",
+                            "side": 0,
+                            "type": 1
+                        },
+                        {
+                            "linkPid": 15255089,
+                            "regionId": 387274,
+                            "rowId": "3AE1FC668BA392F7E050A8C08304EE4C",
+                            "side": 1,
+                            "type": 1
+                        }
+                    ]
+                });
+                objCtrl.datas = [obj1, obj2]
+                data = compare.abstract([obj1, obj2]);
+                //objectCtrl.data =$scope.linkData
+                //objectCtrl.setCurrentObject('RDLINK',$scope.linkData)
+
+                objCtrl.setCurrentObject(type, data)
+
+                //objCtrl.setCurrentObject(type, data);
                 if (type == 'IXPOI') {
                     $scope.getCurrentKindByLittle(data); // 获取当前小分类所对应的大分类下的所有小分类
                     $scope.$emit('transitCtrlAndTpl', {

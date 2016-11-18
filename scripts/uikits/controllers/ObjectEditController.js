@@ -31,6 +31,12 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.nodeObjRefresh = '';
                 this.selectNodeRefresh = '';
                 this.falg = false;
+                this.compare = new fastmap.dataApi.geoDataModelComparison();
+              /***
+               * 为了进行批量编辑而添加的属性字段，保存批量编辑返回的原始数据
+               * @type {Array}
+               */
+                this.datas = [];
             },
             /**
              * 保存需要编辑的元素的原数据
@@ -165,9 +171,6 @@ fastmap.uikit.ObjectEditController = (function () {
                     break;
                 case 'RDSE': // 分叉口
                     this.data = fastmap.dataApi.rdSe(obj);
-                    break;
-                case 'RDTOLLGATE': // 收费站
-                    this.data = fastmap.dataApi.rdTollgate(obj);
                     break;
                 case 'RDTOLLGATE': // 收费站
                     this.data = fastmap.dataApi.rdTollgate(obj);
@@ -615,8 +618,24 @@ fastmap.uikit.ObjectEditController = (function () {
              * @param {Object}data
              */
             onSaved: function (orignalData, data) {
+
                 this.changedProperty = this.compareJson(orignalData.pid, orignalData, data.getIntegrate(), 'UPDATE');
+                this.restoreDatas(this.changedProperty);
+            },
+
+          /***
+           * 利用编辑后的数据更新原始数据集
+           * @param data
+           */
+          restoreDatas:function (data) {
+            for(var i = 0, len = this.datas.length; i< len; i++){
+                this.compare.updataObject(data, this.datas[i]);
             }
+
+              console.log(JSON.stringify(this.datas))
+          }
+
+
         });
         return new objectEditController(options);
     }
