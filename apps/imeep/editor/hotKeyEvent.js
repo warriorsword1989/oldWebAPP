@@ -584,15 +584,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     return;
                 }
                 feature = selectCtrl.selectedFeatures;
+                var currentPoint = shapeCtrl.shapeEditorResult.getFinalGeometry()
                 param = {
                     command: 'CREATE',
                     type: 'RDMILEAGEPILE',
                     dbId: App.Temp.dbId,
                     data: {
                         direct: 0,
-                        linkPid: parseInt(feature.id),
-                        longitude: feature.point.lng,
-                        latitude: feature.point.lat,
+                        linkPid: parseInt(shapeCtrl.shapeEditorResult.getProperties().linkPid),
+                        longitude: currentPoint.x,
+                        latitude: currentPoint.y,
                     }
                 };
                 dsEdit.save(param).then(function (data) {
