@@ -584,15 +584,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     return;
                 }
                 feature = selectCtrl.selectedFeatures;
+                var currentPoint = shapeCtrl.shapeEditorResult.getFinalGeometry()
                 param = {
                     command: 'CREATE',
                     type: 'RDMILEAGEPILE',
                     dbId: App.Temp.dbId,
                     data: {
                         direct: 0,
-                        linkPid: parseInt(feature.id),
-                        longitude: feature.point.lng,
-                        latitude: feature.point.lat,
+                        linkPid: parseInt(shapeCtrl.shapeEditorResult.getProperties().linkPid),
+                        longitude: currentPoint.x,
+                        latitude: currentPoint.y,
                     }
                 };
                 dsEdit.save(param).then(function (data) {
@@ -1810,7 +1811,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     };
                     // 调用编辑接口;
                     dsEdit.save(param).then(function (data) {
-                        if (data != null) {
+                        if (data && data !== '属性值未发生变化') {
                             rdCross.redraw();
                             relationData.redraw();
                             treatmentOfChanged(data, 'RDCROSS', 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
