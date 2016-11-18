@@ -13,6 +13,8 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
     var rdLink = layerCtrl.getLayerById('rdLink');
     var rdNode = layerCtrl.getLayerById('rdNode');
     var limitPicArr = [];
+    $scope.currentHandleType = '';
+
 
     // 初始化数据
     $scope.initializeData = function () {
@@ -34,12 +36,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         if ($scope.restricOrdinaryForm) {
             $scope.restricOrdinaryForm.$setPristine();
         }
-        // 最后一根退出线;
-        for (var i = 0; i < $scope.rdRestrictionCurrentDetail.vias.length; i++) {
-            if ($scope.rdRestrictionCurrentDetail.vias[i].seqNum == $scope.rdRestrictionCurrentDetail.vias.length) {
-                $scope.lastLinkLine = $scope.rdRestrictionCurrentDetail.vias[i].linkPid;
-            }
-        }
+
     };
 
     // 点击限制方向时,显示其有的属性信息
@@ -102,8 +99,16 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
     };
     // 修改经过线;
     $scope.modifyThroughLink = function () {
+        $scope.viasLinkFlag = false;
+        $scope.currentHandleType = 'editVias'
+        // 最后一根经过线;
+        for (var i = 0; i < $scope.rdRestrictOriginalData.details[$scope.flag].vias.length; i++) {
+            if ($scope.rdRestrictOriginalData.details[$scope.flag].vias[i].seqNum == $scope.rdRestrictOriginalData.details[$scope.flag].vias.length) {
+                $scope.lastLinkLine = $scope.rdRestrictOriginalData.details[$scope.flag].vias[i].linkPid;
+            }
+        }
         // //获取退出线的进入点以供修改经过线使用;
-        $q.all([getLinkInfos($scope.rdRestrictionCurrentDetail.outLinkPid), getLinkInfos($scope.lastLinkLine)]).then(function (data) {
+        $q.all([getLinkInfos($scope.rdRestrictOriginalData.details[$scope.flag].outLinkPid), getLinkInfos($scope.lastLinkLine)]).then(function (data) {
             var tempArr1 = [];
             var tempArr2 = [];
             tempArr1.push(data[0].eNodePid);
@@ -189,6 +194,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
             if (nodeArr[nodeArr.length - 1] == $scope.outLinkInNode) {
                 tooltipsCtrl.onRemoveTooltip();
                 tooltipsCtrl.setCurrentTooltip('经过线与退出线已连续，请点击保存！', 'info');
+                $scope.viasLinkFlag = true;
             }
 
             // 重新绘制;
@@ -236,6 +242,10 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
     /* --------------------------------------------------------------------------保存操作--------------------------------------------------------------------------*/
     $scope.save = function () {
+        if($scope.currentHandleType=='editVias'&& !$scope.viasLinkFlag){
+            swal('操作失败', '经过线不连续！', 'error');
+            return;
+        }
         var details = $scope.rdRestrictCurrentData.details;
         for (var i = 0; i < details.length; i++) {
             if (details[i].type != 2) {
@@ -385,6 +395,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
 
     function modifyOutLink() {
+        $scope.currentHandleType = 'editOutLink'
         clearMapTool();
         // 修改退出线;
         map.currentTool = new fastmap.uikit.SelectPath({
