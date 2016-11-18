@@ -142,11 +142,11 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         eventController.off(eventController.eventTypes.GETLINKID);
         eventController.on(eventController.eventTypes.GETLINKID, function (dataresult) {
             /*
-            * 对经过线的合法性前判断;
-            * （1）经过线不能为退出线;
-            * （2）经过线不能为进入线;
-            * （3）经过线必须相互连续;
-            * */
+             * 对经过线的合法性前判断;
+             * （1）经过线不能为退出线;
+             * （2）经过线不能为进入线;
+             * （3）经过线必须相互连续;
+             * */
             if (dataresult.id == $scope.rdRestrictionCurrentDetail.inLinkPid) {
                 tooltipsCtrl.onRemoveTooltip();
                 tooltipsCtrl.setCurrentTooltip('退出线和进入线不能为同一条线！', 'error');

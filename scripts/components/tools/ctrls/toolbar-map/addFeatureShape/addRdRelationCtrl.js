@@ -397,6 +397,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 }
             }
             nodes = nodes.concat(node);
+            return nodes;
         };
         /**
          *  路口创建中的方法 增加一个link
@@ -667,7 +668,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 map.currentTool.enable();
                 tooltipsCtrl.setEditEventType('addMileagePile');
-                tooltipsCtrl.setCurrentTooltip('在link上点击增加里程桩!！','info');
+                tooltipsCtrl.setCurrentTooltip('在link上点击增加里程桩!！', 'info');
 
                 eventController.off(eventController.eventTypes.RESETCOMPLETE);
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
@@ -746,7 +747,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             linksArr = minusObj.link;
                             nodesArr = minusObj.node;
                         } else {
-                            $scope.addArrByNode(nodesArr, linksArr, nodes, data.nodes);
+                            nodes = $scope.addArrByNode(nodesArr, linksArr, nodes, data.nodes);
                         }
                     } else if (data.links) {
                         if ($scope.containLink(linksArr, data.links)) {
@@ -2085,6 +2086,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 featCodeCtrl.setFeatCode({});
                                 swal('错误信息', '退出线有多条，不允许创建收费站', 'error');
                                 tooltipsCtrl.setCurrentTooltip('退出线有多条，不允许创建收费站!');
+                                map.currentTool.selectedFeatures.pop();
                                 return;
                             }
                             for (var i = 0, len = continueLinks.data.length; i < len; i++) {
