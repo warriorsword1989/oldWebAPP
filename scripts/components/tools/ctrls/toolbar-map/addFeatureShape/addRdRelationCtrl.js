@@ -667,7 +667,6 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 //}
                 shapeCtrl.setEditingType("addMileagePile");
                 shapeCtrl.setEditFeatType(null);
-
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
@@ -693,26 +692,24 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         tooltipsCtrl.notify('里程桩关联link不能是1,2,3,4级以外的道路！', 'error');
                         return;
                     }
-                    selectCtrl.selectedFeatures = {
-                        id: pro.id,
-                        point: e.latlng
-                    }
+
                     shapeCtrl.setEditFeatType('mileagePile');
-                    //dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
-                    //    if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 1){
-                    //        selectCtrl.selectedFeatures = null;
-                    //        editLayer.drawGeometry = null;
-                    //        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                    //        shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-                    //        editLayer.clear();
-                    //        tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！','error');
-                    //        return;
-                    //    }
-                    //    if (data) {
-                    //        //shapeCtrl.setEditFeatType('mileagePile');
-                    //        tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!','succ');
-                    //    }
-                    //})
+                    dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                        if(data){
+                            if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 1){
+                                selectCtrl.selectedFeatures = null;
+                                editLayer.drawGeometry = null;
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                                editLayer.clear();
+                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！','error');
+                                return;
+                            }
+                            selectCtrl.selectedFeatures = {}
+                            shapeCtrl.setEditFeatType('mileagePile');
+                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!','succ');
+                        }
+                    })
                 })
             }else if (type === "RDCROSS") {
                 $scope.resetOperator("addRelation", type);
