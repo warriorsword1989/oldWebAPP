@@ -290,10 +290,8 @@ fastmap.mapApi.Capture = L.Handler.extend({
 
             var line = new fastmap.mapApi.LineString([new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1])]);
             distance = line.pointToSegmentDistance(p, new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1]));
-
             if (distance.distance <= mindist) {
                 mindist = distance.distance;
-
                 result = line.pointToSegmentDistance(p, new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1]));
                 result.distance = distance;
                 result.index = -1;

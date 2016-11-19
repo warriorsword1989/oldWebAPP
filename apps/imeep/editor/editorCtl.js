@@ -929,6 +929,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             //    return;
             // }
             dsEdit.getByPid(pid, featType).then(function (data) {
+                var detailType = '';
                 var highRenderCtrl = new fastmap.uikit.HighRenderController();
                 objectCtrl.setCurrentObject(featType, data);
                 if (data.geometry) {

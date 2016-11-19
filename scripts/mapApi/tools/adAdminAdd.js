@@ -23,13 +23,11 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndexs = [];
+        this.resultData = null;
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
         this.captureHandler = new fastmap.mapApi.Capture({ map: this._map, shapeEditor: this.shapeEditor, selectedCapture: false, captureLine: true });
         this.captureHandler.enable();
-        //this.snapHandler = new fastmap.mapApi.Snap({ map: this._map, shapeEditor: this.shapeEditor, selectedSnap: false, snapLine: true, snapNode: false, snapVertex: false });
-        //this.snapHandler.enable();
-        //this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('adAdmin'));
         this.validation = fastmap.uikit.geometryValidation({ transform: new fastmap.mapApi.MecatorTranform() });
     },
 
@@ -38,7 +36,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        //this._map.on('tap', this.onMouseDown, this);
+        this._map.on('tap', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
     },
 
@@ -54,33 +52,28 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.captureHandler.setTargetIndex(0);
         this.container.style.cursor = 'pointer';
         this.targetPoint = this._map.layerPointToLatLng(event.layerPoint);
-        //if (this.captureHandler.captured) {
-        //    this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
-        //    this.selectCtrl.selectedFeatures = this.snapHandler.properties;
-        //    this.shapeEditor.shapeEditorResultFeedback.setupFeedback({ point: { x: this.targetPoint.lng, y: this.targetPoint.lat } });
-        //} else {
-        //    this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-        //}
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
+        points.components[0].x = this.targetPoint.lng;
+        points.components[0].y = this.targetPoint.lat;
+        if (this.captureHandler.captured) {
+            var capturePoint = L.latLng(this.captureHandler.captureLatlng[1], this.captureHandler.captureLatlng[0]);
+            points.components[1].x = capturePoint.lng;
+            points.components[1].y = capturePoint.lat;
+            points.guideLink = this.captureHandler.properties.id;
+            this.resultData = { point: { x: capturePoint.lng, y: capturePoint.lat } };
+        } else {
+            points.guideLink = null;
 
+        }
+        this.selectCtrl.setSnapObj(this.captureHandler);
+        this.shapeEditor.shapeEditorResult.setFinalGeometry(points);
     },
 
 
     onMouseDown: function (event) {
-        // button：0.左键,1.中键,2.右键
-        // 限制为左键点击事件
-        //if (event.originalEvent.button > 0) {
-        //    return;
-        //}
-        //var mouseLatlng;
-        //if (this.snapHandler.snaped == true) {
-        //    mouseLatlng = this.targetPoint;
-        //} else {
-        //    mouseLatlng = event.latlng;
-        //}
-        //this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(mouseLatlng.lng, mouseLatlng.lat));
-        //var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
-        //this.drawGeomCanvasHighlight(tileCoordinate, event);
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback(this.resultData);
     },
+
     drawGeomCanvasHighlight: function (tilePoint, event) {
         if (this.tiles[tilePoint[0] + ':' + tilePoint[1]]) {
             var pixels = null;

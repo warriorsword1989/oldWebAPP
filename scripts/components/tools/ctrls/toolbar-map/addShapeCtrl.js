@@ -2128,7 +2128,16 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
             } else if (type === 'ADADMIN') {
                 $scope.resetOperator('addPointFeature', type);
                 if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(0, 0));
+                    var feature = {};
+                    feature.components = [];
+                    feature.points = [];
+                    feature.components.push(fastmap.mapApi.point(0, 0));
+                    feature.components.push(fastmap.mapApi.point(0, 0));
+                    feature.points.push(fastmap.mapApi.point(0, 0));
+                    feature.points.push(fastmap.mapApi.point(0, 0));
+                    feature.type = 'ADMINPOINT';
+
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
