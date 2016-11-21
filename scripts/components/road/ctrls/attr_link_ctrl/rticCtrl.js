@@ -112,6 +112,10 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             $scope.tmcTreeData = [data.data];
         });
     };
+    //选择树子节点查询
+    $scope.showTreeSelected = function (sel) {
+        
+    };
     // 框选TMCPoint
     $scope.selectTmcPoint = function () {
         map.currentTool = new fastmap.uikit.SelectForRectang({

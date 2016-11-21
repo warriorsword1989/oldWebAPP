@@ -62,8 +62,13 @@
     </div>
 
     <div class="fm-panel" >
-        <treecontrol class="tree-dark" tree-model="tmcTreeData" on-selection="showSelected(node)">
-            label: {{node.name}} ({{node.tmcId}})
-        </treecontrol>
+        <div class="title">
+            <div>层级关系</div>
+        </div>
+        <div class="fm-panel" >
+            <treecontrol class="tree-dark" tree-model="tmcTreeData" on-selection="showTreeSelected(node)">
+                {{node.name}} ({{node.tmcId}})
+            </treecontrol>
+        </div>
     </div>
 </div>
