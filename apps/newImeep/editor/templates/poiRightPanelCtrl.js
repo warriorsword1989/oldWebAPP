@@ -13,6 +13,7 @@ angular.module('webeditor').controller('poiRightPanelCtrl', ['$scope',
         $scope.depthOpenFlag = true;
         $scope.fatherAndSonOpenFlag = true;
         $scope.sameOpenFlag = true;
+        $scope.phoneList = [{}];
         $scope.basicOpen = function () {
             $scope.basicOpenFlag = !$scope.basicOpenFlag;
         };
@@ -24,6 +25,14 @@ angular.module('webeditor').controller('poiRightPanelCtrl', ['$scope',
         };
         $scope.sameOpen = function () {
             $scope.sameOpenFlag = !$scope.sameOpenFlag;
+        };
+        $scope.addPhone = function () {
+            $scope.phoneList.push({});
+        };
+        $scope.deletePhone = function (id) {
+            if ($scope.phoneList.length > 1) {
+                $scope.phoneList.splice(id,1)
+            }
         };
     }
 ]);
