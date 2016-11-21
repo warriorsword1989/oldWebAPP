@@ -62,8 +62,13 @@ angular.module('app').controller('luLinkController', ['$scope', 'dsEdit', functi
         var line = fastmap.mapApi.lineString(points);
         selectCtrl.onSelected({// 存储选择数据信息
             geometry: line,
-            id: $scope.luLinkData.pid
+            id: $scope.luLinkData.pid,
+            type: 'Link',
+            direct: $scope.luLinkData.direct,
+            snode: $scope.luLinkData.sNodePid,
+            enode: $scope.luLinkData.eNodePid
         });
+
         var highLightFeatures = [];
         highLightFeatures.push({
             id: $scope.luLinkData.pid.toString(),

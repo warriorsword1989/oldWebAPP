@@ -26,9 +26,20 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.resultData = null;
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
-        this.captureHandler = new fastmap.mapApi.Capture({ map: this._map, shapeEditor: this.shapeEditor, selectedCapture: false, captureLine: true });
+        this.captureHandler = new fastmap.mapApi.Capture(
+            {
+                map: this._map,
+                shapeEditor: this.shapeEditor,
+                selectedCapture: false,
+                captureLine: true
+            }
+        );
         this.captureHandler.enable();
-        this.validation = fastmap.uikit.geometryValidation({ transform: new fastmap.mapApi.MecatorTranform() });
+        this.validation = fastmap.uikit.geometryValidation(
+            {
+                transform: new fastmap.mapApi.MecatorTranform()
+            }
+        );
     },
 
     /** *
@@ -56,31 +67,34 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         points.components[0].x = this.targetPoint.lng;
         points.components[0].y = this.targetPoint.lat;
         if (this.captureHandler.captured) {
-            var capturePoint = L.latLng(this.captureHandler.captureLatlng[1], this.captureHandler.captureLatlng[0]);
-            points.components[1].x = capturePoint.lng;
-            points.components[1].y = capturePoint.lat;
+            this.resultData = L.latLng(
+                this.captureHandler.captureLatlng[1],
+                this.captureHandler.captureLatlng[0]
+            );
+            points.components[1].x = this.resultData.lng;
+            points.components[1].y = this.resultData.lat;
             points.guideLink = this.captureHandler.properties.id;
-            this.resultData = { point: { x: capturePoint.lng, y: capturePoint.lat } };
-        } else {
-            points.guideLink = null;
-
+            this.shapeEditor.shapeEditorResult.setFinalGeometry(points);
         }
-        this.selectCtrl.setSnapObj(this.captureHandler);
-        this.shapeEditor.shapeEditorResult.setFinalGeometry(points);
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
 
-    onMouseDown: function (event) {
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback(this.resultData);
-    },
+    onMouseDown: function (event) {},
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
         if (this.tiles[tilePoint[0] + ':' + tilePoint[1]]) {
             var pixels = null;
-            if (this.snapHandler.snaped == true) {
-                pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat, this._map.getZoom());
+            if (this.snapHandler.snaped === true) {
+                pixels = this.transform.lonlat2Pixel(
+                    this.targetPoint.lng,
+                    this.targetPoint.lat, this._map.getZoom()
+                );
             } else {
-                pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());
+                pixels = this.transform.lonlat2Pixel(
+                    event.latlng.lng,
+                    event.latlng.lat, this._map.getZoom()
+                );
             }
 
             var x = pixels[0] - tilePoint[0] * 256,

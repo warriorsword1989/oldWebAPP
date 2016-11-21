@@ -1,8 +1,7 @@
 /**
  * Created by liuyang on 2016/8/18.
  */
-var addNodeShapeApp = angular.module('app');
-addNodeShapeApp.controller('addNodeFeatureCtrl', ['$scope', '$ocLazyLoad',
+angular.module('app').controller('addNodeFeatureCtrl', ['$scope', '$ocLazyLoad',
     function ($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var shapeCtrl = fastmap.uikit.ShapeEditorController();

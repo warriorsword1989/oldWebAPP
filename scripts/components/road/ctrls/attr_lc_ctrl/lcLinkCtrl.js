@@ -84,7 +84,11 @@ angular.module('app').controller('lcLinkController', ['$scope', 'dsEdit', '$ocLa
         var line = fastmap.mapApi.lineString(points);
         selectCtrl.onSelected({// 存储选择数据信息
             geometry: line,
-            id: $scope.lcLinkData.pid
+            id: $scope.lcLinkData.pid,
+            type: 'Link',
+            direct: $scope.lcLinkData.direct,
+            snode: $scope.lcLinkData.sNodePid,
+            enode: $scope.lcLinkData.eNodePid
         });
 
         // 高亮新增的lclink

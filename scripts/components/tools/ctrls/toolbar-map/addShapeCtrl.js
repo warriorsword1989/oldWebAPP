@@ -2125,34 +2125,35 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
                     console.log(data.data);
                 });
-            } else if (type === 'ADADMIN') {
-                $scope.resetOperator('addPointFeature', type);
-                if (shapeCtrl.shapeEditorResult) {
-                    var feature = {};
-                    feature.components = [];
-                    feature.points = [];
-                    feature.components.push(fastmap.mapApi.point(0, 0));
-                    feature.components.push(fastmap.mapApi.point(0, 0));
-                    feature.points.push(fastmap.mapApi.point(0, 0));
-                    feature.points.push(fastmap.mapApi.point(0, 0));
-                    feature.type = 'ADMINPOINT';
-
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType('addAdAdmin');
-                shapeCtrl.startEditing();
-                shapeCtrl.editFeatType = null;
-
-                map.currentTool = shapeCtrl.getCurrentTool();
-                map.currentTool.enable();
-                map.currentTool.captureHandler.addGuideLayer(rdLink);
-
-                tooltipsCtrl.setEditEventType('addAdAdmin');
-                tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！','info');
-                tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
             }
+            //else if (type === 'ADADMIN') {
+            //    $scope.resetOperator('addPointFeature', type);
+            //    if (shapeCtrl.shapeEditorResult) {
+            //        var feature = {};
+            //        feature.components = [];
+            //        feature.points = [];
+            //        feature.components.push(fastmap.mapApi.point(0, 0));
+            //        feature.components.push(fastmap.mapApi.point(0, 0));
+            //        feature.points.push(fastmap.mapApi.point(0, 0));
+            //        feature.points.push(fastmap.mapApi.point(0, 0));
+            //        feature.type = 'ADMINPOINT';
+            //
+            //        shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
+            //        selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+            //        layerCtrl.pushLayerFront('edit');
+            //    }
+            //    shapeCtrl.setEditingType('addAdAdmin');
+            //    shapeCtrl.startEditing();
+            //    shapeCtrl.editFeatType = null;
+            //
+            //    map.currentTool = shapeCtrl.getCurrentTool();
+            //    map.currentTool.enable();
+            //    map.currentTool.captureHandler.addGuideLayer(rdLink);
+            //
+            //    tooltipsCtrl.setEditEventType('addAdAdmin');
+            //    tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！','info');
+            //    tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
+            //}
         };
     }
 ]);

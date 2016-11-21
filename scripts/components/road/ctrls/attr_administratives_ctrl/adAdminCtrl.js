@@ -53,7 +53,11 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
         var points = fastmap.mapApi.point(linkArr[0], linkArr[1]);
         selectCtrl.onSelected({// 记录选中点信息
             geometry: points,
-            id: $scope.adAdminData.pid
+            id: $scope.adAdminData.pid,
+            type: 'Link',
+            direct: $scope.adAdminData.direct,
+            snode: $scope.adAdminData.sNodePid,
+            enode: $scope.adAdminData.eNodePid
         });
 
         // 高亮行政区划代表点

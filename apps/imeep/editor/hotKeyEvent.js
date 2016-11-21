@@ -515,10 +515,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 param.dbId = App.Temp.dbId;
                 param.objId = selectCtrl.selectedFeatures.dragNodePid;
                 var catchPid;
-                if (selectCtrl.selectedFeatures.catchFlag == 'RDLINK') {
+                if (selectCtrl.selectedFeatures.catchFlag.substring(2) == 'LINK') {
                     catchLinkPid = selectCtrl.selectedFeatures.catchNodePid;
                     catchNodePid = 0;
-                } else if (selectCtrl.selectedFeatures.catchFlag == 'RDNODE') {
+                } else if (selectCtrl.selectedFeatures.catchFlag.substring(2) == 'NODE') {
                     catchNodePid = selectCtrl.selectedFeatures.catchNodePid;
                     catchLinkPid = 0;
                 }
@@ -537,7 +537,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         linkPid: selectCtrl.selectedFeatures.selectedLinkPid
                     };
                 }
-                param.type = 'RDLINK';
+                param.type = selectCtrl.selectedFeatures.catchFlag;
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
                         selectCtrl.selectedFeatures = null;
@@ -973,9 +973,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     type: 'ADADMIN',
                     dbId: App.Temp.dbId,
                     data: {
-                        longitude: geo.x,
-                        latitude: geo.y,
-                        linkPid: parseInt(selectCtrl.selectedFeatures.id)
+                        longitude: geo.components[0].x,
+                        latitude: geo.components[0].y,
+                        linkPid: parseInt(geo.guideLink)
                     }
                 };
                 dsEdit.save(param).then(function (data) {
