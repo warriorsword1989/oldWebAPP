@@ -112,9 +112,9 @@ fastmap.uikit.HighRenderController = (function () {
                                         });
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSPEEDLIMIT') {
                                         this.drawSpeedLimit(id, hightlightfeature, ctx);
-                                    } else if(this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDMILEAGEPILE'){
-                                        this.drawMileagePile(id, hightlightfeature, ctx)
-                                    }else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDCROSS') {
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDMILEAGEPILE') {
+                                        this.drawMileagePile(id, hightlightfeature, ctx);
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDCROSS') {
                                         // this.drawPoint(id, hightlightfeature, ctx, style);
                                         this.drawCross(id, hightlightfeature, ctx, style);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDINTER') {

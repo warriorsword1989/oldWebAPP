@@ -14,13 +14,14 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData: function (data) {
-        this.nameId = data.nameId || '';
-        this.pid = data.pid || '';
+        this.nameId = data.nameId || 0;
+        this.pid = data.pid || 0;
         this.nameGroupid = data.nameGroupid || 1;
-        this.langCode = data.langCode || '';
-        this.name = data.name || '';
-        this.phonetic = data.phonetic || '';
+        this.langCode = data.langCode || 'CHI';
+        this.name = data.name || '名称';
+        this.phonetic = data.phonetic || 'Ming Cheng';
         this.srcFlag = data.srcFlag || 0;
+        this.rowId = data.rowId || '';
     },
 
     /**
@@ -31,7 +32,6 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot: function () {
         var data = {};
-        data.nameId = this.nameId;
         data.pid = this.pid;
         data.nameGroupid = this.nameGroupid;
         data.langCode = this.langCode;
@@ -39,6 +39,7 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
         data.phonetic = this.phonetic;
         data.srcFlag = this.srcFlag;
         data.geoLiveType = this.geoLiveType;
+        data.rowId = this.rowId;
         return data;
     },
 
@@ -50,7 +51,6 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data.nameId = this.nameId;
         data.pid = this.pid;
         data.nameGroupid = this.nameGroupid;
         data.langCode = this.langCode;
@@ -58,6 +58,7 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
         data.phonetic = this.phonetic;
         data.srcFlag = this.srcFlag;
         data.geoLiveType = this.geoLiveType;
+        data.rowId = this.rowId;
         return data;
     }
 });

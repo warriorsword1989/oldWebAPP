@@ -3,12 +3,12 @@
  */
 angular.module('webeditor').controller('poiLeftPanelCtrl', ['$scope',
     function ($scope) {
-      //获取poi的照片list组成如下数组格式，如果照片个数小于4张，用images\newPoi\leftPanelIcon\no-photo.png，填充个数
+      // 获取poi的照片list组成如下数组格式，如果照片个数小于4张，用images\newPoi\leftPanelIcon\no-photo.png，填充个数
         var testList = [
-      { src: '../../../../images/png/botai.jpg', id: 0 },
-      { src: '../../../../images/png/cj.png', id: 1 },
-      { src: '../../../../images/png/del.png', id: 2 },
-      { src: '../../../../images/png/rlist.png', id: 3 },
+      { src: '../../../../images/newPoi/leftPanelIcon/menu-restaurant-vintage-table.jpg', id: 0 },
+      { src: '../../../../images/newPoi/leftPanelIcon/pexels-photo-25177.jpg', id: 1 },
+      { src: '../../../../images/newPoi/leftPanelIcon/no-photo.png', id: 2 },
+      { src: '../../../../images/newPoi/leftPanelIcon/no-photo.png', id: 3 },
       { src: '../../../../images/png/scenelist.png', id: 4 },
       { src: '../../../../images/png/login.png', id: 5 }
         ];

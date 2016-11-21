@@ -108,14 +108,14 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                         lat: mousePoint.lat
                     });
                 } else if (this.snapHandler.snapIndex == -2) {
-                    if(this.shapeEditor.editFeatType=='RDLINK'){
+                    if(this.shapeEditor.editFeatType=='RDLINK'||this.shapeEditor.editFeatType=='ADLINK'){
                         this.catches.push({
                             nodePid: parseInt(this.snapHandler.properties.id),
                             seqNum: comp.length - 1
                             // lon: mousePoint.lng,
                             // lat: mousePoint.lat
                         });
-                    }else{
+                    } else {
                         this.catches.push({
                             nodePid: parseInt(this.snapHandler.properties.id),
                             seqNum: comp.length - 1,

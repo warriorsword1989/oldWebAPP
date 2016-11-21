@@ -15,7 +15,7 @@ zoneLinkApp.controller('zoneLinkController', ['$scope', 'dsEdit', function ($sco
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = fastmap.uikit.SelectController();
-    $scope.kind = [
+    $scope.kindOpt = [
         { id: 0, label: '假想线' },
         { id: 1, label: 'AOIZONE边界线' },
         { id: 2, label: 'KDZONE边界线' }
@@ -32,13 +32,13 @@ zoneLinkApp.controller('zoneLinkController', ['$scope', 'dsEdit', function ($sco
 
     // 初始化
     $scope.initializeData = function () {
+    	objCtrl.setOriginalData(objCtrl.data.getIntegrate());// 存储原始数据
         $scope.zoneLinkData = objCtrl.data;
         // 回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if ($scope.zoneLinkForm) {
             $scope.zoneLinkForm.$setPristine();
         }
 
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());// 存储原始数据
         var linkArr = $scope.zoneLinkData.geometry.coordinates,
             points = [];
         for (var i = 0, len = linkArr.length; i < len; i++) {
@@ -89,7 +89,13 @@ zoneLinkApp.controller('zoneLinkController', ['$scope', 'dsEdit', function ($sco
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                dsEdit.getByPid($scope.zoneLinkData.pid, 'ZONELINK').then(function (ret) {
+                    if (ret) {
+                    	objCtrl.setCurrentObject('ZONELINK', ret);
+                    	objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                    }
+                });
+//                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             }
         });
     };

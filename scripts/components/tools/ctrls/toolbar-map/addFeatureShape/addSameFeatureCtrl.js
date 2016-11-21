@@ -108,6 +108,9 @@ angular.module('app').controller('addSameFeatureCtrl', ['$scope', '$ocLazyLoad',
                     var removeRepeatIdArr = [];
                     for (var i = 0, len = data.data.length; i < len; i++) {
                         if (removeRepeatIdArr.indexOf(data.data[i].data.properties.id) < 0) {
+                            if (data.data[i].data.properties.featType === 'ZONELINK' && data.data[i].data.properties.kind === 0){
+                                break;
+                            }
                             removeRepeatIdArr.push(data.data[i].data.properties.id);
                             removeRepeatArr.push(data.data[i]);
                         }

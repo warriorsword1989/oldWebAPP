@@ -206,6 +206,10 @@ fastmap.uikit.FeatureConfig = {
             name: '航线',
             checked: false
         },
+        1210: {
+            name: 'ADAS',
+            checked: false
+        },
         1301: {
             name: '车信',
             checked: false
@@ -235,11 +239,20 @@ fastmap.uikit.FeatureConfig = {
             checked: false
         },
         1308: {
-            name: '可变导向车',
+            name: '禁止卡车驶入',
+            checked: false
+        },
+
+        1309: {
+            name: 'CLM',
+            checked: false
+        },
+        1310: {
+            name: '公交车道',
             checked: false
         },
         1311: {
-            name: '可变导向车',
+            name: '可变导向车道',
             checked: false
         },
         1401: {
@@ -274,8 +287,16 @@ fastmap.uikit.FeatureConfig = {
             tpl: '../../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html',
             checked: false
         },
+        1408: {
+            name: '高速路口实景图',
+            checked: false
+        },
         1409: {
             name: '普通路口模式图',
+            checked: false
+        },
+        1410: {
+            name: '高速入口模式图',
             checked: false
         },
         1501: {
@@ -406,6 +427,10 @@ fastmap.uikit.FeatureConfig = {
             name: '立交',
             checked: false
         },
+        1802: {
+            name: '背景',
+            checked: false
+        },
         1803: {
             name: '挂接',
             checked: false
@@ -442,16 +467,14 @@ fastmap.uikit.FeatureConfig = {
     featureName: function (featCode) {
         if (this.feature[featCode]) {
             return this.feature[featCode].name;
-        } else {
-            return '未知:' + featCode;
         }
+        return '未知:' + featCode;
     },
 
     tipName: function (tipCode) {
         if (this.tip[tipCode]) {
             return this.tip[tipCode].name;
-        } else {
-            return '未知:' + tipCode;
         }
+        return '未知:' + tipCode;
     }
 };

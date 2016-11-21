@@ -437,6 +437,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                                 rdLink.redraw();
                                 rdnode.redraw();
                                 rdLinkSpeedLimit.redraw();
+                                rdCross.redraw();
                             } else if (param.type === 'ADLINK') {
                                 adLink.redraw();
                                 adNode.redraw();
@@ -579,17 +580,21 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 });
             }
-            else if(shapeCtrl.editType === "mileagePile"){
+            else if(shapeCtrl.editType === "addMileagePile"){
+                if (!shapeCtrl.editFeatType) { // 如果不符合条件不让创建
+                    return;
+                }
                 feature = selectCtrl.selectedFeatures;
+                var currentPoint = shapeCtrl.shapeEditorResult.getFinalGeometry()
                 param = {
                     command: 'CREATE',
                     type: 'RDMILEAGEPILE',
                     dbId: App.Temp.dbId,
                     data: {
                         direct: 0,
-                        linkPid: parseInt(feature.id),
-                        longitude: feature.point.x,
-                        latitude: feature.point.y
+                        linkPid: parseInt(shapeCtrl.shapeEditorResult.getProperties().linkPid),
+                        longitude: currentPoint.x,
+                        latitude: currentPoint.y,
                     }
                 };
                 dsEdit.save(param).then(function (data) {
@@ -601,7 +606,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 });
             }
             else if(shapeCtrl.editType === "updateMileagePile"){
-                feature = selectCtrl.selectedFeatures;
+                if(!shapeCtrl.editFeatType){return;}
                 param = {
                     command: 'MOVE',
                     type: 'RDMILEAGEPILE',
@@ -615,8 +620,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'RDMILEAGEPILE', 'attr_mileagepile_ctrl/mileagePileCtrl', 'attr_mileagepile_tpl/mileagePile.html');
                     }
                 });
-            }
-            else if (shapeCtrl.editType === 'pathVertexReMove' || shapeCtrl.editType === 'pathVertexInsert' || shapeCtrl.editType === 'pathVertexMove') {
+            } else if (shapeCtrl.editType === 'pathVertexReMove' || shapeCtrl.editType === 'pathVertexInsert' || shapeCtrl.editType === 'pathVertexMove') {
                 if (geo) {
                     var repairContent,
                         ctrl,

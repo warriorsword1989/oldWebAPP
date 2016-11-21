@@ -368,7 +368,8 @@ angular.module('app').controller('RoadNameEditPanelCtl', ['$scope', '$ocLazyLoad
             	} else {
             		var param = {
                 			data: $scope.roadNameData,
-                			dbId: App.Temp.dbId
+                			dbId: App.Temp.dbId,
+                			subtaskId: parseInt(App.Temp.subTaskId)
                 	};
                 	dsMeta.roadNameSave(param).then(function (data) {
                 		if (data) {
@@ -402,7 +403,8 @@ angular.module('app').controller('RoadNameEditPanelCtl', ['$scope', '$ocLazyLoad
                 	changed.nameGroupid = $scope.roadNameData.nameGroupid;
                 	var param = {
                 			data: $scope.roadNameData,
-                			dbId: App.Temp.dbId
+                			dbId: App.Temp.dbId,
+                			subtaskId: parseInt(App.Temp.subTaskId)
                 	};
                 	dsMeta.roadNameSave(param).then(function (data) {
                 		if (data) {
