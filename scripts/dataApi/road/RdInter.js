@@ -25,8 +25,8 @@ fastmap.dataApi.RdInter = fastmap.dataApi.GeoDataModel.extend({
             this.links.push(link);
         }
 
-        for (var i = 0; i < data.nodes.length; i++) {
-            var node = fastmap.dataApi.rdInterNodes(data.nodes[i]);
+        for (var j = 0; j < data.nodes.length; j++) {
+            var node = fastmap.dataApi.rdInterNodes(data.nodes[j]);
             this.nodes.push(node);
         }
     },
@@ -46,8 +46,8 @@ fastmap.dataApi.RdInter = fastmap.dataApi.GeoDataModel.extend({
         for (var i = 0; i < this.links.length; i++) {
             data.links.push(this.links[i].getIntegrate());
         }
-        for (var i = 0; i < this.nodes.length; i++) {
-            data.nodes.push(this.nodes[i].getIntegrate());
+        for (var j = 0; j < this.nodes.length; j++) {
+            data.nodes.push(this.nodes[j].getIntegrate());
         }
         return data;
     },
@@ -67,8 +67,8 @@ fastmap.dataApi.RdInter = fastmap.dataApi.GeoDataModel.extend({
         for (var i = 0; i < this.links.length; i++) {
             data.links.push(this.links[i].getIntegrate());
         }
-        for (var i = 0; i < this.nodes.length; i++) {
-            data.nodes.push(this.nodes[i].getIntegrate());
+        for (var j = 0; j < this.nodes.length; j++) {
+            data.nodes.push(this.nodes[j].getIntegrate());
         }
         return data;
     }

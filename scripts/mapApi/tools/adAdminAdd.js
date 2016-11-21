@@ -26,6 +26,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.resultData = null;
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
+<<<<<<< HEAD
         this.captureHandler = new fastmap.mapApi.Capture(
             {
                 map: this._map,
@@ -40,6 +41,19 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
                 transform: new fastmap.mapApi.MecatorTranform()
             }
         );
+=======
+        this.snapHandler = new fastmap.mapApi.Snap({
+            map: this._map,
+            shapeEditor: this.shapeEditor,
+            selectedSnap: false,
+            snapLine: true,
+            snapNode: false,
+            snapVertex: false });
+        this.snapHandler.enable();
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('adAdmin'));
+        this.validation = fastmap.uikit.geometryValidation({
+            transform: new fastmap.mapApi.MecatorTranform() });
+>>>>>>> 979d0e14da6362a51b191d1d1d7d6436b25e2580
     },
 
     /** *
@@ -79,7 +93,6 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
-
     onMouseDown: function (event) {},
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
@@ -99,6 +112,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
 
             var x = pixels[0] - tilePoint[0] * 256,
                 y = pixels[1] - tilePoint[1] * 256;
+
             var data = this.tiles[tilePoint[0] + ':' + tilePoint[1]].data;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
@@ -115,6 +129,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
                     }
                 }
             }
+
             var point = transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
             point = new fastmap.mapApi.Point(point[0], point[1]);
             // id = data[0].properties.id;
@@ -143,15 +158,15 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
             var diry = p2y - p1y;
             var diffx = x - p1x;
             var diffy = y - p1y;
-            var t = 1 * (diffx * dirx + diffy * diry * 1) / (dirx * dirx + diry * diry * 1);
+            var t = (1 * ((diffx * dirx) + (diffy * diry * 1))) / ((dirx * dirx) + (diry * diry * 1));
             if (t < 0) {
                 t = 0;
             }
             if (t > 1) {
                 t = 1;
             }
-            var closestx = p1x + t * dirx;
-            var closesty = p1y + t * diry;
+            var closestx = p1x + (t * dirx);
+            var closesty = p1y + (t * diry);
             var dx = x - closestx;
             var dy = y - closesty;
             // if ((dx * dx + dy * dy) <= r * r) {
@@ -159,7 +174,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
             // }
             p1x = p2x;
             p1y = p2y;
-            arr.push(dx * dx + dy * dy);
+            arr.push((dx * dx) + (dy * dy));
         }
         var temp = 0;
         for (var i = 0; i < arr.length; i++) {

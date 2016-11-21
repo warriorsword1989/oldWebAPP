@@ -31,7 +31,7 @@ fastmap.dataApi.LcFaceName = fastmap.dataApi.GeoDataModel.extend({
     },
 
     getSnapShot: function () {
-    	var data = {};
+        var data = {};
         data.pid = this.pid;
         data.nameGroupId = this.nameGroupId;
         data.langCode = this.langCode;
