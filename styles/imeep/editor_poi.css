@@ -1,0 +1,303 @@
+/*滚动条样式*/
+.scroll_style {
+  overflow: auto;
+}
+.scroll_style::-webkit-scrollbar {
+  width: 6px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.scroll_style::-webkit-scrollbar-thumb {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background: #c1c1c1;
+}
+/*自定义单选复选框样式*/
+.radio_change_style {
+  position: relative;
+  top: 2px;
+}
+.radio_diy_class {
+  display: none;
+}
+.radio_diy_class + label {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+.radio_diy_class[type=radio] + label::before {
+  content: url('../../images/newPoi/rightPanelIcon/button-normal-radio.png');
+  position: relative;
+  top: 2px;
+}
+.radio_diy_class[type=radio]:checked + label::before {
+  content: url('../../images/newPoi/rightPanelIcon/button-click-radio.png');
+  position: relative;
+  top: 2px;
+}
+.radio_diy_class[type=checkbox] + label::before {
+  content: url('../../images/newPoi/rightPanelIcon/button-normal-checkbox.png');
+  position: relative;
+  top: 2px;
+}
+.radio_diy_class[type=checkbox]:checked + label::before {
+  content: url('../../images/newPoi/rightPanelIcon/button-click-checkbox.png');
+  position: relative;
+  top: 2px;
+}
+/*POI左侧照片展示样式*/
+.poiLeftPanel_container {
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px #93bbff;
+}
+.poiLeftPanel {
+  font-size: 12px;
+  height: 470px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #ffffff;
+  background: -webkit-linear-gradient(#6666FF, #ffffff);
+  /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(#6666FF, #ffffff);
+  /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(#6666FF, #ffffff);
+  /* Firefox 3.6 - 15 */
+  background: linear-gradient(#6666FF, #ffffff);
+  /* 标准的语法（必须放在最后） */
+}
+.poiLeftPanel_son_div {
+  height: 100px;
+}
+.poiLeftPanel_line {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+}
+.poiLeftPanel_top_first {
+  width: 220px;
+  display: inline-block;
+}
+.poiLeftPanel_top_second {
+  width: 130px;
+  display: inline-block;
+  padding-left: 30px;
+}
+.poiLeftPanel_top_third {
+  width: 150px;
+  display: inline-block;
+  padding-left: 30px;
+}
+.poiLeftPanel_intercepted {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.poiLeftPanel_div_name {
+  width: 166px;
+  padding-left: 10px;
+  font-size: 16px;
+}
+.poiLeftPanel_div_type {
+  width: 100px;
+}
+.poiLeftPanel_div_img {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.poiLeftPanel_universally {
+  display: inline-block;
+  overflow: hidden;
+}
+.poiLeftPanel_universally > img {
+  margin-top: -2px;
+}
+.poiLeftPanel_img_show_container {
+  height: 360px;
+  width: 100%;
+  background: url('../../images/newPoi/leftPanelIcon/photo-bg.png') no-repeat;
+}
+.poiLeftPanel_img_show_container > img {
+  z-index: 10;
+  position: absolute;
+  right: 10px;
+  top: 90px;
+}
+.poiLeftPanel_operate {
+  padding-top: 8px;
+  height: 32px;
+  font-size: 12px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #ffffff;
+}
+.poiLeftPanel_select {
+  color: #182848;
+  display: inline-block;
+  width: 120px;
+  height: 24px;
+  border-color: rgba(24, 40, 72, 0.5);
+  border-radius: 3px;
+  padding: 0;
+  margin-right: 10px;
+  box-shadow: none;
+}
+.poiLeftPanel_select:focus {
+  border-color: #636ef5;
+  box-shadow: none;
+}
+.poiLeftPanel_Thumbnails {
+  padding-top: 12px;
+  height: 132px;
+  font-size: 12px;
+  padding-left: 22px;
+  padding-right: 22px;
+  color: #ffffff;
+}
+.poiLeftPanel_Thumbnails_div {
+  width: 120px;
+  height: 120px;
+  overflow: auto;
+  line-height: 119px;
+  display: inline-block;
+  text-align: center;
+  background: url('../../images/newPoi/leftPanelIcon/photo-bg-small.png') no-repeat;
+}
+.poiLeftPanel_Thumbnails_div > img {
+  width: auto;
+  height: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+.poiLeftPanel_Thumbnails_left {
+  background: url('../../images/newPoi/leftPanelIcon/left.png') no-repeat;
+  position: absolute;
+  width: 24px;
+  height: 48px;
+  left: 12px;
+  top: 550px;
+  cursor: pointer;
+}
+.poiLeftPanel_Thumbnails_left:hover {
+  background: url('../../images/newPoi/leftPanelIcon/left-active.png') no-repeat;
+}
+.poiLeftPanel_Thumbnails_right {
+  background: url('../../images/newPoi/leftPanelIcon/right.png') no-repeat;
+  position: absolute;
+  width: 24px;
+  height: 48px;
+  right: 12px;
+  top: 550px;
+  cursor: pointer;
+}
+.poiLeftPanel_Thumbnails_right:hover {
+  background: url('../../images/newPoi/leftPanelIcon/right-active.png') no-repeat;
+}
+/* POI右侧属性面板样式*/
+.poiRightPanel_focus {
+  border-color: #636ef5;
+  box-shadow: none;
+}
+.poiRightPanel_container {
+  height: 100%;
+  background-color: #ffffff;
+  color: #ffffff;
+  box-shadow: 0 0 10px #93bbff;
+}
+.poiRightPanel_header {
+  line-height: 40px;
+  height: 40px;
+  background-color: #636ef5;
+}
+.poiRightPanel_div_img {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+.poiRightPanel_header_desc {
+  display: inline-block;
+  padding-left: 50px;
+}
+.poiRightPanel_header_desc_strong {
+  padding-left: 16px;
+  padding-right: 4px;
+}
+.poiRightPanel_header_img {
+  display: inline-block;
+  float: right;
+}
+.poiRightPanel_header_img > img {
+  padding-right: 10px;
+}
+.poiRightPanel_fold {
+  background-color: #eff0fe;
+  width: 100%;
+  height: 40px;
+  padding-left: 10px;
+  line-height: 40px;
+  font-size: 14px;
+  color: #636ef5;
+}
+.poiRightPanel_fold > img {
+  padding-left: 194px;
+}
+.detailUlCss {
+  margin-bottom: 8px;
+  background-color: #ffffff;
+  display: block;
+  box-shadow: none;
+}
+.detailUlCss > li {
+  background-color: #ffffff;
+  font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+  color: #182848;
+}
+.blockDescLiDiv {
+  display: inline-block;
+  width: 58px;
+  text-align: right;
+  margin-right: 28px;
+}
+.poiRightPanel_area {
+  margin-top: 6px;
+  font-size: 12px;
+  width: 190px;
+  height: 48px;
+  display: inline-block;
+  box-shadow: none;
+  resize: none;
+  border-color: rgba(24, 40, 72, 0.2);
+}
+.poiRightPanel_area:focus {
+  border-color: #636ef5;
+  box-shadow: none;
+}
+.poiRightPanel_Input {
+  font-size: 12px;
+  width: 190px;
+  height: 24px;
+  display: inline-block;
+  box-shadow: none;
+  border-color: rgba(24, 40, 72, 0.2);
+}
+.poiRightPanel_Input:focus {
+  border-color: #636ef5;
+  box-shadow: none;
+}
+.poiRightPanel_select {
+  color: #182848;
+  display: inline-block;
+  width: 135px;
+  height: 24px;
+  border-color: rgba(24, 40, 72, 0.2);
+  border-radius: 3px;
+  padding: 0;
+  margin-right: 10px;
+  box-shadow: none;
+}
+.poiRightPanel_select:focus {
+  border-color: #636ef5;
+  box-shadow: none;
+}
