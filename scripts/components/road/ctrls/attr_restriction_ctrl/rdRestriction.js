@@ -13,6 +13,25 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
     var rdLink = layerCtrl.getLayerById('rdLink');
     var rdNode = layerCtrl.getLayerById('rdNode');
     var limitPicArr = [];
+    $scope.restrictionType = 0; // 0--普通交限 1--卡车交限
+
+    // 判断当前交限是卡车交限还是普通交限
+    var setRestrictionType = function () {
+        $scope.restrictionType = 0; // 普通交限
+        var details = $scope.rdRestrictCurrentData.details;
+        for (var i = 0; i < details.length; i++) {
+            if (details[i].conditions && details[i].conditions[0]) {
+                var bin = Utils.dec2bin(details[i].conditions[0].vehicle);
+                var reverseBin = bin.split('').reverse();
+                var a = reverseBin[1];
+                var b = reverseBin[2];
+                if (a === '1' || b === '1') {
+                    $scope.restrictionType = 1;
+                    break;
+                }
+            }
+        }
+    };
 
     // 初始化数据
     $scope.initializeData = function () {
@@ -24,6 +43,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         $scope.rdRestrictCurrentData = objectEditCtrl.data;
         $scope.rdRestrictOriginalData = objectEditCtrl.originalData;
         $scope.rdRestrictionCurrentDetail = objectEditCtrl.data.details[0];
+        setRestrictionType();
         // 初始高亮整个关系关联要素;
         highLightRestrictAll();
         /* 如果默认限制类型为时间段禁止，显示时间段控件*/

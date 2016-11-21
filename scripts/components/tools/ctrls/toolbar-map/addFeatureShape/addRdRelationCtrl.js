@@ -397,6 +397,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 }
             }
             nodes = nodes.concat(node);
+            return nodes;
         };
         /**
          *  路口创建中的方法 增加一个link
@@ -559,6 +560,31 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     }
                 };
                 $scope.$emit('transitCtrlAndTpl', addRestrictionObj);
+            } else if (type === 'RDRESTRICTIONTRUCK') { // 卡车交限
+                $scope.resetOperator('addRelation', type);
+                $scope.$emit('SWITCHCONTAINERSTATE', {
+                    attrContainerTpl: false
+                });
+                var restrictionObj = {};
+                restrictionObj.showTransitData = [];
+                restrictionObj.showAdditionalData = [];
+                restrictionObj.showNormalData = [];
+                restrictionObj.inLaneInfoArr = [];
+                objCtrl.setOriginalData(restrictionObj);
+                var addRestrictionObj = {
+                    loadType: 'attrTplContainer',
+                    propertyCtrl: appPath.road + 'ctrls/blank_ctrl/blankCtrl',
+                    propertyHtml: appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html',
+                    callback: function () {
+                        var obj = {
+                            loadType: 'attrTplContainer',
+                            propertyCtrl: appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
+                            propertyHtml: appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
+                        };
+                        $scope.$emit('transitCtrlAndTpl', obj);
+                    }
+                };
+                $scope.$emit('transitCtrlAndTpl', addRestrictionObj);
             } else if (type === 'RDSPEEDLIMIT') {
                 $scope.resetOperator('addRelation', type);
                 var minLen = 100000,
@@ -658,7 +684,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         }
                     });
                 });
-            }else if(type === "RDMILEAGEPILE"){//里程桩
+            } else if (type === "RDMILEAGEPILE"){// 里程桩
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -747,7 +773,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             linksArr = minusObj.link;
                             nodesArr = minusObj.node;
                         } else {
-                            $scope.addArrByNode(nodesArr, linksArr, nodes, data.nodes);
+                            nodes = $scope.addArrByNode(nodesArr, linksArr, nodes, data.nodes);
                         }
                     } else if (data.links) {
                         if ($scope.containLink(linksArr, data.links)) {
