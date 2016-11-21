@@ -215,7 +215,7 @@ fastmap.uikit.FeatureConfig = {
             checked: false
         },
         1303: {
-            name: '客车交限',
+            name: '卡车交限',
             checked: false
         },
         1304: {
@@ -232,6 +232,14 @@ fastmap.uikit.FeatureConfig = {
         },
         1307: {
             name: '自然语音引导',
+            checked: false
+        },
+        1308: {
+            name: '可变导向车',
+            checked: false
+        },
+        1311: {
+            name: '可变导向车',
             checked: false
         },
         1401: {
@@ -388,6 +396,10 @@ fastmap.uikit.FeatureConfig = {
         },
         1706: {
             name: 'GPS打点',
+            checked: false
+        },
+        1707: {
+            name: '里程桩',
             checked: false
         },
         1801: {
