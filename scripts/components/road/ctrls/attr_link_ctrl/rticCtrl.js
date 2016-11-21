@@ -17,6 +17,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.rticData = objCtrl.data;
     $scope.tmcTreeData = [];
+    $scope.expandedNodesNum = [];
 
     $scope.resetToolAndMap = function () {
         // if (typeof map.currentTool.cleanHeight === "function") {
@@ -103,18 +104,60 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         tooltipsCtrl.setEditEventType('addTmcLocation');
         tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
     };
+    //递归查询select节点
+    $scope.getSelectObject = function(array) {
+        for (var i=0; i < array.length; i++) {
+            if(array[i].children) {
+                $scope.expandedNodesNum.push(i);
+                $scope.getSelectObject(array[i].children);
+                console.log($scope.expandedNodesNum);
+            }
+        }
+    };
     //查询TMC树形结构
     $scope.getTmcTree = function (tmcPoints) {
         var param = {
             tmcIds: tmcPoints
         };
-        dsMeta.queryTmcTree(param).then(function(data) {
+        dsMeta.queryTmcTree(param).then(function (data) {
             $scope.tmcTreeData = [data.data];
+            // $scope.getSelectObject($scope.tmcTreeData);
+            // $scope.expandedNodesNum = [];
         });
+    };
+    /* 加载二级面板 */
+    $scope.loadChildPanel = function (res, ctrl, html) {
+        var showNameInfoObj = { // 这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            loadType: 'subAttrTplContainer',
+            propertyCtrl: 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            propertyHtml: '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            callback: function () {
+                var showNameObj = {
+                    loadType: 'subAttrTplContainer',
+                    propertyCtrl: ctrl,
+                    propertyHtml: html
+                };
+                $scope.$emit('transitCtrlAndTpl', showNameObj);
+            }
+        };
+        objCtrl.tmcInfos = res;
+        $scope.$emit('transitCtrlAndTpl', showNameInfoObj);
     };
     //选择树子节点查询
     $scope.showTreeSelected = function (sel) {
-        
+        var param = {
+            tmcId: sel.tmcId,
+            type: sel.type
+        };
+        if (sel.type === 'TMCPOINT') {
+            dsMeta.queryTmcData(param).then(function (data) {
+                $scope.loadChildPanel(fastmap.dataApi.tmcPoint(data.data), 'scripts/components/road/ctrls/attr_link_ctrl/tmcPointCtrl', '../../../scripts/components/road/tpls/attr_link_tpl/tmcPointTpl.html');
+            });
+        } else if (sel.type === 'TMCLANE') {
+            dsMeta.queryTmcData(param).then(function (data) {
+                $scope.loadChildPanel(fastmap.dataApi.tmcPoint(data.data), 'scripts/components/road/ctrls/attr_link_ctrl/tmcLaneCtrl', '../../../scripts/components/road/tpls/attr_link_tpl/tmcLaneTpl.html');
+            });
+        }
     };
     // 框选TMCPoint
     $scope.selectTmcPoint = function () {
@@ -123,7 +166,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             shapeEditor: shapeCtrl,
             LayersList: [tmcLayer]
         });
-        map.currentTool.disable();
         map.currentTool.enable();
         eventController.off(eventController.eventTypes.GETRECTDATA);
         eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
@@ -147,8 +189,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                             style: {}
                         });
                     }
-                    // data.data.splice(i, 1);
-                    // i--;
                 }
             }
             tmcPointArray = Utils.distinctArr(tmcPointArray);
@@ -156,6 +196,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
             console.info(Utils.distinctArr(tmcPointArray));
             $scope.getTmcTree(tmcPointArray);
+            map.currentTool.disable();
         });
     };
     $scope.minusCarRtic = function (id) {

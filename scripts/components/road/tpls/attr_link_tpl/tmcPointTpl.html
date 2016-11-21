@@ -1,0 +1,166 @@
+<div ng-controller="TmcPointCtl">
+    <div class="fm-component" >
+        <div class="content">
+            <ul class="fm-ul fm-ul-form">
+                <li style="border-bottom: 1px solid #fff;">
+                    <label style="font-weight: bolder;font-size:13px;width:50%;">TMC点属性</label>
+                </li>
+                <li style="padding-top: 5px;">
+                    <label style="width:35%;">TMC点号码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.tmcId"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">位置代码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.locCode"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">位置表代码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.loctableId"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">位置表标示</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.cid"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">类型代码</label>
+                    <div >
+                        <select ng-model="tmcPointData.typeCode" class="fm-control chosen-disabled"
+                                ng-options="value.id as value.label for value in typeCodeOptions" readonly>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">正向进入道路</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.inPos"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">负向进入道路</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.inNeg"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">正向离开道路</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.outPos"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">负向离开道路</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.outNeg"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">道路正向出现</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.presentNeg"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">道路负向出现</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.presentPos"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">正方形偏移量</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.locoffPos"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">负方向偏移量</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.locoffNeg"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">道路参考</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.lineTmcId"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">区域参考</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.areaTmcId"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">交叉口参考</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.juncLoccode"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">邻接范围代码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.neighbourBound"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">邻接表代码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.neighbourTable"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">是否城市内</label>
+                    <div class="radio inline" style="text-align: left">
+                        <label>
+                            <input type="radio" name="isCity" class="chosen-disabled" value=0 ng-model="tmcPointData.urban" ng-disabled="tmcPointData.urban != 0">
+                            否
+                        </label>
+                        <label>
+                            <input type="radio" name="isCity" class="chosen-disabled" value=1 ng-model="tmcPointData.urban" ng-disabled="tmcPointData.urban != 1">
+                            是
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">是否打断道路</label>
+                    <div class="radio inline" style="text-align: left">
+                        <label>
+                            <input type="radio" name="isRoad" class="chosen-disabled" value=0 ng-model="tmcPointData.interuptRoad" ng-disabled="tmcPointData.interuptRoad != 0">
+                            否
+                        </label>
+                        <label>
+                            <input type="radio" name="isRoad" class="chosen-disabled" value=1 ng-model="tmcPointData.interuptRoad" ng-disabled="tmcPointData.interuptRoad != 1">
+                            是
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">几何对象</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.geometry"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">编辑标识</label>
+                    <div class="radio inline" style="text-align: left">
+                        <label>
+                            <input type="radio" name="editFlag" class="chosen-disabled" value=0 ng-model="tmcPointData.editFlag" ng-disabled="tmcPointData.editFlag != 0">
+                            不可编辑
+                        </label>
+                        <label>
+                            <input type="radio" name="editFlag" class="chosen-disabled" value=1 ng-model="tmcPointData.editFlag" ng-disabled="tmcPointData.editFlag != 1">
+                            可编辑
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
