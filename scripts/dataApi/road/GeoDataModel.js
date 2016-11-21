@@ -67,31 +67,7 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
     getIntegrate: function (integrate) {
         return null;
     },
-
-    getDiffProperties: function (integrateJson) {
-        var difJson = {};
-        var originJson = this.getIntegrate();
-        for (property in originJson.hasOwnProperty()) {
-            if (typeof originJson[property] === 'number') {
-                if (originJson[property] != integrateJson[property]) {
-                    difJson[property] = originJson[property];
-                }
-            } else if (typeof originJson[property] === 'string') {
-                if (originJson[property] != integrateJson[property]) {
-                    difJson[property] = originJson[property];
-                }
-            } else if (typeof originJson[property] === 'boolean') {
-                if (originJson[property] != integrateJson[property]) {
-                    difJson[property] = originJson[property];
-                }
-            } else if (typeof originJson[property] === 'object') {
-                if (JSON.stringify(originJson[property]) != JSON.stringify(integrateJson[property])) {
-                    difJson[property] = originJson[property];
-                }
-            }
-        }
-        return difJson;
-    },
+    
     /**
      * 通过GeoJson生成模型对象
      * @method fromGeoJson

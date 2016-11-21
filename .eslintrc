@@ -38,6 +38,8 @@
     "vars-on-top":0,
     // 允许标识符中含有下划线
     "no-underscore-dangle": 0,
+    // 允许空行前面有空格
+    "no-trailing-spaces":[2,{ "skipBlankLines": true }],
     // 强制函数中的变量要么一起声明要么分开声明
     "one-var": [2, { "initialized": "never" }],
     // 允许对 function 的参数进行重新赋值
