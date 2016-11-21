@@ -16,8 +16,18 @@ fastmap.dataApi.ZoneLinkKind = fastmap.dataApi.GeoDataModel.extend({
     setAttributeData: function (data) {
         this.rowId = data.rowId;
         this.linkPid = data.linkPid;
-        this.kind = data.kind || 1;
-        this.form = data.form || 1;
+        if (data.kind != 'undefied') {
+            this.kind = data.kind;
+        } else {
+            this.kind = 1;
+        }
+        // this.kind = data.kind || 1;
+        // this.form = data.form || 1;
+        if (data.form != 'undefied') {
+            this.form = data.form;
+        } else {
+            this.form = 1;
+        }
     },
 
     /*

@@ -397,6 +397,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 }
             }
             nodes = nodes.concat(node);
+            return nodes;
         };
         /**
          *  路口创建中的方法 增加一个link
@@ -658,8 +659,61 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         }
                     });
                 });
-            } else if (type === 'RDCROSS') {
+            }else if(type === "RDMILEAGEPILE"){//里程桩
                 $scope.resetOperator('addRelation', type);
+                shapeCtrl.setEditFeatType(null);
+                shapeCtrl.setEditingType("addMileagePile");
+                shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
+                map.currentTool.enable();
+                tooltipsCtrl.setEditEventType('addMileagePile');
+                tooltipsCtrl.setCurrentTooltip('在link上点击增加里程桩!！', 'info');
+
+                eventController.off(eventController.eventTypes.RESETCOMPLETE);
+                eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
+                    shapeCtrl.setEditFeatType(null);
+                    var pro = e.property;
+                    /*
+                    * 对里程桩的合法性做判断;
+                    * (1)不能为道路的端点;
+                    * (2)关联link种别不能为0、5、6、7、8、9、10、11、13、15，否则，给提示“里程桩关联link不能是8级及以下道路”，不允许创建里程桩;
+                    * (3)里程桩的点位必须在其关联link上
+                    * (4)里程桩的关联link不可以是图廓线;
+                    * */
+                    if (['1', '2', '3', '4'].indexOf(pro.kind) == -1) {
+                        editLayer.drawGeometry = null;
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                        shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                        editLayer.clear();
+                        tooltipsCtrl.notify('里程桩关联link不能是1,2,3,4级以外的道路！', 'error');
+                        return;
+                    }
+
+                    shapeCtrl.setEditFeatType('mileagePile');
+                    dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                        if(data){
+                            if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 1){
+                                selectCtrl.selectedFeatures = null;
+                                editLayer.drawGeometry = null;
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                                editLayer.clear();
+                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！','error');
+                                return;
+                            }
+                            //selectCtrl.selectedFeatures = {
+                            //    linkPid:pro.id,
+                            //    point:e.latlng
+                            //};
+                            shapeCtrl.shapeEditorResult.setProperties({linkPid:pro.id})
+                            shapeCtrl.setEditFeatType('mileagePile');
+                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!','succ');
+                        }
+                    })
+                })
+            }else if (type === "RDCROSS") {
+                $scope.resetOperator("addRelation", type);
                 var linksArr = [],
                     nodesArr = [],
                     nodes = [],
@@ -693,7 +747,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             linksArr = minusObj.link;
                             nodesArr = minusObj.node;
                         } else {
-                            $scope.addArrByNode(nodesArr, linksArr, nodes, data.nodes);
+                            nodes = $scope.addArrByNode(nodesArr, linksArr, nodes, data.nodes);
                         }
                     } else if (data.links) {
                         if ($scope.containLink(linksArr, data.links)) {
@@ -2032,6 +2086,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 featCodeCtrl.setFeatCode({});
                                 swal('错误信息', '退出线有多条，不允许创建收费站', 'error');
                                 tooltipsCtrl.setCurrentTooltip('退出线有多条，不允许创建收费站!');
+                                map.currentTool.selectedFeatures.pop();
                                 return;
                             }
                             for (var i = 0, len = continueLinks.data.length; i < len; i++) {
@@ -2061,6 +2116,11 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         map.currentTool.snapHandler._guides = [];
                         map.currentTool.snapHandler.addGuideLayer(rdnode);
                         $scope.rdTollgateData.inLinkPid = parseInt(data.id);
+                        if (data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
+                            tooltipsCtrl.notify('10级路、步行街、人渡不能作为收费站的进入线!', 'error');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
                         highLightFeatures.push({
                             id: $scope.rdTollgateData.inLinkPid.toString(),
                             layerid: 'rdLink',
@@ -2078,17 +2138,29 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             map.currentTool.clearCross();
                             map.currentTool.snapHandler._guides = [];
                             $scope.rdTollgateData.nodePid = parseInt(linkDirect == 2 ? data.properties.enode : data.properties.snode);
-                            highLightFeatures.push({
-                                id: $scope.rdTollgateData.nodePid.toString(),
-                                layerid: 'rdLink',
-                                type: 'node',
-                                style: {
-                                    color: 'yellow'
+                            dsEdit.getByPid($scope.rdTollgateData.nodePid, 'RDNODE').then(function (data) {
+                                if (data) {
+                                    if (data.kind == 2 || data.kind == 3) {
+                                        tooltipsCtrl.notify('属性变化点和路上点不能作为收费站的进入点!', 'error');
+                                        map.currentTool.selectedFeatures.pop();
+                                        tooltipsCtrl.setCurrentTooltip('请重新选择进入线');
+                                    } else {
+                                        highLightFeatures.push({
+                                            id: $scope.rdTollgateData.nodePid.toString(),
+                                            layerid: 'rdLink',
+                                            type: 'node',
+                                            style: {
+                                                color: 'yellow'
+                                            }
+                                        });
+                                        highRenderCtrl.drawHighlight();
+                                        map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
+                                        automaticCommand();
+                                    }
+                                } else {
+                                    tooltipsCtrl.setCurrentTooltip('请重新选择进入点!');
                                 }
                             });
-                            highRenderCtrl.drawHighlight();
-                            map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
-                            automaticCommand();
                             // featCodeCtrl.setFeatCode($scope.rdTollgateData);
                             // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         }
@@ -2099,19 +2171,35 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         map.currentTool.snapHandler._guides = [];
                         // map.currentTool.snapHandler.addGuideLayer(rdLink); //增加吸附图层
                         $scope.rdTollgateData.nodePid = parseInt(data.id);
-                        highLightFeatures.push({
-                            id: $scope.rdTollgateData.nodePid.toString(),
-                            layerid: 'rdLink',
-                            type: 'node',
-                            style: {
-                                color: 'yellow'
+                        dsEdit.getByPid($scope.rdTollgateData.nodePid, 'RDNODE').then(function (data) {
+                            if (data) {
+                                if (data.kind == 2 || data.kind == 3) {
+                                    tooltipsCtrl.notify('属性变化点和路上点不能作为收费站的进入点!', 'error');
+                                    map.currentTool.selectedFeatures.pop();
+                                } else {
+                                    highLightFeatures.push({
+                                        id: $scope.rdTollgateData.nodePid.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'node',
+                                        style: {
+                                            color: 'yellow'
+                                        }
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
+                                    automaticCommand();
+                                }
+                            } else {
+                                tooltipsCtrl.setCurrentTooltip('请重新选择进入点!');
                             }
                         });
-                        highRenderCtrl.drawHighlight();
-                        map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
-                        automaticCommand();
                     } else if (data.index >= 2) { // 退出线
                         $scope.rdTollgateData.outLinkPid = parseInt(data.id);
+                        if (data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
+                            tooltipsCtrl.notify('10级路、步行街、人渡不能作为收费站的退出线!', 'error');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
                         if (highLightFeatures.length === 3) {
                             highLightFeatures.pop();
                             highRenderCtrl._cleanHighLight();

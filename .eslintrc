@@ -4,6 +4,7 @@
   // 添加全局函数和对象
   "globals": {
     "fastmap":true,
+    "map":true,
     "FM":true,
     "L":true,
     "angular":true,

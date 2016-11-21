@@ -3,7 +3,7 @@
  */
 angular.module('webeditor').controller('poiLeftPanelCtrl', ['$scope',
     function ($scope) {
-      //获取poi的照片list组成如下数组格式，如果照片个数小于4张，用images\newPoi\leftPanelIcon\no-photo.png，填充个数
+      // 获取poi的照片list组成如下数组格式，如果照片个数小于4张，用images\newPoi\leftPanelIcon\no-photo.png，填充个数
         var testList = [
       { src: '../../../../images/newPoi/leftPanelIcon/menu-restaurant-vintage-table.jpg', id: 0 },
       { src: '../../../../images/newPoi/leftPanelIcon/pexels-photo-25177.jpg', id: 1 },
