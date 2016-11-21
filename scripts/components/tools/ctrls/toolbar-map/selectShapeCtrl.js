@@ -3379,6 +3379,15 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         highRenderCtrl._cleanHighLight();
                         if (data.optype == 'RDNODE') {
                             if (nodePids.indexOf(parseInt(data.id)) < 0) {
+                                nodePids.push(parseInt(data.id));
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data.id.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'node',
+                                    style: {
+                                        color: '#02F78E'
+                                    }
+                                });
                                 var param1 = {};
                                 param1.dbId = App.Temp.dbId;
                                 param1.type = 'RDLINK';
@@ -3405,15 +3414,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                             } else {
                                                 dsEdit.getByPid(exLinks.data[i].pid, 'RDLINK').then(function (linkData) {
                                                     if ((nodePids.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (nodePids.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) { // 线正好是中间部分,把线也加入
-                                                        nodePids.push(parseInt(data.id));
-                                                        highRenderCtrl.highLightFeatures.push({
-                                                            id: data.id.toString(),
-                                                            layerid: 'rdLink',
-                                                            type: 'node',
-                                                            style: {
-                                                                color: '#02F78E'
-                                                            }
-                                                        });
+
                                                         linkPids.push(linkData.pid);
                                                         highRenderCtrl.highLightFeatures.push({
                                                             id: linkData.pid.toString(),
