@@ -7,7 +7,7 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
      *
      * @param {Object}options
      */
-    initialize: function(options) {
+    initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
@@ -31,7 +31,7 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
     /** *
      * 添加事件处理
      */
-    addHooks: function() {
+    addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
             this._map.on('click', this.onMouseDown, this);
@@ -46,7 +46,7 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
     /** *
      * 移除事件
      */
-    removeHooks: function() {
+    removeHooks: function () {
         this.targetPoint = null;
         this._map.off('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
@@ -58,7 +58,7 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
             this._map.dragging.enable();
         }
     },
-    onMouseDown: function(event) {
+    onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
         if (event.originalEvent.button > 0) {
@@ -69,7 +69,7 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },
-    onMouseMove: function() {
+    onMouseMove: function () {
         this.container.style.cursor = 'pointer';
         this.snapHandler.setTargetIndex(0);
         if (this.snapHandler.snaped) {
@@ -92,8 +92,8 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
             this.targetPoint = null;
         }
     },
-    onMouseUp: function() {},
-    resetVertex: function(latlng) {
+    onMouseUp: function () {},
+    resetVertex: function (latlng) {
         this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(latlng.lng, latlng.lat));
         this.eventController.fire(this.eventController.eventTypes.RESETCOMPLETE, {
             property: this.snapHandler.properties,

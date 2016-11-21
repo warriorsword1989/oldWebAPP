@@ -579,13 +579,12 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'RDSPEEDLIMIT', 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
                     }
                 });
-            }
-            else if(shapeCtrl.editType === "addMileagePile"){
+            } else if (shapeCtrl.editType === 'addMileagePile') {
                 if (!shapeCtrl.editFeatType) { // 如果不符合条件不让创建
                     return;
                 }
                 feature = selectCtrl.selectedFeatures;
-                var currentPoint = shapeCtrl.shapeEditorResult.getFinalGeometry()
+                var currentPoint = shapeCtrl.shapeEditorResult.getFinalGeometry();
                 param = {
                     command: 'CREATE',
                     type: 'RDMILEAGEPILE',
@@ -594,7 +593,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         direct: 0,
                         linkPid: parseInt(shapeCtrl.shapeEditorResult.getProperties().linkPid),
                         longitude: currentPoint.x,
-                        latitude: currentPoint.y,
+                        latitude: currentPoint.y
                     }
                 };
                 dsEdit.save(param).then(function (data) {
@@ -604,9 +603,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'RDMILEAGEPILE', 'attr_mileagepile_ctrl/mileagePileCtrl', 'attr_mileagepile_tpl/mileagePile.html');
                     }
                 });
-            }
-            else if(shapeCtrl.editType === "updateMileagePile"){
-                if(!shapeCtrl.editFeatType){return;}
+            } else if (shapeCtrl.editType === 'updateMileagePile') {
+                if (!shapeCtrl.editFeatType) { return; }
                 param = {
                     command: 'MOVE',
                     type: 'RDMILEAGEPILE',

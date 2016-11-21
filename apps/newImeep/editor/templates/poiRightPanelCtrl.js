@@ -31,7 +31,7 @@ angular.module('webeditor').controller('poiRightPanelCtrl', ['$scope',
         };
         $scope.deletePhone = function (id) {
             if ($scope.phoneList.length > 1) {
-                $scope.phoneList.splice(id,1)
+                $scope.phoneList.splice(id, 1);
             }
         };
         $scope.addSonPoi = function () {
@@ -39,7 +39,7 @@ angular.module('webeditor').controller('poiRightPanelCtrl', ['$scope',
         };
         $scope.deleteSonPoi = function (id) {
             if ($scope.sonPoi.length > 1) {
-                $scope.sonPoi.splice(id,1)
+                $scope.sonPoi.splice(id, 1);
             }
         };
     }

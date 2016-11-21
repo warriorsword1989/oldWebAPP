@@ -105,17 +105,15 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
     };
     /* 递归查询select节点 */
-    $scope.getSelectObject = function(array) {
+    $scope.getSelectObject = function (array) {
         $scope.expandedNodes = [];
         for (var i = 0; i < array.length; i++) {
             if (array[i].type === 'TMCPOINT') {
                 $scope.expandedNodes = [array[i]];
                 return;
-            } else {
-                if (i === array.length - 1) {
-                    if (array[i].children) {
-                        $scope.getSelectObject(array[i].children);
-                    }
+            } else if (i === array.length - 1) {
+                if (array[i].children) {
+                    $scope.getSelectObject(array[i].children);
                 }
             }
         }
@@ -150,9 +148,9 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         objCtrl.tmcInfos = res;
         $scope.$emit('transitCtrlAndTpl', showNameInfoObj);
     };
-    //选择树子节点查询
+    // 选择树子节点查询
     $scope.showTreeSelected = function (sel) {
-        console.log(sel)
+        console.log(sel);
         var param = {
             tmcId: sel.tmcId,
             type: sel.type

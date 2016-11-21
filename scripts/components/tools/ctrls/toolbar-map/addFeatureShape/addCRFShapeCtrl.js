@@ -247,7 +247,8 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                                 highRenderCtrl.drawHighlight();
                                             } else {
                                                 dsEdit.getByPid(exLinks.data[i].pid, 'RDLINK').then(function (linkData) {
-                                                    if ((interData.nodes.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (interData.nodes.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) { // 线正好是中间部分,把线也加入
+                                                    if ((interData.nodes.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (interData.nodes.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) {
+ // 线正好是中间部分,把线也加入
 
                                                         interData.links.push(linkData.pid);
                                                         highRenderCtrl.highLightFeatures.push({
@@ -561,7 +562,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                         var latlng1 = L.latLng(sidePoints[i].x, sidePoints[i].y);
                         latLngs.push(latlng1);
                     }
-                    L.marker([latSum/sidePoints.length,lngSum/sidePoints.length],{
+                    L.marker([latSum / sidePoints.length, lngSum / sidePoints.length], {
                         draggable: true
                     }).addTo(map);
                     var polyGonLayer = L.polygon(latLngs, {
