@@ -219,7 +219,7 @@ fastmap.uikit.FeatureConfig = {
             checked: false
         },
         1303: {
-            name: '客车交限',
+            name: '卡车交限',
             checked: false
         },
         1304: {
@@ -242,6 +242,7 @@ fastmap.uikit.FeatureConfig = {
             name: '禁止卡车驶入',
             checked: false
         },
+
         1309: {
             name: 'CLM',
             checked: false
@@ -466,16 +467,14 @@ fastmap.uikit.FeatureConfig = {
     featureName: function (featCode) {
         if (this.feature[featCode]) {
             return this.feature[featCode].name;
-        } else {
-            return '未知:' + featCode;
         }
+        return '未知:' + featCode;
     },
 
     tipName: function (tipCode) {
         if (this.tip[tipCode]) {
             return this.tip[tipCode].name;
-        } else {
-            return '未知:' + tipCode;
         }
+        return '未知:' + tipCode;
     }
 };

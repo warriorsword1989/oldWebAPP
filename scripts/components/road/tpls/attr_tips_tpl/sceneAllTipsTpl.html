@@ -193,7 +193,8 @@
     <div class="right" ng-if="allTipsType==1303" >
         <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
             <div class="col-sm-3" ng-repeat="item in dataTipsData.o_array">
-                <img ng-src="../../../images/road/tips/1303/1303_{{item.sq}}_0.svg" style="cursor: pointer" ng-click="showMutiInfoItem($index)">
+                <img ng-src="../../../images/road/tips/1303/1303_0_{{item.sq}}
+                .svg" style="cursor: pointer" ng-click="showMutiInfoItem($index)">
             </div>
         </div>
     </div>
@@ -866,7 +867,9 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.hasOwnProperty('out')">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="oArrayItem.out[0].id" style="cursor:pointer;" ng-click="getFeatDataCallback(oArrayItem.out[0],'RDLINK')"></span>
+                                <div class="label" ng-repeat="outLink in oArrayItem.out" >
+                                    <div ng-bind="outLink.id" style="cursor:pointer;text-align: left;" ng-click="getFeatDataCallback(outLink,'RDLINK')"></div>
+                                </div>
                             </div>
                         </div>
                         <!-- end 路口语音引导 -->

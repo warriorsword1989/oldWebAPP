@@ -2,13 +2,13 @@
  * Created by linglong on 2016/7/25.
  */
 fastmap.dataApi.LCNode = fastmap.dataApi.GeoDataModel.extend({
-	/**
-	 * 初始化
-	 * @param data
-	 * @param options
-	 */
+    /**
+     * * 初始化
+     * * @param data
+     * * @param options
+     * */
     initialize: function (data, options) {
-    	L.setOptions(this, options);
+        L.setOptions(this, options);
         this.geoLiveType = 'LCNODE';
         this.setAttributeData(data);
     },

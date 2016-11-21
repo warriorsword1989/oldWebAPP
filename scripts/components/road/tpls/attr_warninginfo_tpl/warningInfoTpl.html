@@ -66,13 +66,13 @@
                     <li>
                         <label>有效距离</label>
                         <div >
-                            <input type="number" class="fm-control" min="1" max="99999" ng-model="rdWarningInfoObj.validDis"/>
+                            <input type="text" class="fm-control" ng-keyup="verifyNumber($event,0,99999,'validDis');" ng-model="rdWarningInfoObj.validDis"/>
                         </div>
                     </li>
                     <li>
                         <label>预告距离</label>
                         <div >
-                            <input type="number" class="fm-control" min="1" max="99999"  ng-model="rdWarningInfoObj.warnDis"/>
+                            <input type="text" class="fm-control" ng-keyup="verifyNumber($event,0,99999,'warnDis');" ng-model="rdWarningInfoObj.warnDis"/>
                         </div>
                     </li>
                     <li>
