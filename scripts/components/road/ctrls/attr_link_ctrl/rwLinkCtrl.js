@@ -55,8 +55,7 @@ rwLinkZone.controller('rwLinkController', ['$scope', 'appPath', 'dsEdit', functi
             type: 'Link',
             direct: $scope.rwLinkData.direct,
             snode: $scope.rwLinkData.sNodePid,
-            enode: $scope.rwLinkData.eNodePid,
-            point: pointOfSelect
+            enode: $scope.rwLinkData.eNodePid
         });
         var highLightFeatures = [];
         highLightFeatures.push({

@@ -26,7 +26,6 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.resultData = null;
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
-<<<<<<< HEAD
         this.captureHandler = new fastmap.mapApi.Capture(
             {
                 map: this._map,
@@ -41,19 +40,6 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
                 transform: new fastmap.mapApi.MecatorTranform()
             }
         );
-=======
-        this.snapHandler = new fastmap.mapApi.Snap({
-            map: this._map,
-            shapeEditor: this.shapeEditor,
-            selectedSnap: false,
-            snapLine: true,
-            snapNode: false,
-            snapVertex: false });
-        this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('adAdmin'));
-        this.validation = fastmap.uikit.geometryValidation({
-            transform: new fastmap.mapApi.MecatorTranform() });
->>>>>>> 979d0e14da6362a51b191d1d1d7d6436b25e2580
     },
 
     /** *
