@@ -26,6 +26,13 @@ fastmap.dataApi.TMCLine = fastmap.dataApi.GeoDataModel.extend({
         this.locoffPos = data.locoffPos;
         this.locoffNeg = data.locoffNeg;
         this.uplineTmcId = data.uplineTmcId;
+        this.names = [];
+        if (data.names && data.names.length > 0) {
+            for (var i = 0; i < data.names.length; i++) {
+                var name = fastmap.dataApi.tmcLineName(data.names[i]);
+                this.names.push(name);
+            }
+        }
         this.uRecord = data.uRecord;
         this.uFields = data.uFields;
     },
@@ -45,6 +52,10 @@ fastmap.dataApi.TMCLine = fastmap.dataApi.GeoDataModel.extend({
         data.locoffPos = this.locoffPos;
         data.locoffNeg = this.locoffNeg;
         data.uplineTmcId = this.uplineTmcId;
+        data.names = [];
+        for (var i = 0; i < this.names.length; i++) {
+            data.names.push(this.names[i].getIntegrate());
+        }
         data.uRecord = this.uRecord;
         data.uFields = this.uFields;
         return data;
@@ -62,6 +73,10 @@ fastmap.dataApi.TMCLine = fastmap.dataApi.GeoDataModel.extend({
         data.locoffPos = this.locoffPos;
         data.locoffNeg = this.locoffNeg;
         data.uplineTmcId = this.uplineTmcId;
+        data.names = [];
+        for (var i = 0; i < this.names.length; i++) {
+            data.names.push(this.names[i].getIntegrate());
+        }
         data.uRecord = this.uRecord;
         data.uFields = this.uFields;
         return data;
