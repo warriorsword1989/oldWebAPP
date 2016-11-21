@@ -1,0 +1,54 @@
+
+<div class="fm-component" ng-controller="mileagepileController">
+    <div class="title">
+        里程桩
+        <span class="label label-info">{{mileagepile.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="lcFaceForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label style="letter-spacing: 3px;margin-right: 10px;">关联道路:</label>
+                            <div><input placeholder="关联道路" type="text" class="chosen-disabled" class="fm-control chosen-disabled" ng-model="mileagepile.linkPid" /></div>
+                        </li>
+                        <li>
+                            <label style="margin-right: 10px;">里程桩编号:</label>
+                            <div><input placeholder="里程桩编号" type="text" class="fm-control" ng-model="mileagepile.mileageNum" /></div>
+                        </li>
+                        <li>
+                            <label style="letter-spacing: 3px;margin-right: 10px;">道路名称:</label>
+                            <div><input placeholder="道路名称" type="text" class="fm-control" ng-model="mileagepile.roadName" /></div>
+                        </li>
+                        <li>
+                            <label style="letter-spacing: 3px;margin-right: 10px;">路线编号:</label>
+                            <div><input placeholder="路线编号" type="text" class="fm-control" ng-model="mileagepile.roadNum" /></div>
+                        </li>
+
+                        <li>
+                            <label style="margin-right: 10px;">里程桩方向:</label>
+                            <div>
+                                <select ng-model="mileagepile.direct" ng-options="value.id as value.label for value in direct"></select>
+                            </div>
+                        </li>
+
+                        <li>
+                            <label style="letter-spacing: 3px;margin-right: 10px;">编号类型:</label>
+                            <div>
+                                <select ng-model="mileagepile.roadType" ng-options="value.id as value.label for value in roadType"></select>
+                            </div>
+                        </li>
+                        <li>
+                            <label style="margin-right: 10px;">来　　　源:</label>
+                            <div>
+                                <select ng-model="mileagepile.source" ng-options="value.id as value.label for value in source"></select>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

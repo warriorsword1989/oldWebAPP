@@ -213,6 +213,23 @@ angular.module('app').controller('warningInfoCtl', ['$scope', '$timeout', 'dsEdi
         }
     };
 
+    $scope.verifyNumber = function (t, min, max, model) {
+        var value = t.target.value;
+        if (value === '') {
+            value = '0';
+        }
+        if (value < min) {
+            $scope.rdWarningInfoObj[model] = min;
+            return;
+        }
+        if (value > max) {
+            $scope.rdWarningInfoObj[model] = max;
+            return;
+        }
+        value = parseInt(value.replace(/\D/g, ''), 10);
+        $scope.rdWarningInfoObj[model] = value;
+    };
+
     $scope.picNext = function () {
         $scope.picNowNum += 1;
         combinaPictures();

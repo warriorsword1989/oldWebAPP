@@ -645,11 +645,23 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
                 deg = 180 + deg;
             }
             if (($scope.laneInfoArr[i].direct === 1)) {
-                if ((directFlag === 3 && inLinkPid === $scope.laneInfoArr[i].linkPid)) {
-                    deg = 180 + deg;
-                } else if (inLinkPid !== $scope.laneInfoArr[i].linkPid) {
+                if (inLinkPid === $scope.laneInfoArr[i].linkPid) {
+                    if (deg !== 0 && directFlag === 3) {
+                        deg = 180 + deg;
+                    } else if (directFlag === 2 && deg === 0 && sLat > eLat) {
+                        deg = 180 + deg;
+                    }
+                } else if (deg !== 0) {
                     if (L.latLng(sLat, sLng).distanceTo(new L.LatLng(nodeGeo[1], nodeGeo[0])) >
                         L.latLng(eLat, eLng).distanceTo(new L.LatLng(nodeGeo[1], nodeGeo[0]))) {
+                        deg = 180 + deg;
+                    }
+                } else if (deg === 0) {
+                    if (sLat < eLat && (L.latLng(sLat, sLng).distanceTo(new L.LatLng(nodeGeo[1], nodeGeo[0])) >
+                        L.latLng(eLat, eLng).distanceTo(new L.LatLng(nodeGeo[1], nodeGeo[0])))) {
+                        deg = 180 + deg;
+                    } else if (sLat > eLat && (L.latLng(sLat, sLng).distanceTo(new L.LatLng(nodeGeo[1], nodeGeo[0])) <
+                        L.latLng(eLat, eLng).distanceTo(new L.LatLng(nodeGeo[1], nodeGeo[0])))) {
                         deg = 180 + deg;
                     }
                 }
@@ -658,7 +670,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             // var xtrans = _width / 2 * Math.sin(deg);
             // var ytrans = _width / 2 * Math.cos(deg);
             var _width = (lanesArr.length * 30) + 20;
-            var html = "<div class ='lane-img-container' id ='html" + linkPid + "' style='width:" + _width + 'px;-webkit-transform:rotate(' + deg + "deg);-webkit-transform:scale(0.7,0.7);'>";
+            var html = "<div class ='lane-img-container' id ='html" + linkPid + "' style='width:" + _width + 'px;-webkit-transform:rotate(' + deg + "deg);'>";
             html += "<div class='roadside-left'>";
             html += '</div>';
             for (var k = 0; k < lanesArr.length; k++) {
@@ -736,10 +748,15 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     //     },
     //     position: 'bottomleft'
     // }).addTo(topoMap);
-    topoMap.on('zoomend', function (e) {
-        var scale = ((topoMap.getZoom() - 17) * 0.05) + 0.8;
-        $('.lane-img-container').css('-webkit-transform', 'scale(' + scale + ',' + scale + ')');
-    });
+    // topoMap.on('zoomend', function (e) {
+    //     var scale = ((topoMap.getZoom() - 17) * 0.05) + 0.8;
+    //     $('.lane-img-container').each(function () {
+    //         var cssStyle = $(this)[0].attributes[2].value.split(';');
+    //         var cssStr = cssStyle[1].split('(');
+    //         cssStyle[1] = cssStr[0]+'('+scale+','+scale+')';
+    //         $(this)[0].attributes[2].value = cssStyle.join(';');
+    //     });
+    // });
     // 防止地图视口加载不全;
     topoMap.on('resize', function () {
         setTimeout(function () {

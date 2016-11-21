@@ -423,6 +423,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                 optype: data.properties.featType,
                 selectData: data,
                 branchType: data.properties.branchType,
+                restrictionType: data.properties.restrictionType,
           // tileId:this.selectData[0].tileId,
                 event: event
             });
@@ -565,7 +566,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                         case 'RDTRAFFICSIGNAL':
                         case 'RDGATE':
                         case 'RDSPEEDLIMIT':
-
                         case 'RDWARNINGINFO':
                         case 'RDELECTRONICEYE':
                         case 'RDSLOPE':

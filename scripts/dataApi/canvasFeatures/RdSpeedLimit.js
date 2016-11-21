@@ -169,7 +169,7 @@ fastmap.uikit.canvasFeature.RdSpeedLimit = fastmap.uikit.canvasFeature.Feature.e
                     column: 2,
                     location: this.geometry.coordinates,
                     rotate: (item.m.c - 270) * (Math.PI / 180),
-                    dx: 25,
+                    dx: 0,
                     dy: 6
                 }
             );

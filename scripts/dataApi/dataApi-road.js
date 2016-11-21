@@ -95,6 +95,7 @@
         'dataApi/road/RdTollgateName.js',
         'dataApi/road/RdTollgatePassage.js',
         'dataApi/road/RdVariableSpeed.js',
+        'dataApi/road/RdMileagePile.js',
         'dataApi/road/RdVariableSpeedLinks.js',
         'dataApi/road/RdVoiceGuide.js',
         'dataApi/road/RdVoiceGuideDetail.js',
@@ -105,7 +106,11 @@
         'dataApi/road/RdLaneCondition.js',
         'dataApi/road/RdLaneTopoDetail.js',
         'dataApi/road/RdLaneTopoVia.js',
-        'dataApi/road/RdHgwgLimit.js'
+        'dataApi/road/RdHgwgLimit.js',
+        'dataApi/road/TmcPoint.js',
+        'dataApi/road/TmcPointName.js',
+        'dataApi/road/TmcLine.js',
+        'dataApi/road/TmcLineName.js'
     ]; // etc.
 
 

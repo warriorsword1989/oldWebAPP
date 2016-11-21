@@ -107,7 +107,6 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 break;
             case 1303:// 卡车交限
                 ret = new fastmap.uikit.canvasTips.TipsTruckRestrictionTemp(item);
-                    // ret = new fastmap.uikit.canvasTips.TipsTruckRestrictions(item);
                 break;
             case 1304:// 禁止穿行 *
                 ret = new fastmap.uikit.canvasTips.TipsNoCrossing(item);

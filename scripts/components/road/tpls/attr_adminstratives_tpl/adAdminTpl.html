@@ -74,7 +74,7 @@
                             </div>
                         </li>
                     </ul>
-                    <ul class="fm-ul fm-ul-form">
+                    <!--<ul class="fm-ul fm-ul-form">
                         <li>
                             <div>
                                 <a ng-click="otherAdminName()" style="cursor: pointer;color:#FFF;">行政区划名称</a>
@@ -85,9 +85,31 @@
                                     ng-repeat="item in adAdminData.names">{{item.name}}</label>
                             </div>
                         </li>
-                    </ul>
+                    </ul>-->
                 </div>
             </div>
         </form>
+
+        <div class="content">
+            <ul class="list-group list-group-lg m-b-none">
+                <li class="list-group-item">
+                    <div class="list-name">
+                        <a ng-click="addItem()" class="fm-cursor">名称（共 {{nameGroup.length}} 组）</a>
+                    </div>
+                    <div class="list-add-icon" ng-click="addItem();">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                    </div>
+                    <div class="list-line"></div>
+                </li>
+                <li class="list-group-item">
+                    <ul ng-repeat="namesItem in nameGroup | orderBy:'nameGrouppid'" class="list-group child-list-ul list-group-lg m-b-none">
+                        <li class="list-group-item" ng-repeat="item in namesItem track by $index">
+                            <label class="control-label fm-cursor" ng-click="otherAdminName(namesItem,item.nameGroupid);" ng-bind="item.name"></label>
+                            <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,item)"></i>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

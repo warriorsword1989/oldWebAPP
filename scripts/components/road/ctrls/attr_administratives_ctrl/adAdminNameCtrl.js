@@ -3,128 +3,91 @@
  */
 
 var otherApp = angular.module('app');
-otherApp.controller('adAdminNameController', ['$scope', 'dsMeta', function ($scope, dsMeta) {
+otherApp.controller('adAdminNameController', ['$scope', 'dsMeta', '$timeout', function ($scope, dsMeta, $timeout) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var objectEditCtrl = fastmap.uikit.ObjectEditController();
-    $scope.indexName = 0;
     // 获取数据
-    $scope.names = objCtrl.data.names ? objCtrl.data.names : 0;
-    $scope.nameGroup = [];
-    /* 根据nameGroupId排序*/
-    $scope.names.sort(function (a, b) {
-        return b.nameGroupId >= a.nameGroupId;
-    });
-    /* 重组源数据用新建变量nameGroup显示*/
-    $scope.sortNameGroup = function (arr) {
-        $scope.nameGroup = [];
-        for (var i = 0; i <= arr.length - 1; i++) {
-            var tempArr = [];
-            if (arr[i + 1] && arr[i].nameGroupId == arr[i + 1].nameGroupId) {
-                if ($.inArray(arr[i], $scope.nameGroup) == -1) {
-                    tempArr.push(arr[i]);
-                }
-                for (var j = i + 1; j < arr.length - 1; j++) {
-                    if (arr[j].nameGroupId == arr[i].nameGroupId) {
-                        tempArr.push(arr[j]);
-                        i = j;
-                    }
-                }
+    $scope.adAdminNames = objCtrl.namesInfos;
+    $scope.selectedLangcodeArr = [];
+    var getSelectedLangcode = function () {
+        $scope.selectedLangcodeArr.length = 0;
+        for (var k in $scope.adAdminNames) {
+            if ($scope.selectedLangcodeArr.indexOf($scope.adAdminNames[k].langCode) < 0) {
+                $scope.selectedLangcodeArr.push($scope.adAdminNames[k].langCode);
+            }
+        }
+    };
+    getSelectedLangcode();
+    /* 名称语音*/
+    $scope.namePronunciation = function (nameCn, nameInfo) {
+        var param = {
+            word: nameCn
+        };
+        dsMeta.getNamePronunciation(param).then(function (data) {
+            if (data.errcode == 0) {
+                nameInfo.phonetic = data.data.phonetic;
             } else {
-                tempArr.push(arr[i]);
-            }
-            $scope.nameGroup.push(tempArr);
-        }
-    };
-    $scope.sortNameGroup($scope.names);
-    $scope.nameGroup = $scope.nameGroup.sort(function (a, b) {
-        return b.nameGroupId >= a.nameGroupId;
-    });
-    /* 上移或者下移*/
-    $scope.changeOrder = function (item, type) {
-        if (type == 1) {
-            $.each($scope.names, function (i, v) {
-                if (v.nameGroupId == item[0].nameGroupId - 1) {
-                    v.nameGroupId += 1;
-                }
-            });
-            for (var i = 0; i < item.length; i++) {
-                item[i].nameGroupId -= 1;
-            }
-        } else {
-            $.each($scope.names, function (i, v) {
-                if (v.nameGroupId == item[0].nameGroupId + 1) {
-                    v.nameGroupId -= 1;
-                }
-            });
-            for (var i = 0; i < item.length; i++) {
-                item[i].nameGroupId += 1;
-            }
-        }
-        $scope.names.sort(function (a, b) {
-            return b.nameGroupId >= a.nameGroupId;
-        });
-        $scope.sortNameGroup($scope.names);
-    };
-    /* 删除名称信息*/
-    $scope.removeNameInfo = function (item) {
-        var nameLength = 0;
-        /* 数组中删除*/
-        $.each($scope.nameGroup, function (i, v) {
-            if (v && v[0].nameGroupId == item.nameGroupId) {
-                $scope.nameGroup.splice(i, 1);
+                nameInfo.phonetic = '';
+                swal('查找失败', '可能是服务出错或者输入过长，请重新尝试', 'error');
             }
         });
-        /* 由于names的长度是变化的，所以在循环前赋值给一个变量*/
-        var tempLength = $scope.names.length;
-        for (var i = 0; i < tempLength; i++) {
-            if ($scope.names[i] && $scope.names[i].nameGroupId == item.nameGroupId) {
-                $scope.names.splice(i, 1);
-                i -= 1;
+    };
+
+    // 增加名称信息
+    $scope.addNameInfo = function () {
+        getSelectedLangcode();
+        for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+            if ($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
+                if (($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
+                } else {
+                    $scope.adAdminNames.push(fastmap.dataApi.adAdminName({
+                        nameGroupid: $scope.adAdminNames[0].nameGroupid,
+                        langCode: $scope.langCodeOptions[i].id
+                    }));
+                    break;
+                }
             }
         }
-        $.each($scope.nameGroup, function (i, v) {
-            $.each(v, function (m, n) {
-                if (n) {
-                    /* 删除一个，之后的nameGroup都减一*/
-                    if (n.nameGroupId > item.nameGroupId) {
-                        n.nameGroupId -= 1;
-                    }
-                    /* 如果只剩一条名称信息*/
-                    /* if($scope.nameGroup.length == 1){
-                     $scope.nameGroup[0].nameGroupId = 1;
-                     }*/
-                    nameLength++;
+        $scope.refreshNameLangCode();
+    };
+    // 代码语言字段切换时，判断语言不能重复
+    $scope.langCodeChange = function (langCode) {
+        // 如果当前所选既不是简体也不是繁体，则控制不允许选择简繁体
+        getSelectedLangcode();
+        if (langCode != 'CHI' && langCode != 'CHT') {
+            if ($scope.selectedLangcodeArr.indexOf('CHI') === -1) {
+                $scope.selectedLangcodeArr.push('CHI');
+            }
+            if ($scope.selectedLangcodeArr.indexOf('CHT') === -1) {
+                $scope.selectedLangcodeArr.push('CHT');
+            }
+        } else if (langCode == 'CHI') { // 如果是简体中文或繁体中文其他语言不可用
+            $scope.selectedLangcodeArr = [];
+            for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+                if ($scope.langCodeOptions[i].id != 'CHT') {
+                    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
                 }
-            });
+            }
+        } else if (langCode == 'CHT') {
+            $scope.selectedLangcodeArr = [];
+            for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+                if ($scope.langCodeOptions[i].id != 'CHI') {
+                    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
+                }
+            }
+        }
+        $scope.refreshNameLangCode();
+        $timeout(function () {
+            $scope.$apply();
         });
     };
-    /* 删除名称组下的名称信息*/
-    $scope.removeNameItem = function (item) {
-        var tempLength = $scope.names.length;
-        var groupNum = 0;
-        /* 统计该组下有多少个名称信息*/
-        for (var i = 0; i < tempLength; i++) {
-            if ($scope.names[i] && $scope.names[i].nameGroupId == item.nameGroupId) {
-                groupNum++;
-            }
-        }
-        for (var i = 0; i < tempLength; i++) {
-            if ($scope.names[i] && $scope.names[i].pid == item.pid) {
-                $scope.names.splice(i, 1);
-                if (groupNum == 1) {
-                    for (var j = 0; j < tempLength - 1; j++) {
-                        if ($scope.names[j].nameGroupId > item.nameGroupId) {
-                            $scope.names[j].nameGroupId -= 1;
-                        }
-                    }
-                }
-            }
-        }
-        $scope.sortNameGroup($scope.names);
+    // 重新排列名称信息
+    $scope.refreshNameLangCode = function () {
+        $scope.adAdminNames.sort(function (a, b) {
+            return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
+        });
     };
     /* 新增名称信息*/
-    $scope.nameInfoAdd = function () {
-        // var protoArr = $scope.names;
+    /* $scope.nameInfoAdd = function () {
         var newName = fastmap.dataApi.adAdminName({
             regionId: objCtrl.data.regionId,
             langCode: $scope.languageCode[0].code,
@@ -133,9 +96,9 @@ otherApp.controller('adAdminNameController', ['$scope', 'dsMeta', function ($sco
         });
         $scope.names.unshift(newName);
         $scope.sortNameGroup($scope.names);
-    };
+    };*/
 
-    /* 分歧名称输入完查询发音和拼音*/
+    /* 名称输入完查询发音和拼音*/
     $scope.diverName = function (id, name) {
         var param = {
             word: name
@@ -149,7 +112,6 @@ otherApp.controller('adAdminNameController', ['$scope', 'dsMeta', function ($sco
                         v.voiceFile = data.data.voicefile;
                     }
                 });
-                // $scope.$apply();
             }
         });
     };
@@ -167,48 +129,73 @@ otherApp.controller('adAdminNameController', ['$scope', 'dsMeta', function ($sco
         { code: 2, label: '官网' }
     ];
     /* 语言代码*/
-    $scope.languageCode = [
-        { code: 'CHI', name: '简体中文' },
-        { code: 'CHT', name: '繁体中文' },
-        { code: 'ENG', name: '英文' },
-        { code: 'POR', name: '葡萄牙文' },
-        { code: 'ARA', name: '阿拉伯语' },
-        { code: 'BUL', name: '保加利亚语' },
-        { code: 'CZE', name: '捷克语' },
-        { code: 'DAN', name: '丹麦语' },
-        { code: 'DUT', name: '荷兰语' },
-        { code: 'EST', name: '爱沙尼亚语' },
-        { code: 'FIN', name: '芬兰语' },
-        { code: 'FRE', name: '法语' },
-        { code: 'GER', name: '德语' },
-        { code: 'HIN', name: '印地语' },
-        { code: 'HUN', name: '匈牙利语' },
-        { code: 'ICE', name: '冰岛语' },
-        { code: 'IND', name: '印度尼西亚语' },
-        { code: 'ITA', name: '意大利语' },
-        { code: 'JPN', name: '日语' },
-        { code: 'KOR', name: '韩语' },
-        { code: 'LIT', name: '立陶宛语' },
-        { code: 'NOR', name: '挪威语' },
-        { code: 'POL', name: '波兰语' },
-        { code: 'RUM', name: '罗马尼亚语' },
-        { code: 'RUS', name: '俄语' },
-        { code: 'SLO', name: '斯洛伐克语' },
-        { code: 'SPA', name: '西班牙语' },
-        { code: 'SWE', name: '瑞典语' },
-        { code: 'THA', name: '泰国语' },
-        { code: 'TUR', name: '土耳其语' },
-        { code: 'UKR', name: '乌克兰语' },
-        { code: 'SCR', name: '克罗地亚语' }
+    $scope.langCodeOptions = [
+        { id: 'CHI', label: '简体中文' },
+        { id: 'CHT', label: '繁体中文' },
+        { id: 'ENG', label: '英文' },
+        { id: 'POR', label: '葡萄牙文' },
+        { id: 'ARA', label: '阿拉伯语' },
+        { id: 'BUL', label: '保加利亚语' },
+        { id: 'CZE', label: '捷克语' },
+        { id: 'DAN', label: '丹麦语' },
+        { id: 'DUT', label: '荷兰语' },
+        { id: 'EST', label: '爱沙尼亚语' },
+        { id: 'FIN', label: '芬兰语' },
+        { id: 'FRE', label: '法语' },
+        { id: 'GER', label: '德语' },
+        { id: 'HIN', label: '印地语' },
+        { id: 'HUN', label: '匈牙利语' },
+        { id: 'ICE', label: '冰岛语' },
+        { id: 'IND', label: '印度尼西亚语' },
+        { id: 'ITA', label: '意大利语' },
+        { id: 'JPN', label: '日语' },
+        { id: 'KOR', label: '韩语' },
+        { id: 'LIT', label: '立陶宛语' },
+        { id: 'NOR', label: '挪威语' },
+        { id: 'POL', label: '波兰语' },
+        { id: 'RUM', label: '罗马尼亚语' },
+        { id: 'RUS', label: '俄语' },
+        { id: 'SLO', label: '斯洛伐克语' },
+        { id: 'SPA', label: '西班牙语' },
+        { id: 'SWE', label: '瑞典语' },
+        { id: 'THA', label: '泰国语' },
+        { id: 'TUR', label: '土耳其语' },
+        { id: 'UKR', label: '乌克兰语' },
+        { id: 'SCR', label: '克罗地亚语' }
     ];
-    $scope.adAdminNameData = objectEditCtrl.data;
-    $scope.initData = function () {
-
-    };
-    if (objectEditCtrl.data) {
-
-    }
-    objectEditCtrl.updateObject = function () {
-
+    // 语言代码对应关系
+    $scope.langCodeRelation = {
+        CHI: 1,
+        CHT: 2,
+        ENG: 3,
+        POR: 4,
+        ARA: 5,
+        BUL: 6,
+        CZE: 7,
+        DAN: 8,
+        DUT: 9,
+        EST: 10,
+        FIN: 11,
+        FRE: 12,
+        GER: 13,
+        HIN: 14,
+        HUN: 15,
+        ICE: 16,
+        IND: 17,
+        ITA: 18,
+        JPN: 19,
+        KOR: 20,
+        LIT: 21,
+        NOR: 22,
+        POL: 23,
+        RUM: 24,
+        RUS: 25,
+        SLO: 26,
+        SPA: 27,
+        SWE: 28,
+        THA: 29,
+        TUR: 30,
+        UKR: 31,
+        SCR: 32
     };
 }]);

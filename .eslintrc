@@ -4,12 +4,14 @@
   // 添加全局函数和对象
   "globals": {
     "fastmap":true,
+    "map":true,
     "FM":true,
     "L":true,
     "angular":true,
     "App":true,
-    "swal":true,
-    "$":true
+    "$":true,
+    "Utils":true,
+    "swal":true
   },
   "plugins": ["angular"],
   /**
@@ -43,6 +45,8 @@
     // 强制函数中的变量要么一起声明要么分开声明
     "one-var": [2, { "initialized": "never" }],
     // 允许对 function 的参数进行重新赋值
-    "no-param-reassign": 0
+    "no-param-reassign": 0,
+    //允许方法使用在方式定义之前
+    //"no-use-before-define":["error", { "functions": false}]
   }
 }
