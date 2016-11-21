@@ -22,7 +22,7 @@ rdElectronicEyeApp.controller('mileagepileController', ['$scope', 'dsEdit', '$oc
     $scope.source = [
         { id: 1, label: '外业采集' },
         { id: 2, label: '内插制作' },
-        { id: 3, label: '外业采集' }
+        { id: 3, label: '第三方' }
     ];
 
     // 初始化函数;

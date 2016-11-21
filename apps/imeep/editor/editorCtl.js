@@ -948,7 +948,11 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 if (featType == 'RDBRANCH') {
                     detailType = data.details[0].branchType;
                 }
-                var page = _getFeaturePage(featType, detailType);
+                if(detailType){
+                    var page = _getFeaturePage(featType, detailType);
+                }else{
+                    var page = _getFeaturePage(featType);
+                }
                 if (featType == 'IXPOI') {
                     $scope.getCurrentKindByLittle(data); // 获取当前小分类所对应的大分类下的所有小分类
                     $scope.$emit('transitCtrlAndTpl', {
