@@ -111,6 +111,8 @@ treecontrol.tree-dark li.tree-leaf i.tree-leaf-head {
 
 treecontrol.tree-dark li .tree-selected {
     font-weight: bold;
+    background-color: #313131;
+    padding: 2px;
 }
 
 treecontrol.tree-dark li .tree-unselectable {
