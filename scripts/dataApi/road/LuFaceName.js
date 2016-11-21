@@ -33,7 +33,7 @@ fastmap.dataApi.LuFaceName = fastmap.dataApi.GeoDataModel.extend({
     },
 
     getSnapShot: function () {
-    	var data = {};
+        var data = {};
         data.pid = this.pid;
         data.facePid = this.facePid;
         data.nameGroupid = this.nameGroupid;

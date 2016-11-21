@@ -246,9 +246,9 @@ formOfWayApp.controller('formOfWayController', function ($scope) {
                 linkPid: objCtrl.data.pid,
                 formOfWay: parseInt(item.id)
             });
-                if (parseInt(item.id) === 53) {
-                    newForm.auxiFlag = 3;
-                }
+                // if (parseInt(item.id) === 53) {
+                //     newForm.auxiFlag = 3;
+                // }
 
                 $scope.formsData.unshift(newForm);
             }

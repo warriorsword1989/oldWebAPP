@@ -49,7 +49,7 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
         if (!link) {
             return;
         }
-        if (link.type == 1) {
+        if (link.type == 1) { //道路link
             dsEdit.getByPid(link.id, type).then(function (data) {
                 var options = {};
                 if (!data) {
@@ -104,7 +104,7 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
                 objCtrl.setCurrentObject(type, data);
                 $scope.$emit('transitCtrlAndTpl', options);
             });
-        } else {
+        } else { // 测线link
             dsFcc.getTipsResult(link.id).then(function (data) {
                 if (!data) {
                     return;
@@ -678,7 +678,7 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
             }
             break;
         case '1303': // 卡车交限
-            $scope.oArrayItem = $scope.dataTipsData.o_array[0];
+            $scope.oArrayItem = $scope.dataTipsData.o_array[0]; //默认显示第一个
             $scope.outsideCarObj = {
                 0: '不应用',
                 1: '仅限制外埠车辆',
@@ -934,31 +934,31 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
                 case 0:
                     return '作业中';
                 case 1:
-                    return '高速道路';
+                    return '1-高速道路';
                 case 2:
-                    return '城市高速';
+                    return '2-城市高速';
                 case 3:
-                    return '国道';
+                    return '3-国道';
                 case 4:
-                    return '省道';
+                    return '4-省道';
                 case 5:
-                    return '预留';
+                    return '5-预留';
                 case 6:
-                    return '县道';
+                    return '6-县道';
                 case 7:
-                    return '乡镇村道路';
+                    return '7-乡镇村道路';
                 case 8:
-                    return '其他道路';
+                    return '8-其他道路';
                 case 9:
-                    return '非引导道路';
+                    return '9-非引导道路';
                 case 10:
-                    return '步行道路';
+                    return '10-步行道路';
                 case 11:
-                    return '人渡';
+                    return '11-人渡';
                 case 13:
-                    return '轮渡';
+                    return '13-轮渡';
                 case 15:
-                    return '10级路（障碍物）';
+                    return '15-10级路（障碍物）';
                 }
             };
                     /* 测线来源*/
