@@ -17,7 +17,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.rticData = objCtrl.data;
     $scope.tmcTreeData = [];
-    $scope.expandedNodesNum = [];
+    $scope.expandedNodes = [];
 
     $scope.resetToolAndMap = function () {
         // if (typeof map.currentTool.cleanHeight === "function") {
@@ -104,25 +104,32 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         tooltipsCtrl.setEditEventType('addTmcLocation');
         tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
     };
-    //递归查询select节点
+    /* 递归查询select节点 */
     $scope.getSelectObject = function(array) {
-        for (var i=0; i < array.length; i++) {
-            if(array[i].children) {
-                $scope.expandedNodesNum.push(i);
-                $scope.getSelectObject(array[i].children);
-                console.log($scope.expandedNodesNum);
+        $scope.expandedNodes = [];
+        for (var i = 0; i < array.length; i++) {
+            if (array[i].type === 'TMCPOINT') {
+                $scope.expandedNodes = [array[i]];
+                return;
+            } else {
+                if (i === array.length - 1) {
+                    if (array[i].children) {
+                        $scope.getSelectObject(array[i].children);
+                    }
+                }
             }
         }
     };
-    //查询TMC树形结构
+    /* 查询TMC树形结构 */
     $scope.getTmcTree = function (tmcPoints) {
         var param = {
             tmcIds: tmcPoints
         };
         dsMeta.queryTmcTree(param).then(function (data) {
             $scope.tmcTreeData = [data.data];
+            // $scope.expandedNodes = [$scope.tmcTreeData[0]];
             // $scope.getSelectObject($scope.tmcTreeData);
-            // $scope.expandedNodesNum = [];
+            // console.log($scope.expandedNodes)
         });
     };
     /* 加载二级面板 */
