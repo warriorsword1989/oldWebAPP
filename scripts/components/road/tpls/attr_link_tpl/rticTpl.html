@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <!--<div class="fm-panel" >
+    <div class="fm-panel" >
         <div class="title">
             <div>
                 <a ng-click="addTmcLocation()" style="cursor: pointer;color:#FFF;">TMC信息（共<span ng-if="rticData!=undefined">{{rticData.intRtics.length}}</span>条）</a>
@@ -59,6 +59,11 @@
                 </li>
             </ul>
         </div>
-    </div>-->
+    </div>
 
+    <div class="fm-panel" >
+        <treecontrol class="tree-dark" tree-model="tmcTreeData" on-selection="showSelected(node)">
+            label: {{node.name}} ({{node.tmcId}})
+        </treecontrol>
+    </div>
 </div>

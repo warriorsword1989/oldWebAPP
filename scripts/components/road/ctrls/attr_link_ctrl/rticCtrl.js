@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var realtimeTrafficApp = angular.module('app');
-realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
+realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -16,7 +16,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
     var tmcLayer = layerCtrl.getLayerById('tmcData');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.rticData = objCtrl.data;
-
+    $scope.tmcTreeData = [];
 
     $scope.resetToolAndMap = function () {
         // if (typeof map.currentTool.cleanHeight === "function") {
@@ -103,6 +103,15 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
         tooltipsCtrl.setEditEventType('addTmcLocation');
         tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
     };
+    //查询TMC树形结构
+    $scope.getTmcTree = function (tmcPoints) {
+        var param = {
+            tmcIds: tmcPoints
+        };
+        dsMeta.queryTmcTree(param).then(function(data) {
+            $scope.tmcTreeData = [data.data];
+        });
+    };
     // 框选TMCPoint
     $scope.selectTmcPoint = function () {
         map.currentTool = new fastmap.uikit.SelectForRectang({
@@ -142,6 +151,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
             console.info(Utils.distinctArr(tmcPointArray));
+            $scope.getTmcTree(tmcPointArray);
         });
     };
     $scope.minusCarRtic = function (id) {
