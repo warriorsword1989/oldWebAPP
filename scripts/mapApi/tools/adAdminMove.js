@@ -1,34 +1,45 @@
 /**
- * Created by zhongxiaoming on 2015/9/16.
- * Class PathVertexMove
+ * Created by linglong on 2015/11/21.
+ * Class UpdateAdminPoint
  */
 
-fastmap.mapApi.adAdminMove = L.Handler.extend({
+fastmap.mapApi.UpdateAdminPoint = L.Handler.extend({
 
     /** *
      *
      * @param {Object}options
      */
     initialize: function (options) {
+        var layerCtrl = fastmap.uikit.LayerController();
+        this.currentEditLayer = layerCtrl.getLayerById('rdLink');
+        this.tiles = this.currentEditLayer.tiles;
+        this.transform = new fastmap.mapApi.MecatorTranform();
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
+        this._map._container.style.cursor = 'pointer';
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
-        this.targetIndex = null;
-        this.interLinks = [];
-        this.interNodes = [];
-        this.transform = new fastmap.mapApi.MecatorTranform();
+        this.targetIndexs = [];
+        this.resultData = null;
         this.selectCtrl = fastmap.uikit.SelectController();
-        this.snapHandler = new fastmap.mapApi.Snap({ map: this._map, shapeEditor: this.shapeEditor, selectedSnap: false, snapLine: true, snapNode: true, snapVertex: true });
-        this.snapHandler.enable();
-        this.validation = fastmap.uikit.geometryValidation({ transform: new fastmap.mapApi.MecatorTranform() });
         this.eventController = fastmap.uikit.EventController();
-        var layerCtrl = fastmap.uikit.LayerController();
-        this.currentEditLayer = layerCtrl.getLayerById('rdLink');
-        this.tiles = this.currentEditLayer.tiles;
+        this.captureHandler = new fastmap.mapApi.Capture(
+            {
+                map: this._map,
+                shapeEditor: this.shapeEditor,
+                selectedCapture: false,
+                captureLine: true
+            }
+        );
+        this.captureHandler.enable();
+        this.validation = fastmap.uikit.geometryValidation(
+            {
+                transform: new fastmap.mapApi.MecatorTranform()
+            }
+        );
     },
 
     /** *
@@ -36,8 +47,8 @@ fastmap.mapApi.adAdminMove = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        this._map.on('tap', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
-        this._map.on('mouseup', this.onMouseUp, this);
     },
 
     /** *
@@ -46,152 +57,51 @@ fastmap.mapApi.adAdminMove = L.Handler.extend({
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
-        this._map.off('mouseup', this.onMouseUp, this);
-    },
-
-    /** *
-     * 重写disable，加入地图拖动控制
-     */
-    disable: function () {
-        if (!this._enabled) { return; }
-        this._map.dragging.enable();
-        this._enabled = false;
-        this.removeHooks();
-    },
-    /** *
-     * 鼠标按下处理事件
-     * @param event
-     */
-    onMouseDown: function (event) {
-        // button：0.左键,1.中键,2.右键
-        // 限制为左键点击事件
-        if (event.originalEvent.button > 0) {
-            return;
-        }
-        if (this._mapDraggable) {
-            this._map.dragging.disable();
-        }
-        var layerPoint = event.layerPoint;
-
-        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
-
-        // for (var j = 0, len = points.length; j < len; j++) {
-        var disAB = this.distance(this._map.latLngToLayerPoint([points.y, points.x]), layerPoint);
-        if (disAB < 20) {
-            this.targetIndex = 0;
-        }
-        // }
-        this.snapHandler.setTargetIndex(this.targetIndex);
     },
 
     onMouseMove: function (event) {
+        this.captureHandler.setTargetIndex(0);
         this.container.style.cursor = 'pointer';
-        if (this._mapDraggable) {
-            this._map.dragging.disable();
+        this.targetPoint = this._map.layerPointToLatLng(event.layerPoint);
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
+        // points.components[0].x = this.targetPoint.lng;
+        // points.components[0].y = this.targetPoint.lat;
+        if (this.captureHandler.captured) {
+            console.log(this.captureHandler.captureLatlng)
+            this.resultData = L.latLng(
+                this.captureHandler.captureLatlng[1],
+                this.captureHandler.captureLatlng[0]
+            );
+            points.components[1].x = this.resultData.lng;
+            points.components[1].y = this.resultData.lat;
+            points.guideLink = this.captureHandler.properties.id;
+            this.shapeEditor.shapeEditorResult.setFinalGeometry(points);
         }
-        var layerPoint = event.layerPoint;
-        this.targetPoint = this._map.layerPointToLatLng(layerPoint);
-        if (this.targetIndex == null) {
-            return;
-        }
-
-        var that = this;
-
-        if (this.snapHandler.snaped == true) {
-            this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: true });
-            this.snapHandler.targetIndex = this.targetIndex;
-            this.selectCtrl.setSnapObj(this.snapHandler);
-            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
-        } else {
-            this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: false });
-        }
-
-        that.resetVertex(layerPoint);
-
-        that.shapeEditor.shapeEditorResultFeedback.setupFeedback({ index: that.targetIndex });
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
-    contains: function (obj, arr) {
-        for (var item in arr) {
-            if (arr[item].nodePid == obj.nodePid) {
-                arr.splice(item, 1, obj);
-                return true;
-            }
-        }
+    onMouseDown: function (event) {
 
-        return false;
-    },
-    onMouseUp: function (event) {
-        this.targetIndex = null;
-        this.snapHandler.setTargetIndex(this.targetIndex);
-
-        if (this.targetPoint == null) {
-            return;
-        }
-        this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
-        var nodePid = null;
-
-        var tileCoordinate = this.transform.lonlat2Tile(this.targetPoint.lng, this.targetPoint.lat, this._map.getZoom());
-        this.drawGeomCanvasHighlight(tileCoordinate, event);
-        if (this.snapHandler.snaped == true) {
-            if (this.snapHandler) {
-                if (this.snapHandler.targetIndex == 0) {
-                    nodePid = this.selectCtrl.selectedFeatures.snode;
-                } else if (this.snapHandler.targetIndex == this.selectCtrl.selectedFeatures.geometry.components.length - 1) {
-                    nodePid = this.selectCtrl.selectedFeatures.enode;
-                } else {
-                    nodePid = null;
-                }
-            }
-
-            if (this.snapHandler.selectedVertex == true) {
-                if (this.interNodes.length == 0 || !this.contains(nodePid, this.interNodes)) {
-                    if (this.snapHandler.snapIndex == 0) {
-                        this.snapHandler.interNodes.push({ pid: parseInt(this.snapHandler.properties.snode), nodePid: nodePid });
-                    } else {
-                        this.snapHandler.interNodes.push({ pid: parseInt(this.snapHandler.properties.enode), nodePid: nodePid });
-                    }
-                }
-            } else if (this.interLinks.length == 0 || !this.contains({ pid: parseInt(this.snapHandler.properties.id), nodePid: nodePid }, this.interLinks)) {
-                this.snapHandler.interLinks.push({ pid: parseInt(this.snapHandler.properties.id), nodePid: nodePid });
-            }
-
-            if (nodePid == null) {
-                this.snapHandler.interNodes = [];
-                this.snapHandler.interLinks = [];
-            }
-        }
     },
 
-    // 两点之间的距离
-    distance: function (pointA, pointB) {
-        var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
-        return Math.sqrt(len);
-    },
-
-    /** *
-     * 重新设置节点
-     */
-    resetVertex: function () {
-        this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
-        // var distance =0 , distance1 = this.targetIndex!=0?0:this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex-1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]),
-        // distance2 = this.targetIndex!=this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1?this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex+1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]):0;
-        // distance = distance1<distance2?distance1:distance2
-        // if(distance < 2){
-        //    console.log('形状点之间距离不能小于2米！')
-        // }
-    },
     drawGeomCanvasHighlight: function (tilePoint, event) {
         if (this.tiles[tilePoint[0] + ':' + tilePoint[1]]) {
             var pixels = null;
-            if (this.snapHandler.snaped == true) {
-                pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat, this._map.getZoom());
+            if (this.snapHandler.snaped === true) {
+                pixels = this.transform.lonlat2Pixel(
+                    this.targetPoint.lng,
+                    this.targetPoint.lat, this._map.getZoom()
+                );
             } else {
-                pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());
+                pixels = this.transform.lonlat2Pixel(
+                    event.latlng.lng,
+                    event.latlng.lat, this._map.getZoom()
+                );
             }
 
             var x = pixels[0] - tilePoint[0] * 256,
                 y = pixels[1] - tilePoint[1] * 256;
+
             var data = this.tiles[tilePoint[0] + ':' + tilePoint[1]].data;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
@@ -208,12 +118,14 @@ fastmap.mapApi.adAdminMove = L.Handler.extend({
                     }
                 }
             }
+
             var point = transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
             point = new fastmap.mapApi.Point(point[0], point[1]);
             // id = data[0].properties.id;
-            this.selectCtrl.selectedFeatures.linkPid = data[0].properties.id;
+            this.selectCtrl.selectedFeatures = data[0].properties;
         }
     },
+
     /** *
      *
      * @param {Array}d 几何图形
@@ -235,15 +147,15 @@ fastmap.mapApi.adAdminMove = L.Handler.extend({
             var diry = p2y - p1y;
             var diffx = x - p1x;
             var diffy = y - p1y;
-            var t = 1 * (diffx * dirx + diffy * diry * 1) / (dirx * dirx + diry * diry * 1);
+            var t = (1 * ((diffx * dirx) + (diffy * diry * 1))) / ((dirx * dirx) + (diry * diry * 1));
             if (t < 0) {
                 t = 0;
             }
             if (t > 1) {
                 t = 1;
             }
-            var closestx = p1x + t * dirx;
-            var closesty = p1y + t * diry;
+            var closestx = p1x + (t * dirx);
+            var closesty = p1y + (t * diry);
             var dx = x - closestx;
             var dy = y - closesty;
             // if ((dx * dx + dy * dy) <= r * r) {
@@ -251,7 +163,7 @@ fastmap.mapApi.adAdminMove = L.Handler.extend({
             // }
             p1x = p2x;
             p1y = p2y;
-            arr.push(dx * dx + dy * dy);
+            arr.push((dx * dx) + (dy * dy));
         }
         var temp = 0;
         for (var i = 0; i < arr.length; i++) {
@@ -264,5 +176,82 @@ fastmap.mapApi.adAdminMove = L.Handler.extend({
             }
         }
         return arr[0];
+    },
+    cleanHeight: function () {
+        this._cleanHeight();
+    },
+    /** *
+     *清除高亮
+     */
+    _cleanHeight: function () {
+        for (var index in this.redrawTiles) {
+            var data = this.redrawTiles[index].data;
+            this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
+            var ctx = {
+                canvas: this.redrawTiles[index].options.context,
+                tile: this.redrawTiles[index].options.context._tilePoint,
+                zoom: this._map.getZoom()
+            };
+            if (data.hasOwnProperty('features')) {
+                for (var i = 0; i < data.features.length; i++) {
+                    var feature = data.features[i];
+
+                    var color = null;
+                    if (feature.hasOwnProperty('properties')) {
+                        color = feature.properties.c;
+                    }
+
+                    var style = this.currentEditLayer.styleFor(feature, color);
+
+                    var geom = feature.geometry.coordinates;
+                    if (!style) {
+                        this.currentEditLayer._drawLineString(ctx, geom, true, {
+                                size: 4,
+                                color: '#FBD356',
+                                mouseOverColor: 'rgba(255,0,0,1)',
+                                clickColor: 'rgba(252,0,0,1)'
+                            },
+                            {
+                                color: 'rgba(255,0,0,1) ',
+                                radius: 3
+                            }, feature.properties);
+                    } else {
+                        this.currentEditLayer._drawLineString(ctx, geom, true, style, {
+                            color: '#696969',
+                            radius: 3
+                        }, feature.properties);
+                    }
+                }
+            }
+        }
+    },
+
+    /** *
+     * 绘制高亮
+     * @param id
+     * @private
+     */
+    _drawHeight: function (id, point) {
+        this.redrawTiles = this.tiles;
+        for (var obj in this.tiles) {
+            var data = this.tiles[obj].data.features;
+
+            for (var key in data) {
+                if (data[key].properties.id == id) {
+                    var ctx = {
+                        canvas: this.tiles[obj].options.context,
+                        tile: L.point(key.split(',')[0], key.split(',')[1]),
+                        zoom: this._map.getZoom()
+                    };
+                    this.currentEditLayer._drawImg({
+                        ctx: ctx,
+                        geo: point,
+                        style: { src: '../../images/road/img/star.png' },
+                        boolPixelCrs: true
+                    });
+                }
+            }
+        }
     }
+
 });

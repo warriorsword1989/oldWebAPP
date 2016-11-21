@@ -42,7 +42,7 @@ angular.module('app').controller('addAdminPointCtrl', ['$scope', '$ocLazyLoad',
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
-                shapeCtrl.setEditingType('addAdAdmin');
+                shapeCtrl.setEditingType('addAdAdminPoint');
                 shapeCtrl.startEditing();
                 shapeCtrl.editFeatType = null;
 

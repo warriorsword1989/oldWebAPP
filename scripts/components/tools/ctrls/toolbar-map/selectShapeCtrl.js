@@ -2459,13 +2459,14 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                             layerCtrl.pushLayerFront('edit');
                         }
-                        shapeCtrl.setEditingType('addAdAdmin');
+                        shapeCtrl.setEditingType('updateAdminPoint');
                         shapeCtrl.startEditing();
                         shapeCtrl.editFeatType = null;
+
                         //
-                        //map.currentTool = shapeCtrl.getCurrentTool();
-                        //map.currentTool.enable();
-                        //map.currentTool.captureHandler.addGuideLayer(rdLink);
+                        map.currentTool = shapeCtrl.getCurrentTool();
+                        map.currentTool.enable();
+                        map.currentTool.captureHandler.addGuideLayer(rdLink);
                         //
                         //tooltipsCtrl.setEditEventType('addAdAdmin');
                         //tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！', 'info');

@@ -978,7 +978,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'RDGSC', 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     }
                 });
-            } else if (shapeCtrl.editType === 'addAdAdmin') {
+            } else if (shapeCtrl.editType === 'addAdAdminPoint') {
                 param = {
                     command: 'CREATE',
                     type: 'ADADMIN',
