@@ -3,21 +3,18 @@
  * Class PointVertexAdd
  */
 fastmap.mapApi.PointVertexAdd = L.Handler.extend({
-
     /** *
      *
      * @param {Object}options
      */
-    initialize: function (options) {
+    initialize: function(options) {
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
         // this._map._container.style.cursor = 'pointer';
-        this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
-        this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.mapApi.Snap({
@@ -31,75 +28,77 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
         this.snapHandler.enable();
         // this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
-
     /** *
      * 添加事件处理
      */
-    addHooks: function () {
+    addHooks: function() {
         this._map.on('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
             this._map.on('click', this.onMouseDown, this);
         }
         this._map.on('mousemove', this.onMouseMove, this);
         this._map.on('mouseup', this.onMouseUp, this);
+        this._mapDraggable = this._map.dragging.enabled();
+        if (this._mapDraggable) {
+            this._map.dragging.disable();
+        }
     },
-
     /** *
      * 移除事件
      */
-    removeHooks: function () {
+    removeHooks: function() {
+        this.targetPoint = null;
         this._map.off('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
             this._map.off('click', this.onMouseDown, this);
         }
         this._map.off('mousemove', this.onMouseMove, this);
         this._map.off('mouseup', this.onMouseUp, this);
+        if (this._mapDraggable) {
+            this._map.dragging.enable();
+        }
     },
-    disable: function () {
-        if (!this._enabled) { return; }
-        this._map.dragging.enable();
-        this._enabled = false;
-        this.removeHooks();
-    },
-
-
-    onMouseDown: function (event) {
+    onMouseDown: function(event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
         if (event.originalEvent.button > 0) {
             return;
         }
-        if (this._mapDraggable) {
-            this._map.dragging.disable();
-        }
-        this.resetVertex(this.targetPoint);
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-    },
-
-    onMouseMove: function () {
-        this.container.style.cursor = 'pointer';
-        this.snapHandler.setTargetIndex(0);
-        if (this.snapHandler.snaped) {
-            this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: true });
-            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
-            this.selectCtrl.selectedFeatures = this.snapHandler.properties;
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({ point: { x: this.targetPoint.lng, y: this.targetPoint.lat } });
-        } else {
-            this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: false });
+        if (this.targetPoint) {
+            this.resetVertex(this.targetPoint);
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },
-    onMouseUp: function () {
+    onMouseMove: function() {
+        this.container.style.cursor = 'pointer';
+        this.snapHandler.setTargetIndex(0);
+        if (this.snapHandler.snaped) {
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, {
+                snaped: true
+            });
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
+            this.selectCtrl.selectedFeatures = this.snapHandler.properties;
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
+                point: {
+                    x: this.targetPoint.lng,
+                    y: this.targetPoint.lat
+                }
+            });
+        } else {
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, {
+                snaped: false
+            });
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+            this.targetPoint = null;
+        }
     },
-
-    resetVertex: function (latlng) {
+    onMouseUp: function() {},
+    resetVertex: function(latlng) {
         this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(latlng.lng, latlng.lat));
-        this.eventController.fire(this.eventController.eventTypes.RESETCOMPLETE,
-            {
-                property: this.snapHandler.properties,
-                geometry: this.snapHandler.coordinates,
-                latlng: latlng
-            }
-        );
+        this.eventController.fire(this.eventController.eventTypes.RESETCOMPLETE, {
+            property: this.snapHandler.properties,
+            geometry: this.snapHandler.coordinates,
+            latlng: latlng
+        });
     }
 });
