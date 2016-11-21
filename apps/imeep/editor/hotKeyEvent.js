@@ -537,7 +537,18 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         linkPid: selectCtrl.selectedFeatures.selectedLinkPid
                     };
                 }
-                param.type = selectCtrl.selectedFeatures.catchFlag;
+                //param.type = selectCtrl.selectedFeatures.catchFlag;
+                if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='RD'){
+                    param.type = 'RDLINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='AD'){
+                    param.type = 'ADLINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='LU'){
+                    param.type = 'LULINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='LC'){
+                    param.type = 'LCLINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='RW'){
+                    param.type = 'RWLINK'
+                }
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
                         selectCtrl.selectedFeatures = null;

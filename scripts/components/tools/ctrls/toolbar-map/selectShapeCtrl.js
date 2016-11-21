@@ -2445,12 +2445,39 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 }
                 if (type === 'ADADMINMOVE') {
                     if (selectCtrl.selectedFeatures) {
-                        tooltipsCtrl.setEditEventType('moveDot');
-                        tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
+                        if (shapeCtrl.shapeEditorResult) {
+                            var feature = {};
+                            feature.components = [];
+                            feature.points = [];
+                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
+                            feature.components.push(fastmap.mapApi.point(0, 0));
+                            feature.points.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
+                            feature.points.push(fastmap.mapApi.point(0, 0));
+                            feature.type = 'ADMINPOINT';
+
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
+                            selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                            layerCtrl.pushLayerFront('edit');
+                        }
+                        shapeCtrl.setEditingType('addAdAdmin');
+                        shapeCtrl.startEditing();
+                        shapeCtrl.editFeatType = null;
+                        //
+                        //map.currentTool = shapeCtrl.getCurrentTool();
+                        //map.currentTool.enable();
+                        //map.currentTool.captureHandler.addGuideLayer(rdLink);
+                        //
+                        //tooltipsCtrl.setEditEventType('addAdAdmin');
+                        //tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！', 'info');
+                        //tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
+                        //
+                        //tooltipsCtrl.setEditEventType('moveDot');
+                        //tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
                     } else {
                         tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
                         return;
                     }
+                    return;
                 } else if (type === 'PATHVERTEXINSERT') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
@@ -3935,14 +3962,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     }
                     return;
                 } else if (type === 'MODIFYVARIABLESPEED') {
-                    // 地图编辑相关设置;
-                    // map.currentTool = new fastmap.uikit.SelectForRestriction({
-                    //     map: map,
-                    //     createBranchFlag: true,
-                    //     currentEditLayer: rdLink,
-                    //     shapeEditor: shapeCtrl,
-                    //     operationList: ['line', 'line']
-                    // });
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,
@@ -4174,7 +4193,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     sObj.setFinalGeometry(feature);
                     shapeCtrl.editType = 'transformDirect';
                 } else if (type.split('_')[0] === 'PATHDEPARTNODE') {
-                    feature.noFormNode = true;
                     editLayer.drawGeometry = feature; // 获取需要编辑几何体的geometry
                     editLayer.draw(feature, editLayer); // 把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);
