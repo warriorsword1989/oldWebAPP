@@ -1,164 +1,4 @@
 <!--右侧属性编辑面板-->
-<style>
-    .poiRightPanel_container {
-        height: 100%;
-        background-color: #ffffff;
-        color: #ffffff;
-        box-shadow: 0 0 10px #93bbff;
-    }
-
-    .poiRightPanel_header {
-        line-height: 40px;
-        height: 40px;
-        background-color: #636ef5;
-    }
-
-    .poiRightPanel_div_img {
-        position: absolute;
-        left: 10px;
-        top: 10px;
-    }
-
-    .poiRightPanel_header_desc {
-        display: inline-block;
-        padding-left: 50px
-    }
-
-    .poiRightPanel_header_desc_strong {
-        padding-left: 16px;
-        padding-right: 4px
-    }
-
-    .poiRightPanel_header_img {
-        display: inline-block;
-        float: right
-    }
-
-    .poiRightPanel_header_img > img {
-        padding-right: 10px
-    }
-
-    .poiRightPanel_fold {
-        background-color: #eff0fe;
-        width: 100%;
-        height: 40px;
-        padding-left: 10px;
-        line-height: 40px;
-        font-size: 14px;
-        color: #636ef5
-    }
-
-    .poiRightPanel_fold > img {
-        padding-left: 204px
-    }
-
-    .detailUlCss {
-        margin-bottom: 8px;
-        background-color: #ffffff;
-        display: block;
-        box-shadow: none;
-    }
-
-    .detailUlCss > li {
-        background-color: #ffffff;
-        font-size: 12px;
-        height: 30px;
-        line-height: 30px;
-        color: #182848;;
-    }
-
-    .blockDescLiDiv {
-        display: inline-block;
-        width: 58px;
-        text-align: right;
-        margin-right: 28px;
-    }
-
-    .poiRightPanel_area {
-        font-size: 12px;
-        width: 200px;
-        height: 48px;
-        display: inline-block;
-        box-shadow: none;
-        resize: none;
-        border-color: rgba(24, 40, 72, .2)
-    }
-
-    .poiRightPanel_area:focus {
-        border-color: #636ef5;
-        box-shadow: none;
-    }
-
-    .poiRightPanel_Input {
-        font-size: 12px;
-        width: 200px;
-        height: 24px;
-        display: inline-block;
-        box-shadow: none;
-        border-color: rgba(24, 40, 72, .2)
-    }
-
-    .poiRightPanel_Input:focus {
-        border-color: #636ef5;
-        box-shadow: none;
-    }
-
-    .poiRightPanel_select {
-        color: #182848;
-        display: inline-block;
-        width: 145px;
-        height: 24px;
-        border-color: rgba(24, 40, 72, .2);
-        border-radius: 3px;
-        padding: 0;
-        margin-right: 10px;
-        box-shadow: none;
-    }
-
-    .poiRightPanel_select:focus {
-        border-color: #636ef5;
-        box-shadow: none;
-    }
-
-    .pay_list_c1 {
-        display: inline-block;
-        cursor: pointer;
-        text-align: center;
-        margin-right: 10px;
-        background-image: url(../../../../images/png/button-click.png);
-        background-repeat: no-repeat;
-    }
-
-    .radioclass {
-        margin: 0 0 0 4px !important;
-        opacity: 0;
-        cursor: pointer;
-    }
-
-    .on {
-        background-position: 0;
-    }
-
-    .radio_diy_class {
-        display: none;
-    }
-
-    .radio_diy_class + label {
-        font-weight: normal;
-    }
-
-    .radio_diy_class + label::before {
-        content: url("../../../../images/png/button-normal.png");
-        position: relative;
-        top: 2px;
-    }
-
-    .radio_diy_class:checked + label::before {
-        content: url("../../../../images/png/button-click.png");
-        position: relative;
-        top: 2px;
-    }
-</style>
 <div class="poiRightPanel_container" ng-controller="poiRightPanelCtrl">
     <div class="poiRightPanel_header">
         <img src="../../../../images/newPoi/leftPanelIcon/icon-back-right.png" class="poiRightPanel_div_img"
@@ -173,7 +13,7 @@
             <img src="../../../../images/newPoi/rightPanelIcon/icon-delete.png">
         </div>
     </div>
-    <div ng-style="rightPanelHeight">
+    <div ng-style="rightPanelHeight" class="scroll_style">
         <div class="poiRightPanel_fold" ng-click="basicOpen()">
             <strong>
                 基本属性
@@ -210,7 +50,7 @@
                     <span>{{$index === 0 ?'电话':''}}</span>
                 </div>
                 <input class="form-control poiRightPanel_Input" type="text" style="width: 42px"/>
-                <input class="form-control poiRightPanel_Input" type="text" style="width: 100px"/>
+                <input class="form-control poiRightPanel_Input" type="text" style="width: 90px"/>
                 <img src="../../../../images/newPoi/rightPanelIcon/button-delete.png" style="padding-left: 8px" ng-click="deletePhone($index)">
                 <img src="../../../../images/newPoi/rightPanelIcon/button-add.png" ng-click="addPhone()" ng-show="$index === 0">
             </li>
@@ -218,7 +58,7 @@
                 <div class="blockDescLiDiv">
                     <span>邮编</span>
                 </div>
-                <input class="form-control poiRightPanel_Input" type="text" style="width: 145px;"/>
+                <input class="form-control poiRightPanel_Input" type="text" style="width: 135px;"/>
             </li>
             <li>
                 <div class="blockDescLiDiv">
@@ -266,11 +106,11 @@
                     <span>非</span>
                 </label>
                 <input type="radio" name="truck" value="truck2" id="truck2" class="radio_diy_class"/>
-                <label for="truck2" style="padding-left: 32px">
+                <label for="truck2" style="padding-left: 27px">
                     <span>仅</span>
                 </label>
                 <input type="radio" name="truck" value="truck3" id="truck3" class="radio_diy_class"/>
-                <label for="truck3" style="padding-left: 32px">
+                <label for="truck3" style="padding-left: 27px">
                     <span>卡+小汽车</span>
                 </label>
             </li>
@@ -283,11 +123,11 @@
                     <span>是</span>
                 </label>
                 <input type="radio" name="hour" value="hour2" id="hour2" class="radio_diy_class"/>
-                <label for="hour2" style="padding-left: 32px">
+                <label for="hour2" style="padding-left: 27px">
                     <span>否</span>
                 </label>
                 <input type="radio" name="hour" value="hour3" id="hour3" class="radio_diy_class"/>
-                <label for="hour3" style="padding-left: 32px">
+                <label for="hour3" style="padding-left: 27px">
                     <span>未调查</span>
                 </label>
             </li>
@@ -300,7 +140,7 @@
                     <span>外部</span>
                 </label>
                 <input type="radio" name="within" value="within2" id="within2" class="radio_diy_class"/>
-                <label for="within2" style="padding-left: 20px">
+                <label for="within2" style="padding-left: 15px">
                     <span>内部</span>
                 </label>
             </li>
@@ -324,331 +164,104 @@
             <img ng-src="{{depthOpenFlag?'../../../../images/newPoi/rightPanelIcon/icon-right-open.png':'../../../../images/newPoi/rightPanelIcon/icon-right-close.png'}}">
         </div>
         <ul class="list-group detailUlCss" ng-style="{'display': depthOpenFlag ? 'block': 'none'}">
+            <li style="height: 90px">
+                <div class="blockDescLiDiv">
+                    <span>信用卡</span>
+                </div>
+                <input type="checkbox" name="card" value="card" id="card" checked class="radio_diy_class"/>
+                <label for="card">
+                    <span>不支持</span>
+                </label>
+                <input type="checkbox" name="card" value="card1" id="card1" class="radio_diy_class"/>
+                <label for="card1" style="padding-left: 8px">
+                    <span>VISA</span>
+                </label>
+                <input type="checkbox" name="card" value="card2" id="card2" class="radio_diy_class"/>
+                <label for="card2" style="padding-left: 18px">
+                    <span>万事达</span>
+                </label>
+                <div class="blockDescLiDiv">
+                    <span>类型</span>
+                </div>
+                <input type="checkbox" name="card" value="card3" id="card3" class="radio_diy_class"/>
+                <label for="card3">
+                    <span>大来</span>
+                </label>
+                <input type="checkbox" name="card" value="card4" id="card4" class="radio_diy_class"/>
+                <label for="card4" style="padding-left: 20px">
+                    <span>日本国际信用卡</span>
+                </label>
+                <div class="blockDescLiDiv">
+                </div>
+                <input type="checkbox" name="card" value="card5" id="card5" class="radio_diy_class"/>
+                <label for="card5">
+                    <span>银联</span>
+                </label>
+                <input type="checkbox" name="card" value="card6" id="card6" class="radio_diy_class"/>
+                <label for="card6" style="padding-left: 20px">
+                    <span>美国运通</span>
+                </label>
+            </li>
             <li>
                 <div class="blockDescLiDiv">
-                    <span>信用卡类型</span>
+                    <span>停车信息</span>
                 </div>
-                <span>110105-NH-752</span>
+                <select class="form-control poiRightPanel_select">
+                    <option>132323</option>
+                    <option>221212</option>
+                    <option>33434</option>
+                    <option>4212</option>
+                    <option>5444</option>
+                </select>
+            </li>
+            <li>
+                <div class="blockDescLiDiv">
+                    <span>人均消费</span>
+                </div>
+                <input class="form-control poiRightPanel_Input" type="text"/>
+            </li>
+            <li style="height: 60px">
+                <div class="blockDescLiDiv" style="vertical-align: top">
+                    <span>营业时间</span>
+                </div>
+                <textarea class="form-control poiRightPanel_area" type="text" rows=2></textarea>
+            </li>
+        </ul>
+        <div class="poiRightPanel_fold" ng-click="fatherAndSonOpen()">
+            <strong>
+                父子关系
+            </strong>
+            <img ng-src="{{fatherAndSonOpenFlag?'../../../../images/newPoi/rightPanelIcon/icon-right-open.png':'../../../../images/newPoi/rightPanelIcon/icon-right-close.png'}}">
+        </div>
+        <ul class="list-group detailUlCss" ng-style="{'display': fatherAndSonOpenFlag ? 'block': 'none'}">
+            <li>
+                <div class="blockDescLiDiv">
+                    <span>父POI</span>
+                </div>
+                <input class="form-control poiRightPanel_Input" type="text"/>
+            </li>
+            <li ng-repeat="item in sonPoi">
+                <div class="blockDescLiDiv">
+                    <span>{{$index === 0 ?'子POI':''}}</span>
+                </div>
+                <input class="form-control poiRightPanel_Input" type="text" style="width: 136px"/>
+                <img src="../../../../images/newPoi/rightPanelIcon/button-delete.png" style="padding-left: 8px" ng-click="deleteSonPoi($index)">
+                <img src="../../../../images/newPoi/rightPanelIcon/button-add.png" ng-click="addSonPoi()" ng-show="$index === 0">
+            </li>
+        </ul>
+        <div class="poiRightPanel_fold" ng-click="sameOpen()">
+            <strong>
+                同一关系
+            </strong>
+            <img ng-src="{{sameOpenFlag?'../../../../images/newPoi/rightPanelIcon/icon-right-open.png':'../../../../images/newPoi/rightPanelIcon/icon-right-close.png'}}">
+        </div>
+        <ul class="list-group detailUlCss" ng-style="{'display': sameOpenFlag ? 'block': 'none'}">
+            <li style="height: 60px">
+                <div class="blockDescLiDiv" style="vertical-align: top">
+                    <span>同一关系POI</span>
+                </div>
+                <textarea class="form-control poiRightPanel_area" type="text" rows=2></textarea>
             </li>
         </ul>
     </div>
 </div>
-<!--<div style="height:100%;background-color:#ffffff" ng-controller="poiRightPanelCtrl">-->
-<!--<div style="width: 100%;height: 80px;background-color: white;line-height: 80px">-->
-<!--<div class="right-property-right" ng-click="closeRightPanel()">-->
-
-<!--</div>-->
-<!--<div style="width: 120px;padding-left: 20px;display: inline-block">-->
-<!--<strong>POI</strong>-->
-<!--<span>56554543</span>-->
-<!--</div>-->
-<!--<div style="padding-left: 10px;display: inline-block">-->
-<!--<span>待审核</span>-->
-<!--</div>-->
-<!--<div style="padding-left: 10px;display: inline-block">-->
-<!--<span>保存</span>-->
-<!--</div>-->
-<!--<div style="padding-left: 10px;display: inline-block">-->
-<!--<span>删除</span>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div ng-style="rightPanelHeight" ng-style="{'display':basicOpenFlag?'block':'none'}">-->
-<!--<div style="background-color: grey;width: 100%" ng-click="basicOpen()">-->
-<!--基本属性-->
-<!--</div>-->
-<!--<div style="width: 100%" ng-style="{'display':basicOpenFlag?'block':'none'}">-->
-<!--<ul class="list-group">-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--FID-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--110105-NH-752-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--PID-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--110105-NH-752-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--名称-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<input class="form-control"/>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--地址-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<input class="form-control"/>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--电话-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<input class="form-control"/>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--邮编-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<input class="form-control"/>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--分类-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<select class="form-control">-->
-<!--<option>1</option>-->
-<!--<option>2</option>-->
-<!--<option>3</option>-->
-<!--<option>4</option>-->
-<!--<option>5</option>-->
-<!--</select>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--品牌-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<select class="form-control">-->
-<!--<option>1</option>-->
-<!--<option>2</option>-->
-<!--<option>3</option>-->
-<!--<option>4</option>-->
-<!--<option>5</option>-->
-<!--</select>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--等级-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<div style="display: inline-block">-->
-<!--<div class="pay_list_c1 on">-->
-<!--<input type="radio" name="optionsRadios" value="option1" checked class="radioclass">选项1-->
-<!--</div>-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<div class="pay_list_c1 on">-->
-<!--<input type="radio" name="optionsRadios" value="option2" class="radioclass">选项2-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--卡车-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<div class="radio" style="display: inline-block">-->
-<!--<label>-->
-<!--<input type="radio" name="optionsRadios1" value="option1" checked>选项1-->
-<!--</label>-->
-<!--</div>-->
-<!--<div class="radio" style="display: inline-block">-->
-<!--<label>-->
-<!--<input type="radio" name="optionsRadios1" value="option2">选项2-->
-<!--</label>-->
-<!--</div>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--24小时-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<div class="radio" style="display: inline-block">-->
-<!--<label>-->
-<!--<input type="radio" name="optionsRadios2" value="option1" checked>选项1-->
-<!--</label>-->
-<!--</div>-->
-<!--<div class="radio" style="display: inline-block">-->
-<!--<label>-->
-<!--<input type="radio" name="optionsRadios2" value="option2">选项2-->
-<!--</label>-->
-<!--</div>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--内部POI-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<div class="radio" style="display: inline-block">-->
-<!--<label>-->
-<!--<input type="radio" name="optionsRadios3" value="option1" checked>选项1-->
-<!--</label>-->
-<!--</div>-->
-<!--<div class="radio" style="display: inline-block">-->
-<!--<label>-->
-<!--<input type="radio" name="optionsRadios3" value="option2">选项2-->
-<!--</label>-->
-<!--</div>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--关联Link-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--2080001147-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--备注-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<textarea class="form-control" rows="2"></textarea>-->
-<!--</div>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--<div style="background-color: grey;width: 100%" ng-click="depthOpen()">-->
-<!--深度信息-->
-<!--</div>-->
-<!--<div style="width: 100%" ng-style="{'display':depthOpenFlag?'block':'none'}">-->
-<!--<ul class="list-group">-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--信用卡类型-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option1">选项 1-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option2">选项 2-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option3">选项 3-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option4">选项 1-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option5">选项 2-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option6">选项 3-->
-<!--</label>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--停车信息-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<select class="form-control">-->
-<!--<option>1</option>-->
-<!--<option>2</option>-->
-<!--<option>3</option>-->
-<!--<option>4</option>-->
-<!--<option>5</option>-->
-<!--</select>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--人均消费-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<input class="form-control"/>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--营业时间-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option1">选项 1-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option2">选项 2-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option3">选项 3-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option4">选项 1-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option5">选项 2-->
-<!--</label>-->
-<!--<label class="checkbox-inline">-->
-<!--<input type="checkbox" value="option6">选项 3-->
-<!--</label>-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--菜品风格-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--<select class="form-control">-->
-<!--<option>1</option>-->
-<!--<option>2</option>-->
-<!--<option>3</option>-->
-<!--<option>4</option>-->
-<!--<option>5</option>-->
-<!--</select>-->
-<!--</div>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--<div style="background-color: grey;width: 100%" ng-click="fatherAndSonOpen()">-->
-<!--父子关系-->
-<!--</div>-->
-<!--<div style="width: 100%" ng-style="{'display':fatherAndSonOpenFlag?'block':'none'}">-->
-<!--<ul class="list-group">-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--父POI-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--东方文化艺术学院-->
-<!--</div>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--子POI-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--2222-->
-<!--</div>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--<div style="background-color: grey;width: 100%" ng-click="sameOpen()">-->
-<!--同一关系-->
-<!--</div>-->
-<!--<div style="width: 100%" ng-style="{'display':sameOpenFlag?'block':'none'}">-->
-<!--<ul class="list-group">-->
-<!--<li class="list-group-item">-->
-<!--<div style="width: 50px;background-color: grey;display: inline-block">-->
-<!--同一关系POI-->
-<!--</div>-->
-<!--<div style="display: inline-block">-->
-<!--</div>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
