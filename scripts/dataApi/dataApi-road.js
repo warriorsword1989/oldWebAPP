@@ -107,7 +107,8 @@
         'dataApi/road/RdLaneTopoDetail.js',
         'dataApi/road/RdLaneTopoVia.js',
         'dataApi/road/RdHgwgLimit.js',
-        'dataApi/road/TmcPoint.js'
+        'dataApi/road/TmcPoint.js',
+        'dataApi/road/TmcLine.js'
     ]; // etc.
 
 

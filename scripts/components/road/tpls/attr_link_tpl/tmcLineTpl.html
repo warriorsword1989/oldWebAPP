@@ -1,0 +1,67 @@
+<div ng-controller="TmcLineCtl">
+    <div class="fm-component" >
+        <div class="content">
+            <ul class="fm-ul fm-ul-form">
+                <li style="border-bottom: 1px solid #fff;">
+                    <label style="font-weight: bolder;font-size:13px;width:50%;">TMC线路属性</label>
+                </li>
+                <li style="padding-top: 5px;">
+                    <label style="width:35%;">TMC线号码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLineData.tmcId"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">位置代码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLineData.locCode"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">位置表代码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLineData.loctableId"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">类型代码</label>
+                    <div >
+                        <select ng-model="tmcLineData.typeCode" class="fm-control chosen-disabled"
+                                ng-options="value.id as value.label for value in typeCodeOptions" disabled>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">道路序号</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLineData.seqNum"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">正方向偏移量</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLineData.locoffPos"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">负方向偏移量</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLineData.locoffNeg"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">上级道路参考</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLineData.uplineTmcId"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">区域参考</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLineData.areaTmcId"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -33,7 +33,7 @@
                     <label style="width:35%;">类型代码</label>
                     <div >
                         <select ng-model="tmcPointData.typeCode" class="fm-control chosen-disabled"
-                                ng-options="value.id as value.label for value in typeCodeOptions" readonly>
+                                ng-options="value.id as value.label for value in typeCodeOptions" disabled>
                         </select>
                     </div>
                 </li>
@@ -74,7 +74,7 @@
                     </div>
                 </li>
                 <li>
-                    <label style="width:35%;">正方形偏移量</label>
+                    <label style="width:35%;">正方向偏移量</label>
                     <div >
                         <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcPointData.locoffPos"/>
                     </div>

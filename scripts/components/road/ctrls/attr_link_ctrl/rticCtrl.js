@@ -145,6 +145,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
     };
     //选择树子节点查询
     $scope.showTreeSelected = function (sel) {
+        console.log(sel)
         var param = {
             tmcId: sel.tmcId,
             type: sel.type
@@ -153,9 +154,14 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             dsMeta.queryTmcData(param).then(function (data) {
                 $scope.loadChildPanel(fastmap.dataApi.tmcPoint(data.data), 'scripts/components/road/ctrls/attr_link_ctrl/tmcPointCtrl', '../../../scripts/components/road/tpls/attr_link_tpl/tmcPointTpl.html');
             });
-        } else if (sel.type === 'TMCLANE') {
+        } else if (sel.type === 'TMCLINE') {
             dsMeta.queryTmcData(param).then(function (data) {
-                $scope.loadChildPanel(fastmap.dataApi.tmcPoint(data.data), 'scripts/components/road/ctrls/attr_link_ctrl/tmcLaneCtrl', '../../../scripts/components/road/tpls/attr_link_tpl/tmcLaneTpl.html');
+                $scope.loadChildPanel(fastmap.dataApi.tmcLine(data.data), 'scripts/components/road/ctrls/attr_link_ctrl/tmcLineCtrl', '../../../scripts/components/road/tpls/attr_link_tpl/tmcLineTpl.html');
+            });
+        } else {
+            $scope.$emit('SWITCHCONTAINERSTATE', {
+                subAttrContainerTpl: false,
+                attrContainerTpl: true
             });
         }
     };
