@@ -75,6 +75,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                 }
                 if (scope.tableParams.data[i]) { // 排除最后一条报错的问题
                     scope.selectData(scope.tableParams.data[i], i);
+                    scope.total = scope.total - 1;
                 } else { // 最后一条
                     // scope.$emit("reQueryByPid", { "pid": obj.poi.pid, "type": "IXPOI"  });
                     scope.$emit('SWITCHCONTAINERSTATE', { attrContainerTpl: false });
