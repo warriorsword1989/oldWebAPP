@@ -14,7 +14,25 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
     var rdNode = layerCtrl.getLayerById('rdNode');
     var limitPicArr = [];
     $scope.currentHandleType = '';
+    $scope.restrictionType = 0; // 0--普通交限 1--卡车交限
 
+    // 判断当前交限是卡车交限还是普通交限
+    var setRestrictionType = function () {
+        $scope.restrictionType = 0; // 普通交限
+        var details = $scope.rdRestrictCurrentData.details;
+        for (var i = 0; i < details.length; i++) {
+            if (details[i].conditions && details[i].conditions[0]) {
+                var bin = Utils.dec2bin(details[i].conditions[0].vehicle);
+                var reverseBin = bin.split('').reverse();
+                var a = reverseBin[1];
+                var b = reverseBin[2];
+                if (a === '1' || b === '1') {
+                    $scope.restrictionType = 1;
+                    break;
+                }
+            }
+        }
+    };
 
     // 初始化数据
     $scope.initializeData = function () {
@@ -26,6 +44,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         $scope.rdRestrictCurrentData = objectEditCtrl.data;
         $scope.rdRestrictOriginalData = objectEditCtrl.originalData;
         $scope.rdRestrictionCurrentDetail = objectEditCtrl.data.details[0];
+        setRestrictionType();
         // 初始高亮整个关系关联要素;
         highLightRestrictAll();
         /* 如果默认限制类型为时间段禁止，显示时间段控件*/
@@ -100,7 +119,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
     // 修改经过线;
     $scope.modifyThroughLink = function () {
         $scope.viasLinkFlag = false;
-        $scope.currentHandleType = 'editVias'
+        $scope.currentHandleType = 'editVias';
         // 最后一根经过线;
         for (var i = 0; i < $scope.rdRestrictOriginalData.details[$scope.flag].vias.length; i++) {
             if ($scope.rdRestrictOriginalData.details[$scope.flag].vias[i].seqNum == $scope.rdRestrictOriginalData.details[$scope.flag].vias.length) {
@@ -142,11 +161,11 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         eventController.off(eventController.eventTypes.GETLINKID);
         eventController.on(eventController.eventTypes.GETLINKID, function (dataresult) {
             /*
-            * 对经过线的合法性前判断;
-            * （1）经过线不能为退出线;
-            * （2）经过线不能为进入线;
-            * （3）经过线必须相互连续;
-            * */
+             * 对经过线的合法性前判断;
+             * （1）经过线不能为退出线;
+             * （2）经过线不能为进入线;
+             * （3）经过线必须相互连续;
+             * */
             if (dataresult.id == $scope.rdRestrictionCurrentDetail.inLinkPid) {
                 tooltipsCtrl.onRemoveTooltip();
                 tooltipsCtrl.setCurrentTooltip('退出线和进入线不能为同一条线！', 'error');

@@ -33,7 +33,7 @@ fastmap.dataApi.RdLaneCondition = fastmap.dataApi.GeoDataModel.extend({
     getSnapShot: function () {
         var data = {};
         data.lanePid = this.lanePid;
-        data.direction = parseInt(this.direction);
+        data.direction = parseInt(this.direction, 10);
         data.directionTime = this.directionTime;
         data.vehicle = this.vehicle;
         data.vehicleTime = this.vehicleTime;
@@ -50,7 +50,7 @@ fastmap.dataApi.RdLaneCondition = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate: function () {
         var data = {};
         data.lanePid = this.lanePid;
-        data.direction = parseInt(this.direction);
+        data.direction = parseInt(this.direction, 10);
         data.directionTime = this.directionTime;
         data.vehicle = this.vehicle;
         data.vehicleTime = this.vehicleTime;

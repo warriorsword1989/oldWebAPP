@@ -18,9 +18,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
             case 2: // 照片
                 break;
             case 3: // 交限
-                if (data.m.a != 1) { // add by chenx on 20161024, 目前未做卡车交限的功能，暂时屏蔽渲染
-                    ret = new fastmap.uikit.canvasFeature.RdRestriction(data);
-                }
+                // if (data.m.a != 1) { // add by chenx on 20161024, 目前未做卡车交限的功能，暂时屏蔽渲染
+                ret = new fastmap.uikit.canvasFeature.RdRestriction(data);
+                // }
                 break;
             case 4: // rdlink
                 ret = new fastmap.uikit.canvasFeature.RdLink(data);

@@ -256,7 +256,7 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
      */
     $scope.clickBasic = function (boolValue) {
         $scope.isbase = boolValue;
-        if ($scope.isbase == false) {
+        if (!$scope.isbase) {
             var showOrdinaryObj = {
                 loadType: 'subAttrTplContainer',
                 propertyCtrl: appPath.road + 'ctrls/attr_administratives_ctrl/adAdminOfLevelCtrl',
