@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var realtimeTrafficApp = angular.module('app');
-realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsMeta) {
+realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsMeta ,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -210,6 +210,44 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             map.currentTool.disable();
         });
     };
+    /* 删除TMC信息 */
+    $scope.removeTmcLoc = function (item) {
+        swal({
+            title: '确认删除TMC？',
+            type: 'warning',
+            animation: 'slide-from-top',
+            showCancelButton: true,
+            confirmButtonText: '是的，我要删除',
+            confirmButtonColor: '#ec6c62'
+        }, function (f) {
+            if (f) {
+                var param = {
+                    command: 'DELETE',
+                    type: 'RDTMCLOCATION',
+                    dbId: App.Temp.dbId,
+                    objId: item.pid
+                };
+                dsEdit.save(param).then(function (data) {
+                    if (data) {
+                        $scope.refreshLinkData();
+                        $scope.$emit('SWITCHCONTAINERSTATE', {
+                            subAttrContainerTpl: false,
+                            attrContainerTpl: true
+                        });
+                    }
+                });
+            }
+        });
+    };
+    /* 刷新rdlink数据 */
+    $scope.refreshLinkData = function () {
+        dsEdit.getByPid(parseInt($scope.rticData.pid), 'RDLINK').then(function (data) {
+            if (data) {
+                objCtrl.setCurrentObject('RDLINK', data);
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+            }
+        });
+    };
     $scope.minusCarRtic = function (id) {
         $scope.rticData.rtics.splice(id, 1);
         if ($scope.rticData.rtics.length === 0) {
@@ -308,19 +346,26 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         $scope.$emit('transitCtrlAndTpl', showCarInfoObj);
     };
 
-
+    /* 查看TMC信息详情 */
+    $scope.showTmcInfo = function (item) {
+        $scope.loadChildPanel(item, 'scripts/components/road/ctrls/attr_link_ctrl/tmcLocationCtrl', '../../../scripts/components/road/tpls/attr_link_tpl/tmcLocationTpl.html');
+    };
     $scope.changeColor = function (ind, ord) {
-        if (ord == 1) {
+        if (ord === 1) {
             $('#rticSpan' + ind).css('color', '#FFF');
-        } else {
+        } else if (ord === 2) {
             $('#carSpan' + ind).css('color', '#FFF');
+        } else {
+            $('#tmcSpan' + ind).css('color', '#FFF');
         }
     };
     $scope.backColor = function (ind, ord) {
-        if (ord == 1) {
+        if (ord === 1) {
             $('#rticSpan' + ind).css('color', 'darkgray');
-        } else {
+        } else if (ord === 2) {
             $('#carSpan' + ind).css('color', 'darkgray');
+        } else {
+            $('#tmcSpan' + ind).css('color', 'darkgray');
         }
     };
 

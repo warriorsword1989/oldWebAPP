@@ -1,0 +1,64 @@
+<div ng-controller="TmcLocationCtl">
+    <div class="fm-component" >
+        <div class="content">
+            <ul class="fm-ul fm-ul-form">
+                <li style="border-bottom: 1px solid #fff;">
+                    <label style="font-weight: bolder;font-size:12px;width:50%;">道路LINK TMC关系</label>
+                </li>
+                <li style="padding-top: 5px;">
+                    <label style="width:35%;">组号码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLocationData.pid"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">位置点号码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLocationData.tmcId"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">位置表代码</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="tmcLocationData.loctableId"/>
+                    </div>
+                </li>
+                <li>
+                    <label style="width:35%;">位置表标示</label>
+                    <div >
+                        <input type="text" readonly class="fm-control chosen-disabled" ng-model="loctableCode"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="name-title-panel">
+                TMC匹配信息 （共 {{tmcLocationData.links.length}} 条）
+            </div>
+            <ul class="fm-ul fm-ul-form" ng-repeat="info in tmcLocationData.links track by $index" style="border-bottom: 1px solid #fff;">
+                <li>
+                    <label style="width:35%;">LINK号码</label>
+                    <div>
+                        <input type="text" class="fm-control chosen-disabled" ng-model="info.linkPid" disabled/>
+                    </div>
+                </li>
+                <li style="padding-top: 10px;">
+                    <label style="width:35%;">位置方向</label>
+                    <div >
+                        <select ng-model="info.locDirect" class="fm-control"
+                                ng-options="value.id as value.label for value in locDirectOptions">
+                        </select>
+                    </div>
+                </li>
+                <li style="padding-bottom: 10px;">
+                    <label style="width:35%;">方向关系</label>
+                    <div >
+                        <select ng-model="info.direct" class="fm-control chosen-disabled"
+                                ng-options="value.id as value.label for value in directOptions" disabled>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
