@@ -110,7 +110,9 @@
         'dataApi/road/TmcPoint.js',
         'dataApi/road/TmcPointName.js',
         'dataApi/road/TmcLine.js',
-        'dataApi/road/TmcLineName.js'
+        'dataApi/road/TmcLineName.js',
+        'dataApi/road/RdTmcLocation.js',
+        'dataApi/road/RdTmcLocationLink.js'
     ]; // etc.
 
 

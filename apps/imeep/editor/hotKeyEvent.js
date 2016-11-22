@@ -517,10 +517,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 param.dbId = App.Temp.dbId;
                 param.objId = selectCtrl.selectedFeatures.dragNodePid;
                 var catchPid;
-                if (selectCtrl.selectedFeatures.catchFlag.substring(2) == 'LINK') {
+                if (selectCtrl.selectedFeatures.catchFlag.substr(-4) == 'LINK') {
                     catchLinkPid = selectCtrl.selectedFeatures.catchNodePid;
                     catchNodePid = 0;
-                } else if (selectCtrl.selectedFeatures.catchFlag.substring(2) == 'NODE') {
+                } else if (selectCtrl.selectedFeatures.catchFlag.substr(-4) == 'NODE') {
                     catchNodePid = selectCtrl.selectedFeatures.catchNodePid;
                     catchLinkPid = 0;
                 }
@@ -550,6 +550,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     param.type = 'LCLINK'
                 }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='RW'){
                     param.type = 'RWLINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='ZO'){
+                    param.type = 'ZONELINK'
                 }
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
@@ -564,6 +566,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         lcNode.redraw();
                         rwLink.redraw();
                         rwnode.redraw();
+                        zoneLink.redraw();
+                        zoneNode.redraw();
                         highRenderCtrl.highLightFeatures.push({
                             id: objEditCtrl.data.pid.toString(),
                             layerid: 'rdLink',
@@ -1005,16 +1009,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'ADADMIN', 'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                     }
                 });
-            } else if (shapeCtrl.editType === 'adAdminMove') {
+            } else if (shapeCtrl.editType === 'updateAdminPoint') {
                 param = {
                     command: 'MOVE',
                     type: 'ADADMIN',
                     dbId: App.Temp.dbId,
-                    objId: selectCtrl.selectedFeatures.id,
+                    objId: geo.id,
                     data: {
-                        longitude: geo.x,
-                        latitude: geo.y,
-                        linkPid: (selectCtrl.selectedFeatures.linkPid == null ? 0 : parseInt(selectCtrl.selectedFeatures.linkPid))
+                        longitude: geo.components[0].x,
+                        latitude: geo.components[0].y,
+                        linkPid: parseInt(geo.guideLink)
                     }
                 };
                 dsEdit.save(param).then(function (data) {

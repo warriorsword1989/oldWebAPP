@@ -65,12 +65,17 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
             style: { src: '../../images/road/img/heightStar.svg' }
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
-        highRenderCtrl.drawHighlight();
+        dsEdit.getByPid(parseInt($scope.adAdminData.linkPid), 'RDLINK').then(function(data){
+            selectCtrl.selectedFeatures.linkcapturePoint = data.geometry.coordinates[1];
+            highRenderCtrl.drawHighlight(data);
+        })
+
         // 回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if ($scope.adAdminForm) {
             $scope.adAdminForm.$setPristine();
         }
     };
+
     $scope.refreshData = function () {
         dsEdit.getByPid(parseInt($scope.adAdminData.pid), 'ADADMIN').then(function (data) {
             if (data) {

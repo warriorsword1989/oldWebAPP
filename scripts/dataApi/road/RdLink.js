@@ -143,6 +143,13 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
                 this.zones.push(zone);
             }
         }
+        this.tmclocations = [];
+        if (data.tmclocations && data.tmclocations.length > 0) {
+            for (var i = 0, len = data.tmclocations.length; i < len; i++) {
+                var location = fastmap.dataApi.rdTmcLocation(data.tmclocations[i]);
+                this.tmclocations.push(location);
+            }
+        }
     },
     /**
      * 获取道路简略信息
@@ -277,6 +284,11 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
             zones.push(this.zones[i].getIntegrate());
         }
         data.zones = zones;
+        var tmclocations = [];
+        for (var i = 0, len = this.tmclocations.length; i < len; i++) {
+            tmclocations.push(this.tmclocations[i].getIntegrate());
+        }
+        data.tmclocations = tmclocations;
         return data;
     },
     /**
