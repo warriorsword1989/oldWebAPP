@@ -170,6 +170,7 @@ fastmap.mapApi.Capture = L.Handler.extend({
         for (var i = 0, n = data.length; i < n; i++) {
             var geometry = null;
             // 道路、去除form of way = 50的道路
+            if(data[i].properties.form==undefined)return;
             if (data[i].geometry.type == 'LineString' && data[i].properties.featType == 'RDLINK' && data[i].properties.form.indexOf('50') == -1) {
                 if (this.captureLine) {
                     if (this.selectedCapture == true) {
