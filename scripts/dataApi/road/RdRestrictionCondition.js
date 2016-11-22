@@ -62,7 +62,7 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
         data.resAxleCount = this.resAxleCount;
         data.resOut = this.resOut;
         data.rowId = this.rowId;
-        data.geoLiveType = this.geoLiveType;
+        // data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
