@@ -49,7 +49,7 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
         if (!link) {
             return;
         }
-        if (link.type == 1) { //道路link
+        if (link.type == 1) { // 道路link
             dsEdit.getByPid(link.id, type).then(function (data) {
                 var options = {};
                 if (!data) {
@@ -678,7 +678,7 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
             }
             break;
         case '1303': // 卡车交限
-            $scope.oArrayItem = $scope.dataTipsData.o_array[0]; //默认显示第一个
+            $scope.oArrayItem = $scope.dataTipsData.o_array[0]; // 默认显示第一个
             $scope.outsideCarObj = {
                 0: '不应用',
                 1: '仅限制外埠车辆',

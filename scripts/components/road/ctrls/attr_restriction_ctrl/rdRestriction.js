@@ -100,7 +100,6 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         if ($scope.restricOrdinaryForm) {
             $scope.restricOrdinaryForm.$setPristine();
         }
-
     };
 
     // 点击限制方向时,显示其有的属性信息
@@ -306,7 +305,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
     /* --------------------------------------------------------------------------保存操作--------------------------------------------------------------------------*/
     $scope.save = function () {
-        if($scope.currentHandleType=='editVias'&& !$scope.viasLinkFlag){
+        if ($scope.currentHandleType == 'editVias' && !$scope.viasLinkFlag) {
             swal('操作失败', '经过线不连续！', 'error');
             return;
         }
@@ -465,7 +464,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
 
     function modifyOutLink() {
-        $scope.currentHandleType = 'editOutLink'
+        $scope.currentHandleType = 'editOutLink';
         clearMapTool();
         // 修改退出线;
         map.currentTool = new fastmap.uikit.SelectPath({

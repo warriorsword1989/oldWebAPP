@@ -36,6 +36,8 @@ angular.module('app').controller('mapToolbarCtrl', ['$scope', '$ocLazyLoad', 'ap
                                 $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdBranchCtrl.js').then(function () {
                                     $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdRelationCtrl.js').then(function () {
                                         $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addPoiCtrl.js').then(function () {
+                                            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addAdminPointCtrl.js').then(function(){
+                                            });
                                         });
                                         $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/specialOperAdvanceToolsCtl.js').then(function () {
                                             $scope.specialOperAdvanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/specialOperAdvanceToolsTpl.htm';

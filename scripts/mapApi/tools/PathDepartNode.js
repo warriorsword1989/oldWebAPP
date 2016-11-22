@@ -28,8 +28,8 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             selectedSnap: false,
             snapVertex: false
         });
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdNode'));
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdLink'));
+        //this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdNode'));
+        //this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdLink'));
         this.snapHandler.enable();
         this.validation = fastmap.uikit.geometryValidation({
             transform: new fastmap.mapApi.MecatorTranform()

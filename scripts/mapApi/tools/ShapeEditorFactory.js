@@ -20,7 +20,6 @@ fastmap.mapApi.ShapeEditorFactory = (function () {
 
             CreateShapeToolsObject: function (shapeEditor) {
                 var toolsObject = {
-
                     drawPath: new fastmap.mapApi.DrawPath({ shapeEditor: shapeEditor }),
                     drawRwLink: new fastmap.mapApi.DrawPath({ shapeEditor: shapeEditor }),
                     drawAdLink: new fastmap.mapApi.DrawPath({ shapeEditor: shapeEditor }),
@@ -42,9 +41,9 @@ fastmap.mapApi.ShapeEditorFactory = (function () {
                     updateSpeedNode: new fastmap.mapApi.PointVertexAdd({ shapeEditor: shapeEditor }),
                     addMileagePile: new fastmap.mapApi.PointVertexAdd({ shapeEditor: shapeEditor }),
                     updateMileagePile: new fastmap.mapApi.PointVertexAdd({ shapeEditor: shapeEditor }),
-                    addAdAdmin: new fastmap.mapApi.adAdminAdd({ shapeEditor: shapeEditor }),
+                    addAdAdminPoint: new fastmap.mapApi.adAdminPointAdd({ shapeEditor: shapeEditor }),
+                    updateAdminPoint: new fastmap.mapApi.UpdateAdminPoint({ shapeEditor: shapeEditor }),
                     addTmcLocation: new fastmap.mapApi.adTmcAdd({ shapeEditor: shapeEditor }),
-                    adAdminMove: new fastmap.mapApi.adAdminMove({ shapeEditor: shapeEditor }),
                     poiLocMove: new fastmap.mapApi.poiLocMove({ shapeEditor: shapeEditor, autoDrag: false }),
                     poiAutoDrag: new fastmap.mapApi.poiLocMove({ shapeEditor: shapeEditor, autoDrag: true }),
                     SelectParent: new fastmap.mapApi.SelectParent({ shapeEditor: shapeEditor }),

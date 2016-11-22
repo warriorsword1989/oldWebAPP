@@ -51,7 +51,11 @@ rwLinkZone.controller('rwLinkController', ['$scope', 'appPath', 'dsEdit', functi
         var line = fastmap.mapApi.lineString(points);
         selectCtrl.onSelected({
             geometry: line,
-            id: $scope.rwLinkData.pid
+            id: $scope.rwLinkData.pid,
+            type: 'Link',
+            direct: $scope.rwLinkData.direct,
+            snode: $scope.rwLinkData.sNodePid,
+            enode: $scope.rwLinkData.eNodePid
         });
         var highLightFeatures = [];
         highLightFeatures.push({

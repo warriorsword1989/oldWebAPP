@@ -678,10 +678,10 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         }
                     });
                 });
-            } else if (type === "RDMILEAGEPILE"){// 里程桩
+            } else if (type === 'RDMILEAGEPILE') { // 里程桩
                 $scope.resetOperator('addRelation', type);
                 shapeCtrl.setEditFeatType(null);
-                shapeCtrl.setEditingType("addMileagePile");
+                shapeCtrl.setEditingType('addMileagePile');
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
@@ -710,29 +710,29 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     }
 
                     shapeCtrl.setEditFeatType('mileagePile');
-                    dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
-                        if(data){
-                            if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 1){
+                    dsEdit.getByPid(pro.id, 'RDLINK').then(function (data) {
+                        if (data) {
+                            if (e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1], data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length - 1][1], data.geometry.coordinates[data.geometry.coordinates.length - 1][0])) < 1) {
                                 selectCtrl.selectedFeatures = null;
                                 editLayer.drawGeometry = null;
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                                 editLayer.clear();
-                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！','error');
+                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！', 'error');
                                 return;
                             }
-                            //selectCtrl.selectedFeatures = {
+                            // selectCtrl.selectedFeatures = {
                             //    linkPid:pro.id,
                             //    point:e.latlng
-                            //};
-                            shapeCtrl.shapeEditorResult.setProperties({linkPid:pro.id})
+                            // };
+                            shapeCtrl.shapeEditorResult.setProperties({ linkPid: pro.id });
                             shapeCtrl.setEditFeatType('mileagePile');
-                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!','succ');
+                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!', 'succ');
                         }
-                    })
-                })
-            } else if (type === "RDCROSS") {
-                $scope.resetOperator("addRelation", type);
+                    });
+                });
+            } else if (type === 'RDCROSS') {
+                $scope.resetOperator('addRelation', type);
                 var linksArr = [],
                     nodesArr = [],
                     nodes = [],

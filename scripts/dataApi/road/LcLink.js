@@ -2,11 +2,11 @@
  * Created by linglong on 2016/7/25.
  */
 fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
-	/**
-	 * 初始化
-	 * @param data
-	 * @param options
-	 */
+    /**
+     * * 初始化
+     * * @param data
+     * * @param options
+     * */
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = 'LCLINK';
@@ -29,8 +29,8 @@ fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
         }
         this.editFlag = data.editFlag || 1;
         var str = [];
-        for (var i = 0; i < data.meshes.length; i++) {
-            str.push(data.meshes[i].meshId);
+        for (var j = 0; j < data.meshes.length; j++) {
+            str.push(data.meshes[j].meshId);
         }
         this.meshId = str.join(',');
     },

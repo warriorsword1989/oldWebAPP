@@ -517,10 +517,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 param.dbId = App.Temp.dbId;
                 param.objId = selectCtrl.selectedFeatures.dragNodePid;
                 var catchPid;
-                if (selectCtrl.selectedFeatures.catchFlag == 'RDLINK') {
+                if (selectCtrl.selectedFeatures.catchFlag.substring(2) == 'LINK') {
                     catchLinkPid = selectCtrl.selectedFeatures.catchNodePid;
                     catchNodePid = 0;
-                } else if (selectCtrl.selectedFeatures.catchFlag == 'RDNODE') {
+                } else if (selectCtrl.selectedFeatures.catchFlag.substring(2) == 'NODE') {
                     catchNodePid = selectCtrl.selectedFeatures.catchNodePid;
                     catchLinkPid = 0;
                 }
@@ -539,12 +539,31 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         linkPid: selectCtrl.selectedFeatures.selectedLinkPid
                     };
                 }
-                param.type = 'RDLINK';
+                //param.type = selectCtrl.selectedFeatures.catchFlag;
+                if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='RD'){
+                    param.type = 'RDLINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='AD'){
+                    param.type = 'ADLINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='LU'){
+                    param.type = 'LULINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='LC'){
+                    param.type = 'LCLINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='RW'){
+                    param.type = 'RWLINK'
+                }
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
                         selectCtrl.selectedFeatures = null;
                         rdLink.redraw();
                         rdnode.redraw();
+                        adLink.redraw();
+                        adNode.redraw();
+                        luLink.redraw();
+                        luNode.redraw();
+                        lcLink.redraw();
+                        lcNode.redraw();
+                        rwLink.redraw();
+                        rwnode.redraw();
                         highRenderCtrl.highLightFeatures.push({
                             id: objEditCtrl.data.pid.toString(),
                             layerid: 'rdLink',
@@ -581,13 +600,12 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'RDSPEEDLIMIT', 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
                     }
                 });
-            }
-            else if(shapeCtrl.editType === "addMileagePile"){
+            } else if (shapeCtrl.editType === 'addMileagePile') {
                 if (!shapeCtrl.editFeatType) { // 如果不符合条件不让创建
                     return;
                 }
                 feature = selectCtrl.selectedFeatures;
-                var currentPoint = shapeCtrl.shapeEditorResult.getFinalGeometry()
+                var currentPoint = shapeCtrl.shapeEditorResult.getFinalGeometry();
                 param = {
                     command: 'CREATE',
                     type: 'RDMILEAGEPILE',
@@ -596,7 +614,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         direct: 0,
                         linkPid: parseInt(shapeCtrl.shapeEditorResult.getProperties().linkPid),
                         longitude: currentPoint.x,
-                        latitude: currentPoint.y,
+                        latitude: currentPoint.y
                     }
                 };
                 dsEdit.save(param).then(function (data) {
@@ -606,9 +624,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'RDMILEAGEPILE', 'attr_mileagepile_ctrl/mileagePileCtrl', 'attr_mileagepile_tpl/mileagePile.html');
                     }
                 });
-            }
-            else if(shapeCtrl.editType === "updateMileagePile"){
-                if(!shapeCtrl.editFeatType){return;}
+            } else if (shapeCtrl.editType === 'updateMileagePile') {
+                if (!shapeCtrl.editFeatType) { return; }
                 param = {
                     command: 'MOVE',
                     type: 'RDMILEAGEPILE',
@@ -793,6 +810,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                                 } else if (param.type === 'RDNODE') {
                                     rdLink.redraw();
                                     rdnode.redraw();
+                                    rdLinkSpeedLimit.redraw();
+                                    rdCross.redraw();
                                     relationData.redraw();// 打断线后点限速关联的link发生了变化，其他有类似联系的要素应该也有这样的变化
                                     ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
                                     tpl = 'attr_node_tpl/rdNodeFormTpl.html';
@@ -969,15 +988,15 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'RDGSC', 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     }
                 });
-            } else if (shapeCtrl.editType === 'addAdAdmin') {
+            } else if (shapeCtrl.editType === 'addAdAdminPoint') {
                 param = {
                     command: 'CREATE',
                     type: 'ADADMIN',
                     dbId: App.Temp.dbId,
                     data: {
-                        longitude: geo.x,
-                        latitude: geo.y,
-                        linkPid: parseInt(selectCtrl.selectedFeatures.id)
+                        longitude: geo.components[0].x,
+                        latitude: geo.components[0].y,
+                        linkPid: parseInt(geo.guideLink)
                     }
                 };
                 dsEdit.save(param).then(function (data) {
@@ -1461,6 +1480,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 }
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        if (data == '属性值未发生变化') {
+                            swal('提示', '几何属性未发生变化!', 'info');
+                            return;
+                        }
                         crfData.redraw();
                         treatmentOfChanged(data, 'RDINTER', 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
                     }
