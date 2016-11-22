@@ -929,6 +929,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             //    return;
             // }
             dsEdit.getByPid(pid, featType).then(function (data) {
+                var detailType = '';
                 var highRenderCtrl = new fastmap.uikit.HighRenderController();
                 objectCtrl.setCurrentObject(featType, data);
                 if (data.geometry) {
@@ -948,9 +949,9 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 if (featType == 'RDBRANCH') {
                     detailType = data.details[0].branchType;
                 }
-                if(detailType){
+                if (detailType) {
                     var page = _getFeaturePage(featType, detailType);
-                }else{
+                } else {
                     var page = _getFeaturePage(featType);
                 }
                 if (featType == 'IXPOI') {

@@ -29,12 +29,12 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
             }
         });
     };
-	//翻译英文
-	$scope.translateLang = function (type, name) {
-		var _name = '';
-		_name = name;
-		return _name;
-	};
+	// 翻译英文
+    $scope.translateLang = function (type, name) {
+        var _name = '';
+        _name = name;
+        return _name;
+    };
 	// 增加名称信息
     $scope.addNameInfo = function () {
 	    getSelectedLangcode();
@@ -42,11 +42,11 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
 		    if ($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
 			    if (($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
 			    } else {
-				    if($scope.langCodeOptions[i].id === 'ENG') {
+				    if ($scope.langCodeOptions[i].id === 'ENG') {
 					    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({
 						    nameGroupid: $scope.tollGateNames[0].nameGroupid,
 						    langCode: $scope.langCodeOptions[i].id,
-						    name:$scope.translateLang($scope.langCodeOptions[i].id, $scope.tollGateNames[0].name)
+						    name: $scope.translateLang($scope.langCodeOptions[i].id, $scope.tollGateNames[0].name)
 					    }));
 				    } else {
 					    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({

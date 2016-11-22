@@ -59,7 +59,11 @@ adLinkApp.controller('adLinkController', ['$scope', 'dsEdit', function ($scope, 
         var line = fastmap.mapApi.lineString(points);
         selectCtrl.onSelected({// 存储选择数据信息
             geometry: line,
-            id: $scope.adLinkData.pid
+            id: $scope.adLinkData.pid,
+            type: 'Link',
+            direct: $scope.adLinkData.direct,
+            snode: $scope.adLinkData.sNodePid,
+            enode: $scope.adLinkData.eNodePid
         });
         var highLightFeatures = [];
         highLightFeatures.push({

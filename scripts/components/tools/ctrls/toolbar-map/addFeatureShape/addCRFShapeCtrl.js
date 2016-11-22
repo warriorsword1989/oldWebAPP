@@ -12,6 +12,81 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var eventController = fastmap.uikit.EventController();
 
+        function arrToArrobj(arr) {
+            var newArr = [];
+            for (var i = 0; i < arr.length; i++) {
+                var str = arr[i].x + '-' + arr[i].y;
+                newArr.push(str);
+            }
+            return newArr;
+        }
+
+        function arrobjToArr(arrobj) {
+            var newArr = [];
+            for (var i = 0; i < arrobj.length; i++) {
+                var point = new L.point(parseFloat(arrobj[i].split('-')[0]), parseFloat(arrobj[i].split('-')[1]));
+                newArr.push(point);
+            }
+            return newArr;
+        }
+        function pointsUnique(pointsArr) {
+            var repeatIndex = [];
+            var newPointArr = arrToArrobj(pointsArr);
+            for (var i = 0; i < newPointArr.length; i++) {
+                if (repeatIndex.indexOf(newPointArr[i]) < 0) {
+                    repeatIndex.push(newPointArr[i]);
+                }
+            }
+            return arrobjToArr(repeatIndex);
+        }
+        function caculatePolygon(pointsArr) {
+            var newArr = [];
+            var latMax = [];
+            var lngMax = [];
+            var latMin = [];
+            var lngMin = [];
+            latMax.push(pointsArr[0]);
+            latMin.push(pointsArr[0]);
+            lngMax.push(pointsArr[0]);
+            lngMin.push(pointsArr[0]);
+            for (var i = 1; i < pointsArr.length; i++) {
+                if (latMax[0].x < pointsArr[i].x) {
+                    latMax = [];
+                    latMax.push(pointsArr[i]);
+                } else if (latMax[0].x === pointsArr[i].x) {
+                    latMax.push(pointsArr[i]);
+                }
+                if (latMin[0].x > pointsArr[i].x) {
+                    latMin = [];
+                    latMin.push(pointsArr[i]);
+                } else if (latMin[0].x === pointsArr[i].x) {
+                    latMin.push(pointsArr[i]);
+                }
+                if (lngMax[0].y < pointsArr[i].y) {
+                    lngMax = [];
+                    lngMax.push(pointsArr[i]);
+                } else if (lngMax[0].y === pointsArr[i].y) {
+                    lngMax.push(pointsArr[i]);
+                }
+                if (lngMin[0].y > pointsArr[i].y) {
+                    lngMin = [];
+                    lngMin.push(pointsArr[i]);
+                } else if (lngMin[0].y === pointsArr[i].y) {
+                    lngMin.push(pointsArr[i]);
+                }
+            }
+            // latMax = pointsUnique(latMax);
+            // lngMin = pointsUnique(lngMin);
+            // latMin = pointsUnique(latMin);
+            // lngMax = pointsUnique(lngMax);
+            newArr = newArr.concat(latMax);
+            newArr = newArr.concat(lngMin);
+            newArr = newArr.concat(latMin);
+            newArr = newArr.concat(lngMax);
+            newArr = pointsUnique(newArr);
+            newArr.push(latMax[0]);
+            return newArr;
+        }
         /**
          * 去除重复的数据，保留一个
          * @param arr
@@ -144,6 +219,15 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                 param1.data = {
                                     nodePid: parseInt(data.id)
                                 };
+                                interData.nodes.push(parseInt(data.id));
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data.id.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'node',
+                                    style: {
+                                        color: '#02F78E'
+                                    }
+                                });
                                 dsEdit.getByCondition(param1).then(function (exLinks) {
                                     if (exLinks.errcode === -1) {
                                         return;
@@ -163,16 +247,9 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                                 highRenderCtrl.drawHighlight();
                                             } else {
                                                 dsEdit.getByPid(exLinks.data[i].pid, 'RDLINK').then(function (linkData) {
-                                                    if ((interData.nodes.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (interData.nodes.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) { // 线正好是中间部分,把线也加入
-                                                        interData.nodes.push(parseInt(data.id));
-                                                        highRenderCtrl.highLightFeatures.push({
-                                                            id: data.id.toString(),
-                                                            layerid: 'rdLink',
-                                                            type: 'node',
-                                                            style: {
-                                                                color: '#02F78E'
-                                                            }
-                                                        });
+                                                    if ((interData.nodes.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (interData.nodes.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) {
+ // 线正好是中间部分,把线也加入
+
                                                         interData.links.push(linkData.pid);
                                                         highRenderCtrl.highLightFeatures.push({
                                                             id: linkData.pid.toString(),
@@ -350,6 +427,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
 
                 eventController.off(eventController.eventTypes.GETRECTDATA);
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+                    var pointsArr = [];
                     if (data && data.data && data.data.length == 0) {
                         tooltipsCtrl.setCurrentTooltip('请重新框选制作CRF对象的要素！');
                         return;
@@ -362,6 +440,14 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     }
                     // crf中的node和link与常规的node、link的pid是一样的，要排除掉常规中的这些数据
                     for (var i = 0; i < data.data.length; i++) {
+                        if (data.data[i].line) {
+                            for (var j = 0; j < data.data[i].line.components.length; j++) {
+                                pointsArr.push(L.point(parseFloat(data.data[i].line.components[j].y.toFixed(6)), parseFloat(data.data[i].line.components[j].x.toFixed(6))));
+                            }
+                        } else {
+                            pointsArr.push(L.point(parseFloat(data.data[i].data.point.y.toFixed(6)), parseFloat(data.data[i].data.point.x.toFixed(6))));
+                        }
+
                         // 将所有的单独的link放进去
                         if (data.data[i].data && data.data[i].data.properties.featType != 'RDINTER' && data.data[i].data.properties.featType != 'RDROAD' && data.data[i].data.properties.featType != 'RDOBJECT' && data.data[i].data.geometry.type == 'LineString') {
                             allLinks.push(data.data[i].data.properties.id);
@@ -430,6 +516,60 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                             }
                         }
                     }
+                    var sideList = [];
+                    var sidePoints = caculatePolygon(pointsArr);
+                    var sidePointObj = arrToArrobj(sidePoints);
+                    var lineString = new fastmap.mapApi.LinearRing(sidePoints);
+                    var polygon = new fastmap.mapApi.Polygon([lineString]);
+                    for (var pa = 0; pa < pointsArr.length; pa++) {
+                        if (!polygon.containsPoint(pointsArr[pa]) && sidePointObj.indexOf(pointsArr[pa].x + '-' + pointsArr[pa].y) < 0) {
+                            sideList.push(pointsArr[pa]);
+                        }
+                    }
+                    for (var sl = 0; sl < sideList.length; sl++) {
+                        for (var sp = 0; sp < sidePoints.length - 1; sp++) {
+                            var minX;
+                            var minY;
+                            var maxX;
+                            var maxY;
+                            if (sidePoints[sp].x >= sidePoints[sp + 1].x) {
+                                minX = sidePoints[sp + 1].x;
+                                maxX = sidePoints[sp].x;
+                            } else {
+                                minX = sidePoints[sp].x;
+                                maxX = sidePoints[sp + 1].x;
+                            }
+                            if (sidePoints[sp].y >= sidePoints[sp + 1].y) {
+                                minY = sidePoints[sp + 1].y;
+                                maxY = sidePoints[sp].y;
+                            } else {
+                                minY = sidePoints[sp].y;
+                                maxY = sidePoints[sp + 1].y;
+                            }
+                            if ((sideList[sl].x >= minX) && (sideList[sl].x <= maxX) &&
+                                (sideList[sl].y <= maxY) && (sideList[sl].y >= minY)) {
+                                sidePoints.splice(sp + 1, 0, sideList[sl]);
+                                break;
+                            }
+                        }
+                    }
+                    var latLngs = [];
+                    var latSum = 0;
+                    var lngSum = 0;
+                    for (var i = 0; i < sidePoints.length; i++) {
+                        latSum += sidePoints[i].x;
+                        lngSum += sidePoints[i].y;
+                        var latlng1 = L.latLng(sidePoints[i].x, sidePoints[i].y);
+                        latLngs.push(latlng1);
+                    }
+                    L.marker([latSum / sidePoints.length, lngSum / sidePoints.length], {
+                        draggable: true
+                    }).addTo(map);
+                    var polyGonLayer = L.polygon(latLngs, {
+                        color: 'red',
+                        weight: 5
+                    });
+                    map.addLayer(polyGonLayer);
                     for (var i = 0; i < allLinks.length; i++) {
                         if (crfLinkPids.indexOf(allLinks[i]) < 0) {
                             objData.links.push(parseInt(allLinks[i]));
