@@ -472,8 +472,8 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 break;
             case 'RDRESTRICTION':
                 // if (data.restrictionType === '0') { // 普通交限
-                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestriction';
-                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html';
+                ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestriction';
+                ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html';
                 // } else { // 卡车交限
                 //     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestrictionOfTruckCtl';
                 //     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html';
@@ -2751,9 +2751,11 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         }
                     });
                     return;
-                }else if(type === 'MODIFYMILEAGEPILE'){
+                } else if (type === 'MODIFYMILEAGEPILE') {
                     shapeCtrl.editFeatType = null;
-                    var pid = parseInt(selectCtrl.selectedFeatures.id), linkPid = parseInt(selectCtrl.selectedFeatures.linkPid), currentLink = null;
+                    var pid = parseInt(selectCtrl.selectedFeatures.id),
+                        linkPid = parseInt(selectCtrl.selectedFeatures.linkPid),
+                        currentLink = null;
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -2788,7 +2790,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！', 'error');
                                 return;
                             }
-                            if(data){
+                            if (data) {
                                 shapeCtrl.editFeatType = 'mileagePile';
                                 var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
                                 var mileagePile = {
@@ -2800,11 +2802,10 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 featCodeCtrl.setFeatCode({
                                     mileagePile: mileagePile
                                 });
-                                tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!','info');
+                                tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!', 'info');
                             }
-
-                        })
-                    })
+                        });
+                    });
                     return;
                 } else if (type === 'MODIFYHGWGLIMITNODE') { // 限高限重点位
                     var hgwgLimitData = selectCtrl.selectedFeatures;
@@ -3469,7 +3470,8 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                                 highRenderCtrl.drawHighlight();
                                             } else {
                                                 dsEdit.getByPid(exLinks.data[i].pid, 'RDLINK').then(function (linkData) {
-                                                    if ((nodePids.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (nodePids.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) { // 线正好是中间部分,把线也加入
+                                                    if ((nodePids.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (nodePids.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) {
+ // 线正好是中间部分,把线也加入
 
                                                         linkPids.push(linkData.pid);
                                                         highRenderCtrl.highLightFeatures.push({
