@@ -2471,9 +2471,9 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         map.currentTool = shapeCtrl.getCurrentTool();
                         map.currentTool.enable();
                         map.currentTool.captureHandler.addGuideLayer(rdLink);
-                        //tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
+                        tooltipsCtrl.setCurrentTooltip('开始修改行政区划代表点！', 'info');
                     } else {
-                        tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
+                        tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！', 'warn');
                     }
                     return;
                 } else if (type === 'PATHVERTEXINSERT') {

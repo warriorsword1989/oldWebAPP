@@ -597,11 +597,9 @@ fastmap.uikit.HighRenderController = (function () {
             drawAdAdmin: function (id, feature, ctx, adminLinkGeo) {
                 var transform = new fastmap.mapApi.MecatorTranform();
                 var data = this.objCtrl.data;
-                if(!adminLinkGeo){
-                    return;
-                }
-                var guideTilePoint = transform.lonlat2Tile(adminLinkGeo.geometry.coordinates[1][0], adminLinkGeo.geometry.coordinates[1][1], map.getZoom());
-                var guidePixel = transform.lonlat2Pixel(adminLinkGeo.geometry.coordinates[1][0], adminLinkGeo.geometry.coordinates[1][1], map.getZoom());
+                if (!adminLinkGeo) { return; }
+                var guideTilePoint = transform.lonlat2Tile(adminLinkGeo.y, adminLinkGeo.x, map.getZoom());
+                var guidePixel = transform.lonlat2Pixel(adminLinkGeo.y, adminLinkGeo.x, map.getZoom());
 
                 guidePixel[0] = Math.ceil(guidePixel[0]);
                 guidePixel[1] = Math.ceil(guidePixel[1]);
@@ -622,8 +620,8 @@ fastmap.uikit.HighRenderController = (function () {
                     lat: data.geometry.coordinates[1]
                 });
                 geo.push({
-                    lng: adminLinkGeo.geometry.coordinates[1][0],
-                    lat: adminLinkGeo.geometry.coordinates[1][1]
+                    lng: adminLinkGeo.y,
+                    lat: adminLinkGeo.x
                 });
                 var poiGuideLayer = this.getLayerById('poiGuideLayer');
                 if (poiGuideLayer == undefined) {
@@ -643,10 +641,10 @@ fastmap.uikit.HighRenderController = (function () {
                     //    drawy: -31
                     //});
                     map.closePopup();
-                    if (feature.properties.name) {
-                        this.popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(feature.properties.name);
-                        map.openPopup(this.popup);
-                    }
+                    //if (feature.properties.name) {
+                    //    this.popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(feature.properties.name);
+                    //    map.openPopup(this.popup);
+                    //}
                     var guideLine = L.polyline(geo, {
                         color: 'red',
                         weight: 2,
