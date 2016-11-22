@@ -791,6 +791,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                                 } else if (param.type === 'RDNODE') {
                                     rdLink.redraw();
                                     rdnode.redraw();
+                                    rdLinkSpeedLimit.redraw();
+                                    rdCross.redraw();
                                     relationData.redraw();// 打断线后点限速关联的link发生了变化，其他有类似联系的要素应该也有这样的变化
                                     ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
                                     tpl = 'attr_node_tpl/rdNodeFormTpl.html';
