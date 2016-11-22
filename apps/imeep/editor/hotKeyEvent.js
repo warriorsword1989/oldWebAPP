@@ -554,6 +554,14 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         selectCtrl.selectedFeatures = null;
                         rdLink.redraw();
                         rdnode.redraw();
+                        adLink.redraw();
+                        adNode.redraw();
+                        luLink.redraw();
+                        luNode.redraw();
+                        lcLink.redraw();
+                        lcNode.redraw();
+                        rwLink.redraw();
+                        rwnode.redraw();
                         highRenderCtrl.highLightFeatures.push({
                             id: objEditCtrl.data.pid.toString(),
                             layerid: 'rdLink',
