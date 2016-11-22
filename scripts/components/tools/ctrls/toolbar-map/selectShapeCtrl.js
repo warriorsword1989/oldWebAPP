@@ -2455,9 +2455,9 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             feature.components = [];
                             feature.points = [];
                             feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
-                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.linkcapturePoint[0], selectCtrl.selectedFeatures.linkcapturePoint[1]));
+                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.linkcapturePoint.y, selectCtrl.selectedFeatures.linkcapturePoint.x));
                             feature.points.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
-                            feature.points.push(selectCtrl.selectedFeatures.linkcapturePoint[0], selectCtrl.selectedFeatures.linkcapturePoint[1]);
+                            feature.points.push(selectCtrl.selectedFeatures.linkcapturePoint.y, selectCtrl.selectedFeatures.linkcapturePoint.x);
                             feature.type = 'ADMINPOINT';
                             feature.id = selectCtrl.selectedFeatures.id;
                             shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
@@ -2466,10 +2466,10 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         }
                         shapeCtrl.setEditingType('updateAdminPoint');
                         shapeCtrl.startEditing();
-                        shapeCtrl.editFeatType = null;
 
                         map.currentTool = shapeCtrl.getCurrentTool();
                         map.currentTool.enable();
+                        map.currentTool.resultData = {};
                         map.currentTool.captureHandler.addGuideLayer(rdLink);
                         tooltipsCtrl.setCurrentTooltip('开始修改行政区划代表点！', 'info');
                     } else {

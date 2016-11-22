@@ -80,8 +80,7 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
                     minIndex = i;
                 }
             }
-
-            selectCtrl.selectedFeatures.linkcapturePoint = L.LineUtil.closestPointOnSegment(
+            selectCtrl.selectedFeatures.linkcapturePoint =L.LineUtil.closestPointOnSegment(
                 L.point(linkArr[1], linkArr[0]),
                 L.point(data.geometry.coordinates[minIndex][1], data.geometry.coordinates[minIndex][0]),
                 L.point(data.geometry.coordinates[minIndex + 1][1], data.geometry.coordinates[minIndex + 1][0])
