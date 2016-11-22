@@ -1103,7 +1103,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highRenderCtrl.highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: { color: 'yellow' }
                             });
                             highRenderCtrl.drawHighlight();
@@ -1267,7 +1267,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1290,7 +1290,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1549,7 +1549,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.warningInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1565,7 +1565,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                         highLightFeatures.push({
                             id: $scope.warningInfo.nodePid.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }
@@ -1680,7 +1680,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                         highLightFeatures.push({
                             id: data.id.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }
@@ -1741,7 +1741,6 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                                                     }
                                                     if (linkLength && linkLength < 100) {
                                                         tooltipsCtrl.setCurrentTooltip('Link长度为：' + linkLength + '米，请选择坡度接续link!');
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -1820,7 +1819,6 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                                                     }
                                                     if (linkLength && linkLength < 100) {
                                                         tooltipsCtrl.setCurrentTooltip('Link长度为：' + linkLength + '米，请选择坡度接续link!');
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -1839,7 +1837,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: slopeData.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {}
                             });
                             highLightFeatures.push({
@@ -1884,7 +1882,6 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                                                 }
                                                 if (linkLength && linkLength < 100) {
                                                     tooltipsCtrl.setCurrentTooltip('Link长度为：' + linkLength + '米，请选择坡度接续link!');
-                                                    return;
                                                 }
                                             }
                                         }
@@ -1966,7 +1963,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1989,7 +1986,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2062,7 +2059,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                             highLightFeatures.push({
                                 id: $scope.speedBumpInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2078,7 +2075,7 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                         highLightFeatures.push({
                             id: $scope.speedBumpInfo.nodePid.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }
@@ -2128,19 +2125,6 @@ angular.module('app').controller('addShapeCtrl', ['$scope', '$ocLazyLoad', 'dsEd
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
                     console.log(data.data);
                 });
-            } else if (type === 'ADADMIN') {
-                $scope.resetOperator('addPointFeature', type);
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(0, 0));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType('addTmcLocation');
-                shapeCtrl.startEditing();
-                map.currentTool = shapeCtrl.getCurrentTool();
-                tooltipsCtrl.setEditEventType('addTmcLocation');
-                tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！');
-                tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
             }
         };
     }

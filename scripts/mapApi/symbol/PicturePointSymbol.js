@@ -44,10 +44,11 @@ fastmap.mapApi.symbol.PicturePointSymbol = L.Class.extend({
     drawPicture: function (ctx) {
         ctx.resetTransform();
         ctx.translate(this.geometry.x, this.geometry.y);
-        ctx.rotate(this.angle * Math.PI / 180);
+        ctx.rotate((this.angle * Math.PI) / 180);
         ctx.translate(this.offsetX, this.offsetY);
         ctx.translate(-this.geometry.x, -this.geometry.y);
-        ctx.drawImage(this.image, this.geometry.x - this.size, this.geometry.y - this.size, 2 * this.size, 2 * this.size);
+        ctx.drawImage(this.image, this.geometry.x - this.size,
+          this.geometry.y - this.size, 2 * this.size, 2 * this.size);
 
         if (this.hasOutLine) {
             ctx.lineWidth = this.outLineWidth;
@@ -67,11 +68,16 @@ fastmap.mapApi.symbol.PicturePointSymbol = L.Class.extend({
 
     getSquareGeometry: function () {
         var squareGeometry = new fastmap.mapApi.symbol.LineString();
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y - this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y - this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y + this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y + this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y - this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x - this.size, this.geometry.y - this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x + this.size, this.geometry.y - this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x + this.size, this.geometry.y + this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x - this.size, this.geometry.y + this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x - this.size, this.geometry.y - this.size));
 
         return squareGeometry;
     }

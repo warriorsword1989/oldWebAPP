@@ -23,15 +23,15 @@ fastmap.dataApi.RdCross = fastmap.dataApi.GeoDataModel.extend({
         }
         this.links = [];
         if (data.links.length > 0) {
-            for (var i = 0; i < data.links.length; i++) {
-                var link = fastmap.dataApi.rdCrossLink(data.links[i]);
+            for (var j = 0; j < data.links.length; j++) {
+                var link = fastmap.dataApi.rdCrossLink(data.links[j]);
                 this.links.push(link);
             }
         }
         this.nodes = [];
         if (data.nodes.length > 0) {
-            for (var i = 0; i < data.nodes.length; i++) {
-                var node = fastmap.dataApi.rdCrossNode(data.nodes[i]);
+            for (var k = 0; k < data.nodes.length; k++) {
+                var node = fastmap.dataApi.rdCrossNode(data.nodes[k]);
                 this.nodes.push(node);
             }
         }
@@ -51,13 +51,13 @@ fastmap.dataApi.RdCross = fastmap.dataApi.GeoDataModel.extend({
         }
 
         data.names = [];
-        for (var i = 0, len = this.data.names.length; i < len; i++) {
-            data.names.push(this.data.names[i].getIntegrate());
+        for (var j = 0, nameLen = this.data.names.length; j < nameLen; j++) {
+            data.names.push(this.data.names[j].getIntegrate());
         }
 
         data.nodes = [];
-        for (var i = 0, len = this.data.nodes.length; i < len; i++) {
-            data.nodes.push(this.data.nodes[i].getIntegrate());
+        for (var k = 0, nodeLen = this.data.nodes.length; k < nodeLen; k++) {
+            data.nodes.push(this.data.nodes[k].getIntegrate());
         }
 
         return data;
@@ -77,13 +77,13 @@ fastmap.dataApi.RdCross = fastmap.dataApi.GeoDataModel.extend({
         }
 
         data.names = [];
-        for (var i = 0, len = this.names.length; i < len; i++) {
-            data.names.push(this.names[i].getIntegrate());
+        for (var j = 0, nameLen = this.names.length; j < nameLen; j++) {
+            data.names.push(this.names[j].getIntegrate());
         }
 
         data.nodes = [];
-        for (var i = 0, len = this.nodes.length; i < len; i++) {
-            data.nodes.push(this.nodes[i].getIntegrate());
+        for (var k = 0, nodeLen = this.nodes.length; k < nodeLen; k++) {
+            data.nodes.push(this.nodes[k].getIntegrate());
         }
 
         return data;

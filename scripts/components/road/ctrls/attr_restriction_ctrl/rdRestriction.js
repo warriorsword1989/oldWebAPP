@@ -13,6 +13,71 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
     var rdLink = layerCtrl.getLayerById('rdLink');
     var rdNode = layerCtrl.getLayerById('rdNode');
     var limitPicArr = [];
+    $scope.currentHandleType = '';
+    $scope.restrictionType = 0; // 0--普通交限 1--卡车交限
+
+    // 判断当前交限是卡车交限还是普通交限
+    var setRestrictionType = function () {
+        $scope.restrictionType = 0; // 普通交限
+        var details = $scope.rdRestrictCurrentData.details;
+        for (var i = 0; i < details.length; i++) {
+            if (details[i].conditions && details[i].conditions[0]) {
+                var bin = Utils.dec2bin(details[i].conditions[0].vehicle);
+                var reverseBin = bin.split('').reverse();
+                var a = reverseBin[1];
+                var b = reverseBin[2];
+                if (a === '1' || b === '1') {
+                    $scope.restrictionType = 1;
+                    objectEditCtrl.originalData.restrictionType = 1;
+                    break;
+                }
+            }
+        }
+    };
+    // 校验小数
+    $scope.verifyFloat = function (t, min, max, model) {
+        var value = t.target.value;
+        if (value === '') {
+            value = '0';
+        }
+        if (value < min) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = min;
+            return;
+        }
+        if (value > max) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = max;
+            return;
+        }
+        var patten = /^-?\d+\.?\d{0,2}$/; // 校验是数字并且最多只能有两位小数
+        var flag = patten.test(value);
+        if (flag) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = value;
+        } else {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = min;
+        }
+    };
+    // 校验实数
+    $scope.verifyNumber = function (t, min, max, model) {
+        var value = t.target.value;
+        if (value === '') {
+            value = '0';
+        }
+        if (value < min) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = min;
+            return;
+        }
+        if (value > max) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = max;
+            return;
+        }
+        var patten = /^-?\d+\.?\d*$/;
+        var flag = patten.test(value);
+        if (flag) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = value;
+        } else {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = min;
+        }
+    };
 
     // 初始化数据
     $scope.initializeData = function () {
@@ -24,6 +89,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         $scope.rdRestrictCurrentData = objectEditCtrl.data;
         $scope.rdRestrictOriginalData = objectEditCtrl.originalData;
         $scope.rdRestrictionCurrentDetail = objectEditCtrl.data.details[0];
+        setRestrictionType();
         // 初始高亮整个关系关联要素;
         highLightRestrictAll();
         /* 如果默认限制类型为时间段禁止，显示时间段控件*/
@@ -33,12 +99,6 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         // 回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if ($scope.restricOrdinaryForm) {
             $scope.restricOrdinaryForm.$setPristine();
-        }
-        // 最后一根退出线;
-        for (var i = 0; i < $scope.rdRestrictionCurrentDetail.vias.length; i++) {
-            if ($scope.rdRestrictionCurrentDetail.vias[i].seqNum == $scope.rdRestrictionCurrentDetail.vias.length) {
-                $scope.lastLinkLine = $scope.rdRestrictionCurrentDetail.vias[i].linkPid;
-            }
         }
     };
 
@@ -72,7 +132,6 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         var len = $scope.rdRestrictCurrentData.details.length;
         if (len === 1) {
             swal('无法操作', '请点击删除按钮删除该交限！', 'info');
-            return;
         } else {
             $scope.rdRestrictCurrentData.details.splice(index, 1);
             var arr = $scope.rdRestrictCurrentData.restricInfo.split(',');
@@ -103,8 +162,16 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
     };
     // 修改经过线;
     $scope.modifyThroughLink = function () {
+        $scope.viasLinkFlag = false;
+        $scope.currentHandleType = 'editVias';
+        // 最后一根经过线;
+        for (var i = 0; i < $scope.rdRestrictOriginalData.details[$scope.flag].vias.length; i++) {
+            if ($scope.rdRestrictOriginalData.details[$scope.flag].vias[i].seqNum == $scope.rdRestrictOriginalData.details[$scope.flag].vias.length) {
+                $scope.lastLinkLine = $scope.rdRestrictOriginalData.details[$scope.flag].vias[i].linkPid;
+            }
+        }
         // //获取退出线的进入点以供修改经过线使用;
-        $q.all([getLinkInfos($scope.rdRestrictionCurrentDetail.outLinkPid), getLinkInfos($scope.lastLinkLine)]).then(function (data) {
+        $q.all([getLinkInfos($scope.rdRestrictOriginalData.details[$scope.flag].outLinkPid), getLinkInfos($scope.lastLinkLine)]).then(function (data) {
             var tempArr1 = [];
             var tempArr2 = [];
             tempArr1.push(data[0].eNodePid);
@@ -138,11 +205,11 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         eventController.off(eventController.eventTypes.GETLINKID);
         eventController.on(eventController.eventTypes.GETLINKID, function (dataresult) {
             /*
-            * 对经过线的合法性前判断;
-            * （1）经过线不能为退出线;
-            * （2）经过线不能为进入线;
-            * （3）经过线必须相互连续;
-            * */
+             * 对经过线的合法性前判断;
+             * （1）经过线不能为退出线;
+             * （2）经过线不能为进入线;
+             * （3）经过线必须相互连续;
+             * */
             if (dataresult.id == $scope.rdRestrictionCurrentDetail.inLinkPid) {
                 tooltipsCtrl.onRemoveTooltip();
                 tooltipsCtrl.setCurrentTooltip('退出线和进入线不能为同一条线！', 'error');
@@ -190,6 +257,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
             if (nodeArr[nodeArr.length - 1] == $scope.outLinkInNode) {
                 tooltipsCtrl.onRemoveTooltip();
                 tooltipsCtrl.setCurrentTooltip('经过线与退出线已连续，请点击保存！', 'info');
+                $scope.viasLinkFlag = true;
             }
 
             // 重新绘制;
@@ -237,6 +305,10 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
     /* --------------------------------------------------------------------------保存操作--------------------------------------------------------------------------*/
     $scope.save = function () {
+        if ($scope.currentHandleType == 'editVias' && !$scope.viasLinkFlag) {
+            swal('操作失败', '经过线不连续！', 'error');
+            return;
+        }
         var details = $scope.rdRestrictCurrentData.details;
         for (var i = 0; i < details.length; i++) {
             if (details[i].type != 2) {
@@ -246,19 +318,24 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
             }
         }
         objectEditCtrl.save();
+        var changed = objectEditCtrl.changedProperty;
+        if (!changed) {
+            swal('操作成功', '属性值没有变化！', 'success');
+            return;
+        }
+        for (var i = 0 ; i < changed.details.length; i++) {
+            if (changed.details[i].objStatus === 'INSERT') {
+                if (changed.details[i].conditions.length > 0) {
+                    changed.details[i].conditions[0].objStatus = 'INSERT';
+                }
+            }
+        }
         var param = {
             command: 'UPDATE',
             type: 'RDRESTRICTION',
             dbId: App.Temp.dbId,
-            data: objectEditCtrl.changedProperty
+            data: changed
         };
-
-
-        if (!objectEditCtrl.changedProperty) {
-            swal('操作成功', '属性值没有变化！', 'success');
-            return;
-        }
-
         dsEdit.save(param).then(function (data) {
             if (data) {
                 rdRestriction.redraw();
@@ -266,6 +343,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
                 highRenderCtrl.highLightFeatures = [];
                 $scope.refreshData();
                 map.currentTool.disable();
+                tooltipsCtrl.onRemoveTooltip();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     subAttrContainerTpl: false
                 });
@@ -386,6 +464,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
 
     function modifyOutLink() {
+        $scope.currentHandleType = 'editOutLink';
         clearMapTool();
         // 修改退出线;
         map.currentTool = new fastmap.uikit.SelectPath({

@@ -70,19 +70,24 @@ fastmap.mapApi.symbol.SquarePointSymbol = L.Class.extend({
 
         ctx.beginPath();
         ctx.moveTo(geometry.coordinates[0].x, geometry.coordinates[0].y);
-        for (var i = 1; i < geometry.coordinates.length; ++i) {
-            ctx.lineTo(geometry.coordinates[i].x, geometry.coordinates[i].y);
+        for (var j = 1; j < geometry.coordinates.length; ++j) {
+            ctx.lineTo(geometry.coordinates[j].x, geometry.coordinates[j].y);
         }
         ctx.stroke();
     },
 
     getSquareGeometry: function () {
         var squareGeometry = new fastmap.mapApi.symbol.LineString();
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y - this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y - this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x + this.size, this.geometry.y + this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y + this.size));
-        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(this.geometry.x - this.size, this.geometry.y - this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x - this.size, this.geometry.y - this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x + this.size, this.geometry.y - this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x + this.size, this.geometry.y + this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x - this.size, this.geometry.y + this.size));
+        squareGeometry.coordinates.push(new fastmap.mapApi.symbol.Point(
+          this.geometry.x - this.size, this.geometry.y - this.size));
 
         return squareGeometry;
     }

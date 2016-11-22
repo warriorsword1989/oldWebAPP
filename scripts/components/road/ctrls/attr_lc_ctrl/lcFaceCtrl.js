@@ -55,6 +55,41 @@ angular.module('app').controller('lcFaceCtrl', ['$scope', 'dsEdit', 'appPath', f
         { id: 2, label: '只存在于广域区域' },
         { id: 3, label: '存在于详细和广域区域' }
     ];
+	// 语言代码对应关系
+    $scope.langCodeRelation = {
+        CHI: 1,
+        CHT: 2,
+        ENG: 3,
+        POR: 4,
+        ARA: 5,
+        BUL: 6,
+        CZE: 7,
+        DAN: 8,
+        DUT: 9,
+        EST: 10,
+        FIN: 11,
+        FRE: 12,
+        GER: 13,
+        HIN: 14,
+        HUN: 15,
+        ICE: 16,
+        IND: 17,
+        ITA: 18,
+        JPN: 19,
+        KOR: 20,
+        LIT: 21,
+        NOR: 22,
+        POL: 23,
+        RUM: 24,
+        RUS: 25,
+        SLO: 26,
+        SPA: 27,
+        SWE: 28,
+        THA: 29,
+        TUR: 30,
+        UKR: 31,
+        SCR: 32
+    };
     // 刷新lcFaceData.names
     $scope.refreshNames = function () {
         $scope.lcFaceData.names = [];
@@ -216,6 +251,9 @@ angular.module('app').controller('lcFaceCtrl', ['$scope', 'dsEdit', 'appPath', f
                 for (var j = 0, le = $scope.lcFaceData.names.length; j < le; j++) {
                     if ($scope.lcFaceData.names[j].nameGroupid == nameGroupidArr[i]) {
                         tempArr.push($scope.lcFaceData.names[j]);
+	                    tempArr.sort(function (a, b) {
+		                    return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
+	                    });
                     }
                 }
                 $scope.nameGroup.push(tempArr);
@@ -230,7 +268,7 @@ angular.module('app').controller('lcFaceCtrl', ['$scope', 'dsEdit', 'appPath', f
         if ($scope.lcFaceData.names.length > 0) {
             maxNameGroupId = Utils.getArrMax($scope.lcFaceData.names, 'nameGroupid');
         }
-        objCtrl.data.names.push(fastmap.dataApi.lcFaceName({
+        objCtrl.data.names.unshift(fastmap.dataApi.lcFaceName({
             nameGroupid: maxNameGroupId + 1,
             pid: $scope.lcFaceData.pid
         }));

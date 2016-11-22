@@ -24,6 +24,7 @@ fastmap.dataApi.TMCPoint = fastmap.dataApi.GeoDataModel.extend({
         this.inPos = data.inPos;
         this.inNeg = data.inNeg;
         this.outNeg = data.outNeg;
+        this.outPos = data.outPos;
         this.presentPos = data.presentPos;
         this.presentNeg = data.presentNeg;
         this.locoffPos = data.locoffPos;
@@ -37,6 +38,13 @@ fastmap.dataApi.TMCPoint = fastmap.dataApi.GeoDataModel.extend({
         this.interuptRoad = data.interuptRoad;
         this.geometry = data.geometry;
         this.editFlag = data.editFlag;
+        this.names = [];
+        if (data.names && data.names.length > 0) {
+            for (var i = 0; i < data.names.length; i++) {
+                var name = fastmap.dataApi.tmcPointName(data.names[i]);
+                this.names.push(name);
+            }
+        }
         this.uRecord = data.uRecord;
         this.uFields = data.uFields;
     },
@@ -54,6 +62,7 @@ fastmap.dataApi.TMCPoint = fastmap.dataApi.GeoDataModel.extend({
         data.inPos = this.inPos;
         data.inNeg = this.inNeg;
         data.outNeg = this.outNeg;
+        data.outPos = this.outPos;
         data.presentPos = this.presentPos;
         data.presentNeg = this.presentNeg;
         data.locoffPos = this.locoffPos;
@@ -67,6 +76,10 @@ fastmap.dataApi.TMCPoint = fastmap.dataApi.GeoDataModel.extend({
         data.interuptRoad = this.interuptRoad;
         data.geometry = this.geometry;
         data.editFlag = this.editFlag;
+        data.names = [];
+        for (var i = 0; i < this.names.length; i++) {
+            data.names.push(this.names[i].getIntegrate());
+        }
         data.uRecord = this.uRecord;
         data.uFields = this.uFields;
         return data;
@@ -82,6 +95,7 @@ fastmap.dataApi.TMCPoint = fastmap.dataApi.GeoDataModel.extend({
         data.inPos = this.inPos;
         data.inNeg = this.inNeg;
         data.outNeg = this.outNeg;
+        data.outPos = this.outPos;
         data.presentPos = this.presentPos;
         data.presentNeg = this.presentNeg;
         data.locoffPos = this.locoffPos;
@@ -95,6 +109,10 @@ fastmap.dataApi.TMCPoint = fastmap.dataApi.GeoDataModel.extend({
         data.interuptRoad = this.interuptRoad;
         data.geometry = this.geometry;
         data.editFlag = this.editFlag;
+        data.names = [];
+        for (var i = 0; i < this.names.length; i++) {
+            data.names.push(this.names[i].getIntegrate());
+        }
         data.uRecord = this.uRecord;
         data.uFields = this.uFields;
         return data;

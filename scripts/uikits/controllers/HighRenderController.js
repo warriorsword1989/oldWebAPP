@@ -112,6 +112,8 @@ fastmap.uikit.HighRenderController = (function () {
                                         });
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSPEEDLIMIT') {
                                         this.drawSpeedLimit(id, hightlightfeature, ctx);
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDMILEAGEPILE') {
+                                        this.drawMileagePile(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDCROSS') {
                                         // this.drawPoint(id, hightlightfeature, ctx, style);
                                         this.drawCross(id, hightlightfeature, ctx, style);
@@ -191,7 +193,7 @@ fastmap.uikit.HighRenderController = (function () {
                                         this.drawOverpass(this.highLightFeatures[item].id, fea, ctx, cusFeature);
                                     } else if (this.highLightFeatures[item].type == 'adadmin') {
                                         var fea = this.currentEditLayer.tiles[tile].data[feature];
-                                        this.drawAdAdmin(this.highLightFeatures[item].id, fea, ctx);
+                                        this.drawAdAdmin(this.highLightFeatures[item].id, fea, ctx, action);
                                     } else if (this.highLightFeatures[item].type == 'IXPOI') {
                                         var fea = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPoi(this.highLightFeatures[item].id, fea, ctx);
@@ -474,6 +476,29 @@ fastmap.uikit.HighRenderController = (function () {
                     }
                 }
             },
+            drawMileagePile: function (id, feature, ctx) {
+                var type = feature.geometry.type;
+                var geom = feature.geometry.coordinates;
+                if (feature.properties.id == id) {
+                    if (type == 'Point') {
+                        var newGeom = [];
+                        newGeom[0] = (parseInt(geom[0]));
+                        newGeom[1] = (parseInt(geom[1]));
+                        this.layer._drawBackground({
+                            ctx: ctx,
+                            geo: newGeom,
+                            boolPixelCrs: true,
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(225,225,225, 0)',
+                            lineWidth: 1,
+                            width: 20,
+                            height: 20,
+                            drawx: -10,
+                            drawy: -10
+                        });
+                    }
+                }
+            },
             drawBranch: function (id, feature, context) {
                 var geom = feature.geometry.coordinates;
                 if (feature.properties.id && feature.properties.id == id) {
@@ -569,34 +594,76 @@ fastmap.uikit.HighRenderController = (function () {
                     }
                 }
             },
-            drawAdAdmin: function (id, feature, ctx) {
+            drawAdAdmin: function (id, feature, ctx, adminLinkGeo) {
+                var transform = new fastmap.mapApi.MecatorTranform();
+                var data = this.objCtrl.data;
+                if(!adminLinkGeo){
+                    return;
+                }
+                var guideTilePoint = transform.lonlat2Tile(adminLinkGeo.geometry.coordinates[1][0], adminLinkGeo.geometry.coordinates[1][1], map.getZoom());
+                var guidePixel = transform.lonlat2Pixel(adminLinkGeo.geometry.coordinates[1][0], adminLinkGeo.geometry.coordinates[1][1], map.getZoom());
+
+                guidePixel[0] = Math.ceil(guidePixel[0]);
+                guidePixel[1] = Math.ceil(guidePixel[1]);
+                var a = guidePixel[0] - 256 * guideTilePoint[0];
+                var b = guidePixel[1] - 256 * guideTilePoint[1];
+                // 防止超出瓦片范围
+                a = a < 5 ? 5 : a;
+                a = a > 250 ? 250 : a;
+                b = b < 5 ? 5 : b;
+                b = b > 250 ? 250 : b;
+                var point_guide = [];
+                point_guide.push(a);
+                point_guide.push(b);
+                var point_loc = feature.geometry.coordinates;
+                var geo = [];
+                geo.push({
+                    lng: data.geometry.coordinates[0],
+                    lat: data.geometry.coordinates[1]
+                });
+                geo.push({
+                    lng: adminLinkGeo.geometry.coordinates[1][0],
+                    lat: adminLinkGeo.geometry.coordinates[1][1]
+                });
+                var poiGuideLayer = this.getLayerById('poiGuideLayer');
+                if (poiGuideLayer == undefined) {
+                    map.addLayer(this.guideLayer);
+                }
                 if (feature.properties.id == id) {
                     if (feature.properties.id === undefined) {
                         return;
                     }
-                    var geo = feature.geometry.coordinates;
-                    // this.layer._drawImg({
+                    //this.layer._drawImg({
                     //    ctx: ctx,
-                    //    geo: geo,
+                    //    geo: point_loc,
+                    //    style: {
+                    //        src: '../../../images/poi/map/marker_red_16.png'
+                    //    },
                     //    boolPixelCrs: true,
-                    //    style: {src: '../../images/road/img/heightStar.svg'},
-                    //    drawx: "",
-                    //    drawy: "",
-                    //    scalex: 1,
-                    //    scaley: 1
-                    //
-                    // })
-                    this.layer._drawBackground({
+                    //    drawy: -31
+                    //});
+                    map.closePopup();
+                    if (feature.properties.name) {
+                        this.popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(feature.properties.name);
+                        map.openPopup(this.popup);
+                    }
+                    var guideLine = L.polyline(geo, {
+                        color: 'red',
+                        weight: 2,
+                        dashArray: '5, 10',
+                        id: 'guideLine'
+                    });
+                    this.guideLayer.addLayer(guideLine);
+                    ctx.canvas = this.layer._tiles[guideTilePoint[0] + ':' + guideTilePoint[1]];
+                    ctx.tile = L.point(guideTilePoint[0], guideTilePoint[1]);
+                    this.layer._drawImg({
                         ctx: ctx,
-                        geo: geo,
+                        geo: point_guide,
+                        style: {
+                            src: '../../../images/poi/map/marker_circle.png'
+                        },
                         boolPixelCrs: true,
-                        lineColor: 'rgb(4, 187, 245)',
-                        fillColor: 'rgba(225,225,225, 0)',
-                        lineWidth: 1,
-                        width: 20,
-                        height: 20,
-                        drawx: -10,
-                        drawy: -10
+                        drawy: 0
                     });
                 }
             },

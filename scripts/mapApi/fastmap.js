@@ -16,7 +16,8 @@ var fastmap = (function () {
             version: '1.1.0'
         };
     }
-    return !instantiated ? instantiated = init() : instantiated;
+    instantiated = (!instantiated ? instantiated = init() : instantiated);
+    return instantiated;
 }());
 /**
  * mapApi类
@@ -31,7 +32,8 @@ fastmap.mapApi = (function () {
     function init() {
         return {};
     }
-    return !instantiated ? instantiated = init() : instantiated;
+    instantiated = (!instantiated ? instantiated = init() : instantiated);
+    return instantiated;
 }());
 /**
  * symbol类
@@ -43,7 +45,8 @@ fastmap.mapApi.symbol = (function () {
     function init() {
         return {};
     }
-    return !instantiated ? instantiated = init() : instantiated;
+    instantiated = (!instantiated ? instantiated = init() : instantiated);
+    return instantiated;
 }());
 /**
  * uiKit类
@@ -58,7 +61,8 @@ fastmap.uikit = (function () {
     function init() {
         return {};
     }
-    return !instantiated ? instantiated = init() : instantiated;
+    instantiated = (!instantiated ? instantiated = init() : instantiated);
+    return instantiated;
 }());
 /**
  * dataApi类
@@ -75,5 +79,6 @@ fastmap.dataApi = (function () {
             id: 'test'
         };
     }
-    return !instantiated ? instantiated = init() : instantiated;
+    instantiated = (!instantiated ? instantiated = init() : instantiated);
+    return instantiated;
 }());

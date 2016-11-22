@@ -11,6 +11,7 @@ fastmap.mapApi.symbol.CompositePointSymbol = L.Class.extend({
     },
 
     draw: function (ctx) {
+        var i;
         if (this.geometry === null) {
             return;
         }
@@ -19,7 +20,7 @@ fastmap.mapApi.symbol.CompositePointSymbol = L.Class.extend({
             return;
         }
 
-        for (var i = 0; i < this.symbols.length; ++i) {
+        for (i = 0; i < this.symbols.length; ++i) {
             this.symbols[i].geometry = this.geometry;
             this.symbols[i].draw(ctx);
         }

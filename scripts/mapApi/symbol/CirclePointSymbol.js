@@ -39,14 +39,16 @@ fastmap.mapApi.symbol.CirclePointSymbol = L.Class.extend({
 
     getTranslate: function () {
         var translates = [];
-        var matrix = new fastmap.mapApi.symbol.Matrix();
+        var matrix;
+        matrix = new fastmap.mapApi.symbol.Matrix();
         translates.push(matrix.makeTranslate(this.offsetX, this.offsetY));
 
         return translates;
     },
 
     transform: function (geometry) {
-        for (var i = 0; i < this.translate.length; ++i) {
+        var i;
+        for (i = 0; i < this.translate.length; ++i) {
             geometry = geometry.crossMatrix(this.translate[i]);
         }
 
@@ -54,10 +56,11 @@ fastmap.mapApi.symbol.CirclePointSymbol = L.Class.extend({
     },
 
     drawCircle: function (ctx) {
+        var geometry;
         ctx.strokeStyle = this.color;
         ctx.lineWidth = this.width;
 
-        var geometry = this.transform(this.geometry);
+        geometry = this.transform(this.geometry);
 
         ctx.beginPath();
         ctx.arc(geometry.x, geometry.y, this.radius, 0, 2 * Math.PI, false);

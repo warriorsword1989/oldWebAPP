@@ -3,30 +3,23 @@
  * Class ajaxConstruct
  */
 fastmap.mapApi.ajaxConstruct = function (url, func) {
-    if (document.getElementById) {
-        var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();
-        if (window.XDomainRequest) {
-            x.xdomain = 1;
-        }
+    var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();
+    if (window.XDomainRequest) {
+        x.xdomain = 1;
     }
+
     if (x) {
         x.onreadystatechange = function () {
-            var el = el || {};
-            if (x.xdomain || x.readyState == 4) {
-                var d = 0;
-                var el;
-                if (x.xdomain || x.status == 200) {
+            var eventController = fastmap.uikit.EventController();
+            var d = 0;
+            if (x.xdomain || x.readyState === 4) {
+                if (x.xdomain || x.status === 200) {
                     // if(url.match(/\/edit\?/)!=null && url.match(/\/edit\?/).length >0){
                     if (url.match('CREATE') != null || url.match('UPDATE') != null || url.match('DELETE') != null) {
-                        var eventController = fastmap.uikit.EventController();
                         eventController.fire('editAjaxCompleted', {});
                     }
-                    if (x.responseText && x.responseText[0] != '<' && x.responseText != '[0]') {
-                        if (window.JSON) {
-                            d = window.JSON.parse(x.responseText);
-                        } else {
-                            d = eval('(' + x.responseText + ')');
-                        }
+                    if (x.responseText && x.responseText[0] !== '<' && x.responseText !== '[0]') {
+                        d = window.JSON.parse(x.responseText);
                         func(d);
                     }
                 }

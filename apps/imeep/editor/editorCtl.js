@@ -1,4 +1,4 @@
-angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap', 'ngSanitize', 'cfp.hotkeys']).constant('appPath', {
+angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap', 'ngSanitize', 'cfp.hotkeys', 'treeControl']).constant('appPath', {
     root: App.Util.getAppPath() + '/',
     meta: 'scripts/components/meta/',
     road: 'scripts/components/road/',
@@ -206,7 +206,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             shapeCtrl.setMap(map);
             layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
                 if (event.flag == true) {
-                    //改变图层显隐要将layerConfig中的visible状态改变
+                    // 改变图层显隐要将layerConfig中的visible状态改变
                     event.layer.options.visible = true;
                     map.addLayer(event.layer);
                 } else {
@@ -541,7 +541,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		/**
 		 * 保存数据
 		 */
-        $scope.doSave = function () {
+        $scope.doSave = function (event) {
+            event.target.blur(); // add by chenx on 2016-11-22, 取消按钮的选中状态，防止按空格键继续触发click事件
             $('.datetip').hide();
             $('.carTypeTip').hide();
             eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY);
@@ -549,7 +550,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		/**
 		 * 删除数据
 		 */
-        $scope.doDelete = function () {
+        $scope.doDelete = function (event) {
+            event.target.blur(); // add by chenx on 2016-11-22, 取消按钮的选中状态，防止按空格键继续触发click事件
             swal({
                 title: '确认删除？',
                 type: 'warning',
@@ -568,7 +570,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		/**
 		 * 取消编辑
 		 */
-        $scope.doCancel = function () {
+        $scope.doCancel = function (event) {
+            event.target.blur(); // add by chenx on 2016-11-22, 取消按钮的选中状态，防止按空格键继续触发click事件
             $scope.tipsPanelOpened = false;
 			// $scope.attrTplContainer = "";
             $scope.attrTplContainerSwitch(false);
@@ -929,6 +932,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             //    return;
             // }
             dsEdit.getByPid(pid, featType).then(function (data) {
+                var detailType = '';
                 var highRenderCtrl = new fastmap.uikit.HighRenderController();
                 objectCtrl.setCurrentObject(featType, data);
                 if (data.geometry) {
@@ -948,7 +952,11 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 if (featType == 'RDBRANCH') {
                     detailType = data.details[0].branchType;
                 }
-                var page = _getFeaturePage(featType, detailType);
+                if (detailType) {
+                    var page = _getFeaturePage(featType, detailType);
+                } else {
+                    var page = _getFeaturePage(featType);
+                }
                 if (featType == 'IXPOI') {
                     $scope.getCurrentKindByLittle(data); // 获取当前小分类所对应的大分类下的所有小分类
                     $scope.$emit('transitCtrlAndTpl', {

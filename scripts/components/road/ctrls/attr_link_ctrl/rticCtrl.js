@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var realtimeTrafficApp = angular.module('app');
-realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
+realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsMeta ,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -16,7 +16,8 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
     var tmcLayer = layerCtrl.getLayerById('tmcData');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.rticData = objCtrl.data;
-
+    $scope.tmcTreeData = [];
+    $scope.expandedNodes = [];
 
     $scope.resetToolAndMap = function () {
         // if (typeof map.currentTool.cleanHeight === "function") {
@@ -103,6 +104,72 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
         tooltipsCtrl.setEditEventType('addTmcLocation');
         tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
     };
+    /* 递归查询select节点 */
+    $scope.getSelectObject = function (array) {
+        $scope.expandedNodes = [];
+        for (var i = 0; i < array.length; i++) {
+            if (array[i].type === 'TMCPOINT') {
+                $scope.expandedNodes = [array[i]];
+                return;
+            } else if (i === array.length - 1) {
+                if (array[i].children) {
+                    $scope.getSelectObject(array[i].children);
+                }
+            }
+        }
+    };
+    /* 查询TMC树形结构 */
+    $scope.getTmcTree = function (tmcPoints) {
+        var param = {
+            tmcIds: tmcPoints
+        };
+        dsMeta.queryTmcTree(param).then(function (data) {
+            $scope.tmcTreeData = [data.data];
+            // $scope.expandedNodes = [$scope.tmcTreeData[0]];
+            // $scope.getSelectObject($scope.tmcTreeData);
+            // console.log($scope.expandedNodes)
+        });
+    };
+    /* 加载二级面板 */
+    $scope.loadChildPanel = function (res, ctrl, html) {
+        var showNameInfoObj = { // 这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            loadType: 'subAttrTplContainer',
+            propertyCtrl: 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            propertyHtml: '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            callback: function () {
+                var showNameObj = {
+                    loadType: 'subAttrTplContainer',
+                    propertyCtrl: ctrl,
+                    propertyHtml: html
+                };
+                $scope.$emit('transitCtrlAndTpl', showNameObj);
+            }
+        };
+        objCtrl.tmcInfos = res;
+        $scope.$emit('transitCtrlAndTpl', showNameInfoObj);
+    };
+    // 选择树子节点查询
+    $scope.showTreeSelected = function (sel) {
+        console.log(sel);
+        var param = {
+            tmcId: sel.tmcId,
+            type: sel.type
+        };
+        if (sel.type === 'TMCPOINT') {
+            dsMeta.queryTmcData(param).then(function (data) {
+                $scope.loadChildPanel(fastmap.dataApi.tmcPoint(data.data), 'scripts/components/road/ctrls/attr_link_ctrl/tmcPointCtrl', '../../../scripts/components/road/tpls/attr_link_tpl/tmcPointTpl.html');
+            });
+        } else if (sel.type === 'TMCLINE') {
+            dsMeta.queryTmcData(param).then(function (data) {
+                $scope.loadChildPanel(fastmap.dataApi.tmcLine(data.data), 'scripts/components/road/ctrls/attr_link_ctrl/tmcLineCtrl', '../../../scripts/components/road/tpls/attr_link_tpl/tmcLineTpl.html');
+            });
+        } else {
+            $scope.$emit('SWITCHCONTAINERSTATE', {
+                subAttrContainerTpl: false,
+                attrContainerTpl: true
+            });
+        }
+    };
     // 框选TMCPoint
     $scope.selectTmcPoint = function () {
         map.currentTool = new fastmap.uikit.SelectForRectang({
@@ -110,7 +177,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
             shapeEditor: shapeCtrl,
             LayersList: [tmcLayer]
         });
-        map.currentTool.disable();
         map.currentTool.enable();
         eventController.off(eventController.eventTypes.GETRECTDATA);
         eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
@@ -134,14 +200,52 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
                             style: {}
                         });
                     }
-                    // data.data.splice(i, 1);
-                    // i--;
                 }
             }
             tmcPointArray = Utils.distinctArr(tmcPointArray);
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
             console.info(Utils.distinctArr(tmcPointArray));
+            $scope.getTmcTree(tmcPointArray);
+            map.currentTool.disable();
+        });
+    };
+    /* 删除TMC信息 */
+    $scope.removeTmcLoc = function (item) {
+        swal({
+            title: '确认删除TMC？',
+            type: 'warning',
+            animation: 'slide-from-top',
+            showCancelButton: true,
+            confirmButtonText: '是的，我要删除',
+            confirmButtonColor: '#ec6c62'
+        }, function (f) {
+            if (f) {
+                var param = {
+                    command: 'DELETE',
+                    type: 'RDTMCLOCATION',
+                    dbId: App.Temp.dbId,
+                    objId: item.pid
+                };
+                dsEdit.save(param).then(function (data) {
+                    if (data) {
+                        $scope.refreshLinkData();
+                        $scope.$emit('SWITCHCONTAINERSTATE', {
+                            subAttrContainerTpl: false,
+                            attrContainerTpl: true
+                        });
+                    }
+                });
+            }
+        });
+    };
+    /* 刷新rdlink数据 */
+    $scope.refreshLinkData = function () {
+        dsEdit.getByPid(parseInt($scope.rticData.pid), 'RDLINK').then(function (data) {
+            if (data) {
+                objCtrl.setCurrentObject('RDLINK', data);
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+            }
         });
     };
     $scope.minusCarRtic = function (id) {
@@ -242,19 +346,26 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
         $scope.$emit('transitCtrlAndTpl', showCarInfoObj);
     };
 
-
+    /* 查看TMC信息详情 */
+    $scope.showTmcInfo = function (item) {
+        $scope.loadChildPanel(item, 'scripts/components/road/ctrls/attr_link_ctrl/tmcLocationCtrl', '../../../scripts/components/road/tpls/attr_link_tpl/tmcLocationTpl.html');
+    };
     $scope.changeColor = function (ind, ord) {
-        if (ord == 1) {
+        if (ord === 1) {
             $('#rticSpan' + ind).css('color', '#FFF');
-        } else {
+        } else if (ord === 2) {
             $('#carSpan' + ind).css('color', '#FFF');
+        } else {
+            $('#tmcSpan' + ind).css('color', '#FFF');
         }
     };
     $scope.backColor = function (ind, ord) {
-        if (ord == 1) {
+        if (ord === 1) {
             $('#rticSpan' + ind).css('color', 'darkgray');
-        } else {
+        } else if (ord === 2) {
             $('#carSpan' + ind).css('color', 'darkgray');
+        } else {
+            $('#tmcSpan' + ind).css('color', 'darkgray');
         }
     };
 
@@ -266,12 +377,12 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope) {
             $scope.rticData.intRtics.unshift(newIntRtic);
         }
         objCtrl.data.oridiRowId = $scope.rticData.intRtics[0].rowId;
-        var showRticsInfoObj = {
+        /*var showRticsInfoObj = {
             loadType: 'subAttrTplContainer',
             propertyCtrl: 'scripts/components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
             propertyHtml: '../../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
         };
-        $scope.$emit('transitCtrlAndTpl', showRticsInfoObj);
+        $scope.$emit('transitCtrlAndTpl', showRticsInfoObj);*/
         $scope.resetToolAndMap();
         // 初始化鼠标提示
         // $scope.toolTipText = '';

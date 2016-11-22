@@ -59,7 +59,6 @@ angular.module('app').controller('AutofillJobPanelCtrl', ['$scope', '$interval',
             }
             if (tips.length == 0) {
                 swal('请选择要录入的Tips', '', 'info');
-                return;
             } else {
                 $scope.running = true;
                 $scope.$emit('job-autofill', {
@@ -113,7 +112,6 @@ angular.module('app').controller('AutofillJobPanelCtrl', ['$scope', '$interval',
                 //         // swal("自动录入服务模拟运行完成！", "", "success");
                 //     }
                 // }, 1000)
-                return;
             }
         };
     }

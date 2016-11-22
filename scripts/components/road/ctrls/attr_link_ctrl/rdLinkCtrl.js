@@ -18,6 +18,7 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.selectedFeatures = objectCtrl.datas;
+    var rdSame = layerCtrl.getLayerById('rdSame');
     $scope.speedAndDirect = shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex = 0;
     $scope.modelArray = [false, false, false, false, false, false];
@@ -643,6 +644,7 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
                 rdNode.redraw();
                 rdCross.redraw();
                 relation.redraw();
+                rdSame.redraw();
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures.length = 0;
                 if (map.floatMenu) {

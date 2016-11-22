@@ -113,8 +113,8 @@ fastmap.uikit.ObjectEditController = (function () {
                     this.data = fastmap.dataApi.rwLink(obj);
                     break;
                 case 'RWNODE':
-                    	this.data = fastmap.dataApi.rwNode(obj);
-                    	break;
+                    this.data = fastmap.dataApi.rwNode(obj);
+                    break;
                 case 'ZONELINK':
                     this.data = fastmap.dataApi.zoneLink(obj);
                     break;
@@ -194,8 +194,8 @@ fastmap.uikit.ObjectEditController = (function () {
                     this.data = fastmap.dataApi.rdLinkSpeedLimit(obj);
                     break;
                 case 'ROADNAME':// 道路名称
-                    	this.data = fastmap.dataApi.roadName(obj);
-                    	break;
+                    this.data = fastmap.dataApi.roadName(obj);
+                    break;
                 case 'RDHGWGLIMIT':// 限高限重
                     this.data = fastmap.dataApi.rdHgwgLimit(obj);
                     break;
@@ -204,6 +204,9 @@ fastmap.uikit.ObjectEditController = (function () {
                     break;
                 case 'RDLANETOPODETAIL':// 车道连通
                     this.data = fastmap.dataApi.RdLaneTopoDetail(obj);
+                    break;
+                case 'RDMILEAGEPILE':
+                    this.data = fastmap.dataApi.rdMileagePile(obj);
                     break;
                 default:
                     throw '无法解析当前选择的类型!';

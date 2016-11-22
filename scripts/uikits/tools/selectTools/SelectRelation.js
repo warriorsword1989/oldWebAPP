@@ -73,7 +73,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             if (that.clickcount > 1) {
                 that.clickcount = 0;
                 that.onDbClick(event);
-                return;
             } else if (that.clickcount == 1) {
                 that.clickcount = 0;
                 that.drawGeomCanvasHighlight(tileCoordinate, event);
@@ -225,6 +224,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 optype: this.overlays[0].data.properties.featType,
                 selectData: this.overlays[0].data,
                 branchType: this.overlays[0].data.properties.branchType,
+                restrictionType: this.overlays[0].data.properties.restrictionType,
                 tileId: this.overlays[0].tileId,
                 event: event
             });
@@ -277,6 +277,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                             optype: layertype,
                             selectData: d,
                             branchType: d.properties.branchType,
+                            restrictionType: d.properties.restrictionType,
                             tileId: tileId,
                             event: event
                         });

@@ -356,4 +356,43 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
         });
         return defer.promise;
     };
+    /** ***************************** TMC相关  *********************************/
+    /** *
+     * 框选TMCPOINT查询TMC关系树
+     */
+    this.queryTmcTree = function (param) {
+        var defer = $q.defer();
+        ajax.get('metadata/queryTmcTreeByIds', {
+            parameter: JSON.stringify(param)
+        }).success(function (data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal('根据条件查询数据出错：', data.errmsg, 'error');
+                defer.resolve(-1);
+            }
+        }).error(function (rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /** *
+     * 根据TMCID查TMCPOINT 和 TMCLINE
+     */
+    this.queryTmcData = function (param) {
+        var defer = $q.defer();
+        ajax.get('metadata/queryTmcById', {
+            parameter: JSON.stringify(param)
+        }).success(function (data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal('根据条件查询数据出错：', data.errmsg, 'error');
+                defer.resolve(-1);
+            }
+        }).error(function (rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);

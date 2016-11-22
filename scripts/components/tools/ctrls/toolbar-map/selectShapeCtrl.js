@@ -365,6 +365,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
             });
             switch (data.optype) {
 
+
                 case "RDLINK":
                     //悬浮工具条的设置
                     toolsObj = {
@@ -481,14 +482,13 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 $scope.getFeatDataCallback(data, data.id, 'RDVOICEGUIDE', ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDRESTRICTION':
-                    // if (data.restrictionType === 1) {
+                // if (data.restrictionType === '0') { // 普通交限
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestriction';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html';
-                    // }
-                    // else {
-                    //    ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
-                    //    ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html";
-                    // }
+                // } else { // 卡车交限
+                //     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestrictionOfTruckCtl';
+                //     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html';
+                // }
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDLANECONNEXITY':
@@ -611,6 +611,34 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 }
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
+                $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml, toolsObj);
+                break;
+            case 'RDMILEAGEPILE': // 里程桩;
+                toolsObj = {
+                    items: [{
+                        text: "<span class='float-option-bar'>修</span>",
+                        title: '修改里程桩位置',
+                        type: 'MODIFYMILEAGEPILE',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
+                    }]
+                };
+                // 当在移动端进行编辑时,弹出此按钮
+                if (L.Browser.touch) {
+                    toolsObj.items.push({
+                        text: "<span class='float-option-bar'>存</span>",
+                        title: '保存',
+                        type: shapeCtrl.editType,
+                        class: 'feaf',
+                        callback: function () {
+                            var e = $.Event('keydown');
+                            e.keyCode = 32;
+                            $(document).trigger(e);
+                        }
+                    });
+                }
+                ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_mileagepile_ctrl/mileagePileCtrl';
+                ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_mileagepile_tpl/mileagePile.html';
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml, toolsObj);
                 break;
             case 'RDELECTRONICEYE':
@@ -864,7 +892,15 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    },
+                        {
+                            text: "<span class='float-option-bar'>分</span>",
+                            title: '分离节点',
+                            type: 'PATHDEPARTNODE_RWLINK',
+                            class: 'feaf',
+                            callback: $scope.modifyTools
+                        }
+                    ]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_link_tpl/rwLinkTpl.html';
@@ -924,7 +960,14 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    },
+                        {
+                            text: "<span class='float-option-bar'>分</span>",
+                            title: '分离节点',
+                            type: 'PATHDEPARTNODE_ADLINK',
+                            class: 'feaf',
+                            callback: $scope.modifyTools
+                        }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_adminstratives_tpl/adLinkTpl.html';
@@ -973,6 +1016,12 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         text: "<span class='float-option-bar'>断</span>",
                         title: '打断link',
                         type: 'PATHBREAK',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
+                    }, {
+                        text: "<span class='float-option-bar'>分</span>",
+                        title: '分离节点',
+                        type: 'PATHDEPARTNODE_ZONELINK',
                         class: 'feaf',
                         callback: $scope.modifyTools
                     }]
@@ -1031,7 +1080,13 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    }, {
+                        text: "<span class='float-option-bar'>分</span>",
+                        title: '分离节点',
+                        type: 'PATHDEPARTNODE_LULINK',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
+                        }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lu_ctrl/luLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_lu_tpl/luLinkTpl.html';
@@ -1077,7 +1132,14 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    },
+                        {
+                            text: "<span class='float-option-bar'>分</span>",
+                            title: '分离节点',
+                            type: 'PATHDEPARTNODE_LCLINK',
+                            class: 'feaf',
+                            callback: $scope.modifyTools
+                        }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lc_ctrl/lcLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_lc_tpl/lcLinkTpl.html';
@@ -1169,7 +1231,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         highLightFeatures.push({
                             id: $scope.laneInfo.nodePid.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: 'yellow'
                             }
@@ -1747,7 +1809,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 highRenderCtrl.highLightFeatures.push({
                                     id: result.f.id,
                                     layerid: 'rdLink',
-                                    type: 'rdnode',
+                                    type: 'node',
                                     style: {
                                         color: 'yellow'
                                     }
@@ -1766,7 +1828,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 highRenderCtrl.highLightFeatures.push({
                                     id: result.f.id,
                                     layerid: 'rdLink',
-                                    type: 'rdnode',
+                                    type: 'node',
                                     style: {
                                         color: 'yellow'
                                     }
@@ -2399,12 +2461,32 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 }
                 if (type === 'ADADMINMOVE') {
                     if (selectCtrl.selectedFeatures) {
-                        tooltipsCtrl.setEditEventType('moveDot');
-                        tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
+                        if (shapeCtrl.shapeEditorResult) {
+                            var feature = {};
+                            feature.components = [];
+                            feature.points = [];
+                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
+                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.linkcapturePoint[0], selectCtrl.selectedFeatures.linkcapturePoint[1]));
+                            feature.points.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
+                            feature.points.push(selectCtrl.selectedFeatures.linkcapturePoint[0], selectCtrl.selectedFeatures.linkcapturePoint[1]);
+                            feature.type = 'ADMINPOINT';
+                            feature.id = selectCtrl.selectedFeatures.id;
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
+                            selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                            layerCtrl.pushLayerFront('edit');
+                        }
+                        shapeCtrl.setEditingType('updateAdminPoint');
+                        shapeCtrl.startEditing();
+                        shapeCtrl.editFeatType = null;
+
+                        map.currentTool = shapeCtrl.getCurrentTool();
+                        map.currentTool.enable();
+                        map.currentTool.captureHandler.addGuideLayer(rdLink);
+                        //tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
                     } else {
                         tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
-                        return;
                     }
+                    return;
                 } else if (type === 'PATHVERTEXINSERT') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
@@ -2420,7 +2502,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                         return;
                     }
-                } else if (type === 'PATHVERTEXREMOVE') {
+                } else if (type.split('_')[0] === 'PATHVERTEXREMOVE') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                         // tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
@@ -2677,6 +2759,62 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         }
                     });
                     return;
+                } else if (type === 'MODIFYMILEAGEPILE') {
+                    shapeCtrl.editFeatType = null;
+                    var pid = parseInt(selectCtrl.selectedFeatures.id),
+                        linkPid = parseInt(selectCtrl.selectedFeatures.linkPid),
+                        currentLink = null;
+                    if (shapeCtrl.shapeEditorResult) {
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
+                        selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                        layerCtrl.pushLayerFront('edit');
+                    }
+                    shapeCtrl.setEditingType('updateMileagePile');
+                    shapeCtrl.startEditing();
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.snapHandler.addGuideLayer(rdLink);
+                    map.currentTool.enable();
+                    tooltipsCtrl.setEditEventType('updateSpeedNode');
+                    tooltipsCtrl.setCurrentTooltip('请选择新的位置点！', 'info');
+                    eventController.off(eventController.eventTypes.RESETCOMPLETE);
+                    eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
+                        var pro = e.property;
+                        /* 判断所选的位置是否满足条件*/
+                        if (['1', '2', '3', '4'].indexOf(pro.kind) == -1) {
+                            editLayer.drawGeometry = null;
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                            editLayer.clear();
+                            tooltipsCtrl.notify('里程桩关联link不能是1,2,3,4级以外的道路！', 'error');
+                            return;
+                        }
+                        dsEdit.getByPid(pro.id, 'RDLINK').then(function (data) {
+                            if (e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1], data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length - 1][1], data.geometry.coordinates[data.geometry.coordinates.length - 1][0])) < 1) {
+                                selectCtrl.selectedFeatures = null;
+                                editLayer.drawGeometry = null;
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                                editLayer.clear();
+                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！', 'error');
+                                return;
+                            }
+                            if (data) {
+                                shapeCtrl.editFeatType = 'mileagePile';
+                                var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
+                                var mileagePile = {
+                                    pid: pid,
+                                    longitude: point.x,
+                                    latitude: point.y,
+                                    linkPid: parseInt(pro.id)
+                                };
+                                featCodeCtrl.setFeatCode({
+                                    mileagePile: mileagePile
+                                });
+                                tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!', 'info');
+                            }
+                        });
+                    });
+                    return;
                 } else if (type === 'MODIFYHGWGLIMITNODE') { // 限高限重点位
                     var hgwgLimitData = selectCtrl.selectedFeatures;
                     if (shapeCtrl.shapeEditorResult) {
@@ -2929,12 +3067,11 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             modifyCross.nodePids.splice(modifyCross.nodePids.indexOf(parseInt(data.id)), 1);
                         }
                         highRenderCtrl._cleanHighLight();
-                        highRenderCtrl.highLightFeatures = [];
                         for (var i = 0, len = modifyCross.nodePids.length; i < len; i++) {
                             highRenderCtrl.highLightFeatures.push({
                                 id: modifyCross.nodePids[i].toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2982,7 +3119,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         if (exLinks.data) {
                             if (exLinks.data.length == 1) {
                                 swal('无法改退出线', '此进入点只有一条可选退出线！', 'info');
-                                return;
                             } else if (exLinks.data.length == 2) {
                                 comPids = [];
                                 comPids.push(exLinks.data[0].pid);
@@ -3020,7 +3156,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             highRenderCtrl.highLightFeatures.push({
                                 id: selData.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {}
                             });
                             highRenderCtrl.highLightFeatures.push({
@@ -3085,7 +3221,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 if (conLinks.data) {
                                     if (conLinks.data.length > 2) {
                                         swal('无法改连续Link', '此退出线挂接Link个数大于2！', 'info');
-                                        return;
                                     } else if (conLinks.data.length == 2) {
                                         comPids = [];
                                         comPids.push(conLinks.data[0].pid);
@@ -3309,6 +3444,15 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         highRenderCtrl._cleanHighLight();
                         if (data.optype == 'RDNODE') {
                             if (nodePids.indexOf(parseInt(data.id)) < 0) {
+                                nodePids.push(parseInt(data.id));
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data.id.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'node',
+                                    style: {
+                                        color: '#02F78E'
+                                    }
+                                });
                                 var param1 = {};
                                 param1.dbId = App.Temp.dbId;
                                 param1.type = 'RDLINK';
@@ -3334,16 +3478,9 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                                 highRenderCtrl.drawHighlight();
                                             } else {
                                                 dsEdit.getByPid(exLinks.data[i].pid, 'RDLINK').then(function (linkData) {
-                                                    if ((nodePids.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (nodePids.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) { // 线正好是中间部分,把线也加入
-                                                        nodePids.push(parseInt(data.id));
-                                                        highRenderCtrl.highLightFeatures.push({
-                                                            id: data.id.toString(),
-                                                            layerid: 'rdLink',
-                                                            type: 'node',
-                                                            style: {
-                                                                color: '#02F78E'
-                                                            }
-                                                        });
+                                                    if ((nodePids.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (nodePids.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) {
+ // 线正好是中间部分,把线也加入
+
                                                         linkPids.push(linkData.pid);
                                                         highRenderCtrl.highLightFeatures.push({
                                                             id: linkData.pid.toString(),
@@ -3591,7 +3728,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                         highRenderCtrl.highLightFeatures.push({
                                             id: points[i].nodePid.toString(),
                                             layerid: 'rdLink',
-                                            type: 'rdnode',
+                                            type: 'node',
                                             style: {
                                                 color: '#4A4AFF'
                                             }
@@ -3755,7 +3892,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             highRenderCtrl.highLightFeatures.push({
                                 id: objCtrl.data.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -3836,14 +3973,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     }
                     return;
                 } else if (type === 'MODIFYVARIABLESPEED') {
-                    // 地图编辑相关设置;
-                    // map.currentTool = new fastmap.uikit.SelectForRestriction({
-                    //     map: map,
-                    //     createBranchFlag: true,
-                    //     currentEditLayer: rdLink,
-                    //     shapeEditor: shapeCtrl,
-                    //     operationList: ['line', 'line']
-                    // });
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,
@@ -4088,16 +4217,39 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
                     shapeCtrl.editType = 'transformDirect';
-                } else if (type === 'PATHDEPARTNODE') {
-                    feature.noFormNode = true;
+                } else if (type.split('_')[0] === 'PATHDEPARTNODE') {
                     editLayer.drawGeometry = feature; // 获取需要编辑几何体的geometry
                     editLayer.draw(feature, editLayer); // 把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
-                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); // 设置编辑状态
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type.split('_')[0]]); // 设置编辑状态
                     shapeCtrl.startEditing();
                     shapeCtrl.editFeatType = 'pathDepartNode';
                     selectCtrl.workLinkPid = $scope.selectedFeature.id;
+                    var guideNode = '',guideLink = '';
+                    switch(type.split('_')[1]){
+                        case 'RDLINK':
+                            guideNode = 'rdNode',guideLink = 'rdLink';
+                            break;
+                        case 'RWLINK':
+                            guideNode = 'rwNode',guideLink = 'rwLink';
+                            break;
+                        case 'ADLINK':
+                            guideNode = 'adNode',guideLink = 'adLink';
+                            break;
+                        case 'LULINK':
+                            guideNode = 'luNode',guideLink = 'luLink';
+                            break;
+                        case 'LCLINK':
+                            guideNode = 'lcNode',guideLink = 'lcLink';
+                            break;
+                        case 'ZONELINK':
+                            guideNode = 'zoneNode',guideLink = 'zoneLink';
+                            break;
+                    }
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById(guideNode));
+                    map.currentTool.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById(guideLink));
                 } else {
                     editLayer.drawGeometry = feature; // 获取需要编辑几何体的geometry
                     editLayer.draw(feature, editLayer); // 把需要编辑的几何体画在editLayer上

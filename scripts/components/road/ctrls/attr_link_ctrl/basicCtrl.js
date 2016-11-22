@@ -595,7 +595,7 @@ basicApp.controller('basicController', function ($scope, $ocLazyLoad) {
     };
     $scope.showZone = function (item) {
         if (item == 0) {
-            return;
+
         } else {
             var showZoneObj = {
                 loadType: 'subAttrTplContainer',

@@ -26,6 +26,7 @@ requirejs.config({
         bootstrapDatepickerCN: 'scripts/libs/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
         'e-smart-zoom': 'scripts/libs/e-smart-zoom/js/e-smart-zoom-jquery.min',
         bootspopover: 'scripts/utils/popoverSelect',
+        treeControl: 'scripts/libs/angular-tree-control/angular-tree-control',
         'poi-msg': 'scripts/libs/poi-msg/poiMsg',
         hotkey: 'scripts/libs/angular-hotkey/hotkeys',
         // app相关
@@ -42,7 +43,7 @@ requirejs.config({
         fmEditView: 'scripts/components/directives/fmEditView/fmEditView',
         langcodeFilter: 'scripts/components/filter/langCodeFilter'
     },
-    urlArgs: "bust=",
+    urlArgs: 'bust=' + (new Date()).getTime(),
     waitSeconds: 0,
     shim: {
         angular: {
@@ -60,6 +61,7 @@ requirejs.config({
         ngTable: ['angular'],
         'e-smart-zoom': ['jquery'],
         angularDrag: ['angular', 'jquery'],
+        treeControl: ['angular'],
         'poi-msg': ['jquery'],
         hotkey: ['angular'],
         dataService: ['angular', 'sweet-alert'],
@@ -78,7 +80,7 @@ requirejs.config({
         fmBindCompiledHtml: ['fastmapUikit'],
         select2: ['jquery'],
         langcodeFilter: ['fastmapUikit'],
-        EditorCtl: ['ocLazyLoad', 'jquery', 'ngCookies', 'ngLayout', 'uiBootstrap', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree', 'poi-msg', 'fastmapUikit', 'fmEditView', 'angularChosen', 'select2', 'langcodeFilter', 'hotkey']
+        EditorCtl: ['ocLazyLoad', 'jquery', 'ngCookies', 'ngLayout', 'uiBootstrap', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree', 'poi-msg', 'fastmapUikit', 'fmEditView', 'angularChosen', 'select2', 'langcodeFilter', 'hotkey', 'treeControl']
     }
 });
 // Start the main app logic.

@@ -324,24 +324,26 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         		 //
         		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/searchSubModalCtl.js').then(function () {
                   	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/searchSubModalTpl.htm';
-         });
+        		 });
         	 } else if (type == 'add') {
         		 $scope.roadNameFlag = 'add';
         		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
                    	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameEditPanelTpl.htm';
-         });
+        		 });
         		 eventCtrl.fire(eventCtrl.eventTypes.SELECTEDFEATURECHANGE);
         	 } else if (type == 'split') {
         		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/splitSubModalCtl.js').then(function () {
                    	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/splitSubModalTpl.htm';
-         });
+        		 });
         	 } else if (type == 'check') {
-        		 alert('暂无');
-        		 $scope.subModalTpl = '';
-        		 $scope.subModal = false;
-        		 return;
+        		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/checkSubModalCtl.js').then(function () {
+                    	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/checkSubModal.htm';
+         		 });
+        		 // alert('暂无');
+        		 // $scope.subModalTpl = '';
+        		 // $scope.subModal = false;
         	 } else {
-        		 return;
+
         	 }
         };
          /**

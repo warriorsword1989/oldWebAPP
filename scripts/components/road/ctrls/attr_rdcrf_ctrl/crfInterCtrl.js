@@ -33,7 +33,7 @@ rdSlopeApp.controller('crfInterCtrl', ['$scope', 'dsEdit', function ($scope, dsE
             highLightFeatures.push({
                 id: points[i].nodePid.toString(),
                 layerid: 'rdLink',
-                type: 'rdnode',
+                type: 'node',
                 style: {
                     color: '#0066CC'
                 }
@@ -49,7 +49,6 @@ rdSlopeApp.controller('crfInterCtrl', ['$scope', 'dsEdit', function ($scope, dsE
     $scope.save = function () {
         objCtrl.save();
         swal('操作成功', '属性值没有变化！', 'success');
-        return;
     };
 
     $scope.delete = function () {

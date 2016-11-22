@@ -7,12 +7,14 @@ FM.dataApi.IxPoiChargingplot = FM.dataApi.DataModel.extend({
      * 返回参数赋值
      */
     setAttributes: function (data) {
+        var openTypeArr,
+            plugTypeArr;
         this._flag_ = data._flag_ || false; // 深度信息特殊字段,用于控制深度信息的保存
         this.poiPid = data.poiPid || 0;
         this.groupId = data.groupId || 1;
         this.count = data.count || 1;
         this.acdc = data.acdc || 0;
-        var plugTypeArr = data.plugType ? data.plugType.split('|') : ['9'];
+        plugTypeArr = data.plugType ? data.plugType.split('|') : ['9'];
         this.plugType = {};
         for (var i = 0; i < plugTypeArr.length; i++) {
             this.plugType[plugTypeArr[i]] = true;
@@ -24,10 +26,17 @@ FM.dataApi.IxPoiChargingplot = FM.dataApi.DataModel.extend({
         this.memo = data.memo;
         this.plugNum = data.plugNum || 1;
         this.prices = data.prices || '';
-        var openTypeArr = data.openType ? data.openType.split('|') : ['1'];
+        openTypeArr = data.openType ? data.openType.split('|') : ['1'];
         this.openType = {};
+        this.selectedChain = '';
+        this.isBrandOpen = false;
         for (var i = 0; i < openTypeArr.length; i++) {
-            this.openType[openTypeArr[i]] = true;
+            if (openTypeArr[i].length === 4) { // 品牌的编码长度是4位
+                this.selectedChain = openTypeArr[i];
+                this.isBrandOpen = true;
+            } else {
+                this.openType[openTypeArr[i]] = true;
+            }
         }
         this.availableState = data.availableState || 0;
         this.manufacturer = data.manufacturer || '';
@@ -39,6 +48,7 @@ FM.dataApi.IxPoiChargingplot = FM.dataApi.DataModel.extend({
         this.locationType = data.locationType || 0;
         var paymentArr = data.payment ? data.payment.split('|') : ['4'];
         this.payment = {};
+
         for (var i = 0; i < paymentArr.length; i++) {
             this.payment[paymentArr[i]] = true;
         }
@@ -67,9 +77,12 @@ FM.dataApi.IxPoiChargingplot = FM.dataApi.DataModel.extend({
         ret.prices = this.prices;
         var openTypeArr = [];
         for (var key in this.openType) {
-            if (this.openType[key] == true) {
+            if (this.openType[key] === true) {
                 openTypeArr.push(key);
             }
+        }
+        if (this.isBrandOpen && this.selectedChain) {
+            openTypeArr.push(this.selectedChain);
         }
         ret.openType = openTypeArr.join('|');
         ret.availableState = this.availableState;

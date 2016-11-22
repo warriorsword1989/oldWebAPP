@@ -551,7 +551,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                 highCtrl.highLightFeatures.push({
                                     id: data.f.id,
                                     layerid: 'rdLink',
-                                    type: 'rdnode',
+                                    type: 'node',
                                     style: {
                                         color: 'yellow'
                                     }
@@ -757,7 +757,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                 highCtrl.highLightFeatures.push({
                                     id: data.f.id,
                                     layerid: 'rdLink',
-                                    type: 'rdnode',
+                                    type: 'node',
                                     style: {
                                         color: 'yellow'
                                     }
@@ -778,7 +778,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                 highCtrl.highLightFeatures.push({
                                     id: data.f.id,
                                     layerid: 'rdLink',
-                                    type: 'rdnode',
+                                    type: 'node',
                                     style: {
                                         color: 'yellow'
                                     }

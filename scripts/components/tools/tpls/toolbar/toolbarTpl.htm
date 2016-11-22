@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-md-9">
                         <button class="fm-top-btn blank eng" title="制作POI" ng-controller="addPoiCtrl" ng-click="addPoi('IXPOI')">POI</button>
-                        <button class="fm-top-btn blank" title="制作行政区划代表点" ng-controller="addShapeCtrl" ng-click="addShape('ADADMIN')">代</button>
+                        <button class="fm-top-btn blank" title="制作行政区划代表点" ng-controller="addAdminPointCtrl" ng-click="addAdmin('ADADMIN')">代</button>
                     </div>
                 </div>
             </li>
@@ -136,6 +136,8 @@
                         <button class="fm-top-btn blank" title="制作车道连通" ng-controller="addRdRelationCtrl" ng-click="addShape('RDLANETOPO')">连</button>
                         <button class="fm-top-btn blank" title="制作语音引导" ng-controller="addRdRelationCtrl" ng-click="addShape('RDVOICEGUIDE')">语</button>
                         <button class="fm-top-btn blank" title="制作限高限重" ng-controller="addRdRelationCtrl" ng-click="addShape('RDHGWGLIMIT')">重</button>
+                        <button class="fm-top-btn blank" title="制作卡车交限" ng-controller="addRdRelationCtrl" ng-click="addShape('RDRESTRICTIONTRUCK')">卡</button>
+                        <button class="fm-top-btn blank" title="制作里程桩" ng-controller="addRdRelationCtrl" ng-click="addShape('RDMILEAGEPILE')">里</button>
                     </div>
                 </div>
             </li>
@@ -187,6 +189,23 @@
 </div>
 <div class="fm-top-btn split"></div>
 <div class="fm-top-btn-group">
+    <div class="dropdown" style="display:inline-block;vertical-align:top;">
+        <button type="button" class="btn fm-top-btn dropdown dropdown-toggle" data-toggle="dropdown"></button>
+        <ul class="dropdown-menu dropdown-menu-right" style="width:260px;">
+            <li>
+                <div class="row" style="margin:0px;padding:0px;">
+                    <div class="col-md-3" style="text-align:center;">
+                        框 选
+                    </div>
+                    <div class="col-md-9">
+                        <button class="fm-top-btn blank" title="框选RdNode" ng-controller="complexSelectCtrl" ng-click="selectShape('RDNODE')">点</button>
+                        <button class="fm-top-btn blank" title="框选RdLink" ng-controller="complexSelectCtrl" ng-click="selectShape('RDLINK')">线</button>
+                        <!-- <button class="fm-top-btn blank" title="框选Tips" ng-controller="complexSelectCtrl" ng-click="selectShape('TIPS')">tips</button> -->
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
     <button class="fm-top-btn blank" title="执行检查" ng-click="openAdvancedToolsPanel('check')">检
         <div class="fm-top-btn loading" ng-if="checkRunning"></div>
     </button>

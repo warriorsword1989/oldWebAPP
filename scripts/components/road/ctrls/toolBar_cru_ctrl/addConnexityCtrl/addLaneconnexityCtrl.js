@@ -75,7 +75,7 @@ laneConnexityApp.controller('addLaneConnexityController', ['$scope', '$ocLazyLoa
         if ($scope.CurrentObject.nodePid) {
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.CurrentObject.nodePid.toString(),
-                layerid: 'rdNode',
+                layerid: 'rdLink',
                 type: 'node',
                 style: {}
             });

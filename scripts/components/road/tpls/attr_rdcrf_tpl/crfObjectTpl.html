@@ -5,7 +5,28 @@
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
         <from name="crfObjForm">
-            <div class="fm-panel">
+            <div class="content">
+                <ul class="list-group list-group-lg m-b-none">
+                    <li class="list-group-item">
+                        <div class="list-name">
+                            <a ng-click="addRdName('name')" class="fm-cursor">名称（共 {{crfObjData.names.length}} 组）</a>
+                        </div>
+                        <div class="list-add-icon" ng-click="addRdName('name');">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </div>
+                        <div class="list-line"></div>
+                    </li>
+                    <li class="list-group-item">
+                        <ul ng-repeat="namesItem in nameGroup | orderBy:'nameGrouppid'" class="list-group child-list-ul list-group-lg m-b-none">
+                            <li class="list-group-item" ng-repeat="item in namesItem track by $index">
+                                <label class="control-label fm-cursor" ng-click="showNames(namesItem,item.nameGroupid);" ng-bind="item.name"></label>
+                                <i class="glyphicon glyphicon-remove-circle" ng-click="minusName($index,item)"></i>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--<div class="fm-panel">
                 <div class="title">
                     <div><a ng-click="addRdName()" style="cursor: pointer;color:#FFF;">名称组（共<span ng-if="crfObjData.names!=undefined">{{crfObjData.names.length}}</span>条）</a></div>
                 </div>
@@ -19,7 +40,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div>-->
             <div class="fm-panel">
                 <div class="title">
                     <div>组成Link（共 <span ng-bind="crfObjData.links.length">0</span> 条）</div>

@@ -259,7 +259,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
             arrlen += data[key].length;
         }
         if (arrlen == 0) {
-            return;
+
         } else if (arrlen == 1) {
             for (var item in data) {
                 if (data[item].length == 1) {
@@ -445,6 +445,41 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
     }
   },
 
+    fireEvents: function (type, data, event) {
+        switch (type) {
+        case 'lineStrings':
+            this.eventController.fire(this.eventController.eventTypes.GETLINKID, data);
+            break;
+        case 'markers':
+            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                id: data.properties.id,
+                rowId: data.properties.rowId,
+                optype: data.properties.featType,
+                selectData: data,
+                branchType: data.properties.branchType,
+                restrictionType: data.properties.restrictionType,
+          // tileId:this.selectData[0].tileId,
+                event: event
+            });
+            break;
+        case 'pointFeatures':
+            this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
+            break;
+        case 'points':
+            this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
+            break;
+        case 'polygons':
+            this.eventController.fire(this.eventController.eventTypes.GETFACEID, data);
+            break;
+        case 'tips':
+            this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {
+                id: data.properties.id,
+                tips: 0,
+                optype: 'TIPS'
+            });
+            break;
+        }
+    },
 
   /** *
    * 鼠标移动
@@ -565,7 +600,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                         case 'RDTRAFFICSIGNAL':
                         case 'RDGATE':
                         case 'RDSPEEDLIMIT':
-
                         case 'RDWARNINGINFO':
                         case 'RDELECTRONICEYE':
                         case 'RDSLOPE':

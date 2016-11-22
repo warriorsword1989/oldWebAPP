@@ -2,7 +2,7 @@
  * Created by liuyang on 2016/8/5.
  */
 angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath', '$timeout', '$q',
-    function ($scope, $ocLazyLoad, dsEdit, appPath, $timeout, $q) {
+    function($scope, $ocLazyLoad, dsEdit, appPath, $timeout, $q) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var editLayer = layerCtrl.getLayerById('edit');
@@ -24,7 +24,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param pointB
          * @returns {number}
          */
-        $scope.distance = function (pointA, pointB) {
+        $scope.distance = function(pointA, pointB) {
             var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
             return Math.sqrt(len);
         };
@@ -34,7 +34,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param pointB
          * @returns {*}
          */
-        $scope.includeAngle = function (pointA, pointB) {
+        $scope.includeAngle = function(pointA, pointB) {
             var angle,
                 dValue = pointA.x - pointB.x,
                 PI = Math.PI;
@@ -50,7 +50,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param arr
          * @returns {Array}
          */
-        $scope.distinctArr = function (arr) {
+        $scope.distinctArr = function(arr) {
             var dObj = {};
             for (var i = 0, len = arr.length; i < len; i++) {
                 dObj[arr[i]] = true;
@@ -62,8 +62,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param data
          * @returns {boolean}
          */
-        $scope.containsRdLink = function (data) {
-            return data.filter(function (item) {
+        $scope.containsRdLink = function(data) {
+            return data.filter(function(item) {
                 return item.type === 'RDLINK';
             }).length !== 0;
         };
@@ -72,8 +72,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param data
          * @returns {boolean}
          */
-        $scope.containsRwLink = function (data) {
-            return data.filter(function (item) {
+        $scope.containsRwLink = function(data) {
+            return data.filter(function(item) {
                 return item.type === 'RWLINK';
             }).length !== 0;
         };
@@ -82,8 +82,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param data
          * @returns {boolean}
          */
-        $scope.containsLcLink = function (data) {
-            return data.filter(function (item) {
+        $scope.containsLcLink = function(data) {
+            return data.filter(function(item) {
                 return item.type === 'LCLINK';
             }).length !== 0;
         };
@@ -92,7 +92,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param pointA,pointB
          * @returns {angle}
          */
-        $scope.angleOfLink = function (pointA, pointB) {
+        $scope.angleOfLink = function(pointA, pointB) {
             var PI = Math.PI,
                 angle;
             if ((pointA.x - pointB.x) === 0) {
@@ -107,7 +107,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param Points
          * @returns {links}
          */
-        $scope.seprateLink = function (shapePoints) {
+        $scope.seprateLink = function(shapePoints) {
             var linksObj = {},
                 pointsObj = [];
             if (shapePoints.length < 3) { // 表示只有两个点
@@ -140,7 +140,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     var points = [];
                     if (pointsObj.length == 0) {
                         points.push(shapePoints[0]); // 第一个
-                        points.push(shapePoints[j + 1]);// 最后一个
+                        points.push(shapePoints[j + 1]); // 最后一个
                         pointsObj.push(points);
                     } else {
                         var temp = pointsObj[pointsObj.length - 1];
@@ -160,7 +160,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param b
          * @returns {*}
          */
-        $scope.segmentsIntr = function (a, b) { // ([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
+        $scope.segmentsIntr = function(a, b) { // ([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
             var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
             var area_abd = (a[0].x - b[1].x) * (a[1].y - b[1].y) - (a[0].y - b[1].y) * (a[1].x - b[1].x);
             // 面积符号相同则两点在线段同侧,不相交 (对点在线段上的情况,本例当作不相交处理);
@@ -191,7 +191,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @returns {*}
          * @constructor
          */
-        $scope.ArrUnique = function (arr) {
+        $scope.ArrUnique = function(arr) {
             for (var i = 0; i < arr.length; i++) {
                 for (var j = 0; j < arr.length; j++) {
                     if (i != j) {
@@ -202,15 +202,15 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 }
             }
             /* 清除空数组*/
-            arr.filter(function (v) {
+            arr.filter(function(v) {
                 if (v.length > 0) {
                     return v;
                 }
             });
             return arr;
         };
-        $scope.changeIndexCallback = function (data) {
-            $scope.jsonData.linkObjs.sort(function (a, b) {
+        $scope.changeIndexCallback = function(data) {
+            $scope.jsonData.linkObjs.sort(function(a, b) {
                 if (a.zlevel < b.zlevel) {
                     return 1;
                 } else if (a.zlevel > b.zlevel) {
@@ -229,7 +229,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     }
                 }
             }
-            $scope.jsonData.linkObjs.sort(function (a, b) {
+            $scope.jsonData.linkObjs.sort(function(a, b) {
                 return a.zlevel - b.zlevel;
             });
             /* 重绘link颜f色*/
@@ -254,7 +254,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 highRenderCtrl.drawHighlight();
             }
         };
-        $scope.changeGSCIndex = function (data) {
+        $scope.changeGSCIndex = function(data) {
             if (data.drawGeometry.geos.length == 2) {
                 data.drawGeometry.geos.reverse();
             } else {
@@ -271,13 +271,13 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
         /**
          * 调整link层级高低
          */
-        $scope.changeLevel = function () {
+        $scope.changeLevel = function() {
             editLayer.drawGeometry = null;
             map.currentTool.options.repeatMode = false;
             shapeCtrl.stopEditing();
             editLayer.bringToBack();
             $(editLayer.options._div).unbind();
-                // $scope.changeBtnClass("");
+            // $scope.changeBtnClass("");
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
             editLayer.clear();
@@ -317,14 +317,14 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
             eventController.off(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback);
             eventController.on(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback);
         };
-            /**
-             *  路口创建中的方法 根据node删除对象中的重复
-             * @param nodesArr
-             * @param linksArr
-             * @param nodes
-             * @returns {{link: Array, node: Array}}
-             */
-        $scope.minusArrByNode = function (nodesArr, linksArr, nodes) {
+        /**
+         *  路口创建中的方法 根据node删除对象中的重复
+         * @param nodesArr
+         * @param linksArr
+         * @param nodes
+         * @returns {{link: Array, node: Array}}
+         */
+        $scope.minusArrByNode = function(nodesArr, linksArr, nodes) {
             var nodesObj = {},
                 linksObj = {};
             for (var i = 0, lenI = nodesArr.length; i < lenI; i++) {
@@ -353,7 +353,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param links
          * @returns {{link: Array, node: Array}}
          */
-        $scope.minusArrByLink = function (linksArr, nodesArr, links) {
+        $scope.minusArrByLink = function(linksArr, nodesArr, links) {
             var nodesObj = {},
                 linksObj = {};
             for (var j = 0, lenJ = linksArr.length; j < lenJ; j++) {
@@ -385,7 +385,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param nodes
          * @param node
          */
-        $scope.addArrByNode = function (nodesArr, linksArr, nodes, node) {
+        $scope.addArrByNode = function(nodesArr, linksArr, nodes, node) {
             for (var i = 0, lenI = nodes.length; i < lenI; i++) {
                 for (var j = 0, lenJ = node.length; j < lenJ; j++) {
                     if (nodes[i].link === node[j].link) {
@@ -397,6 +397,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 }
             }
             nodes = nodes.concat(node);
+            return nodes;
         };
         /**
          *  路口创建中的方法 增加一个link
@@ -406,7 +407,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param nodes
          * @param link
          */
-        $scope.addArrByLink = function (linksArr, nodesArr, links, nodes, link) {
+        $scope.addArrByLink = function(linksArr, nodesArr, links, nodes, link) {
             for (var i = 0, lenI = link.length; i < lenI; i++) {
                 linksArr.push(link[i].link);
                 nodesArr = nodesArr.concat(link[i].node);
@@ -419,7 +420,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param linksArr
          * @param links
          */
-        $scope.containLink = function (linksArr, links) {
+        $scope.containLink = function(linksArr, links) {
             var flag = false,
                 linksObj = {};
             for (var i = 0, len = linksArr.length; i < len; i++) {
@@ -438,7 +439,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param node
          * @returns {boolean}
          */
-        $scope.containsNode = function (arr, node) {
+        $scope.containsNode = function(arr, node) {
             var obj = {},
                 flag = false;
             for (var i = 0, len = arr.length; i < len; i++) {
@@ -457,7 +458,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param data
          * @returns {{links: Array, nodes: Array}}
          */
-        $scope.getDataFromRectangleForCross = function (data) {
+        $scope.getDataFromRectangleForCross = function(data) {
             var borderData = data.data,
                 border = data.border,
                 linkArr = [],
@@ -513,7 +514,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          * @param num
          * @param event
          */
-        $scope.addShape = function (type) {
+        $scope.addShape = function(type) {
             // 大于17级才可以选择地图上各种geometry
             if (map.getZoom() < 17) {
                 swal('提示', '地图缩放等级必须大于16级才可操作', 'info');
@@ -536,20 +537,39 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 restrictionObj.showAdditionalData = [];
                 restrictionObj.showNormalData = [];
                 restrictionObj.inLaneInfoArr = [];
+                restrictionObj.restrictionType = 0; // 1 卡车交限 0 普通交限
                 objCtrl.setOriginalData(restrictionObj);
-                // var addRestrictionObj = {
-                //     "loadType": "attrTplContainer",
-                //     "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
-                //     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html',
-                //     "callback":function (){
-                //
-                //     }
-                // };
                 var addRestrictionObj = { // 这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载speedOfConditionCtrl。
                     loadType: 'attrTplContainer',
                     propertyCtrl: appPath.road + 'ctrls/blank_ctrl/blankCtrl',
                     propertyHtml: appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html',
-                    callback: function () {
+                    callback: function() {
+                        var obj = {
+                            loadType: 'attrTplContainer',
+                            propertyCtrl: appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
+                            propertyHtml: appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
+                        };
+                        $scope.$emit('transitCtrlAndTpl', obj);
+                    }
+                };
+                $scope.$emit('transitCtrlAndTpl', addRestrictionObj);
+            } else if (type === 'RDRESTRICTIONTRUCK') { // 卡车交限
+                $scope.resetOperator('addRelation', type);
+                $scope.$emit('SWITCHCONTAINERSTATE', {
+                    attrContainerTpl: false
+                });
+                var restrictionObj = {};
+                restrictionObj.showTransitData = [];
+                restrictionObj.showAdditionalData = [];
+                restrictionObj.showNormalData = [];
+                restrictionObj.inLaneInfoArr = [];
+                restrictionObj.restrictionType = 1; // 1 卡车交限 0 普通交限
+                objCtrl.setOriginalData(restrictionObj);
+                var addRestrictionObj = {
+                    loadType: 'attrTplContainer',
+                    propertyCtrl: appPath.road + 'ctrls/blank_ctrl/blankCtrl',
+                    propertyHtml: appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html',
+                    callback: function() {
                         var obj = {
                             loadType: 'attrTplContainer',
                             propertyCtrl: appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
@@ -578,9 +598,9 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('点击增加限速!！');
                 eventController.off(eventController.eventTypes.RESETCOMPLETE);
-                eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
+                eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
-                    dsEdit.getByPid(pro.id, 'RDLINK').then(function (data) {
+                    dsEdit.getByPid(pro.id, 'RDLINK').then(function(data) {
                         if (e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1], data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length - 1][1], data.geometry.coordinates[data.geometry.coordinates.length - 1][0])) < 1) {
                             selectCtrl.selectedFeatures = null;
                             editLayer.drawGeometry = null;
@@ -645,7 +665,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip('选择方向!');
                                 eventController.off(eventController.eventTypes.DIRECTEVENT);
-                                eventController.on(eventController.eventTypes.DIRECTEVENT, function (event) {
+                                eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
                                     selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
                                     tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
                                 });
@@ -655,6 +675,59 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
                                 shapeCtrl.setEditingType('speedLimit');
                             }
+                        }
+                    });
+                });
+            } else if (type === 'RDMILEAGEPILE') { // 里程桩
+                $scope.resetOperator('addRelation', type);
+                shapeCtrl.setEditFeatType(null);
+                shapeCtrl.setEditingType('addMileagePile');
+                shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
+                map.currentTool.enable();
+                tooltipsCtrl.setEditEventType('addMileagePile');
+                tooltipsCtrl.setCurrentTooltip('在link上点击增加里程桩!！', 'info');
+                eventController.off(eventController.eventTypes.RESETCOMPLETE);
+                eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
+                    shapeCtrl.setEditFeatType(null);
+                    var pro = e.property;
+                    /*
+                     * 对里程桩的合法性做判断;
+                     * (1)不能为道路的端点;
+                     * (2)关联link种别不能为0、5、6、7、8、9、10、11、13、15，否则，给提示“里程桩关联link不能是8级及以下道路”，不允许创建里程桩;
+                     * (3)里程桩的点位必须在其关联link上
+                     * (4)里程桩的关联link不可以是图廓线;
+                     * */
+                    if (['1', '2', '3', '4'].indexOf(pro.kind) == -1) {
+                        editLayer.drawGeometry = null;
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                        shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                        editLayer.clear();
+                        tooltipsCtrl.notify('里程桩关联link不能是1,2,3,4级以外的道路！', 'error');
+                        return;
+                    }
+                    shapeCtrl.setEditFeatType('mileagePile');
+                    dsEdit.getByPid(pro.id, 'RDLINK').then(function(data) {
+                        if (data) {
+                            if (e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1], data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length - 1][1], data.geometry.coordinates[data.geometry.coordinates.length - 1][0])) < 1) {
+                                selectCtrl.selectedFeatures = null;
+                                editLayer.drawGeometry = null;
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                                editLayer.clear();
+                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！', 'error');
+                                return;
+                            }
+                            // selectCtrl.selectedFeatures = {
+                            //    linkPid:pro.id,
+                            //    point:e.latlng
+                            // };
+                            shapeCtrl.shapeEditorResult.setProperties({
+                                linkPid: pro.id
+                            });
+                            shapeCtrl.setEditFeatType('mileagePile');
+                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!', 'succ');
                         }
                     });
                 });
@@ -673,7 +746,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 });
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.off(eventController.eventTypes.GETBOXDATA);
-                eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
+                eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
                     tooltipsCtrl.setCurrentTooltip('已选择路口，按空格保存或者esc取消！');
                     var data = $scope.getDataFromRectangleForCross(event),
                         highlightFeatures = [];
@@ -693,7 +766,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             linksArr = minusObj.link;
                             nodesArr = minusObj.node;
                         } else {
-                            $scope.addArrByNode(nodesArr, linksArr, nodes, data.nodes);
+                            nodes = $scope.addArrByNode(nodesArr, linksArr, nodes, data.nodes);
                         }
                     } else if (data.links) {
                         if ($scope.containLink(linksArr, data.links)) {
@@ -746,7 +819,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     loadType: 'attrTplContainer',
                     propertyCtrl: 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
                     propertyHtml: '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
-                    callback: function () {
+                    callback: function() {
                         var laneObj = {
                             loadType: 'attrTplContainer',
                             propertyCtrl: appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/addLaneconnexityCtrl',
@@ -776,7 +849,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     LCLINK: 'lcLink'
                 };
                 eventController.off(eventController.eventTypes.GETBOXDATA);
-                eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
+                eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
                     $scope.jsonData = null;
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
@@ -808,51 +881,22 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             rectangleData.coordinates[0].push(rectangleData.coordinates[0][0]);
                         }
                     }
-
-                    /* 高亮link*/
-                    for (var i = 0, lenI = dealData.length; i < lenI; i++) {
-                        highlightFeatures.push({
-                            id: dealData[i].data.properties.id.toString(),
-                            layerid: LINKTYPES[dealData[i].data.properties.featType],
-                            type: 'line',
-                            index: i,
-                            style: {
-                                strokeWidth: 5,
-                                strokeColor: COLORTABLE[i]
-                            }
-                        });
-                    }
-                    highRenderCtrl.highLightFeatures = highlightFeatures;
-                    highRenderCtrl.drawHighlight();
                     /* 当坐标数组拆分组合完成后*/
-                    var crossGeos = [],
-                        loopTime = (dealData.length * dealData.length - 1) / 2; // 循环次数C(n,2)
+                    var crossGeos = [];
                     $scope.jsonData = {
                         geometry: rectangleData,
                         linkObjs: []
                     };
-                    if (dealData.length > 1) { // 有bug，一条线和另一条线有多个交点时不适用
-                        // for (var i = 0; i < loopTime - 1; i++) {
-                        //     for (var j = i + 1; j < dealData.length; j++) {
-                        //         if (i != j) {
-                        //             var lineGeoArr = function(mark) {
-                        //                 return [dealData[mark].line.points[0], dealData[mark].line.points[dealData[mark].line.points.length - 1], dealData[mark].data.properties.id, dealData[mark].data.properties.featType];
-                        //             };
-                        //             var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))
-                        //             if (temp) {
-                        //                 crossGeos.push(temp);
-                        //             }
-                        //          }
-                        //     }
-                        // }
-                        var sepLinks = [];// $scope.seprateLink(shapePoints); //将线分成多条线
+                    if (dealData.length > 0) { // 有bug，一条线和另一条线有多个交点时不适用
+                        var sepLinks = [];
                         for (var i = 0; i < dealData.length; i++) {
                             var links = $scope.seprateLink(dealData[i].line.points).pointsObj; // 将线分成多条线
                             var linkData = [];
-                            for (var t in links) {
+                            for (var t = 0; t < links.length; t++) {
                                 var linkObj = {
                                     line: links[t],
-                                    data: dealData[i].data
+                                    data: dealData[i].data,
+                                    index: t
                                 };
                                 linkData.push(linkObj);
                             }
@@ -860,49 +904,23 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         }
                         for (var i = 0; i < sepLinks.length; i++) {
                             for (var j = i + 1; j < sepLinks.length; j++) {
-                                var lineGeoArr = function (mark) {
+                                var lineGeoArr = function(mark) {
                                     return [sepLinks[mark].line[0], sepLinks[mark].line[sepLinks[mark].line.length - 1], sepLinks[mark].data.properties.id, sepLinks[mark].data.properties.featType];
                                 };
                                 var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j));
                                 if (temp) {
+                                    temp.index = sepLinks[i].index + '-' + sepLinks[j].index;
                                     crossGeos.push(temp);
                                 }
                             }
                         }
                         crossGeos = $scope.ArrUnique(crossGeos);
-                    } else if (dealData.length == 1) {
-                        if (dealData[0].line.points.length > 3) {
-                            var shapePoints = dealData[0].line.points; // 形状点
-                            var sepLinks = $scope.seprateLink(shapePoints); // 将线分成多条线
-                            $scope.selfInterData.links = sepLinks;
-                            for (var i = 0; i < sepLinks.pointsObj.length - 1; i++) {
-                                for (var j = i + 1; j < sepLinks.pointsObj.length; j++) {
-                                    var lineGeoArr = function (index) {
-                                        return [sepLinks.pointsObj[index][0], sepLinks.pointsObj[index][sepLinks.pointsObj[index].length - 1]];
-                                    };
-                                    var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j));// 获取线的交点
-                                    if (temp) {
-                                        crossGeos.push(temp);
-                                        $scope.selfInter = true;
-                                        temp.index = i + '-' + j;
-                                        $scope.selfInterData.crossGeos.push(temp);
-                                    }
-                                }
-                            }
-                            if (crossGeos.length > 0) {
-                                $scope.selfInterData.crosses = crossGeos;
-                            }
-                        } else {
-                            swal('错误信息', '所选Link无自相交点，请重新选择立交点位！', 'error');
-                            highRenderCtrl._cleanHighLight();
-                        }
                     }
                     // 判断相交点数
-                    if (crossGeos.length == 0) {
-                        swal('错误信息', '所选区域无相交点，如果是自相交只能选择一条link，请重新选择立交点位！', 'error');
-                        highRenderCtrl._cleanHighLight();
+                    if (crossGeos.length == 0) { // 无相交点
+                        swal('错误信息', '所选区域无相交点，请重新选择立交点位！', 'error');
                         // tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
-                    } else if (crossGeos.length > 1) {
+                    } else if (crossGeos.length > 1) { // 有多个相交点，提示选择其中一个
                         map.currentTool.disable(); // 取消鼠标事件
                         var markerArr = [];
                         for (var i = 0; i < crossGeos.length; i++) {
@@ -920,20 +938,16 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                     iconSize: [16, 16],
                                     popupAnchor: [0, -32]
                                 })
-                            }).on('click', function (e) {
-                                selectOneGSC(e, crossGeos);
+                            }).on('click', function(e) {
+                                selectOneGSC(crossGeos[i]);
                             });
                             markerArr.push(poiFeature);
                         }
                         var layers = L.layerGroup(markerArr);
                         map.markerLayer = layers;
                         map.addLayer(layers);
-                        highRenderCtrl._cleanHighLight();
-                        // swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
                     } else if ($scope.selfInter) { // 自相交，不能用highRenderCtrl的方式高亮
                         map.currentTool.disable(); // 取消鼠标事件
-                        highRenderCtrl._cleanHighLight();
-                        highRenderCtrl.highLightFeatures = [];
                         var mark = $scope.selfInterData.crossGeos[0].index.split('-');
                         var points = $scope.selfInterData.links.pointsObj;
                         var pointLine1 = points[parseInt(mark[0])];
@@ -971,9 +985,23 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         map.currentTool.enable();
                         eventController.off(eventController.eventTypes.GETEDITDATA, $scope.changeGSCIndex);
                         eventController.on(eventController.eventTypes.GETEDITDATA, $scope.changeGSCIndex);
-                    } else {
-                            // map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                            /* 重组linkData格式*/
+                    } else { // 只有一个相交点，直接高亮进行操作
+                        for (var i = 0, lenI = dealData.length; i < lenI; i++) {
+                            highlightFeatures.push({
+                                id: dealData[i].data.properties.id.toString(),
+                                layerid: LINKTYPES[dealData[i].data.properties.featType],
+                                type: 'line',
+                                index: i,
+                                style: {
+                                    strokeWidth: 5,
+                                    strokeColor: COLORTABLE[i]
+                                }
+                            });
+                        }
+                        highRenderCtrl.highLightFeatures = highlightFeatures;
+                        highRenderCtrl.drawHighlight();
+                        // map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                        /* 重组linkData格式*/
                         for (var linkMark = 0; linkMark < dealData.length; linkMark++) {
                             var tempObj = {
                                 pid: dealData[linkMark].data.properties.id,
@@ -987,10 +1015,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
                     }
                 });
-
-                var selectOneGSC = function (e, crossGeos) { // 立交点击事件
+                var selectOneGSC = function(e, crossGeos) { // 立交点击事件
                     map.removeLayer(map.markerLayer); // 取消掉mark图层
-
                     var currentPoint = L.latLng(e.latlng.lng, e.latlng.lat);
                     var minDis = Number.MAX_VALUE;
                     var index = 0;
@@ -1041,6 +1067,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     $scope.changeLevel();
                     shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
                 };
+                var highlightSelfInterLink = function() {};
             } else if (type === 'TRAFFIC_SIGNAL') { // 信号灯
                 $scope.resetOperator('addRelation', type);
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TRAFFICSIGNAL);
@@ -1105,14 +1132,14 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 $scope.gate = {};
                 featCodeCtrl.setFeatCode($scope.gate);
-                var automaticCommand = function () { // 自动计算退出线
+                var automaticCommand = function() { // 自动计算退出线
                     var param = {};
                     param.dbId = App.Temp.dbId;
                     param.type = 'RDLINK';
                     param.data = {
                         nodePid: $scope.gate.nodePid
                     };
-                    dsEdit.getByCondition(param).then(function (continueLinks) {
+                    dsEdit.getByCondition(param).then(function(continueLinks) {
                         if (continueLinks.errcode === -1) {
                             return;
                         }
@@ -1146,7 +1173,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     });
                 };
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { // 进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -1243,15 +1270,15 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 $scope.warningInfo = {};
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { // 进入线;
-                    	if (data.properties.kind == 9 && data.properties.form.indexOf('34') > -1 || data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
-//                    		swal("提示","警示信息不能制作在九级辅路上","warning");
-//                    		return;
-                    		tooltipsCtrl.notify('九级辅路、10级路、步行街、人渡不能作为警示信息的进入线!', 'error');
-                    		map.currentTool.selectedFeatures.pop();
-                    		return;
-                    	}
+                        if (data.properties.kind == 9 && data.properties.form.indexOf('34') > -1 || data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
+                            //                          swal("提示","警示信息不能制作在九级辅路上","warning");
+                            //                          return;
+                            tooltipsCtrl.notify('九级辅路、10级路、步行街、人渡不能作为警示信息的进入线!', 'error');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -1277,7 +1304,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.warningInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1289,7 +1316,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         }
                     } else if (data.index === 1) { // 进入点
                         $scope.warningInfo.nodePid = parseInt(data.id);
-                        dsEdit.getByPid($scope.warningInfo.nodePid, 'RDNODE').then(function (data) {
+                        dsEdit.getByPid($scope.warningInfo.nodePid, 'RDNODE').then(function(data) {
                             if (data) {
                                 if (data.meshes.length > 1) {
                                     tooltipsCtrl.setCurrentTooltip('警示信息中的点形态不能是图廓点!');
@@ -1298,7 +1325,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                     highLightFeatures.push({
                                         id: $scope.warningInfo.nodePid.toString(),
                                         layerid: 'rdLink',
-                                        type: 'rdnode',
+                                        type: 'node',
                                         style: {
                                             color: '#21ed25'
                                         }
@@ -1333,7 +1360,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('请选择电子眼位置点！');
                 eventController.off(eventController.eventTypes.RESETCOMPLETE);
-                eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
+                eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
                     highLightFeatures = [];
                     highRenderCtrl._cleanHighLight();
@@ -1345,7 +1372,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     });
                     highRenderCtrl.highLightFeatures = highLightFeatures;
                     highRenderCtrl.drawHighlight();
-                    dsEdit.getByPid(pro.id, 'RDLINK').then(function (data) {
+                    dsEdit.getByPid(pro.id, 'RDLINK').then(function(data) {
                         if (data) {
                             selectCtrl.onSelected({
                                 geometry: data.geometry.coordinates,
@@ -1405,7 +1432,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip('点击方向图标开始修改方向！');
                                 eventController.off(eventController.eventTypes.DIRECTEVENT);
-                                eventController.on(eventController.eventTypes.DIRECTEVENT, function (event) {
+                                eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
                                     selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
                                     tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
                                 });
@@ -1449,14 +1476,14 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdnode);
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { // 进入点
                         continueNodePid = parseInt(data.id);
                         slopeData.nodePid = continueNodePid;
                         highLightFeatures.push({
                             id: data.id.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }
@@ -1467,14 +1494,14 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         param.data = {
                             nodePid: data.id
                         };
-                        dsEdit.getByCondition(param).then(function (linkData) {
+                        dsEdit.getByCondition(param).then(function(linkData) {
                             if (linkData.errcode === -1) {
                                 return;
                             }
                             // 排除10级道路（人行道）,提供推荐退出线
                             if (linkData.data) {
                                 if (linkData.data.length == 1 && linkData.kind != 10) { // 直接作为退出线并高亮
-                                    dsEdit.getByPid(linkData.data[0].pid, 'RDLINK').then(function (exLink) { // 查询退出线的长度
+                                    dsEdit.getByPid(linkData.data[0].pid, 'RDLINK').then(function(exLink) { // 查询退出线的长度
                                         linkLength += exLink.length;
                                         slopeData.linkPid = parseInt(linkData.data[0].pid);
                                         highLightFeatures.push({
@@ -1506,7 +1533,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                         param1.data = {
                                             nodePid: continueNodePid
                                         };
-                                        dsEdit.getByCondition(param1).then(function (continueLinks) {
+                                        dsEdit.getByCondition(param1).then(function(continueLinks) {
                                             if (continueLinks.errcode === -1) {
                                                 return;
                                             }
@@ -1564,7 +1591,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 });
                                 highRenderCtrl.highLightFeatures = highLightFeatures;
                                 highRenderCtrl.drawHighlight();
-                                dsEdit.getByPid(parseInt(data.id), 'RDLINK').then(function (conLinkDetail) { // 查询连续link的长度
+                                dsEdit.getByPid(parseInt(data.id), 'RDLINK').then(function(conLinkDetail) { // 查询连续link的长度
                                     if (conLinkDetail) {
                                         linkLength += conLinkDetail.length;
                                         if (linkLength && linkLength < 100) {
@@ -1586,7 +1613,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                         param1.data = {
                                             nodePid: continueNodePid
                                         };
-                                        dsEdit.getByCondition(param1).then(function (continueLinks) {
+                                        dsEdit.getByCondition(param1).then(function(continueLinks) {
                                             if (continueLinks.errcode === -1) {
                                                 return;
                                             }
@@ -1618,7 +1645,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: slopeData.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {}
                             });
                             highLightFeatures.push({
@@ -1631,7 +1658,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             });
                             highRenderCtrl.highLightFeatures = highLightFeatures;
                             highRenderCtrl.drawHighlight();
-                            dsEdit.getByPid(slopeData.linkPid, 'RDLINK').then(function (exLinkDetail) { // 查询退出线的长度
+                            dsEdit.getByPid(slopeData.linkPid, 'RDLINK').then(function(exLinkDetail) { // 查询退出线的长度
                                 if (exLinkDetail) {
                                     linkLength += exLinkDetail.length;
                                     if (linkLength && linkLength < 100) {
@@ -1653,7 +1680,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                     param1.data = {
                                         nodePid: continueNodePid
                                     };
-                                    dsEdit.getByCondition(param1).then(function (continueLinks) {
+                                    dsEdit.getByCondition(param1).then(function(continueLinks) {
                                         if (continueLinks.errcode === -1) {
                                             return;
                                         }
@@ -1704,7 +1731,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 // map.currentTool.snapHandler.addGuideLayer(rdnode);
                 map.currentTool.snapHandler.addGuideLayer(rdLink); // 添加自动吸附的图层
                 // 获取退出线并高亮;
-                $scope.getOutLink = function (dataId) {
+                $scope.getOutLink = function(dataId) {
                     $scope.directRoute.outLinkPid = parseInt(dataId);
                     if (highLightFeatures.length === 3) {
                         highLightFeatures.pop();
@@ -1719,8 +1746,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     highRenderCtrl.drawHighlight();
                     tooltipsCtrl.setCurrentTooltip('已选退出线,点击空格键保存!');
                 };
-                    // 选择分歧监听事件;
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                // 选择分歧监听事件;
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) {
                         // 清除吸附的十字
                         map.currentTool.snapHandler.snaped = false;
@@ -1746,7 +1773,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.directRoute.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1768,7 +1795,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.directRoute.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1808,7 +1835,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 $scope.speedBumpInfo = {};
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { // 进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -1835,7 +1862,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.speedBumpInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -1850,7 +1877,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         highLightFeatures.push({
                             id: $scope.speedBumpInfo.nodePid.toString(),
                             layerid: 'rdLink',
-                            type: 'rdnode',
+                            type: 'node',
                             style: {
                                 color: '#21ed25'
                             }
@@ -1881,14 +1908,14 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 $scope.rdSe = {};
-                var automaticCommand = function () { // 自动计算退出线
+                var automaticCommand = function() { // 自动计算退出线
                     var param = {};
                     param.dbId = App.Temp.dbId;
                     param.type = 'RDLINK';
                     param.data = {
                         nodePid: $scope.rdSe.nodePid
                     };
-                    dsEdit.getByCondition(param).then(function (continueLinks) {
+                    dsEdit.getByCondition(param).then(function(continueLinks) {
                         if (continueLinks.errcode === -1) {
                             return;
                         }
@@ -1919,7 +1946,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     });
                 };
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { // 进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -2016,14 +2043,14 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 $scope.rdTollgateData = {};
-                var automaticCommand = function () { // 自动计算退出线
+                var automaticCommand = function() { // 自动计算退出线
                     var param = {};
                     param.dbId = App.Temp.dbId;
                     param.type = 'RDLINK';
                     param.data = {
                         nodePid: $scope.rdTollgateData.nodePid
                     };
-                    dsEdit.getByCondition(param).then(function (continueLinks) {
+                    dsEdit.getByCondition(param).then(function(continueLinks) {
                         if (continueLinks.errcode === -1) {
                             return;
                         }
@@ -2032,6 +2059,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 featCodeCtrl.setFeatCode({});
                                 swal('错误信息', '退出线有多条，不允许创建收费站', 'error');
                                 tooltipsCtrl.setCurrentTooltip('退出线有多条，不允许创建收费站!');
+                                map.currentTool.selectedFeatures.pop();
                                 return;
                             }
                             for (var i = 0, len = continueLinks.data.length; i < len; i++) {
@@ -2054,13 +2082,18 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     });
                 };
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { // 进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
                         map.currentTool.snapHandler.addGuideLayer(rdnode);
                         $scope.rdTollgateData.inLinkPid = parseInt(data.id);
+                        if (data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
+                            tooltipsCtrl.notify('10级路、步行街、人渡不能作为收费站的进入线!', 'error');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
                         highLightFeatures.push({
                             id: $scope.rdTollgateData.inLinkPid.toString(),
                             layerid: 'rdLink',
@@ -2078,17 +2111,29 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             map.currentTool.clearCross();
                             map.currentTool.snapHandler._guides = [];
                             $scope.rdTollgateData.nodePid = parseInt(linkDirect == 2 ? data.properties.enode : data.properties.snode);
-                            highLightFeatures.push({
-                                id: $scope.rdTollgateData.nodePid.toString(),
-                                layerid: 'rdLink',
-                                type: 'node',
-                                style: {
-                                    color: 'yellow'
+                            dsEdit.getByPid($scope.rdTollgateData.nodePid, 'RDNODE').then(function(data) {
+                                if (data) {
+                                    if (data.kind == 2 || data.kind == 3) {
+                                        tooltipsCtrl.notify('属性变化点和路上点不能作为收费站的进入点!', 'error');
+                                        map.currentTool.selectedFeatures.pop();
+                                        tooltipsCtrl.setCurrentTooltip('请重新选择进入线');
+                                    } else {
+                                        highLightFeatures.push({
+                                            id: $scope.rdTollgateData.nodePid.toString(),
+                                            layerid: 'rdLink',
+                                            type: 'node',
+                                            style: {
+                                                color: 'yellow'
+                                            }
+                                        });
+                                        highRenderCtrl.drawHighlight();
+                                        map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
+                                        automaticCommand();
+                                    }
+                                } else {
+                                    tooltipsCtrl.setCurrentTooltip('请重新选择进入点!');
                                 }
                             });
-                            highRenderCtrl.drawHighlight();
-                            map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
-                            automaticCommand();
                             // featCodeCtrl.setFeatCode($scope.rdTollgateData);
                             // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         }
@@ -2099,19 +2144,35 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         map.currentTool.snapHandler._guides = [];
                         // map.currentTool.snapHandler.addGuideLayer(rdLink); //增加吸附图层
                         $scope.rdTollgateData.nodePid = parseInt(data.id);
-                        highLightFeatures.push({
-                            id: $scope.rdTollgateData.nodePid.toString(),
-                            layerid: 'rdLink',
-                            type: 'node',
-                            style: {
-                                color: 'yellow'
+                        dsEdit.getByPid($scope.rdTollgateData.nodePid, 'RDNODE').then(function(data) {
+                            if (data) {
+                                if (data.kind == 2 || data.kind == 3) {
+                                    tooltipsCtrl.notify('属性变化点和路上点不能作为收费站的进入点!', 'error');
+                                    map.currentTool.selectedFeatures.pop();
+                                } else {
+                                    highLightFeatures.push({
+                                        id: $scope.rdTollgateData.nodePid.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'node',
+                                        style: {
+                                            color: 'yellow'
+                                        }
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
+                                    automaticCommand();
+                                }
+                            } else {
+                                tooltipsCtrl.setCurrentTooltip('请重新选择进入点!');
                             }
                         });
-                        highRenderCtrl.drawHighlight();
-                        map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
-                        automaticCommand();
                     } else if (data.index >= 2) { // 退出线
                         $scope.rdTollgateData.outLinkPid = parseInt(data.id);
+                        if (data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
+                            tooltipsCtrl.notify('10级路、步行街、人渡不能作为收费站的退出线!', 'error');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
                         if (highLightFeatures.length === 3) {
                             highLightFeatures.pop();
                             highRenderCtrl._cleanHighLight();
@@ -2150,7 +2211,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 $scope.rdVoiceguide = {};
                 $scope.rdVoiceguide.outLinkPids = [];
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { // 进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -2244,7 +2305,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 // 获取选中线的详细信息;
                 function getLinkInfos(param) {
                     var defer = $q.defer();
-                    dsEdit.getByPid(param, 'RDLINK').then(function (data) {
+                    dsEdit.getByPid(param, 'RDLINK').then(function(data) {
                         if (data) {
                             defer.resolve(data);
                         }
@@ -2316,7 +2377,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         $scope.links.splice(0);
                         $scope.links.push(parseInt(dataresult.id));
                         $scope.linkNodes.splice(1);
-                        (dataresult.properties.enode == $scope.linkNodes[0]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)) : $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                        (dataresult.properties.enode == $scope.linkNodes[0]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                         hightlightOutLink();
                         return;
                     } else {
@@ -2351,7 +2412,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             // 对于node和link数组的维护;
                             $scope.links.push(parseInt(dataresult.id));
                             $scope.limitRelation.vias.push(parseInt(dataresult.id));
-                            (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)) : $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                            (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                             hightlightViasLink();
                         } else {
                             tooltipsCtrl.setCurrentTooltipText('您选择的接续线与上一条不连续或方向错误!');
@@ -2366,7 +2427,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 }
                 // 选择分歧监听事件;
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { // 第一次选择进入线的逻辑
                         // 初始化新增数据;
                         $scope.limitRelation.vias = [];
@@ -2423,12 +2484,12 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         });
                         highRenderCtrl.drawHighlight();
                         tooltipsCtrl.setCurrentTooltip('已经选择进入点!');
-                        setTimeout(function () {
+                        setTimeout(function() {
                             tooltipsCtrl.setCurrentTooltip('请选择退出线!');
                         }, 30);
                         map.currentTool.snapHandler.addGuideLayer(rdLink);
                     } else if (data.index == 2) {
-                        getLinkInfos(parseInt(data.id)).then(function (outLinkData) {
+                        getLinkInfos(parseInt(data.id)).then(function(outLinkData) {
                             /* 判断退出线的合法与否*/
                             if (outLinkData.eNodePid != $scope.limitRelation.nodePid && outLinkData.sNodePid != $scope.limitRelation.nodePid) {
                                 tooltipsCtrl.setCurrentTooltip('退出线必须与进入点衔接!');
@@ -2507,16 +2568,16 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 };
                 $scope.linkArray = [];
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     map.currentTool.snapHandler.snaped = false;
                     map.currentTool.snapHandler._guides = [];
                     map.currentTool.snapHandler.addGuideLayer(rdnode);
                     // 过滤
-                    $scope.unique = function (arr) {
+                    $scope.unique = function(arr) {
                         var result = [],
                             hash = {};
                         for (var i = 0, elem;
-                                (elem = arr[i]) != null; i++) {
+                            (elem = arr[i]) != null; i++) {
                             if (!hash[elem]) {
                                 result.push(elem);
                                 hash[elem] = true;
@@ -2524,8 +2585,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         }
                         return result;
                     };
-                        // 追踪高亮
-                    $scope.getTrackLinks = function (laneInfo) {
+                    // 追踪高亮
+                    $scope.getTrackLinks = function(laneInfo) {
                         var param = {
                             command: 'CREATE',
                             dbId: 42,
@@ -2535,11 +2596,11 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 nodePidDir: laneInfo.nodePid
                             }
                         };
-                        dsEdit.getByCondition(param).then(function (data) {
+                        dsEdit.getByCondition(param).then(function(data) {
                             $scope.linkArray = data.data;
                             $scope.laneInfo.links = data.data;
                             for (var i = 0, len = data.data.length; i < len; i++) {
-                                    // $scope.linkArray.push(data.data[i].pid);
+                                // $scope.linkArray.push(data.data[i].pid);
                                 if (i === 0) {
                                     highLightFeatures.push({
                                         id: data.data[i].pid.toString(),
@@ -2563,13 +2624,13 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             highRenderCtrl.drawHighlight();
                         });
                     };
-                        // link高亮
-                    $scope.linkHighLight = function () {
+                    // link高亮
+                    $scope.linkHighLight = function() {
                         for (var i = 0, len = $scope.linkArray.length; i < len; i++) {
                             highLightFeatures.push({
                                 id: $scope.laneInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2601,8 +2662,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         }
                         $scope.laneInfo.links = $scope.unique($scope.laneInfo.links);
                     };
-                        // 反选link
-                    $scope.chargeTrackLink = function (linkObj) {
+                    // 反选link
+                    $scope.chargeTrackLink = function(linkObj) {
                         highRenderCtrl._cleanHighLight();
                         highLightFeatures = [];
                         for (var j = 0, le = $scope.linkArray.length; j < le; j++) {
@@ -2612,18 +2673,18 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 return;
                             } else if (j == $scope.linkArray.length - 1) {
                                 if (
-                                            (parseInt(linkObj.direct) == 2 && ($scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.sNodePid))) || (parseInt(linkObj.direct) == 3 && ($scope.linkArray[$scope.linkArray.length - 1].sNodePid == parseInt(linkObj.eNodePid))) || (parseInt(linkObj.direct) == 1 && ($scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.sNodePid) ||
-                                                // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.eNodePid) ||
-                                                // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.sNodePid) ||
-                                                $scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.eNodePid)))) {
+                                    (parseInt(linkObj.direct) == 2 && ($scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.sNodePid))) || (parseInt(linkObj.direct) == 3 && ($scope.linkArray[$scope.linkArray.length - 1].sNodePid == parseInt(linkObj.eNodePid))) || (parseInt(linkObj.direct) == 1 && ($scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.sNodePid) ||
+                                        // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.eNodePid) ||
+                                        // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.sNodePid) ||
+                                        $scope.linkArray[$scope.linkArray.length - 1].eNodePid == parseInt(linkObj.eNodePid)))) {
                                     $scope.linkArray.push(linkObj);
                                 }
                             }
                         }
                         $scope.linkHighLight();
                     };
-                        // 格式化link
-                    $scope.formatLink = function (link) {
+                    // 格式化link
+                    $scope.formatLink = function(link) {
                         var newLink = link;
                         for (var k in newLink) {
                             if (k == 'id') {
@@ -2667,7 +2728,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.laneInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2692,7 +2753,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             highLightFeatures.push({
                                 id: $scope.laneInfo.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {
                                     color: 'yellow'
                                 }
@@ -2731,7 +2792,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('请选择限高限重位置点！');
                 eventController.off(eventController.eventTypes.RESETCOMPLETE);
-                eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
+                eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
                     hgwgLimitObj.linkPid = pro.id;
                     hgwgLimitObj.latitude = e.latlng.lat;
@@ -2746,7 +2807,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     });
                     highRenderCtrl.highLightFeatures = highLightFeatures;
                     highRenderCtrl.drawHighlight();
-                    dsEdit.getByPid(pro.id, 'RDLINK').then(function (data) {
+                    dsEdit.getByPid(pro.id, 'RDLINK').then(function(data) {
                         if (data) {
                             // 当前点位和线的断点距离小于0.5米就认为是同一点
                             if (e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1], data.geometry.coordinates[0][0])) < 0.5 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length - 1][1], data.geometry.coordinates[data.geometry.coordinates.length - 1][0])) < 0.5) {
@@ -2758,7 +2819,6 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 tooltipsCtrl.notify('卡车地图不能制作到关联link端点！', 'error');
                                 return;
                             }
-
                             selectCtrl.onSelected({
                                 linkPid: pro.id,
                                 latitude: e.latlng.lat,
@@ -2815,10 +2875,9 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDHGWGLIMIT);
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip('点击方向图标开始修改方向！');
-
                                 selectCtrl.selectedFeatures.direct = 2; // 默认顺方向
                                 eventController.off(eventController.eventTypes.DIRECTEVENT);
-                                eventController.on(eventController.eventTypes.DIRECTEVENT, function (event) {
+                                eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
                                     selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
                                     tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
                                 });
@@ -2856,7 +2915,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 });
                 map.currentTool.enable();
                 eventController.off(eventController.eventTypes.GETLINKID);
-                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) {
                         if (parseInt(data.properties.direct) == 1) {
                             laneTopoData.linkPids.push(parseInt(data.id));
@@ -2892,6 +2951,31 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 style: {}
                             });
                             highRenderCtrl.drawHighlight();
+                            var param = {
+                                type: 'RDLANE',
+                                dbId: App.Temp.dbId,
+                                data: {
+                                    linkPid: laneTopoData.linkPids[0],
+                                    nodePid: laneTopoData.nodePid
+                                }
+                            };
+                            dsEdit.getByCondition(param).then(function(outData) {
+                                if (outData != null) {
+                                    if (outData.data && outData.data.length > 0) {
+                                        for (var i = 0; i < outData.data.length; i++) {
+                                            highRenderCtrl.highLightFeatures.push({
+                                                id: outData.data[i].toString(),
+                                                layerid: 'rdLink',
+                                                type: 'line',
+                                                style: {
+                                                    color: 'black'
+                                                }
+                                            });
+                                        }
+                                        highRenderCtrl.drawHighlight();
+                                    }
+                                }
+                            });
                             tooltipsCtrl.setCurrentTooltip('已经选择进入点, 请选择退出线!');
                             map.currentTool.selectedFeatures.push(laneTopoData.nodePid);
                         }
@@ -2904,6 +2988,31 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             style: {}
                         });
                         highRenderCtrl.drawHighlight();
+                        var param = {
+                            type: 'RDLANE',
+                            dbId: App.Temp.dbId,
+                            data: {
+                                linkPid: laneTopoData.linkPids[0],
+                                nodePid: laneTopoData.nodePid
+                            }
+                        };
+                        dsEdit.getByCondition(param).then(function(outData) {
+                            if (outData != null) {
+                                if (outData.data && outData.data.length > 0) {
+                                    for (var i = 0; i < outData.data.length; i++) {
+                                        highRenderCtrl.highLightFeatures.push({
+                                            id: outData.data[i].toString(),
+                                            layerid: 'rdLink',
+                                            type: 'line',
+                                            style: {
+                                                color: 'black'
+                                            }
+                                        });
+                                    }
+                                    highRenderCtrl.drawHighlight();
+                                }
+                            }
+                        });
                         tooltipsCtrl.setCurrentTooltip('已经选择进入点, 请选择退出线!');
                         map.currentTool.selectedFeatures.push(laneTopoData.nodePid);
                     } else if (data.index > 1 && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0) {
@@ -2918,9 +3027,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         tooltipsCtrl.setCurrentTooltip('继续选退出线, 或者点击空格创建,或者按ESC键取消!');
                     }
                     shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
-                        // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
+                    // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
                 });
-
                 // map.currentTool = new fastmap.uikit.SelectRelation({
                 //     map: map,
                 //     relationFlag: true

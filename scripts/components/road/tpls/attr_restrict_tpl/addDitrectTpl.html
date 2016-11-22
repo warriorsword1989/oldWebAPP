@@ -29,12 +29,17 @@
             <div><label class="control-label">增加交限方向箭头</label></div>
             <div><label class="control-label">提示：选择交限图标后选择退出线,然后点击增加</label></div>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" ng-if="restrictionType===0">
             <div class="trafficPic ">
                 <img  ng-repeat="addItem in addLimitedData" ng-if="addItem.flag===false" ng-src="../../../images/road/1302/1302_1_{{addItem.id}}.svg" ng-click="selectTip(addItem,$event)">
             </div>
             <div class="trafficPic ">
                 <img  ng-repeat="addItems in addLimitedData" ng-if="addItems.flag===true" ng-src="../../../images/road/1302/1302_2_{{addItems.id}}.svg" ng-click="selectTip(addItems,$event)">
+            </div>
+        </li>
+        <li class="list-group-item" ng-if="restrictionType===1">
+            <div class="trafficPic ">
+                <img  ng-repeat="id in addTrackLimitedData" ng-src="../../../images/road/1302/1302_0_{{id}}.svg" ng-click="selectTip(id,$event)">
             </div>
         </li>
     </ul>
