@@ -377,12 +377,12 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             $scope.rticData.intRtics.unshift(newIntRtic);
         }
         objCtrl.data.oridiRowId = $scope.rticData.intRtics[0].rowId;
-        var showRticsInfoObj = {
+        /*var showRticsInfoObj = {
             loadType: 'subAttrTplContainer',
             propertyCtrl: 'scripts/components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
             propertyHtml: '../../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
         };
-        $scope.$emit('transitCtrlAndTpl', showRticsInfoObj);
+        $scope.$emit('transitCtrlAndTpl', showRticsInfoObj);*/
         $scope.resetToolAndMap();
         // 初始化鼠标提示
         // $scope.toolTipText = '';
