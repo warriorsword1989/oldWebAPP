@@ -148,5 +148,39 @@ Utils = {
             return false;
         }
         return true;
+    },
+    /**
+     * 十进制转二进制
+     * @param dec
+     * @returns {string}
+     */
+    dec2bin: function (dec) {
+        var bin = '';
+        while (dec > 0) {
+            if (dec % 2 !== 0) { bin = '1' + bin; } else { bin = '0' + bin; }
+            dec = parseInt(dec / 2);
+        }
+        return bin;
+    },
+    /**
+     * 二进制转10进制
+     * @param bin
+     * @returns {number}
+     */
+    bin2dec: function (bin) {
+        var c = bin.split('');
+        var len = c.length;
+        var dec = 0;
+        for (var i = 0; i < len; i++) {
+            var temp = 1;
+            if (c[i] === 1) {
+                for (var j = i + 1; j < len; j++) temp *= 2;
+                dec += temp;
+            } else if (c[i] !== 0) {
+                // false
+                return 0;
+            }
+        }
+        return dec;
     }
 };

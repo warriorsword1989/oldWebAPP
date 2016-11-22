@@ -83,23 +83,6 @@ angular.module('app').controller('restrictionTruckController', ['$rootScope', '$
         }
     };
 
-    // 修改交限方向的理论或实际
-    $scope.changeType = function (item) {
-        var restrictInfoArr = $scope.rdRestrictCurrentData.restricInfo.split(',');
-        item.flag = parseInt(item.flag);
-        if (item.flag === 1) {
-            if (restrictInfoArr[$scope.flag].indexOf('[') !== -1) {
-                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split('')[1];
-            }
-        } else {
-            if (restrictInfoArr[$scope.flag].indexOf('[') !== -1) {
-                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split('')[1];
-            }
-            restrictInfoArr[$scope.flag] = '[' + restrictInfoArr[$scope.flag] + ']';
-        }
-        $scope.rdRestrictCurrentData.restricInfo.length = 0;
-        $scope.rdRestrictCurrentData.restricInfo = restrictInfoArr.join(',');
-    };
     // 修改经过线;
     $scope.modifyThroughLink = function () {
         // //获取退出线的进入点以供修改经过线使用;
@@ -292,10 +275,8 @@ angular.module('app').controller('restrictionTruckController', ['$rootScope', '$
         });
     };
 
-    /* --------------------------------------------------------------------------删除交限--------------------------------------------------------------------------*/
-
     $scope.delete = function () {
-        var pid = parseInt($scope.rdRestrictCurrentData.pid);
+        var pid = parseInt($scope.rdRestrictCurrentData.pid, 10);
         var param = {
             command: 'DELETE',
             type: 'RDRESTRICTION',
@@ -304,26 +285,24 @@ angular.module('app').controller('restrictionTruckController', ['$rootScope', '$
         };
         // 结束编辑状态
         dsEdit.save(param).then(function (data) {
-            // var restrict = layerCtrl.getLayerById("relationData");
             rdRestriction.redraw();
-            highRenderCtrl.highLightFeatures.length = 0;
-            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.cleanHighLight();
             map.currentTool.disable();
             $scope.$emit('SWITCHCONTAINERSTATE', { attrContainerTpl: false, subAttrContainerTpl: false });
         });
-        if (selectCtrl.rowkey) {
-            var stageParam = {
-                rowkey: selectCtrl.rowkey.rowkey,
-                stage: 3,
-                handler: 0
-
-            };
-            dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function (data) {
-                var workPoint = layerCtrl.getLayerById('workPoint');
-                workPoint.redraw();
-                selectCtrl.rowkey.rowkey = undefined;
-            });
-        }
+        // if (selectCtrl.rowkey) {
+        //     var stageParam = {
+        //         rowkey: selectCtrl.rowkey.rowkey,
+        //         stage: 3,
+        //         handler: 0
+        //
+        //     };
+        //     dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function (data) {
+        //         var workPoint = layerCtrl.getLayerById('workPoint');
+        //         workPoint.redraw();
+        //         selectCtrl.rowkey  = undefined;
+        //     });
+        // }
     };
     /* --------------------------------------------------------------------------删除交限--------------------------------------------------------------------------*/
 
@@ -495,35 +474,35 @@ angular.module('app').controller('restrictionTruckController', ['$rootScope', '$
      */
     function rdRestrictionHighLightArrayAdd(Pid, type) {
         if (!isNaN(Pid)) { Pid = Pid.toString(); }
-        if (type == 'inLine') {
+        if (type === 'inLine') {
             highRenderCtrl.highLightFeatures.push({
                 id: Pid,
                 layerid: 'rdLink',
                 type: 'line',
                 style: { color: 'green' }
             });
-        } else if (type == 'inNode') {
+        } else if (type === 'inNode') {
             highRenderCtrl.highLightFeatures.push({
                 id: Pid,
                 layerid: 'rdLink',
                 type: 'node',
                 style: { color: 'yellow' }
             });
-        } else if (type == 'outLine') {
+        } else if (type === 'outLine') {
             highRenderCtrl.highLightFeatures.push({
                 id: Pid,
                 layerid: 'rdLink',
                 type: 'line',
                 style: { color: 'red' }
             });
-        } else if (type == 'linkLine') {
+        } else if (type === 'linkLine') {
             highRenderCtrl.highLightFeatures.push({
                 id: Pid,
                 layerid: 'rdLink',
                 type: 'line',
                 style: { color: 'blue' }
             });
-        } else if (type == 'icon') {
+        } else if (type === 'icon') {
             highRenderCtrl.highLightFeatures.push({
                 id: Pid,
                 layerid: 'relationData',
@@ -540,18 +519,14 @@ angular.module('app').controller('restrictionTruckController', ['$rootScope', '$
             $(v).removeClass('active');
         });
     }
-
-
-    /* --------------------------------------------------------------------------时间控件--------------------------------------------------------------------------*/
-
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeData);
     // objectController初始化 数据初始化
-    if (objectEditCtrl.data === null) {
-        $scope.rdRestrictionCurrentDetail = {};
-    } else {
+    if (objectEditCtrl.data) {
         $scope.initializeData();
+    } else {
+        $scope.rdRestrictionCurrentDetail = {};
     }
 }]);

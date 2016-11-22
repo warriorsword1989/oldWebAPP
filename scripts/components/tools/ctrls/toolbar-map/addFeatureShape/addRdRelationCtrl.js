@@ -560,6 +560,31 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     }
                 };
                 $scope.$emit('transitCtrlAndTpl', addRestrictionObj);
+            } else if (type === 'RDRESTRICTIONTRUCK') { // 卡车交限
+                $scope.resetOperator('addRelation', type);
+                $scope.$emit('SWITCHCONTAINERSTATE', {
+                    attrContainerTpl: false
+                });
+                var restrictionObj = {};
+                restrictionObj.showTransitData = [];
+                restrictionObj.showAdditionalData = [];
+                restrictionObj.showNormalData = [];
+                restrictionObj.inLaneInfoArr = [];
+                objCtrl.setOriginalData(restrictionObj);
+                var addRestrictionObj = {
+                    loadType: 'attrTplContainer',
+                    propertyCtrl: appPath.road + 'ctrls/blank_ctrl/blankCtrl',
+                    propertyHtml: appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html',
+                    callback: function () {
+                        var obj = {
+                            loadType: 'attrTplContainer',
+                            propertyCtrl: appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
+                            propertyHtml: appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
+                        };
+                        $scope.$emit('transitCtrlAndTpl', obj);
+                    }
+                };
+                $scope.$emit('transitCtrlAndTpl', addRestrictionObj);
             } else if (type === 'RDSPEEDLIMIT') {
                 $scope.resetOperator('addRelation', type);
                 var minLen = 100000,
@@ -659,10 +684,10 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         }
                     });
                 });
-            }else if(type === "RDMILEAGEPILE"){//里程桩
+            } else if (type === 'RDMILEAGEPILE') { // 里程桩
                 $scope.resetOperator('addRelation', type);
                 shapeCtrl.setEditFeatType(null);
-                shapeCtrl.setEditingType("addMileagePile");
+                shapeCtrl.setEditingType('addMileagePile');
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
@@ -675,12 +700,12 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     shapeCtrl.setEditFeatType(null);
                     var pro = e.property;
                     /*
-                    * 对里程桩的合法性做判断;
-                    * (1)不能为道路的端点;
-                    * (2)关联link种别不能为0、5、6、7、8、9、10、11、13、15，否则，给提示“里程桩关联link不能是8级及以下道路”，不允许创建里程桩;
-                    * (3)里程桩的点位必须在其关联link上
-                    * (4)里程桩的关联link不可以是图廓线;
-                    * */
+                     * 对里程桩的合法性做判断;
+                     * (1)不能为道路的端点;
+                     * (2)关联link种别不能为0、5、6、7、8、9、10、11、13、15，否则，给提示“里程桩关联link不能是8级及以下道路”，不允许创建里程桩;
+                     * (3)里程桩的点位必须在其关联link上
+                     * (4)里程桩的关联link不可以是图廓线;
+                     * */
                     if (['1', '2', '3', '4'].indexOf(pro.kind) == -1) {
                         editLayer.drawGeometry = null;
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
@@ -691,29 +716,29 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     }
 
                     shapeCtrl.setEditFeatType('mileagePile');
-                    dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
-                        if(data){
-                            if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 1){
+                    dsEdit.getByPid(pro.id, 'RDLINK').then(function (data) {
+                        if (data) {
+                            if (e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1], data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length - 1][1], data.geometry.coordinates[data.geometry.coordinates.length - 1][0])) < 1) {
                                 selectCtrl.selectedFeatures = null;
                                 editLayer.drawGeometry = null;
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                                 editLayer.clear();
-                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！','error');
+                                tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！', 'error');
                                 return;
                             }
-                            //selectCtrl.selectedFeatures = {
+                            // selectCtrl.selectedFeatures = {
                             //    linkPid:pro.id,
                             //    point:e.latlng
-                            //};
-                            shapeCtrl.shapeEditorResult.setProperties({linkPid:pro.id})
+                            // };
+                            shapeCtrl.shapeEditorResult.setProperties({ linkPid: pro.id });
                             shapeCtrl.setEditFeatType('mileagePile');
-                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!','succ');
+                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建里程桩!', 'succ');
                         }
-                    })
-                })
-            }else if (type === "RDCROSS") {
-                $scope.resetOperator("addRelation", type);
+                    });
+                });
+            } else if (type === 'RDCROSS') {
+                $scope.resetOperator('addRelation', type);
                 var linksArr = [],
                     nodesArr = [],
                     nodes = [],

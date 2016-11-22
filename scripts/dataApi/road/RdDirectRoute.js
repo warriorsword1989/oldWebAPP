@@ -49,13 +49,13 @@ fastmap.dataApi.RdDirectRoute = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot: function () {
         var data = {};
-        data.pid = parseInt(this.pid);
-        data.nodePid = parseInt(this.nodePid);
-        data.inLinkPid = parseInt(this.inLinkPid);
-        data.outLinkPid = parseInt(this.outLinkPid);
-        data.flag = parseInt(this.flag);
-        data.processFlag = parseInt(this.processFlag);
-        data.relationshipType = parseInt(this.relationshipType);
+        data.pid = parseInt(this.pid, 10);
+        data.nodePid = parseInt(this.nodePid, 10);
+        data.inLinkPid = parseInt(this.inLinkPid, 10);
+        data.outLinkPid = parseInt(this.outLinkPid, 10);
+        data.flag = parseInt(this.flag, 10);
+        data.processFlag = parseInt(this.processFlag, 10);
+        data.relationshipType = parseInt(this.relationshipType, 10);
         data.uRecord = this.uRecord;
         data.uFields = this.uFields;
         data.vias = this.vias;
@@ -71,13 +71,13 @@ fastmap.dataApi.RdDirectRoute = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data.pid = parseInt(this.pid);
-        data.nodePid = parseInt(this.nodePid);
-        data.inLinkPid = parseInt(this.inLinkPid);
-        data.outLinkPid = parseInt(this.outLinkPid);
-        data.flag = parseInt(this.flag);
-        data.processFlag = parseInt(this.processFlag);
-        data.relationshipType = parseInt(this.relationshipType);
+        data.pid = parseInt(this.pid, 10);
+        data.nodePid = parseInt(this.nodePid, 10);
+        data.inLinkPid = parseInt(this.inLinkPid, 10);
+        data.outLinkPid = parseInt(this.outLinkPid, 10);
+        data.flag = parseInt(this.flag, 10);
+        data.processFlag = parseInt(this.processFlag, 10);
+        data.relationshipType = parseInt(this.relationshipType, 10);
         data.uRecord = this.uRecord;
         data.uFields = this.uFields;
         data.vias = this.vias;

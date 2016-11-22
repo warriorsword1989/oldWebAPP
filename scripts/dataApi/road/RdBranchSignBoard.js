@@ -31,9 +31,9 @@ fastmap.dataApi.RdBranchSignBoard = fastmap.dataApi.GeoDataModel.extend({
         data.geoLiveType = this.geoLiveType;
         data.names = [];
         if (this.names.length) {
-        	for (var i = 0; i < this.names.length; i++) {
-        		data.names.push(this.names[i].getIntegrate());
-        	}
+            for (var i = 0; i < this.names.length; i++) {
+                data.names.push(this.names[i].getIntegrate());
+            }
         }
         return data;
     },

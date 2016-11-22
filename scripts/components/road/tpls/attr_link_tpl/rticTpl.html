@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <!--<div class="fm-panel" >
+    <div class="fm-panel" >
         <div class="title">
             <div>
                 <a ng-click="addTmcLocation()" style="cursor: pointer;color:#FFF;">TMC信息（共<span ng-if="rticData!=undefined">{{rticData.intRtics.length}}</span>条）</a>
@@ -59,6 +59,17 @@
                 </li>
             </ul>
         </div>
-    </div>-->
+    </div>
 
+    <div class="fm-panel" >
+        <div class="title">
+            <div>层级关系</div>
+        </div>
+        <div class="fm-panel" >
+            <treecontrol class="tree-dark" tree-model="tmcTreeData" expanded-nodes="expandedNodes" on-selection="showTreeSelected(node)">
+                <span ng-if="node.type == 'TMCPOINT' || node.type == 'TMCLINE'" ng-class="{'glyphicon':true,'glyphicon glyphicon-map-marker':node.type == 'TMCPOINT','glyphicon-road':node.type == 'TMCLINE'}"></span>
+                {{node.name}}
+            </treecontrol>
+        </div>
+    </div>
 </div>

@@ -22,7 +22,7 @@ fastmap.dataApi.RdGate = fastmap.dataApi.GeoDataModel.extend({
      * @param {object} data.
      */
     setAttributeData: function (data) {
-    	this.pid = data.pid;
+        this.pid = data.pid;
         this.inLinkPid = data.inLinkPid;
         this.nodePid = data.nodePid;
         this.outLinkPid = data.outLinkPid;

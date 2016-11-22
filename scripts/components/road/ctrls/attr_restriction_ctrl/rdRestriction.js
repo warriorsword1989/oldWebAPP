@@ -14,7 +14,25 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
     var rdNode = layerCtrl.getLayerById('rdNode');
     var limitPicArr = [];
     $scope.currentHandleType = '';
+    $scope.restrictionType = 0; // 0--普通交限 1--卡车交限
 
+    // 判断当前交限是卡车交限还是普通交限
+    var setRestrictionType = function () {
+        $scope.restrictionType = 0; // 普通交限
+        var details = $scope.rdRestrictCurrentData.details;
+        for (var i = 0; i < details.length; i++) {
+            if (details[i].conditions && details[i].conditions[0]) {
+                var bin = Utils.dec2bin(details[i].conditions[0].vehicle);
+                var reverseBin = bin.split('').reverse();
+                var a = reverseBin[1];
+                var b = reverseBin[2];
+                if (a === '1' || b === '1') {
+                    $scope.restrictionType = 1;
+                    break;
+                }
+            }
+        }
+    };
 
     // 初始化数据
     $scope.initializeData = function () {
@@ -26,6 +44,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         $scope.rdRestrictCurrentData = objectEditCtrl.data;
         $scope.rdRestrictOriginalData = objectEditCtrl.originalData;
         $scope.rdRestrictionCurrentDetail = objectEditCtrl.data.details[0];
+        setRestrictionType();
         // 初始高亮整个关系关联要素;
         highLightRestrictAll();
         /* 如果默认限制类型为时间段禁止，显示时间段控件*/
@@ -36,7 +55,6 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         if ($scope.restricOrdinaryForm) {
             $scope.restricOrdinaryForm.$setPristine();
         }
-
     };
 
     // 点击限制方向时,显示其有的属性信息
@@ -100,7 +118,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
     // 修改经过线;
     $scope.modifyThroughLink = function () {
         $scope.viasLinkFlag = false;
-        $scope.currentHandleType = 'editVias'
+        $scope.currentHandleType = 'editVias';
         // 最后一根经过线;
         for (var i = 0; i < $scope.rdRestrictOriginalData.details[$scope.flag].vias.length; i++) {
             if ($scope.rdRestrictOriginalData.details[$scope.flag].vias[i].seqNum == $scope.rdRestrictOriginalData.details[$scope.flag].vias.length) {
@@ -242,7 +260,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
     /* --------------------------------------------------------------------------保存操作--------------------------------------------------------------------------*/
     $scope.save = function () {
-        if($scope.currentHandleType=='editVias'&& !$scope.viasLinkFlag){
+        if ($scope.currentHandleType == 'editVias' && !$scope.viasLinkFlag) {
             swal('操作失败', '经过线不连续！', 'error');
             return;
         }
@@ -396,7 +414,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
 
     function modifyOutLink() {
-        $scope.currentHandleType = 'editOutLink'
+        $scope.currentHandleType = 'editOutLink';
         clearMapTool();
         // 修改退出线;
         map.currentTool = new fastmap.uikit.SelectPath({

@@ -38,6 +38,7 @@ fastmap.mapApi.Capture = L.Handler.extend({
     removeHooks: function () {
         this._map.off('mousemove', this.onMouseMove, this);
     },
+
     addGuideLayer: function (layer) {
         for (var i = 0, n = this._guides.length; i < n; i++) {
             if (L.stamp(layer) === L.stamp(this._guides[i])) {
@@ -132,11 +133,9 @@ fastmap.mapApi.Capture = L.Handler.extend({
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
                     this.captureLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
-                        // break;
                 } else {
                     this.captured = false;
                 }
-                // }
             }
         }
     },
@@ -291,10 +290,8 @@ fastmap.mapApi.Capture = L.Handler.extend({
 
             var line = new fastmap.mapApi.LineString([new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1])]);
             distance = line.pointToSegmentDistance(p, new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1]));
-
             if (distance.distance <= mindist) {
                 mindist = distance.distance;
-
                 result = line.pointToSegmentDistance(p, new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1]));
                 result.distance = distance;
                 result.index = -1;
