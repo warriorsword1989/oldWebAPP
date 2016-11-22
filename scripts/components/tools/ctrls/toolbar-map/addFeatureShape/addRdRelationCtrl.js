@@ -537,15 +537,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 restrictionObj.showAdditionalData = [];
                 restrictionObj.showNormalData = [];
                 restrictionObj.inLaneInfoArr = [];
+                restrictionObj.restrictionType = 0; // 1 卡车交限 0 普通交限
                 objCtrl.setOriginalData(restrictionObj);
-                // var addRestrictionObj = {
-                //     "loadType": "attrTplContainer",
-                //     "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
-                //     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html',
-                //     "callback":function (){
-                //
-                //     }
-                // };
                 var addRestrictionObj = { // 这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载speedOfConditionCtrl。
                     loadType: 'attrTplContainer',
                     propertyCtrl: appPath.road + 'ctrls/blank_ctrl/blankCtrl',
@@ -570,6 +563,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 restrictionObj.showAdditionalData = [];
                 restrictionObj.showNormalData = [];
                 restrictionObj.inLaneInfoArr = [];
+                restrictionObj.restrictionType = 1; // 1 卡车交限 0 普通交限
                 objCtrl.setOriginalData(restrictionObj);
                 var addRestrictionObj = {
                     loadType: 'attrTplContainer',

@@ -333,7 +333,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             } else if (shapeCtrl.editType === 'addRestriction') {
                 resetPageFlag = false;
                 var laneData = objEditCtrl.originalData.inLaneInfoArr,
-                    laneInfo = objEditCtrl.originalData.limitRelation;
+                    laneInfo = objEditCtrl.originalData.limitRelation,
+                    restricType = objEditCtrl.originalData.restrictionType;
                 laneInfo.infos = '';
                 var laneStr = '';
                 if (laneData.length === 0) {
@@ -353,10 +354,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     swal('提示', '请选择进入点！', 'warning');
                     return;
                 }
-                if (laneInfo.outLinkPids && laneInfo.outLinkPids.length && laneInfo.outLinkPids.length != laneData.length) {
+                if (laneInfo.outLinkPids && laneInfo.outLinkPids.length && laneInfo.outLinkPids.length !== laneData.length) {
                     swal('提示', '退出线和交限不匹配！', 'warning');
                     return;
                 }
+                laneInfo.restricType = restricType;
                 laneInfo.infos = laneStr;
                 param = {
                     command: 'CREATE',

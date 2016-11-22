@@ -14,12 +14,7 @@ fastmap.uikit.canvasFeature.RdRestriction = fastmap.uikit.canvasFeature.Feature.
                 geomnew[0] = parseInt(geom[0]) + j * 15 * Math.cos(item.m.c * (Math.PI / 180));
                 geomnew[1] = parseInt(geom[1]) + j * 15 * Math.sin(item.m.c * (Math.PI / 180));
                 var restrictICon = {};
-
                 if (restrictArr[j].indexOf('[') !== -1) {
-                    if (restrictArr[j] == '[') {
-                        console.info(restrictArr[j]);
-                    }
-
                     restrictICon = fastmap.uikit.canvasFeature.Feature.getIconStyle(
                         {
                             iconName: '../../../images/road/1302/1302_2_' + restrictArr[j][1] + '.svg',
@@ -52,10 +47,13 @@ fastmap.uikit.canvasFeature.RdRestriction = fastmap.uikit.canvasFeature.Feature.
                 geomnew[0] = parseInt(geom[0]) + j * 15 * Math.cos(item.m.c * (Math.PI / 180));
                 geomnew[1] = parseInt(geom[1]) + j * 15 * Math.sin(item.m.c * (Math.PI / 180));
 
-
+                var imgSrc = '../../../images/road/1302/1302_0_' + restrictArr[j] + '.svg';
+                if (restrictArr[j].indexOf('[') !== -1) {
+                    imgSrc = '../../../images/road/1302/1302_0_' + restrictArr[j][1] + '.svg';
+                }
                 restrictICon = fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/road/1302/1302_0_' + restrictArr[j] + '.svg',
-                    row: 0,
+                    iconName:imgSrc,
+                    row: 1,
                     column: j,
                     location: geomnew,
                     rotate: item.m.c * (Math.PI / 180),
