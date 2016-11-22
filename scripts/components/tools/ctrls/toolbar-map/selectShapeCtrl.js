@@ -400,7 +400,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     {
                         text: "<span class='float-option-bar'>分</span>",
                         title: '分离节点',
-                        type: 'PATHDEPARTNODE',
+                        type: 'PATHDEPARTNODE_RDLINK',
                         class: 'feaf',
                         callback: $scope.modifyTools
                     }
@@ -881,7 +881,15 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    },
+                        {
+                            text: "<span class='float-option-bar'>分</span>",
+                            title: '分离节点',
+                            type: 'PATHDEPARTNODE_RWLINK',
+                            class: 'feaf',
+                            callback: $scope.modifyTools
+                        }
+                    ]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_link_tpl/rwLinkTpl.html';
@@ -941,7 +949,14 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    },
+                        {
+                            text: "<span class='float-option-bar'>分</span>",
+                            title: '分离节点',
+                            type: 'PATHDEPARTNODE_ADLINK',
+                            class: 'feaf',
+                            callback: $scope.modifyTools
+                        }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_adminstratives_tpl/adLinkTpl.html';
@@ -990,6 +1005,12 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         text: "<span class='float-option-bar'>断</span>",
                         title: '打断link',
                         type: 'PATHBREAK',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
+                    }, {
+                        text: "<span class='float-option-bar'>分</span>",
+                        title: '分离节点',
+                        type: 'PATHDEPARTNODE_ZONELINK',
                         class: 'feaf',
                         callback: $scope.modifyTools
                     }]
@@ -1048,7 +1069,13 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    }, {
+                        text: "<span class='float-option-bar'>分</span>",
+                        title: '分离节点',
+                        type: 'PATHDEPARTNODE_LULINK',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
+                        }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lu_ctrl/luLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_lu_tpl/luLinkTpl.html';
@@ -1094,7 +1121,14 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    },
+                        {
+                            text: "<span class='float-option-bar'>分</span>",
+                            title: '分离节点',
+                            type: 'PATHDEPARTNODE_LCLINK',
+                            class: 'feaf',
+                            callback: $scope.modifyTools
+                        }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lc_ctrl/lcLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_lc_tpl/lcLinkTpl.html';
@@ -2416,12 +2450,32 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 }
                 if (type === 'ADADMINMOVE') {
                     if (selectCtrl.selectedFeatures) {
-                        tooltipsCtrl.setEditEventType('moveDot');
-                        tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
+                        if (shapeCtrl.shapeEditorResult) {
+                            var feature = {};
+                            feature.components = [];
+                            feature.points = [];
+                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
+                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.linkcapturePoint[0], selectCtrl.selectedFeatures.linkcapturePoint[1]));
+                            feature.points.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
+                            feature.points.push(selectCtrl.selectedFeatures.linkcapturePoint[0], selectCtrl.selectedFeatures.linkcapturePoint[1]);
+                            feature.type = 'ADMINPOINT';
+                            feature.id = selectCtrl.selectedFeatures.id;
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
+                            selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                            layerCtrl.pushLayerFront('edit');
+                        }
+                        shapeCtrl.setEditingType('updateAdminPoint');
+                        shapeCtrl.startEditing();
+                        shapeCtrl.editFeatType = null;
+
+                        map.currentTool = shapeCtrl.getCurrentTool();
+                        map.currentTool.enable();
+                        map.currentTool.captureHandler.addGuideLayer(rdLink);
+                        //tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
                     } else {
                         tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
-                        return;
                     }
+                    return;
                 } else if (type === 'PATHVERTEXINSERT') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
@@ -2437,7 +2491,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                         return;
                     }
-                } else if (type === 'PATHVERTEXREMOVE') {
+                } else if (type.split('_')[0] === 'PATHVERTEXREMOVE') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                         // tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
@@ -3908,14 +3962,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     }
                     return;
                 } else if (type === 'MODIFYVARIABLESPEED') {
-                    // 地图编辑相关设置;
-                    // map.currentTool = new fastmap.uikit.SelectForRestriction({
-                    //     map: map,
-                    //     createBranchFlag: true,
-                    //     currentEditLayer: rdLink,
-                    //     shapeEditor: shapeCtrl,
-                    //     operationList: ['line', 'line']
-                    // });
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,
@@ -4146,16 +4192,39 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
                     shapeCtrl.editType = 'transformDirect';
-                } else if (type === 'PATHDEPARTNODE') {
-                    feature.noFormNode = true;
+                } else if (type.split('_')[0] === 'PATHDEPARTNODE') {
                     editLayer.drawGeometry = feature; // 获取需要编辑几何体的geometry
                     editLayer.draw(feature, editLayer); // 把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
-                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); // 设置编辑状态
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type.split('_')[0]]); // 设置编辑状态
                     shapeCtrl.startEditing();
                     shapeCtrl.editFeatType = 'pathDepartNode';
                     selectCtrl.workLinkPid = $scope.selectedFeature.id;
+                    var guideNode = '',guideLink = '';
+                    switch(type.split('_')[1]){
+                        case 'RDLINK':
+                            guideNode = 'rdNode',guideLink = 'rdLink';
+                            break;
+                        case 'RWLINK':
+                            guideNode = 'rwNode',guideLink = 'rwLink';
+                            break;
+                        case 'ADLINK':
+                            guideNode = 'adNode',guideLink = 'adLink';
+                            break;
+                        case 'LULINK':
+                            guideNode = 'luNode',guideLink = 'luLink';
+                            break;
+                        case 'LCLINK':
+                            guideNode = 'lcNode',guideLink = 'lcLink';
+                            break;
+                        case 'ZONELINK':
+                            guideNode = 'zoneNode',guideLink = 'zoneLink';
+                            break;
+                    }
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById(guideNode));
+                    map.currentTool.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById(guideLink));
                 } else {
                     editLayer.drawGeometry = feature; // 获取需要编辑几何体的geometry
                     editLayer.draw(feature, editLayer); // 把需要编辑的几何体画在editLayer上
