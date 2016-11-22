@@ -47,6 +47,7 @@ angular.module('app').controller('addAdminPointCtrl', ['$scope', '$ocLazyLoad',
                 shapeCtrl.editFeatType = null;
 
                 map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.resultData = null;
                 map.currentTool.enable();
                 map.currentTool.captureHandler.addGuideLayer(rdLink);
 

@@ -333,7 +333,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             } else if (shapeCtrl.editType === 'addRestriction') {
                 resetPageFlag = false;
                 var laneData = objEditCtrl.originalData.inLaneInfoArr,
-                    laneInfo = objEditCtrl.originalData.limitRelation;
+                    laneInfo = objEditCtrl.originalData.limitRelation,
+                    restricType = objEditCtrl.originalData.restrictionType;
                 laneInfo.infos = '';
                 var laneStr = '';
                 if (laneData.length === 0) {
@@ -353,10 +354,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     swal('提示', '请选择进入点！', 'warning');
                     return;
                 }
-                if (laneInfo.outLinkPids && laneInfo.outLinkPids.length && laneInfo.outLinkPids.length != laneData.length) {
+                if (laneInfo.outLinkPids && laneInfo.outLinkPids.length && laneInfo.outLinkPids.length !== laneData.length) {
                     swal('提示', '退出线和交限不匹配！', 'warning');
                     return;
                 }
+                laneInfo.restricType = restricType;
                 laneInfo.infos = laneStr;
                 param = {
                     command: 'CREATE',
@@ -515,10 +517,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 param.dbId = App.Temp.dbId;
                 param.objId = selectCtrl.selectedFeatures.dragNodePid;
                 var catchPid;
-                if (selectCtrl.selectedFeatures.catchFlag.substring(2) == 'LINK') {
+                if (selectCtrl.selectedFeatures.catchFlag.substr(-4) == 'LINK') {
                     catchLinkPid = selectCtrl.selectedFeatures.catchNodePid;
                     catchNodePid = 0;
-                } else if (selectCtrl.selectedFeatures.catchFlag.substring(2) == 'NODE') {
+                } else if (selectCtrl.selectedFeatures.catchFlag.substr(-4) == 'NODE') {
                     catchNodePid = selectCtrl.selectedFeatures.catchNodePid;
                     catchLinkPid = 0;
                 }
@@ -548,6 +550,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     param.type = 'LCLINK'
                 }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='RW'){
                     param.type = 'RWLINK'
+                }else if(selectCtrl.selectedFeatures.catchFlag.substring(0,2)=='ZO'){
+                    param.type = 'ZONELINK'
                 }
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
@@ -562,6 +566,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         lcNode.redraw();
                         rwLink.redraw();
                         rwnode.redraw();
+                        zoneLink.redraw();
+                        zoneNode.redraw();
                         highRenderCtrl.highLightFeatures.push({
                             id: objEditCtrl.data.pid.toString(),
                             layerid: 'rdLink',
@@ -808,6 +814,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                                 } else if (param.type === 'RDNODE') {
                                     rdLink.redraw();
                                     rdnode.redraw();
+                                    rdLinkSpeedLimit.redraw();
+                                    rdCross.redraw();
                                     relationData.redraw();// 打断线后点限速关联的link发生了变化，其他有类似联系的要素应该也有这样的变化
                                     ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
                                     tpl = 'attr_node_tpl/rdNodeFormTpl.html';
@@ -1001,16 +1009,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         treatmentOfChanged(data, 'ADADMIN', 'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                     }
                 });
-            } else if (shapeCtrl.editType === 'adAdminMove') {
+            } else if (shapeCtrl.editType === 'updateAdminPoint') {
                 param = {
                     command: 'MOVE',
                     type: 'ADADMIN',
                     dbId: App.Temp.dbId,
-                    objId: selectCtrl.selectedFeatures.id,
+                    objId: geo.id,
                     data: {
-                        longitude: geo.x,
-                        latitude: geo.y,
-                        linkPid: (selectCtrl.selectedFeatures.linkPid == null ? 0 : parseInt(selectCtrl.selectedFeatures.linkPid))
+                        longitude: geo.components[0].x,
+                        latitude: geo.components[0].y,
+                        linkPid: parseInt(geo.guideLink)
                     }
                 };
                 dsEdit.save(param).then(function (data) {
