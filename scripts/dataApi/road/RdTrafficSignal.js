@@ -22,7 +22,7 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
         this.linkPid = data.linkPid;
         this.location = data.location;
         this.flag = data.flag || 0;
-        this.rowId = data.rowId || 0;
+        this.rowId = data.rowId || '';
 
         this.type = data.type || 0;
         this.kgFlag = data.kgFlag || 0;
