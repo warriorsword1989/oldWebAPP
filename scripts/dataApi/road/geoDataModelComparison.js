@@ -14,7 +14,7 @@ fastmap.dataApi.geoDataModelComparison = L.Class.extend({
      * link不对比
      */
     this.rules = {
-      link:['geometry'],
+      link:['geometry','pid'],
       forms:['linkPid','rowId'],
       intRtics:['linkPid','rowId'],
       rtics:['linkPid','rowId'],
@@ -32,7 +32,7 @@ fastmap.dataApi.geoDataModelComparison = L.Class.extend({
   abstract: function (roads) {
     var abs1 = roads[0];
     for (var i = 1; i < roads.length; i++) {
-      abs1 = this._compareObject(FM.Util.clone(abs1), FM.Util.clone(roads[i]), this.rules.link.concat(this.rules.forms));
+      abs1 = this._compareObject(FM.Util.clone(abs1), FM.Util.clone(roads[i]), this.rules.link.concat(this.rules.link));
     }
 
     return abs1
@@ -71,10 +71,6 @@ fastmap.dataApi.geoDataModelComparison = L.Class.extend({
           if (objectBase[Object.keys(objectBase)[key]] != objectFrom[Object.keys(objectBase)[key]]) {
             return false;
           }
-        }else{
-          if (objectBase[Object.keys(objectBase)[key]] != objectFrom[Object.keys(objectBase)[key]]) {
-            return false;
-          }
         }
 
       }
@@ -85,11 +81,23 @@ fastmap.dataApi.geoDataModelComparison = L.Class.extend({
 
   _compareArr: function (arrayBase, arrayFrom) {
     var result = [];
+
     for (var i = 0, len = arrayBase.length; i < len; i++) {
+      var rowids = [];
       for (var j = 0, length = arrayFrom.length; j < length; j++) {
 
         var compareResult = this._isSameObject(arrayBase[i], arrayFrom[j],this.rules.names);
+
+
         if (compareResult) {
+          if(!FM.Util.isContains(rowids, arrayBase[i].rowId) ){
+            rowids.push(arrayBase[i].rowId);
+          }
+          if(!FM.Util.isContains(rowids, arrayFrom[j].rowId)){
+            rowids.push(arrayFrom[j].rowId);
+          }
+
+          arrayBase[i].rowIds = rowids;
           result.push(arrayBase[i]);
         }
 
@@ -111,7 +119,7 @@ fastmap.dataApi.geoDataModelComparison = L.Class.extend({
   _updataArr: function (arrayBase, arrayFrom) {
     var result = {};
     for (var i = 0, len = arrayBase.length; i < len; i++) {
-      result[]
+      //result[]
       if(arrayBase[0].objStatus == 'INSERT'){
         arrayFrom.push(arrayBase[0]);
       }else if(arrayBase[0].objStatus == 'DELETE'){

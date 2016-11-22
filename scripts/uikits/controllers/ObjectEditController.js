@@ -37,6 +37,8 @@ fastmap.uikit.ObjectEditController = (function () {
                * @type {Array}
                */
                 this.datas = [];
+                //对象化之前的对象数据
+                this.sameObj = {};
             },
             /**
              * 保存需要编辑的元素的原数据
@@ -59,6 +61,7 @@ fastmap.uikit.ObjectEditController = (function () {
              */
             setCurrentObject: function (type, obj, options) {
                 this.data = null;
+                this.sameObj = obj;
                 switch (type) {
                 case 'RDNODE':
                     this.data = fastmap.dataApi.rdNode(obj);
@@ -618,9 +621,12 @@ fastmap.uikit.ObjectEditController = (function () {
              * @param {Object}data
              */
             onSaved: function (orignalData, data) {
-
                 this.changedProperty = this.compareJson(orignalData.pid, orignalData, data.getIntegrate(), 'UPDATE');
-                this.restoreDatas(this.changedProperty);
+                //利用this.datas判断是否是批量编辑
+                if(this.datas.length !==0){
+                    this.changedProperty = this.restoreDatas(this.changedProperty);
+                }
+
             },
 
           /***
@@ -628,11 +634,27 @@ fastmap.uikit.ObjectEditController = (function () {
            * @param data
            */
           restoreDatas:function (data) {
-            for(var i = 0, len = this.datas.length; i< len; i++){
-                this.compare.updataObject(data, this.datas[i]);
-            }
 
-              console.log(JSON.stringify(this.datas))
+              for(var key in data){
+                  if(FM.Util.isArray(data[key])){
+                      for(var i = 0, len = data[key].length; i< len; i++){
+                          for(var j =0,length = this.sameObj[key].length; j<length; j++){
+                              if(FM.Util.isContains(this.sameObj[key][j].rowIds,data[key][i].rowId)){
+                                  data[key][i].rowIds = this.sameObj[key][j].rowIds;
+                                  delete data[key][i].rowId;
+                              }
+                          }
+                      }
+
+                  }
+
+              }
+              var pids = []
+              for(var item in this.datas){
+                  pids.push(this.datas[item].pid);
+              }
+              data.pids = pids;
+              return  data;
           }
 
 

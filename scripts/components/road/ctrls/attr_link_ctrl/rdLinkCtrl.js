@@ -562,36 +562,76 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
                 });
             }
         }
-        dsEdit.update($scope.linkData.pid, 'RDLINK', objectCtrl.changedProperty).then(function (data) {
-            if (data) {
-                rdLink.redraw();
-                relation.redraw();
-                if (objectCtrl.changedProperty.hasOwnProperty('speedlimits')) {
-                    rdLinkSpeedLimit.redraw();
-                }
-                if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
-                    if (typeof map.currentTool.cleanHeight === 'function') {
-                        map.currentTool.cleanHeight();
+
+        if(objectCtrl.datas !=0){
+            dsEdit.batchUpdate(objectCtrl.changedProperty.pids,'RDLINK', objectCtrl.changedProperty).then(
+              function (data) {
+                  if (data) {
+                      rdLink.redraw();
+                      relation.redraw();
+
+                      relation.redraw();
+                      if (objectCtrl.changedProperty.hasOwnProperty('speedlimits')) {
+                          rdLinkSpeedLimit.redraw();
+                      }
+                      if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
+                          if (typeof map.currentTool.cleanHeight === 'function') {
+                              map.currentTool.cleanHeight();
+                          }
+                          // if (toolTipsCtrl.getCurrentTooltip()) {
+                          //     toolTipsCtrl.onRemoveTooltip();
+                          // }
+                          editLayer.drawGeometry = null;
+                          editLayer.clear();
+                          shapeCtrl.stopEditing();
+                          editLayer.bringToBack();
+                          $(editLayer.options._div).unbind();
+                          objectCtrl.datas = [];
+
+                          $scope.$emit('SWITCHCONTAINERSTATE', { subAttrContainerTpl: false });
+                      }
+
+                  }
+              }
+            )
+        }else{
+            dsEdit.update($scope.linkData.pid, 'RDLINK', objectCtrl.changedProperty).then(function (data) {
+                if (data) {
+                    rdLink.redraw();
+                    relation.redraw();
+                    if (objectCtrl.changedProperty.hasOwnProperty('speedlimits')) {
+                        rdLinkSpeedLimit.redraw();
                     }
-                    // if (toolTipsCtrl.getCurrentTooltip()) {
-                    //     toolTipsCtrl.onRemoveTooltip();
-                    // }
-                    editLayer.drawGeometry = null;
-                    editLayer.clear();
-                    shapeCtrl.stopEditing();
-                    editLayer.bringToBack();
-                    $(editLayer.options._div).unbind();
-                }
-                dsEdit.getByPid($scope.linkData.pid, 'RDLINK').then(function (ret) {
-                    if (ret) {
-                        objectCtrl.setCurrentObject('RDLINK', ret);
-                        objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                    if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
+                        if (typeof map.currentTool.cleanHeight === 'function') {
+                            map.currentTool.cleanHeight();
+                        }
+                        // if (toolTipsCtrl.getCurrentTooltip()) {
+                        //     toolTipsCtrl.onRemoveTooltip();
+                        // }
+                        editLayer.drawGeometry = null;
+                        editLayer.clear();
+                        shapeCtrl.stopEditing();
+                        editLayer.bringToBack();
+                        $(editLayer.options._div).unbind();
                     }
-                });
-                // objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
-                $scope.$emit('SWITCHCONTAINERSTATE', { subAttrContainerTpl: false });
-            }
-        });
+                    dsEdit.getByPid($scope.linkData.pid, 'RDLINK').then(function (ret) {
+                        if (ret) {
+                            objectCtrl.setCurrentObject('RDLINK', ret);
+                            objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                        }
+                    });
+                    // objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                    $scope.$emit('SWITCHCONTAINERSTATE', { subAttrContainerTpl: false });
+                }
+            });
+        }
+
+
+
+
+
+
     };
     $scope.delete = function () {
         if (!$scope.linkData) {

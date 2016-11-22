@@ -800,4 +800,21 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
+
+    /** *
+     * 修改对象属性
+     */
+    this.batchUpdate = function (linkPids, type, data) {
+        delete data['pids'];
+        delete data['pid'];
+
+        var param = {
+            command: 'BATCH',
+            dbId: App.Temp.dbId,
+            type: type,
+            data: data,
+            linkPids:linkPids
+        };
+        return this.save(param);
+    };
 }]);
