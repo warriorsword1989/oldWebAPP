@@ -1007,6 +1007,12 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
+                    }, {
+                        text: "<span class='float-option-bar'>分</span>",
+                        title: '分离节点',
+                        type: 'PATHDEPARTNODE_ZONELINK',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
                     }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneLinkCtrl';
@@ -1063,13 +1069,12 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    },
-                        {
-                            text: "<span class='float-option-bar'>分</span>",
-                            title: '分离节点',
-                            type: 'PATHDEPARTNODE_LULINK',
-                            class: 'feaf',
-                            callback: $scope.modifyTools
+                    }, {
+                        text: "<span class='float-option-bar'>分</span>",
+                        title: '分离节点',
+                        type: 'PATHDEPARTNODE_LULINK',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
                         }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lu_ctrl/luLinkCtrl';
@@ -2450,11 +2455,11 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             feature.components = [];
                             feature.points = [];
                             feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
-                            feature.components.push(fastmap.mapApi.point(0, 0));
+                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.linkcapturePoint[0], selectCtrl.selectedFeatures.linkcapturePoint[1]));
                             feature.points.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
-                            feature.points.push(fastmap.mapApi.point(0, 0));
+                            feature.points.push(selectCtrl.selectedFeatures.linkcapturePoint[0], selectCtrl.selectedFeatures.linkcapturePoint[1]);
                             feature.type = 'ADMINPOINT';
-
+                            feature.id = selectCtrl.selectedFeatures.id;
                             shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
                             selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                             layerCtrl.pushLayerFront('edit');
@@ -2463,20 +2468,12 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         shapeCtrl.startEditing();
                         shapeCtrl.editFeatType = null;
 
-                        //
                         map.currentTool = shapeCtrl.getCurrentTool();
                         map.currentTool.enable();
                         map.currentTool.captureHandler.addGuideLayer(rdLink);
-                        //
-                        //tooltipsCtrl.setEditEventType('addAdAdmin');
-                        //tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！', 'info');
-                        //tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
-                        //
-                        //tooltipsCtrl.setEditEventType('moveDot');
                         //tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
                     } else {
                         tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
-                        return;
                     }
                     return;
                 } else if (type === 'PATHVERTEXINSERT') {
@@ -4220,6 +4217,9 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             break;
                         case 'LCLINK':
                             guideNode = 'lcNode',guideLink = 'lcLink';
+                            break;
+                        case 'ZONELINK':
+                            guideNode = 'zoneNode',guideLink = 'zoneLink';
                             break;
                     }
                     map.currentTool = shapeCtrl.getCurrentTool();
