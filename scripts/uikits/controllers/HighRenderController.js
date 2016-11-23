@@ -641,10 +641,10 @@ fastmap.uikit.HighRenderController = (function () {
                     //    drawy: -31
                     //});
                     map.closePopup();
-                    //if (feature.properties.name) {
-                    //    this.popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(feature.properties.name);
-                    //    map.openPopup(this.popup);
-                    //}
+                    if (feature.properties.name) {
+                        this.popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(feature.properties.name);
+                        map.openPopup(this.popup);
+                    }
                     var guideLine = L.polyline(geo, {
                         color: 'red',
                         weight: 2,
