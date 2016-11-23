@@ -2,6 +2,8 @@
 @button-click-radio:'../../images/newPoi/rightPanelIcon/button-click-radio.png';
 @button-normal-checkbox:'../../images/newPoi/rightPanelIcon/button-normal-checkbox.png';
 @button-click-checkbox:'../../images/newPoi/rightPanelIcon/button-click-checkbox.png';
+@select-open-normal:'../../images/newPoi/rightPanelIcon/icon-select-open-normal.png';
+@select-open-active:'../../images/newPoi/rightPanelIcon/icon-select-open-active.png';
 @photo-bg:'../../images/newPoi/leftPanelIcon/photo-bg.png';
 @photo-bg-small:'../../images/newPoi/leftPanelIcon/photo-bg-small.png';
 @left-normal:'../../images/newPoi/leftPanelIcon/left.png';
@@ -143,12 +145,25 @@
   height: 24px;
   border-color: rgba(24, 40, 72, .5);
   border-radius: 3px;
-  padding: 0;
+  padding: 0 0 0 10px;
   margin-right: 10px;
   box-shadow: none;
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  background: url(@select-open-normal) no-repeat right center transparent;
+  background-position-x: 100px;
   &:focus {
-    border-color: #636ef5;
-    box-shadow: none;
+    .poiRightPanel_focus;
+    background: url(@select-open-active) no-repeat right center transparent;
+    background-position-x: 100px;
+    color: #5b93ff;
+  }
+  & > option {
+    color: #182848;
+    &:hover {
+      background-color:  rgba(88, 150, 255, 0.1);
+    }
   }
 }
 .poiLeftPanel_Thumbnails {
@@ -200,7 +215,7 @@
 }
 /* POI右侧属性面板样式*/
 .poiRightPanel_focus {
-  border-color: #636ef5;
+  border-color: #5693ff;
   box-shadow: none;
 }
 
@@ -302,10 +317,24 @@
   height: 24px;
   border-color: rgba(24, 40, 72, .2);
   border-radius: 3px;
-  padding: 0;
-  margin-right: 10px;
+  padding: 0 0 0 10px;
   box-shadow: none;
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  background: url(@select-open-normal) no-repeat right center transparent;
+  background-position-x: 115px;
+
   &:focus {
-    .poiRightPanel_focus
+    .poiRightPanel_focus;
+    background: url(@select-open-active) no-repeat right center transparent;
+    background-position-x: 115px;
+    color: #5b93ff;
+  }
+  & > option {
+    color: #182848;
+    &:hover {
+      background-color:  rgba(88, 150, 255, 0.1);
+    }
   }
 }
