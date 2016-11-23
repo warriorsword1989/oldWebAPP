@@ -1865,7 +1865,79 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 console.info(featCodeCtrl.getFeatCode(), selectCtrl);
 
                 featCodeCtrl.newObj = [];
-            } else if (shapeCtrl.editType === '') {    // 非正常情况下按空格
+            }
+            //平滑修形
+            else if (shapeCtrl.editType === "pathSmooth") {
+              if (!shapeCtrl.editFeatType) {
+                return;
+              }
+              var ctrl, tpl;
+              var selectShapeType = shapeCtrl.editFeatType;
+              var catchInfos = [];
+              if (map.currentTool.snapStart.length != 0) {
+                catchInfos = catchInfos.concat(map.currentTool.snapStart[0].catches);
+              }
+              if (map.currentTool.snapEnd.length != 0) {
+                catchInfos = catchInfos.concat(map.currentTool.snapEnd[0].catches);
+              }
+              param["command"] = "REPAIR";
+              param["dbId"] = App.Temp.dbId;
+              param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
+              param["data"] = {
+                "geometry": { "type": "LineString",
+                  "coordinates": coordinate
+                },
+                "catchInfos": catchInfos
+              };
+              param["type"] = selectShapeType;
+              dsEdit.save(param).then(function (data) {
+                if (data != null) {
+                  if (param["type"] === "RDLINK") {
+                    rdLink.redraw();
+                    rdnode.redraw();
+
+                  } else if (param["type"] === "RWNODE") {
+                    rwLink.redraw();
+                    rwnode.redraw();
+                    ctrl = 'attr_node_ctrl/rwNodeCtrl';
+                    tpl = 'attr_node_tpl/rwNodeTpl.html';
+                  } else if (param["type"] === "ADNODE") {
+                    adLink.redraw();
+                    adNode.redraw();
+                    adFace.redraw();
+                    ctrl = 'attr_administratives_ctrl/adNodeCtrl';
+                    tpl = 'attr_adminstratives_tpl/adNodeTpl.html';
+                  } else if (param["type"] === "RDNODE") {
+                    rdLink.redraw();
+                    rdnode.redraw();
+                    relationData.redraw();//打断线后点限速关联的link发生了变化，其他有类似联系的要素应该也有这样的变化
+                    ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
+                    tpl = 'attr_node_tpl/rdNodeFormTpl.html';
+                  } else if (param["type"] === "ZONENODE") {
+                    zoneLink.redraw();
+                    zoneNode.redraw();
+                    zoneFace.redraw();
+                    ctrl = 'attr_zone_ctrl/zoneNodeCtrl';
+                    tpl = 'attr_zone_tpl/zoneNodeTpl.html';
+                  } else if (param["type"] === "LUNODE") {
+                    luLink.redraw();
+                    luNode.redraw();
+                    luFace.redraw();
+                    ctrl = 'attr_lu_ctrl/luNodeCtrl';
+                    tpl = 'attr_lu_tpl/luNodeTpl.html';
+                  } else if (param["type"] === "LCNODE") {
+                    lcLink.redraw();
+                    lcNode.redraw();
+                    lcFace.redraw();
+                    ctrl = 'attr_lc_ctrl/lcNodeCtrl';
+                    tpl = 'attr_lc_tpl/lcNodeTpl.html';
+                  }
+                  treatmentOfChanged(data, param["type"], ctrl, tpl);
+                }
+              })
+            }
+
+            else if (shapeCtrl.editType === '') {    // 非正常情况下按空格
                 return;
             }
             if (resetPageFlag) {

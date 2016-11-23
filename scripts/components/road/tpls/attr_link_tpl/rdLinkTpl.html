@@ -22,12 +22,15 @@
 <div id="currentObjectDiv" class="fm-component" ng-controller="linkObjectController">
     <div class="title">
         道路线
-        <span ng-if="brigeLinkArrays==null" class="label label-info" >{{linkData.pid}}</span>
-        <span ng-if="brigeLinkArrays!=null" ng-class="{'active':$index==brigeIndex,'btn btn-primary btn-xs':true}" ng-repeat="item in brigeLinkArrays"  >
-        <label class="brige-line" ng-click="changeLink($index,item.id)">{{item.id}}</label>
+        <span ng-if="datas.length==0" class="label label-info" >{{linkData.pid}}</span>
+        <!--<span ng-if="brigeLinkArrays!=null" ng-class="{'active':$index==brigeIndex,'btn btn-primary btn-xs':true}" ng-repeat="item in brigeLinkArrays"  >-->
+        <!--<label class="brige-line" ng-click="changeLink($index,item.id)">{{item.id}}</label>-->
         </span>
+
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
+        <div ng-if="datas.length!=0"  ng-if ng-include="currentList"></div>
+
         <div id="fm-link-tabControl" class="btn-group" role="group" style="margin-bottom:5px;">
             <a title="基础属性" ng-class="{'btn glyphicon glyphicon-star selected':modelArray[0]==true,'btn glyphicon glyphicon-star':modelArray[0]==false}" ng-click="changeModule('basicModule',0)"></a>
             <a title="道路名" ng-class="{'btn glyphicon glyphicon-tag selected':modelArray[1]==true,'btn glyphicon glyphicon-tag':modelArray[1]==false}" ng-click="changeModule('nameModule',1)"></a>

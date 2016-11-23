@@ -409,7 +409,41 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
             }, 200);
         }
     },
-
+    
+  fireEvents: function (type, data, event) {
+    switch (type) {
+      case 'lineStrings':
+        this.eventController.fire(this.eventController.eventTypes.GETLINKID, data);
+        break;
+      case 'markers':
+        this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+          id: data.properties.id,
+          rowId: data.properties.rowId,
+          optype: data.properties.featType,
+          selectData: data,
+          branchType: data.properties.branchType,
+          //tileId:this.selectData[0].tileId,
+          event: event
+        });
+        break;
+      case 'pointFeatures':
+        this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
+        break;
+      case 'points':
+        this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
+        break;
+      case 'polygons':
+        this.eventController.fire(this.eventController.eventTypes.GETFACEID, data);
+        break;
+      case 'tips':
+        this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {
+          id: data.properties.id,
+          tips: 0,
+          optype: "TIPS"
+        })
+        break;
+    }
+  },
 
     fireEvents: function (type, data, event) {
         switch (type) {

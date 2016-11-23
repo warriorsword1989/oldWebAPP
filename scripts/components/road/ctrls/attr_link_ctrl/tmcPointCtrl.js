@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/11/17.
  */
 
-angular.module('app').controller('TmcPointCtl', ['$scope', 'dsEdit', 'dsMeta', '$timeout', function ($scope, dsEdit, dsMeta, $timeout) {
+angular.module('app').controller('TmcPointCtl', ['$scope', function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.tmcPointData = objCtrl.tmcInfos;
     /* 类型代码值域 */
