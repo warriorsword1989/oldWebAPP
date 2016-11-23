@@ -12,6 +12,12 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var eventController = fastmap.uikit.EventController();
 
+        /**
+         * 点数组转为对象数组
+         * @param arr
+         * @returns newArr
+         * @constructor
+         */
         function arrToArrobj(arr) {
             var newArr = [];
             for (var i = 0; i < arr.length; i++) {
@@ -21,6 +27,12 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             return newArr;
         }
 
+        /**
+         * 对象数组转为点数组
+         * @param arrobj
+         * @returns newArr
+         * @constructor
+         */
         function arrobjToArr(arrobj) {
             var newArr = [];
             for (var i = 0; i < arrobj.length; i++) {
@@ -29,6 +41,37 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             }
             return newArr;
         }
+
+        /**
+         * 去除凹的顶点
+         * @param arr
+         * @returns arr
+         * @constructor
+         */
+        function checkPoints(arr) {
+            for (var i = 0; i < arr.length - 2; i++) {
+                var a = {
+                    x: arr[i + 1].x - arr[i].x,
+                    y: arr[i + 1].y - arr[i].y
+                };
+                var b = {
+                    x: arr[i + 2].x - arr[i + 1].x,
+                    y: arr[i + 2].y - arr[i + 1].y
+                };
+                if ((a.x * b.y - a.y * b.x) > 0) {
+                    arr.splice(i + 1, 1);
+                    i--;
+                }
+            }
+            return arr;
+        }
+
+        /**
+         * 点去重
+         * @param pointsArr
+         * @returns newArr
+         * @constructor
+         */
         function pointsUnique(pointsArr) {
             var repeatIndex = [];
             var newPointArr = arrToArrobj(pointsArr);
@@ -39,54 +82,145 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             }
             return arrobjToArr(repeatIndex);
         }
+
+        /**
+         * 计算多边形的包络线
+         * @param pointsArr
+         * @returns newArr
+         * @constructor
+         */
         function caculatePolygon(pointsArr) {
             var newArr = [];
             var latMax = [];
             var lngMax = [];
             var latMin = [];
             var lngMin = [];
-            latMax.push(pointsArr[0]);
-            latMin.push(pointsArr[0]);
-            lngMax.push(pointsArr[0]);
-            lngMin.push(pointsArr[0]);
+            pointsArr = pointsUnique(pointsArr);
+            latMax.push(new L.point(pointsArr[0].x, pointsArr[0].y));
+            latMin.push(new L.point(pointsArr[0].x, pointsArr[0].y));
+            lngMax.push(new L.point(pointsArr[0].x, pointsArr[0].y));
+            lngMin.push(new L.point(pointsArr[0].x, pointsArr[0].y));
             for (var i = 1; i < pointsArr.length; i++) {
                 if (latMax[0].x < pointsArr[i].x) {
                     latMax = [];
-                    latMax.push(pointsArr[i]);
+                    latMax.push(new L.point(pointsArr[i].x, pointsArr[i].y));
                 } else if (latMax[0].x === pointsArr[i].x) {
-                    latMax.push(pointsArr[i]);
+                    latMax.push(new L.point(pointsArr[i].x, pointsArr[i].y));
                 }
                 if (latMin[0].x > pointsArr[i].x) {
                     latMin = [];
-                    latMin.push(pointsArr[i]);
+                    latMin.push(new L.point(pointsArr[i].x, pointsArr[i].y));
                 } else if (latMin[0].x === pointsArr[i].x) {
-                    latMin.push(pointsArr[i]);
+                    latMin.push(new L.point(pointsArr[i].x, pointsArr[i].y));
                 }
                 if (lngMax[0].y < pointsArr[i].y) {
                     lngMax = [];
-                    lngMax.push(pointsArr[i]);
+                    lngMax.push(new L.point(pointsArr[i].x, pointsArr[i].y));
                 } else if (lngMax[0].y === pointsArr[i].y) {
-                    lngMax.push(pointsArr[i]);
+                    lngMax.push(new L.point(pointsArr[i].x, pointsArr[i].y));
                 }
                 if (lngMin[0].y > pointsArr[i].y) {
                     lngMin = [];
-                    lngMin.push(pointsArr[i]);
+                    lngMin.push(new L.point(pointsArr[i].x, pointsArr[i].y));
                 } else if (lngMin[0].y === pointsArr[i].y) {
-                    lngMin.push(pointsArr[i]);
+                    lngMin.push(new L.point(pointsArr[i].x, pointsArr[i].y));
                 }
             }
-            // latMax = pointsUnique(latMax);
-            // lngMin = pointsUnique(lngMin);
-            // latMin = pointsUnique(latMin);
-            // lngMax = pointsUnique(lngMax);
+            if (latMax[0].x === lngMin[0].x || latMax[0].x === lngMax[0].x) {
+                latMax[0].x += 0.0001;
+            }
+
+            if (latMin[0].x === lngMax[0].x || latMin[0].x === lngMin[0].x) {
+                latMin[0].x -= 0.0001;
+            }
+
+            if (lngMax[0].y === latMax[0].y || lngMax[0].y === latMin[0].y) {
+                lngMax[0].y += 0.0001;
+            }
+
+            if (lngMin[0].y === latMax[0].y || lngMin[0].y === latMin[0].y) {
+                lngMin[0].y -= 0.0001;
+            }
             newArr = newArr.concat(latMax);
             newArr = newArr.concat(lngMin);
             newArr = newArr.concat(latMin);
             newArr = newArr.concat(lngMax);
-            newArr = pointsUnique(newArr);
+            if (latMax.length > 1 || lngMax.length > 1 || lngMin.length > 1 || latMin.length > 1) {
+                newArr = pointsUnique(newArr);
+            }
             newArr.push(latMax[0]);
+            var sideList = [];
+            var sidePointObj = arrToArrobj(newArr);
+            var lineString = new fastmap.mapApi.LinearRing(newArr);
+            var polygon = new fastmap.mapApi.Polygon([lineString]);
+            for (var pa = 0; pa < pointsArr.length; pa++) {
+                if (!polygon.containsPoint(pointsArr[pa]) && sidePointObj.indexOf(pointsArr[pa].x + '-' + pointsArr[pa].y) < 0) {
+                    sideList.push(pointsArr[pa]);
+                }
+            }
+            for (var sl = 0; sl < sideList.length; sl++) {
+                for (var sp = 0; sp < newArr.length - 1; sp++) {
+                    var minX;
+                    var minY;
+                    var maxX;
+                    var maxY;
+                    if (newArr[sp].x >= newArr[sp + 1].x) {
+                        minX = newArr[sp + 1].x;
+                        maxX = newArr[sp].x;
+                    } else {
+                        minX = newArr[sp].x;
+                        maxX = newArr[sp + 1].x;
+                    }
+                    if (newArr[sp].y >= newArr[sp + 1].y) {
+                        minY = newArr[sp + 1].y;
+                        maxY = newArr[sp].y;
+                    } else {
+                        minY = newArr[sp].y;
+                        maxY = newArr[sp + 1].y;
+                    }
+                    if ((sideList[sl].x >= minX) && (sideList[sl].x <= maxX) &&
+                        (sideList[sl].y <= maxY) && (sideList[sl].y >= minY)) {
+                        newArr.splice(sp + 1, 0, sideList[sl]);
+                        // sp++;
+                        break;
+                    }
+                }
+            }
+            newArr = checkPoints(newArr);
             return newArr;
         }
+
+        /**
+         * 计算多边形的重心
+         * @param arr
+         * @returns center
+         * @constructor
+         */
+        function caculateGravity(arr) {
+            var area = 0;
+            var center = {
+                x: 0,
+                y: 0
+            };
+            for (var i = 0; i < arr.length - 1; i++) {
+                area += (((arr[i].x * arr[i + 1].y) -
+                (arr[i + 1].x * arr[i].y)) / 2);
+                center.x += ((arr[i].x * arr[i + 1].y) -
+                    (arr[i + 1].x * arr[i].y)) * (arr[i].x + arr[i + 1].x);
+                center.y += ((arr[i].x * arr[i + 1].y) -
+                    (arr[i + 1].x * arr[i].y)) * (arr[i].y + arr[i + 1].y);
+            }
+            area += (((arr[arr.length - 1].x * arr[0].y) -
+            (arr[0].x * arr[arr.length - 1].y)) / 2);
+            center.x += ((arr[arr.length - 1].x * arr[0].y) -
+                (arr[0].x * arr[arr.length - 1].y)) * (arr[arr.length - 1].x + arr[0].x);
+            center.y += ((arr[arr.length - 1].x * arr[0].y) -
+                (arr[0].x * arr[arr.length - 1].y)) * (arr[arr.length - 1].y + arr[0].y);
+            center.x /= 6 * area;
+            center.y /= 6 * area;
+            return center;
+        }
+
         /**
          * 去除重复的数据，保留一个
          * @param arr
@@ -147,7 +281,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
 
                 eventController.off(eventController.eventTypes.GETRECTDATA);
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
-                    if (data && data.data && data.data.length == 0) {
+                    if (data && data.data && data.data.length === 0) {
                         tooltipsCtrl.setCurrentTooltip('请重新框选制作CRF交叉点的道路点！');
                         return;
                     }
@@ -405,7 +539,17 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                 });
             } else if (type === 'CRFOBJECT') { // CRF道路
                 $scope.resetOperator('addRelation', type);
-                var objData = { links: [], inters: [], roads: [], longitude: null, latitude: null };// 要创建的对象.
+                var objData = { // 要创建的对象.
+                    links: [],
+                    inters: [],
+                    roads: [],
+                    longitude: null,
+                    latitude: null
+                };
+                function changeCenter(e) {
+                    objData.longitude = e.target._latlng.lng;
+                    objData.latitude = e.target._latlng.lat;
+                }
                 var crfPids = [];
                 var crfLinkPids = [];
                 var allLinks = [];
@@ -431,13 +575,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                         tooltipsCtrl.setCurrentTooltip('请重新框选制作CRF对象的要素！');
                         return;
                     }
-                    // 框选的中心点作为landMark
-                    var retange = data.border._latlngs;
-                    if (retange && retange.length > 0) {
-                        objData.longitude = retange[0].lng + (retange[3].lng - retange[0].lng) / 2;
-                        objData.latitude = retange[0].lat + (retange[1].lat - retange[0].lat) / 2;
-                    }
-                    // crf中的node和link与常规的node、link的pid是一样的，要排除掉常规中的这些数据
+               // crf中的node和link与常规的node、link的pid是一样的，要排除掉常规中的这些数据
                     for (var i = 0; i < data.data.length; i++) {
                         if (data.data[i].line) {
                             for (var j = 0; j < data.data[i].line.components.length; j++) {
@@ -515,60 +653,35 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                             }
                         }
                     }
-                    var sideList = [];
+                    var layerGroup = new L.LayerGroup();
+                    layerGroup.id = 'drawItems';
                     var sidePoints = caculatePolygon(pointsArr);
-                    var sidePointObj = arrToArrobj(sidePoints);
-                    var lineString = new fastmap.mapApi.LinearRing(sidePoints);
-                    var polygon = new fastmap.mapApi.Polygon([lineString]);
-                    for (var pa = 0; pa < pointsArr.length; pa++) {
-                        if (!polygon.containsPoint(pointsArr[pa]) && sidePointObj.indexOf(pointsArr[pa].x + '-' + pointsArr[pa].y) < 0) {
-                            sideList.push(pointsArr[pa]);
-                        }
-                    }
-                    for (var sl = 0; sl < sideList.length; sl++) {
-                        for (var sp = 0; sp < sidePoints.length - 1; sp++) {
-                            var minX;
-                            var minY;
-                            var maxX;
-                            var maxY;
-                            if (sidePoints[sp].x >= sidePoints[sp + 1].x) {
-                                minX = sidePoints[sp + 1].x;
-                                maxX = sidePoints[sp].x;
-                            } else {
-                                minX = sidePoints[sp].x;
-                                maxX = sidePoints[sp + 1].x;
-                            }
-                            if (sidePoints[sp].y >= sidePoints[sp + 1].y) {
-                                minY = sidePoints[sp + 1].y;
-                                maxY = sidePoints[sp].y;
-                            } else {
-                                minY = sidePoints[sp].y;
-                                maxY = sidePoints[sp + 1].y;
-                            }
-                            if ((sideList[sl].x >= minX) && (sideList[sl].x <= maxX) &&
-                                (sideList[sl].y <= maxY) && (sideList[sl].y >= minY)) {
-                                sidePoints.splice(sp + 1, 0, sideList[sl]);
-                                break;
-                            }
-                        }
-                    }
                     var latLngs = [];
-                    var latSum = 0;
-                    var lngSum = 0;
                     for (var i = 0; i < sidePoints.length; i++) {
-                        latSum += sidePoints[i].x;
-                        lngSum += sidePoints[i].y;
                         var latlng1 = L.latLng(sidePoints[i].x, sidePoints[i].y);
+                        // L.marker(latlng1, {
+                        //     draggable: true,
+                        //     title: i
+                        // }).addTo(map);
                         latLngs.push(latlng1);
                     }
-                    L.marker([latSum/sidePoints.length,lngSum/sidePoints.length],{
-                        draggable: true
-                    }).addTo(map);
-                    var polyGonLayer = L.polygon(latLngs, {
-                        color: 'red',
-                        weight: 5
+                    var center = caculateGravity(sidePoints);
+                    objData.longitude = center.y;
+                    objData.latitude = center.x;
+                    var marker = L.marker([center.x, center.y], {
+                        draggable: true,
+                        title: '拖动改变LandMark位置',
+                        id: 'landMarker'
+                    }).on('dragend', changeCenter);
+                    layerGroup.addLayer(marker);
+                    var polygon = L.polygon(latLngs, {
+                        color: 'yellow',
+                        weight: 5,
+                        fillOpacity: 0
                     });
-                    map.addLayer(polyGonLayer);
+                    layerGroup.addLayer(polygon);
+                    map.markerLayer = layerGroup;
+                    map.addLayer(layerGroup);
                     for (var i = 0; i < allLinks.length; i++) {
                         if (crfLinkPids.indexOf(allLinks[i]) < 0) {
                             objData.links.push(parseInt(allLinks[i]));
@@ -585,7 +698,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     highRenderCtrl.drawHighlight();
                     eventController.off(eventController.eventTypes.GETRECTDATA);
                     map.currentTool.disable();
-                    map.currentTool = {};
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
                         shapeEditor: shapeCtrl,
@@ -596,6 +708,10 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     eventController.off(eventController.eventTypes.GETFEATURE);
                     eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
                         highRenderCtrl._cleanHighLight();
+                        map.removeLayer(map.markerLayer);
+                        map.markerLayer = null;
+                        map.getPanes().markerPane.children.length = 0;
+                        map.getPanes().overlayPane.children.length = 0;
                         if (data.optype == 'RDLINK') {
                             if (objData.links.indexOf(parseInt(data.id)) < 0) {
                                 objData.links.push(parseInt(data.id));
