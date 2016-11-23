@@ -4840,8 +4840,8 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 // });
                 // objCtrl.datas = [obj1, obj2]
                 // data = compare.abstract([obj1, obj2]);
-                objectCtrl.data =$scope.linkData
-                objectCtrl.setCurrentObject('RDLINK',$scope.linkData)
+                //objectCtrl.data =$scope.linkData
+                //objectCtrl.setCurrentObject('RDLINK',$scope.linkData)
 
                 objCtrl.setCurrentObject(type, data)
 
