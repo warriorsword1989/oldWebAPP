@@ -16,6 +16,7 @@ addDirectOfRest.controller('addDirectOfRestController', function ($scope, $timeo
      */
     $scope.initPage = function () {
         $scope.addDirectData = objCtrl.data;
+        $scope.restrictionType = objCtrl.originalData.restrictionType; // 1-卡车交限 0-普通交限
         // 初始化交限
         $scope.addLimitedData = [
             { id: 1, flag: false },
@@ -28,6 +29,7 @@ addDirectOfRest.controller('addDirectOfRestController', function ($scope, $timeo
             { id: 4, flag: true }
 
         ];
+        $scope.addTrackLimitedData = [1, 2, 3, 4]; // 卡车交限
         highRenderCtrl.highLightFeatures = [];
         highRenderCtrl.highLightFeatures.push({
             id: $scope.addDirectData.inLinkPid.toString(),
@@ -62,14 +64,21 @@ addDirectOfRest.controller('addDirectOfRestController', function ($scope, $timeo
         /* 选中高亮*/
         $scope.removeImgActive();
         $(e.target).addClass('active');
-        var flag;
-        $scope.tipsId = item.id;
-        if (item.flag) {
-            flag = 2;
+        var flag,
+            newDirectObj = {};
+        if ($scope.restrictionType === 0) { // 普通交限
+            $scope.tipsId = item.id;
+            if (item.flag) {
+                flag = 2;
+            } else {
+                flag = 1;
+            }
+            newDirectObj = fastmap.dataApi.rdRestrictionDetail({ restricInfo: item.id, flag: flag, conditions: [] });
         } else {
-            flag = 1;
+            $scope.tipsId = item;
+            flag = 1;  // 卡车交限只能为实地
+            newDirectObj = fastmap.dataApi.rdRestrictionDetail({ restricInfo: item, flag: flag, conditions: [fastmap.dataApi.rdRestrictionCondition({})] });
         }
-        var newDirectObj = fastmap.dataApi.rdRestrictionDetail({ restricInfo: item.id, flag: flag, conditions: [] });
 
         $scope.newLimited = newDirectObj;
         $scope.addOutLink(item);

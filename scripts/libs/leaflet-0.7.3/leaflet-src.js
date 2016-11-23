@@ -2840,7 +2840,6 @@ L.TileLayer = L.Class.extend({
 
 	_addTile: function (tilePoint, container) {
 		var tilePos = this._getTilePos(tilePoint);
-
 		// get unused tile - or create a new tile
 		var tile = this._getTile();
 

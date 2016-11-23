@@ -26,7 +26,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
         /* 选择数据查找poi详情*/
         scope.selectData = function(data, index) {
             // add by chenx on 2016-11-22, 关闭属性面板
-            $scope.$emit('SWITCHCONTAINERSTATE', {
+            scope.$emit('SWITCHCONTAINERSTATE', {
                 subAttrContainerTpl: false,
                 attrContainerTpl: false
             });

@@ -541,7 +541,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		/**
 		 * 保存数据
 		 */
-        $scope.doSave = function () {
+        $scope.doSave = function (event) {
+            event.target.blur(); // add by chenx on 2016-11-22, 取消按钮的选中状态，防止按空格键继续触发click事件
             $('.datetip').hide();
             $('.carTypeTip').hide();
             eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY);
@@ -549,7 +550,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		/**
 		 * 删除数据
 		 */
-        $scope.doDelete = function () {
+        $scope.doDelete = function (event) {
+            event.target.blur(); // add by chenx on 2016-11-22, 取消按钮的选中状态，防止按空格键继续触发click事件
             swal({
                 title: '确认删除？',
                 type: 'warning',
@@ -568,7 +570,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		/**
 		 * 取消编辑
 		 */
-        $scope.doCancel = function () {
+        $scope.doCancel = function (event) {
+            event.target.blur(); // add by chenx on 2016-11-22, 取消按钮的选中状态，防止按空格键继续触发click事件
             $scope.tipsPanelOpened = false;
 			// $scope.attrTplContainer = "";
             $scope.attrTplContainerSwitch(false);

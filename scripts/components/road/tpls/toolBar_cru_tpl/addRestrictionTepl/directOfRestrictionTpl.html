@@ -37,7 +37,7 @@
         <li class="list-group-item">
             <div><label class="control-label">增加交限</label></div>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" ng-if="restrictionType==0">
             <div class="trafficPic ">
                 <img  ng-repeat="addItem in laneConnexityData" ng-if="addItem.flag===false" ng-src="../../../images/road/1302/1302_1_{{addItem.id}}.svg"  ng-click="addNormalData1(addItem,$event)">
             </div>
@@ -45,7 +45,11 @@
                 <img  ng-repeat="addItems in laneConnexityData" ng-if="addItems.flag===true" ng-src="../../../images/road/1302/1302_2_{{addItems.id}}.svg"  ng-click="addNormalData1(addItems,$event)">
             </div>
         </li>
-
+        <li class="list-group-item" ng-if="restrictionType==1">
+            <div class="trafficPic ">
+                <img  ng-repeat="addItem in truckRestrictionData" ng-src="../../../images/road/1302/1302_0_{{addItem}}.svg"  ng-click="addNormalData1(addItem,$event)">
+            </div>
+        </li>
     </ul>
 
 

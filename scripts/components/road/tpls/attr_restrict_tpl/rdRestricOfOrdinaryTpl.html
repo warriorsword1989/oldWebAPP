@@ -122,7 +122,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="fm-panel">
+            <div class="fm-panel" ng-if="restrictionType===1">
                 <div class="title" ng-click="selectFirstNum();">
                     限制信息
                 </div>
@@ -161,19 +161,21 @@
                         <li>
                             <label class="control-label">限重</label>
                             <div>
-                                <input type="number" ng-model="rdRestrictionCurrentDetail.conditions[0].resWeigh" />
+                                <input type="text" ng-keyup="verifyFloat($event,0,999.99,'resWeigh');" ng-model="rdRestrictionCurrentDetail.conditions[0].resWeigh"
+                                       style="width: 80%;" title="最大值是999.99，最多两位小数"/>&nbsp;吨
                             </div>
                         </li>
                         <li>
                             <label class="control-label">限轴重</label>
                             <div>
-                                <input type="number" ng-model="rdRestrictionCurrentDetail.conditions[0].resAxleLoad" />
+                                <input type="text" ng-keyup="verifyFloat($event,0,999.99,'resAxleLoad');" ng-model="rdRestrictionCurrentDetail.conditions[0].resAxleLoad"
+                                       style="width: 80%;" title="最大值是999.99，最多两位小数"/>&nbsp;吨
                             </div>
                         </li>
                         <li>
                             <label class="control-label">限轴数</label>
                             <div>
-                                <input type="number" ng-model="rdRestrictionCurrentDetail.conditions[0].resAxleCount" />
+                                <input type="text" ng-keyup="verifyNumber($event,0,99,'resAxleCount');" ng-model="rdRestrictionCurrentDetail.conditions[0].resAxleCount" />
                             </div>
                         </li>
                     </ul>

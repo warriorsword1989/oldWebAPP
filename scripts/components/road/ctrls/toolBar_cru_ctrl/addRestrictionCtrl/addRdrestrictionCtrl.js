@@ -13,6 +13,8 @@ rdRestrictionApp.controller('addRdRestrictionController', ['$scope', '$ocLazyLoa
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
+    $scope.restrictionType = objCtrl.originalData.restrictionType; // 1-卡车交限 0-普通交限
+    
     $scope.limitRelation = {};
     $scope.clickFlag = true;
     $scope.excitLineArr = [];

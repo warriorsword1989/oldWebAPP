@@ -1,0 +1,14 @@
+<ul ng-controller="listOfMultiFeaturesController" class="list-group list-group-lg m-b-none" >
+    <li class="list-group-item">
+        <div class="list-name">
+            <a  style="cursor: pointer;color: #ffffff;">列表</a>
+        </div>
+        <div class="list-line"></div>
+    </li>
+    <li class="list-group-item" ng-repeat="featureItem in datas" >
+        <div   style="cursor: pointer;padding-left: 15px;">
+            <label id={{featureItem.pid}} ng-click="changFeature(featureItem.pid)" class="control-label" style="cursor: pointer;">{{featureItem.pid}}</label>
+        </div>
+        <i class="glyphicon glyphicon-remove-circle" ng-click="deleteLimit(featureItem.pid)"></i>
+    </li>
+</ul>

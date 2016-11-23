@@ -48,7 +48,11 @@ zoneLinkApp.controller('zoneLinkController', ['$scope', 'dsEdit', function ($sco
         var line = fastmap.mapApi.lineString(points);
         selectCtrl.onSelected({// 存储选择数据信息
             geometry: line,
-            id: $scope.zoneLinkData.pid
+            id: $scope.zoneLinkData.pid,
+            type: 'Link',
+            direct: $scope.zoneLinkData.direct,
+            snode: $scope.zoneLinkData.sNodePid,
+            enode: $scope.zoneLinkData.eNodePid
         });
         var highLightFeatures = [];
         highLightFeatures.push({
