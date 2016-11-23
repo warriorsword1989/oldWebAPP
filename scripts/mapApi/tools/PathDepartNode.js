@@ -28,8 +28,6 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             selectedSnap: false,
             snapVertex: false
         });
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdNode'));
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdLink'));
         this.snapHandler.enable();
         this.validation = fastmap.uikit.geometryValidation({
             transform: new fastmap.mapApi.MecatorTranform()
@@ -111,7 +109,8 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         if (this.targetIndex == 0 || this.targetIndex == undefined) {
             return;
         }
-        if (this.snapHandler.snaped == true) {
+        // 防止分离的线自己被扑捉
+        if (this.snapHandler.snaped == true && this.snapHandler.properties.id!=this.selectCtrl.selectedFeatures.id) {
             this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: true });
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
@@ -136,7 +135,8 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             this.selectCtrl.selectedFeatures.dragNodePid = this.selectCtrl.selectedFeatures.enode;
         }
         this.selectCtrl.selectedFeatures.catchFlag = this.snapHandler.properties.featType;
-        this.selectCtrl.selectedFeatures.catchNodePid = this.snapHandler.snaped ? this.snapHandler.properties.id : 0;
+        // 当前分离的线不能作为被扑捉的线；
+        this.selectCtrl.selectedFeatures.catchNodePid = (this.snapHandler.snaped && this.snapHandler.properties.id!=this.selectCtrl.selectedFeatures.id) ? this.snapHandler.properties.id : 0;
         this.selectCtrl.selectedFeatures.selectedLinkPid = this.selectCtrl.workLinkPid;
         // 如果是扑捉node，不传几何；如果是线或者不扑捉要传几何;
         if (this.snapHandler.snaped && this.snapHandler.properties.featType == 'RDNODE') {

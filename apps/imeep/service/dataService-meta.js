@@ -356,7 +356,7 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
         });
         return defer.promise;
     };
-    /******************************* TMC相关  *********************************/
+    /** ***************************** TMC相关  *********************************/
     /** *
      * 框选TMCPOINT查询TMC关系树
      */

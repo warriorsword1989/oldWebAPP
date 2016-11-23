@@ -153,6 +153,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         case 'IXPOI':
             drawPoiAndLink(currentGeo.components, { color: 'blue', size: 2 }, self);
             break;
+        case 'ADMINPOINT':
+            drawAdminPointAndLink(currentGeo.components, { color: 'blue', size: 2 }, self);
+            break;
         }
 
         function drawCross(geom, style, boolPixelCrs, self) {
@@ -335,7 +338,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
         function drawMultiPolyline(geom, style, self) {
             for (var i = 0, len = geom.length; i < len; i++) {
-                drawLineString(geom[i].components, style, false, null, true, true, true, self);
+                drawLineString(geom[i].components, 1, style, false, null, true, true, self);
             }
         }
 
@@ -538,6 +541,38 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             });
             drawSymbolLineString(self._ctx, proj, true, symbol);
         }
+
+        function drawAdminPointAndLink(geom, style, self) {
+            if (!geom) {
+                return;
+            }
+            this.transform = new fastmap.mapApi.MecatorTranform();
+            var proj = [];
+            var flag = geom[0].y>geom[1].y?true:false
+            for (var i = 0; i < geom.length; i++) {
+                var point = this.map.latLngToContainerPoint([geom[i].y, geom[i].x]);
+                proj.push([point.x, point.y]);
+                if (i == 0) {
+                    drawPoi(point, {
+                        src: '../../../images/road/img/star.png',
+                        drawy: flag?-8:0,
+                        drawX: flag?-8:0
+                    }, true);
+                } else if (i == 1) {
+                    drawPoi(point, {
+                        src: '../../../images/poi/map/marker_circle_blue_16.png'
+                    }, true);
+                }
+            }
+            var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+            var symbol = symbolFactory.dataToSymbol({
+                type: 'SampleLineSymbol',
+                style: 'dash',
+                color: 'blue'
+            });
+            drawSymbolLineString(self._ctx, proj, true, symbol);
+        }
+
         function drawPoi(geom, style, boolPixelCrs) {
             if (!geom) {
                 return;

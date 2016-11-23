@@ -71,7 +71,9 @@ angular.module('app').controller('ToolbarCtrl', ['$scope', '$ocLazyLoad', '$q', 
         llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addCRFShapeCtrl.js'));
         llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addSameFeatureCtrl.js'));
         llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addPoiCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addAdminPointCtrl.js'));
         llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addShapeCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/complexSelectCtrl.js'));
         $q.all(llPromises).then(function () {
             $scope.toolbarTpl = appPath.root + 'scripts/components/tools/tpls/toolbar/toolbarTpl.htm';
         });

@@ -21,6 +21,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
         var crfData = layerCtrl.getLayerById('crfData');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
+        var compare = new fastmap.dataApi.geoDataModelComparison();
         var popup = L.popup();
         $scope.toolTipText = '';
         $scope.angleOfLink = function (pointA, pointB) {
@@ -363,50 +364,60 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 attrContainerTpl: false
             });
             switch (data.optype) {
-            case 'RDLINK':
-                    // 悬浮工具条的设置
-                toolsObj = {
-                    items: [{
-                        text: "<span class='float-option-bar'>插</span>",
-                        title: '插入形状点',
-                        type: 'PATHVERTEXINSERT',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }, {
-                        text: "<span class='float-option-bar'>删</span>",
-                        title: '删除形状点',
-                        type: 'PATHVERTEXREMOVE',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }, {
-                        text: "<span class='float-option-bar'>修</span>",
-                        title: '修改形状点',
-                        type: 'PATHVERTEXMOVE',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }, {
-                        text: "<span class='float-option-bar'>方</span>",
-                        title: '修改道路方向',
-                        type: 'TRANSFORMDIRECT',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }, {
-                        text: "<span class='float-option-bar'>断</span>",
-                        title: '打断link',
-                        type: 'PATHBREAK',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    },
-                    {
-                        text: "<span class='float-option-bar'>分</span>",
-                        title: '分离节点',
-                        type: 'PATHDEPARTNODE',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }
-                    ]
-                };
-                    // 当在移动端进行编辑时,弹出此按钮
+
+
+                case "RDLINK":
+                    //悬浮工具条的设置
+                    toolsObj = {
+                        items: [{
+                                'text': "<span class='float-option-bar'>插</span>",
+                                'title': "插入形状点",
+                                'type': 'PATHVERTEXINSERT',
+                                'class': "feaf",
+                                callback: $scope.modifyTools
+                        }, {
+                                'text': "<span class='float-option-bar'>删</span>",
+                                'title': "删除形状点",
+                                'type': 'PATHVERTEXREMOVE',
+                                'class': "feaf",
+                                callback: $scope.modifyTools
+                        }, {
+                                'text': "<span class='float-option-bar'>修</span>",
+                                'title': "修改形状点",
+                                'type': 'PATHVERTEXMOVE',
+                                'class': "feaf",
+                                callback: $scope.modifyTools
+                        }, {
+                                'text': "<span class='float-option-bar'>方</span>",
+                                'title': "修改道路方向",
+                                'type': 'TRANSFORMDIRECT',
+                                'class': "feaf",
+                                callback: $scope.modifyTools
+                        }, {
+                                'text': "<span class='float-option-bar'>断</span>",
+                                'title': "打断link",
+                                'type': 'PATHBREAK',
+                                'class': "feaf",
+                                callback: $scope.modifyTools
+                        },
+                            {
+                                'text': "<span class='float-option-bar'>分</span>",
+                                'title': "分离节点",
+                                'type': 'PATHDEPARTNODE',
+                                'class': "feaf",
+                                callback: $scope.modifyTools
+                        },
+                            {
+                                'text': "<span class='float-option-bar'>平</span>",
+                                'title': "平滑修行",
+                                'type': 'PATHSMOOTH',
+                                'class': "feaf",
+                                callback: $scope.modifyTools
+                            }
+                        ]
+                    };
+                    //当在移动端进行编辑时,弹出此按钮
+
                     // if (L.Browser.touch) {
                     //     toolsObj.items.push({
                     //         'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
@@ -472,8 +483,8 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 break;
             case 'RDRESTRICTION':
                 // if (data.restrictionType === '0') { // 普通交限
-                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestriction';
-                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html';
+                ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestriction';
+                ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html';
                 // } else { // 卡车交限
                 //     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_restriction_ctrl/rdRestrictionOfTruckCtl';
                 //     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html';
@@ -881,7 +892,15 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    },
+                        {
+                            text: "<span class='float-option-bar'>分</span>",
+                            title: '分离节点',
+                            type: 'PATHDEPARTNODE_RWLINK',
+                            class: 'feaf',
+                            callback: $scope.modifyTools
+                        }
+                    ]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_link_tpl/rwLinkTpl.html';
@@ -941,7 +960,14 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    },
+                        {
+                            text: "<span class='float-option-bar'>分</span>",
+                            title: '分离节点',
+                            type: 'PATHDEPARTNODE_ADLINK',
+                            class: 'feaf',
+                            callback: $scope.modifyTools
+                        }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_adminstratives_tpl/adLinkTpl.html';
@@ -990,6 +1016,12 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         text: "<span class='float-option-bar'>断</span>",
                         title: '打断link',
                         type: 'PATHBREAK',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
+                    }, {
+                        text: "<span class='float-option-bar'>分</span>",
+                        title: '分离节点',
+                        type: 'PATHDEPARTNODE_ZONELINK',
                         class: 'feaf',
                         callback: $scope.modifyTools
                     }]
@@ -1048,7 +1080,13 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    }, {
+                        text: "<span class='float-option-bar'>分</span>",
+                        title: '分离节点',
+                        type: 'PATHDEPARTNODE_LULINK',
+                        class: 'feaf',
+                        callback: $scope.modifyTools
+                        }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lu_ctrl/luLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_lu_tpl/luLinkTpl.html';
@@ -1094,7 +1132,14 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         type: 'PATHBREAK',
                         class: 'feaf',
                         callback: $scope.modifyTools
-                    }]
+                    },
+                        {
+                            text: "<span class='float-option-bar'>分</span>",
+                            title: '分离节点',
+                            type: 'PATHDEPARTNODE_LCLINK',
+                            class: 'feaf',
+                            callback: $scope.modifyTools
+                        }]
                 };
                 ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lc_ctrl/lcLinkCtrl';
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_lc_tpl/lcLinkTpl.html';
@@ -2416,12 +2461,32 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 }
                 if (type === 'ADADMINMOVE') {
                     if (selectCtrl.selectedFeatures) {
-                        tooltipsCtrl.setEditEventType('moveDot');
-                        tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
+                        if (shapeCtrl.shapeEditorResult) {
+                            var feature = {};
+                            feature.components = [];
+                            feature.points = [];
+                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
+                            feature.components.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.linkcapturePoint.y, selectCtrl.selectedFeatures.linkcapturePoint.x));
+                            feature.points.push(fastmap.mapApi.point(selectCtrl.selectedFeatures.geometry.x, selectCtrl.selectedFeatures.geometry.y));
+                            feature.points.push(selectCtrl.selectedFeatures.linkcapturePoint.y, selectCtrl.selectedFeatures.linkcapturePoint.x);
+                            feature.type = 'ADMINPOINT';
+                            feature.id = selectCtrl.selectedFeatures.id;
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
+                            selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                            layerCtrl.pushLayerFront('edit');
+                        }
+                        shapeCtrl.setEditingType('updateAdminPoint');
+                        shapeCtrl.startEditing();
+
+                        map.currentTool = shapeCtrl.getCurrentTool();
+                        map.currentTool.enable();
+                        map.currentTool.resultData = {};
+                        map.currentTool.captureHandler.addGuideLayer(rdLink);
+                        tooltipsCtrl.setCurrentTooltip('开始修改行政区划代表点！', 'info');
                     } else {
-                        tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
-                        return;
+                        tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！', 'warn');
                     }
+                    return;
                 } else if (type === 'PATHVERTEXINSERT') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
@@ -2437,7 +2502,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                         return;
                     }
-                } else if (type === 'PATHVERTEXREMOVE') {
+                } else if (type.split('_')[0] === 'PATHVERTEXREMOVE') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                         // tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
@@ -2694,9 +2759,11 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         }
                     });
                     return;
-                }else if(type === 'MODIFYMILEAGEPILE'){
+                } else if (type === 'MODIFYMILEAGEPILE') {
                     shapeCtrl.editFeatType = null;
-                    var pid = parseInt(selectCtrl.selectedFeatures.id), linkPid = parseInt(selectCtrl.selectedFeatures.linkPid), currentLink = null;
+                    var pid = parseInt(selectCtrl.selectedFeatures.id),
+                        linkPid = parseInt(selectCtrl.selectedFeatures.linkPid),
+                        currentLink = null;
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -2731,7 +2798,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 tooltipsCtrl.notify('道路的端点不能作为里程桩，请重新选择位置！', 'error');
                                 return;
                             }
-                            if(data){
+                            if (data) {
                                 shapeCtrl.editFeatType = 'mileagePile';
                                 var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
                                 var mileagePile = {
@@ -2743,11 +2810,10 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 featCodeCtrl.setFeatCode({
                                     mileagePile: mileagePile
                                 });
-                                tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!','info');
+                                tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!', 'info');
                             }
-
-                        })
-                    })
+                        });
+                    });
                     return;
                 } else if (type === 'MODIFYHGWGLIMITNODE') { // 限高限重点位
                     var hgwgLimitData = selectCtrl.selectedFeatures;
@@ -3412,7 +3478,8 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                                 highRenderCtrl.drawHighlight();
                                             } else {
                                                 dsEdit.getByPid(exLinks.data[i].pid, 'RDLINK').then(function (linkData) {
-                                                    if ((nodePids.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (nodePids.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) { // 线正好是中间部分,把线也加入
+                                                    if ((nodePids.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (nodePids.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) {
+ // 线正好是中间部分,把线也加入
 
                                                         linkPids.push(linkData.pid);
                                                         highRenderCtrl.highLightFeatures.push({
@@ -3906,14 +3973,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     }
                     return;
                 } else if (type === 'MODIFYVARIABLESPEED') {
-                    // 地图编辑相关设置;
-                    // map.currentTool = new fastmap.uikit.SelectForRestriction({
-                    //     map: map,
-                    //     createBranchFlag: true,
-                    //     currentEditLayer: rdLink,
-                    //     shapeEditor: shapeCtrl,
-                    //     operationList: ['line', 'line']
-                    // });
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,
@@ -4132,6 +4191,20 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     }*/
                     return;
                 }
+                else if(type == 'PATHSMOOTH'){
+                    //防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                    if (shapeCtrl.editType && !(shapeCtrl.editType == 'PATHSMOOTH')) { //这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                        tooltipsCtrl.setCurrentTooltip('<span style="color: red;">道路线的端点已经修改过或分离，请先按空格键保存！</span>');
+                        return;
+                    }
+                    if (selectCtrl.selectedFeatures) {
+                        tooltipsCtrl.setEditEventType('pathSmooth');
+                        tooltipsCtrl.setCurrentTooltip('开始平滑修形！');
+                    } else {
+                        tooltipsCtrl.setCurrentTooltip('正要平滑修形,请选择形状点或是端点进行移动！');
+                        return;
+                    }
+                }
                 if (!selectCtrl.selectedFeatures) {
                     return;
                 }
@@ -4144,16 +4217,39 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
                     shapeCtrl.editType = 'transformDirect';
-                } else if (type === 'PATHDEPARTNODE') {
-                    feature.noFormNode = true;
+                } else if (type.split('_')[0] === 'PATHDEPARTNODE') {
                     editLayer.drawGeometry = feature; // 获取需要编辑几何体的geometry
                     editLayer.draw(feature, editLayer); // 把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
-                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); // 设置编辑状态
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type.split('_')[0]]); // 设置编辑状态
                     shapeCtrl.startEditing();
                     shapeCtrl.editFeatType = 'pathDepartNode';
                     selectCtrl.workLinkPid = $scope.selectedFeature.id;
+                    var guideNode = '',guideLink = '';
+                    switch(type.split('_')[1]){
+                        case 'RDLINK':
+                            guideNode = 'rdNode',guideLink = 'rdLink';
+                            break;
+                        case 'RWLINK':
+                            guideNode = 'rwNode',guideLink = 'rwLink';
+                            break;
+                        case 'ADLINK':
+                            guideNode = 'adNode',guideLink = 'adLink';
+                            break;
+                        case 'LULINK':
+                            guideNode = 'luNode',guideLink = 'luLink';
+                            break;
+                        case 'LCLINK':
+                            guideNode = 'lcNode',guideLink = 'lcLink';
+                            break;
+                        case 'ZONELINK':
+                            guideNode = 'zoneNode',guideLink = 'zoneLink';
+                            break;
+                    }
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById(guideNode));
+                    map.currentTool.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById(guideLink));
                 } else {
                     editLayer.drawGeometry = feature; // 获取需要编辑几何体的geometry
                     editLayer.draw(feature, editLayer); // 把需要编辑的几何体画在editLayer上
@@ -4356,7 +4452,400 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
             }
 
             function getByPidCallback(type, ctrl, tpl, data, selectedData, toolsObj) {
-                objCtrl.setCurrentObject(type, data);
+                //         //測試數據
+                // var obj1 = eval({
+                //     "adasFlag": 0,
+                //     "adasMemo": 0,
+                //     "appInfo": 1,
+                //     "centerDivider": 0,
+                //     "developState": 1,
+                //     "diciType": 1,
+                //     "difGroupid": "",
+                //     "digitalLevel": 0,
+                //     "direct": 2,
+                //     "eNodePid": 773649,
+                //     "editFlag": 1,
+                //     "feeFlag": 0,
+                //     "feeStd": 0,
+                //     "forms": [
+                //         {
+                //             "auxiFlag": 0,
+                //             "extendedForm": 0,
+                //             "formOfWay": 34,
+                //             "kgFlag": 0,
+                //             "linkPid": 15255089,
+                //             "rowId": "3AE1FC15FE2392F7E050A8C08304EE4C"
+                //         }
+                //     ],
+                //     "functionClass": 5,
+                //     "geometry": {
+                //         "type": "LineString",
+                //         "coordinates": [
+                //             [
+                //                 116.43692,
+                //                 39.94129
+                //             ],
+                //             [
+                //                 116.43687,
+                //                 39.94129
+                //             ],
+                //             [
+                //                 116.43632,
+                //                 39.94128
+                //             ],
+                //             [
+                //                 116.43594,
+                //                 39.94128
+                //             ],
+                //             [
+                //                 116.4353,
+                //                 39.94127
+                //             ]
+                //         ]
+                //     },
+                //     "imiCode": 0,
+                //     "intRtics": [],
+                //     "isViaduct": 0,
+                //     "kind": 9,
+                //     "laneClass": 1,
+                //     "laneLeft": 1,
+                //     "laneNum": 4,
+                //     "laneRight": 0,
+                //     "laneWidthLeft": 1,
+                //     "laneWidthRight": 1,
+                //     "leftRegionId": 1879,
+                //     "length": 138.059,
+                //     "limitTrucks": [],
+                //     "limits": [
+                //         {
+                //             "inputTime": "",
+                //             "limitDir": 0,
+                //             "linkPid": 15255089,
+                //             "processFlag": 0,
+                //             "rowId": "3AE1F5D7316592F7E050A8C08304EE4C",
+                //             "timeDomain": "[[(t2)(t6)]*[[(h7m0)(h9m0)]+[(h17m0)(h20m0)]]]",
+                //             "tollType": 9,
+                //             "type": 8,
+                //             "vehicle": 0,
+                //             "weather": 9
+                //         },
+                //         {
+                //             "inputTime": "",
+                //             "limitDir": 0,
+                //             "linkPid": 15255089,
+                //             "processFlag": 0,
+                //             "rowId": "3AE1F5D9F66992F7E050A8C08304EE4C",
+                //             "timeDomain": "[[(t2)(t6)]*[(h7m0)(h20m0)]]",
+                //             "tollType": 9,
+                //             "type": 9,
+                //             "vehicle": 0,
+                //             "weather": 9
+                //         },
+                //         {
+                //             "inputTime": "",
+                //             "limitDir": 0,
+                //             "linkPid": 15255089,
+                //             "processFlag": 2,
+                //             "rowId": "3AE1F5CD68AF92F7E050A8C08304EE4C",
+                //             "timeDomain": "",
+                //             "tollType": 9,
+                //             "type": 3,
+                //             "vehicle": 0,
+                //             "weather": 9
+                //         }
+                //     ],
+                //     "memo": "",
+                //     "meshId": 595673,
+                //     "multiDigitized": 0,
+                //     "names": [
+                //         {
+                //             "code": 0,
+                //             "inputTime": "",
+                //             "linkPid": 15255089,
+                //             "name": "东直门外大街",
+                //             "nameClass": 1,
+                //             "nameGroupid": 15309,
+                //             "nameType": 0,
+                //             "routeAtt": 0,
+                //             "rowId": "3AEWF927B66292F7E050A8C08304EE4C",
+                //             "seqNum": 1,
+                //             "srcFlag": 9
+                //         }
+                //     ],
+                //     "onewayMark": 0,
+                //     "originLinkPid": 15255089,
+                //     "parkingFlag": 0,
+                //     "parkingLot": 0,
+                //     "paveStatus": 0,
+                //     "pid": 15255088,
+                //     "rightRegionId": 1879,
+                //     "routeAdopt": 0,
+                //     "rtics": [],
+                //     "sNodePid": 12576510,
+                //     "sidewalkFlag": 2,
+                //     "sidewalks": [
+                //         {
+                //             "captureFlag": 1,
+                //             "dividerType": 0,
+                //             "linkPid": 15255089,
+                //             "processFlag": 1,
+                //             "rowId": "3AE1FA1A68CD92F7E050A8C08304EE4C",
+                //             "sidewalkLoc": 1,
+                //             "workDir": 1
+                //         }
+                //     ],
+                //     "specialTraffic": 0,
+                //     "speedlimits": [
+                //         {
+                //             "fromLimitSrc": 9,
+                //             "fromSpeedLimit": 15,
+                //             "linkPid": 15255089,
+                //             "rowId": "3AE1FEFBA5D392F7E050A8C08304EE4C",
+                //             "speedClass": 7,
+                //             "speedClassWork": 1,
+                //             "speedDependent": 0,
+                //             "speedType": 0,
+                //             "timeDomain": "",
+                //             "toLimitSrc": 0,
+                //             "toSpeedLimit": 0
+                //         }
+                //     ],
+                //     "srcFlag": 6,
+                //     "streetLight": 0,
+                //     "systemId": 0,
+                //     "tmclocations": [],
+                //     "tollInfo": 2,
+                //     "truckFlag": 0,
+                //     "urban": 1,
+                //     "walkFlag": 1,
+                //     "walkstairFlag": 0,
+                //     "walkstairs": [],
+                //     "width": 30,
+                //     "zones": [
+                //         {
+                //             "linkPid": 15255089,
+                //             "regionId": 387274,
+                //             "rowId": "3AE1FC668BA492F7E050A8C08304EE4C",
+                //             "side": 0,
+                //             "type": 1
+                //         },
+                //         {
+                //             "linkPid": 15255089,
+                //             "regionId": 387274,
+                //             "rowId": "3AE1FC668BA392F7E050A8C08304EE4C",
+                //             "side": 1,
+                //             "type": 1
+                //         }
+                //     ]
+                // });
+                //
+                // var obj2 = eval({
+                //     "adasFlag": 2,
+                //     "adasMemo": 0,
+                //     "appInfo": 1,
+                //     "centerDivider": 0,
+                //     "developState": 1,
+                //     "diciType": 1,
+                //     "difGroupid": "",
+                //     "digitalLevel": 0,
+                //     "direct": 2,
+                //     "eNodePid": 773649,
+                //     "editFlag": 1,
+                //     "feeFlag": 0,
+                //     "feeStd": 0,
+                //     "forms": [
+                //         {
+                //             "auxiFlag": 0,
+                //             "extendedForm": 0,
+                //             "formOfWay": 34,
+                //             "kgFlag": 0,
+                //             "linkPid": 15255089,
+                //             "rowId": "3AE1FC15FE2392F7E050A8C08304EE4C"
+                //         }
+                //     ],
+                //     "functionClass": 5,
+                //     "geometry": {
+                //         "type": "LineString",
+                //         "coordinates": [
+                //             [
+                //                 116.43692,
+                //                 39.94129
+                //             ],
+                //             [
+                //                 116.43687,
+                //                 39.94129
+                //             ],
+                //             [
+                //                 116.43632,
+                //                 39.94128
+                //             ],
+                //             [
+                //                 116.43594,
+                //                 39.94128
+                //             ],
+                //             [
+                //                 116.4353,
+                //                 39.94127
+                //             ]
+                //         ]
+                //     },
+                //     "imiCode": 0,
+                //     "intRtics": [],
+                //     "isViaduct": 0,
+                //     "kind": 1,
+                //     "laneClass": 1,
+                //     "laneLeft": 0,
+                //     "laneNum": 1,
+                //     "laneRight": 0,
+                //     "laneWidthLeft": 1,
+                //     "laneWidthRight": 1,
+                //     "leftRegionId": 1879,
+                //     "length": 138.059,
+                //     "limitTrucks": [],
+                //     "limits": [
+                //         {
+                //             "inputTime": "",
+                //             "limitDir": 0,
+                //             "linkPid": 15255089,
+                //             "processFlag": 0,
+                //             "rowId": "3AE1F5f7316592F7E050A8C08304EE4C",
+                //             "timeDomain": "[[(t2)(t6)]*[[(h7m0)(h9m0)]+[(h17m0)(h20m0)]]]",
+                //             "tollType": 9,
+                //             "type": 8,
+                //             "vehicle": 0,
+                //             "weather": 9
+                //         },
+                //         {
+                //             "inputTime": "",
+                //             "limitDir": 0,
+                //             "linkPid": 15255089,
+                //             "processFlag": 0,
+                //             "rowId": "3AE1F5t9F66992F7E050A8C08304EE4C",
+                //             "timeDomain": "[[(t2)(t6)]*[(h7m0)(h20m0)]]",
+                //             "tollType": 9,
+                //             "type": 9,
+                //             "vehicle": 0,
+                //             "weather": 9
+                //         },
+                //         {
+                //             "inputTime": "",
+                //             "limitDir": 0,
+                //             "linkPid": 15255089,
+                //             "processFlag": 2,
+                //             "rowId": "3AE1F5Ch68AF92F7E050A8C08304EE4C",
+                //             "timeDomain": "",
+                //             "tollType": 9,
+                //             "type": 3,
+                //             "vehicle": 0,
+                //             "weather": 9
+                //         }
+                //     ],
+                //     "memo": "",
+                //     "meshId": 595673,
+                //     "multiDigitized": 0,
+                //     "names": [
+                //         {
+                //             "code": 0,
+                //             "inputTime": "",
+                //             "linkPid": 15255089,
+                //             "name": "东直门外大街22",
+                //             "nameClass": 1,
+                //             "nameGroupid": 15309,
+                //             "nameType": 0,
+                //             "routeAtt": 0,
+                //             "rowId": "3AE1F927B66292F7E050A8C08304EE4C",
+                //             "seqNum": 1,
+                //             "srcFlag": 9
+                //         },
+                //
+                //         {
+                //             "code": 0,
+                //             "inputTime": "",
+                //             "linkPid": 15255089,
+                //             "name": "东直门外大街",
+                //             "nameClass": 1,
+                //             "nameGroupid": 15309,
+                //             "nameType": 0,
+                //             "routeAtt": 0,
+                //             "rowId": "3AE1F927B66292F7E050A8C08304EE4C",
+                //             "seqNum": 1,
+                //             "srcFlag": 9
+                //         }
+                //     ],
+                //     "onewayMark": 0,
+                //     "originLinkPid": 15255089,
+                //     "parkingFlag": 0,
+                //     "parkingLot": 0,
+                //     "paveStatus": 0,
+                //     "pid": 15255089,
+                //     "rightRegionId": 1879,
+                //     "routeAdopt": 0,
+                //     "rtics": [],
+                //     "sNodePid": 12576510,
+                //     "sidewalkFlag": 2,
+                //     "sidewalks": [
+                //         {
+                //             "captureFlag": 1,
+                //             "dividerType": 0,
+                //             "linkPid": 15255089,
+                //             "processFlag": 1,
+                //             "rowId": "3AE1FA1A68CD92F7E050A8C08304EE4C",
+                //             "sidewalkLoc": 1,
+                //             "workDir": 1
+                //         }
+                //     ],
+                //     "specialTraffic": 0,
+                //     "speedlimits": [
+                //         {
+                //             "fromLimitSrc": 9,
+                //             "fromSpeedLimit": 15,
+                //             "linkPid": 15255089,
+                //             "rowId": "3AE1FEFBA5D392F7E050A8C08304EE4C",
+                //             "speedClass": 7,
+                //             "speedClassWork": 1,
+                //             "speedDependent": 0,
+                //             "speedType": 0,
+                //             "timeDomain": "",
+                //             "toLimitSrc": 0,
+                //             "toSpeedLimit": 0
+                //         }
+                //     ],
+                //     "srcFlag": 6,
+                //     "streetLight": 0,
+                //     "systemId": 0,
+                //     "tmclocations": [],
+                //     "tollInfo": 2,
+                //     "truckFlag": 0,
+                //     "urban": 1,
+                //     "walkFlag": 1,
+                //     "walkstairFlag": 0,
+                //     "walkstairs": [],
+                //     "width": 30,
+                //     "zones": [
+                //         {
+                //             "linkPid": 15255089,
+                //             "regionId": 387274,
+                //             "rowId": "3AE1FC668BA492F7E050A8C08304EE4C",
+                //             "side": 0,
+                //             "type": 1
+                //         },
+                //         {
+                //             "linkPid": 15255089,
+                //             "regionId": 387274,
+                //             "rowId": "3AE1FC668BA392F7E050A8C08304EE4C",
+                //             "side": 1,
+                //             "type": 1
+                //         }
+                //     ]
+                // });
+                // objCtrl.datas = [obj1, obj2]
+                // data = compare.abstract([obj1, obj2]);
+                objectCtrl.data =$scope.linkData
+                objectCtrl.setCurrentObject('RDLINK',$scope.linkData)
+
+                objCtrl.setCurrentObject(type, data)
+
+                //objCtrl.setCurrentObject(type, data);
                 if (type == 'IXPOI') {
                     $scope.getCurrentKindByLittle(data); // 获取当前小分类所对应的大分类下的所有小分类
                     $scope.$emit('transitCtrlAndTpl', {

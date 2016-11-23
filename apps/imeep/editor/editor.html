@@ -136,20 +136,22 @@
                             </div>
                             <div ng-cloak class="fm-container fm-col"  ng-style="{width: '300px'}">
                                 <div ng-include="attrTplContainer" class="fm-fitsize scroll-styled dark blackTheme" style="bottom: 25px;"></div>
-                                <div ng-if="!shapeEditCtrl.editType" style="bottom: 0px;position:absolute;width: 100%;">
+                                <!-- modified by chenx on 2016-11-22, 去掉了地图编辑时对操作按钮的控制 -->
+                                <!-- div ng-if="!shapeEditCtrl.editType" style="bottom: 0px;position:absolute;width: 100%;" -->
+                                <div style="bottom: 0px;position:absolute;width: 100%;">
                                     <div class="btn-group btn-group-justified fm-btn-group">
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-xs" ng-click="doSave()">
+                                            <button type="button" class="btn btn-xs" ng-click="doSave($event)">
                                             <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
                                             </button>
                                         </div>
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-xs" ng-click="doDelete()">
+                                            <button type="button" class="btn btn-xs" ng-click="doDelete($event)">
                                             <i class="glyphicon glyphicon-trash"></i> 删 除
                                             </button>
                                         </div>
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-xs" ng-click="doCancel()">
+                                            <button type="button" class="btn btn-xs" ng-click="doCancel($event)">
                                             <i class="glyphicon glyphicon-floppy-remove"></i> 取 消
                                             </button>
                                         </div>

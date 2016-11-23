@@ -28,9 +28,54 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
                 var b = reverseBin[2];
                 if (a === '1' || b === '1') {
                     $scope.restrictionType = 1;
+                    objectEditCtrl.originalData.restrictionType = 1;
                     break;
                 }
             }
+        }
+    };
+    // 校验小数
+    $scope.verifyFloat = function (t, min, max, model) {
+        var value = t.target.value;
+        if (value === '') {
+            value = '0';
+        }
+        if (value < min) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = min;
+            return;
+        }
+        if (value > max) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = max;
+            return;
+        }
+        var patten = /^-?\d+\.?\d{0,2}$/; // 校验是数字并且最多只能有两位小数
+        var flag = patten.test(value);
+        if (flag) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = value;
+        } else {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = min;
+        }
+    };
+    // 校验实数
+    $scope.verifyNumber = function (t, min, max, model) {
+        var value = t.target.value;
+        if (value === '') {
+            value = '0';
+        }
+        if (value < min) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = min;
+            return;
+        }
+        if (value > max) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = max;
+            return;
+        }
+        var patten = /^-?\d+\.?\d*$/;
+        var flag = patten.test(value);
+        if (flag) {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = value;
+        } else {
+            $scope.rdRestrictionCurrentDetail.conditions[0][model] = min;
         }
     };
 
@@ -55,7 +100,6 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
         if ($scope.restricOrdinaryForm) {
             $scope.restricOrdinaryForm.$setPristine();
         }
-
     };
 
     // 点击限制方向时,显示其有的属性信息
@@ -261,7 +305,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
     /* --------------------------------------------------------------------------保存操作--------------------------------------------------------------------------*/
     $scope.save = function () {
-        if($scope.currentHandleType=='editVias'&& !$scope.viasLinkFlag){
+        if ($scope.currentHandleType == 'editVias' && !$scope.viasLinkFlag) {
             swal('操作失败', '经过线不连续！', 'error');
             return;
         }
@@ -274,19 +318,24 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
             }
         }
         objectEditCtrl.save();
+        var changed = objectEditCtrl.changedProperty;
+        if (!changed) {
+            swal('操作成功', '属性值没有变化！', 'success');
+            return;
+        }
+        for (var i = 0 ; i < changed.details.length; i++) {
+            if (changed.details[i].objStatus === 'INSERT') {
+                if (changed.details[i].conditions.length > 0) {
+                    changed.details[i].conditions[0].objStatus = 'INSERT';
+                }
+            }
+        }
         var param = {
             command: 'UPDATE',
             type: 'RDRESTRICTION',
             dbId: App.Temp.dbId,
-            data: objectEditCtrl.changedProperty
+            data: changed
         };
-
-
-        if (!objectEditCtrl.changedProperty) {
-            swal('操作成功', '属性值没有变化！', 'success');
-            return;
-        }
-
         dsEdit.save(param).then(function (data) {
             if (data) {
                 rdRestriction.redraw();
@@ -415,7 +464,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
 
 
     function modifyOutLink() {
-        $scope.currentHandleType = 'editOutLink'
+        $scope.currentHandleType = 'editOutLink';
         clearMapTool();
         // 修改退出线;
         map.currentTool = new fastmap.uikit.SelectPath({
