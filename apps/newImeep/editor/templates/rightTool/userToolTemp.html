@@ -1,0 +1,50 @@
+<style>
+    .detailUlCss1 {
+        border-radius: 3px;
+        margin-top: 10px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        background-color: #ffffff;
+        display: block;
+        box-shadow: 0 0 10px #93bbff;
+    }
+    .detailUlCss1 > li {
+        border: 1px solid #ffffff;
+        list-style: none;
+        background-color: #ffffff;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        color: #182848;
+    }
+    .detailUlCss1 > li:hover {
+        background-color:  rgba(88, 150, 255, 0.1);
+        border: 1px solid #5896ff;
+    }
+</style>
+<div ng-controller="userToolCtrl">
+    <div></div>
+    <ul class="list-group detailUlCss1">
+        <li>
+            消息列表
+        </li>
+        <li>
+            批量导入
+        </li>
+        <li>
+            分屏显示
+        </li>
+        <li ng-click="showInspectTool()">
+            检查
+        </li>
+        <li>
+            修改密码
+        </li>
+        <li>
+            意见反馈
+        </li>
+        <li>
+            退出
+        </li>
+    </ul>
+</div>
