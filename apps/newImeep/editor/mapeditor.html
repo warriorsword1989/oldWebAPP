@@ -16,28 +16,89 @@
         position: absolute;
         left: 10px;
         top: 10px;
+        box-shadow: 0 0 10px #93bbff;
     }
     .openRightPanel {
         position: absolute;
         right: 10px;
         top: 10px;
+        box-shadow: 0 0 10px #93bbff;
     }
     .userListStyle {
         position: absolute;
-        top: 20px;
+        top: 10px;
         z-index: 6;
         text-align: center;
-        width: 90px
+        padding-bottom: 10px;
+    }
+    .userListStyle > div > div {
+        border-radius: 15px;
+        height: 30px;
+        width: 30px;
+        background: url("../../../images/newPoi/toolIcon/user-normal.png") no-repeat;
+        box-shadow: 0 0 10px #93bbff;
+    }
+    .userListStyle:hover > div > div{
+        background: url("../../../images/newPoi/toolIcon/user-active.png") no-repeat;
     }
 
-    .userListStyle > ul {
+    .userListStyle > div > div + ul {
         display: none;
     }
 
-    .userListStyle:hover > ul {
+    .userListStyle:hover > div > div + ul {
+        width: 80px;
+        position: absolute;
+        z-index: 6;
         display: block;
+        margin-left: -25px;
     }
-
+    .taskToolStyle {
+        box-shadow: 0 0 10px #93bbff;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-color: #ffffff;
+        position: absolute;
+        top: 50px;
+        z-index: 5;
+    }
+    .taskToolStyle > div{
+        margin-left: 6px;
+        margin-top: 9px;
+        width: 18px;
+        height: 12px;
+        background: url("../../../images/newPoi/toolIcon/taskList-normal.png") no-repeat;
+    }
+    .taskToolStyle:hover > div {
+        background: url("../../../images/newPoi/toolIcon/taskList-active.png") no-repeat;
+    }
+    .sceneToolStyle {
+        border-radius: 3px;
+        box-shadow: 0 0 10px #93bbff;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-color: #ffffff;
+        position: absolute;
+        bottom: 10px;
+        z-index: 5;
+    }
+    .sceneToolStyle > div{
+        margin-left: 5px;
+        margin-top: 6px;
+        width: 20px;
+        height: 18px;
+        background: url("../../../images/newPoi/toolIcon/button-scene-normal.png") no-repeat;
+    }
+    .sceneToolStyle:hover > div {
+        background: url("../../../images/newPoi/toolIcon/button-scene-active.png") no-repeat;
+    }
+    .poiPageStyle {
+        cursor: pointer;
+        position: absolute;
+        z-index: 5;
+    }
     #test12 {
         position: fixed;
         left: 50%;
@@ -106,32 +167,20 @@
             <span ng-click="closeInspectToolScreen()">关闭</span>
         </div>
     </div>
-    <!--右侧工具条-->
-    <div class="userListStyle" ng-style="{'right':rightPanelFlag ? 300 : 20}">
-        <img src="../../../images/png/login.png">
-        <ul class="list-group">
-            <li class="list-group-item">
-                消息列表
-            </li>
-            <li class="list-group-item">
-                批量导入
-            </li>
-            <li class="list-group-item">
-                分屏显示
-            </li>
-            <li class="list-group-item" ng-click="showInspectTool()">
-                检查
-            </li>
-            <li class="list-group-item">
-                修改密码
-            </li>
-            <li class="list-group-item">
-                意见反馈
-            </li>
-            <li class="list-group-item">
-                退出
-            </li>
-        </ul>
+    <!--右侧工具条 用户-->
+    <div class="userListStyle" ng-style="{'right':rightPanelFlag ? 310 : 50}" ng-include src="rightUserToolTemp">
+    </div>
+    <!--右侧工具条 任务-->
+    <div class="taskToolStyle" ng-style="{'right':rightPanelFlag ? 310 : 10}">
+        <div></div>
+    </div>
+    <!--右侧工具条 场景-->
+    <div class="sceneToolStyle" ng-style="{'right':rightPanelFlag ? 310 : 10}">
+        <div></div>
+    </div>
+    <!--右侧工具条 poi分页+快捷工具-->
+    <div class="poiPageStyle" ng-style="{'right':rightPanelFlag ? 310 : 10,'top':toolTop}" ng-include src="rightPoiPageTemp">
+
     </div>
     <!--右侧属性编辑面板-->
     <div style="height: 100%;position: absolute;top: 0;right: 0;width: 300px;z-index: 5"
@@ -140,12 +189,9 @@
 
         </div>
     </div>
-    <img src="../../../images/newPoi/leftPanelIcon/icon-back-left.png" class="openRightPanel"
+    <img src="../../../images/newPoi/toolIcon/button-open-right.png" class="openRightPanel"
          ng-click="closeRightPanel()" ng-style="{'display':rightPanelFlag?'none':'block'}">
 
-    <div class="right-property-left" ng-click="closeRightPanel()" ng-style="{'display':rightPanelFlag?'none':'block'}">
-
-    </div>
     <!--左侧弹出栏-->
     <div style="height: 100%;position: absolute;top: 0;left: 0;width: 560px;z-index: 5"
          ng-style="{'display':leftPanelFlag?'block':'none'}">
@@ -153,6 +199,6 @@
 
         </div>
     </div>
-    <img src="../../../images/newPoi/leftPanelIcon/icon-back-right.png" class="openLeftPanel"
+    <img src="../../../images/newPoi/toolIcon/button-open-left.png" class="openLeftPanel"
          ng-click="closeLeftPanel()" ng-style="{'display':leftPanelFlag?'none':'block'}">
 </div>

@@ -138,13 +138,27 @@
   height: 24px;
   border-color: rgba(24, 40, 72, 0.5);
   border-radius: 3px;
-  padding: 0;
+  padding: 0 0 0 10px;
   margin-right: 10px;
   box-shadow: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: url('../../images/newPoi/rightPanelIcon/icon-select-open-normal.png') no-repeat right center transparent;
+  background-position-x: 100px;
 }
 .poiLeftPanel_select:focus {
-  border-color: #636ef5;
+  border-color: #5693ff;
   box-shadow: none;
+  background: url('../../images/newPoi/rightPanelIcon/icon-select-open-active.png') no-repeat right center transparent;
+  background-position-x: 100px;
+  color: #5b93ff;
+}
+.poiLeftPanel_select > option {
+  color: #182848;
+}
+.poiLeftPanel_select > option:hover {
+  background-color: rgba(88, 150, 255, 0.1);
 }
 .poiLeftPanel_Thumbnails {
   padding-top: 12px;
@@ -195,7 +209,7 @@
 }
 /* POI右侧属性面板样式*/
 .poiRightPanel_focus {
-  border-color: #636ef5;
+  border-color: #5693ff;
   box-shadow: none;
 }
 .poiRightPanel_container {
@@ -271,7 +285,7 @@
   border-color: rgba(24, 40, 72, 0.2);
 }
 .poiRightPanel_area:focus {
-  border-color: #636ef5;
+  border-color: #5693ff;
   box-shadow: none;
 }
 .poiRightPanel_Input {
@@ -283,7 +297,7 @@
   border-color: rgba(24, 40, 72, 0.2);
 }
 .poiRightPanel_Input:focus {
-  border-color: #636ef5;
+  border-color: #5693ff;
   box-shadow: none;
 }
 .poiRightPanel_select {
@@ -293,11 +307,24 @@
   height: 24px;
   border-color: rgba(24, 40, 72, 0.2);
   border-radius: 3px;
-  padding: 0;
-  margin-right: 10px;
+  padding: 0 0 0 10px;
   box-shadow: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: url('../../images/newPoi/rightPanelIcon/icon-select-open-normal.png') no-repeat right center transparent;
+  background-position-x: 115px;
 }
 .poiRightPanel_select:focus {
-  border-color: #636ef5;
+  border-color: #5693ff;
   box-shadow: none;
+  background: url('../../images/newPoi/rightPanelIcon/icon-select-open-active.png') no-repeat right center transparent;
+  background-position-x: 115px;
+  color: #5b93ff;
+}
+.poiRightPanel_select > option {
+  color: #182848;
+}
+.poiRightPanel_select > option:hover {
+  background-color: rgba(88, 150, 255, 0.1);
 }

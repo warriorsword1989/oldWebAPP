@@ -14,8 +14,14 @@ angular.module('webeditor').controller('editorCtrl', ['$scope', '$rootScope',
         $scope.normalInspectToolScreen = true;
         var height = document.documentElement.clientHeight;
         var width = document.documentElement.clientWidth;
+        $scope.toolTop = (height-400) / 2 +'px';
+        console.log(height);
+        console.log($scope.toolTop);
         var percent = height / 1019;
-
+        $scope.$on("openInspect",function(event,data) {
+            $scope.inspectToolShow = true;
+            $scope.normalInspectToolScreen = true;
+        });
         $scope.mapBackGround = {
             width: width + 'px',
             height: height + 'px',
@@ -28,10 +34,10 @@ angular.module('webeditor').controller('editorCtrl', ['$scope', '$rootScope',
         $scope.closeRightPanel = function () {
             $scope.rightPanelFlag = !$scope.rightPanelFlag;
         };
-        $scope.showInspectTool = function () {
-            $scope.inspectToolShow = true;
-            $scope.normalInspectToolScreen = true;
-        };
+        //$scope.showInspectTool = function () {
+        //    $scope.inspectToolShow = true;
+        //    $scope.normalInspectToolScreen = true;
+        //};
         $scope.changeInspectToolScreen = function () {
             $scope.normalInspectToolScreen = !$scope.normalInspectToolScreen;
         };
@@ -51,7 +57,10 @@ angular.module('webeditor').controller('editorCtrl', ['$scope', '$rootScope',
         $scope.scenePanelTemp = './editor/templates/scenePanelTemp.html';
     // 场景弹出列表
         $scope.sceneListPanelTemp = './editor/templates/sceneContentPanelTemp.html';
-
+    //右侧工具条-用户
+        $scope.rightUserToolTemp = './editor/templates/rightTool/userToolTemp.html';
+    //右侧工具条-poi分页
+        $scope.rightPoiPageTemp = './editor/templates/rightTool/poiPageTemp.html';
     // 地图片段
     // $scope.mapTemp = $rootScope.mapTemp;
     //

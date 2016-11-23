@@ -36,9 +36,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
         var rdLinkSpeedLimit = layerCtrl.getLayerById('rdLinkSpeedLimit');
+        var rdSame = layerCtrl.getLayerById('rdSame');
         var resetPageFlag = true;
         if (event.keyCode == 27) {
-            event.preventDefault(); // 取消浏览器快捷键的默认设置
+            // event.preventDefault(); // 取消浏览器快捷键的默认设置
             resetPage();
             map._container.style.cursor = '';
         }
@@ -477,27 +478,27 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     point = feature.point;
                 if (geo) {
                     if (!geo.flag) {
-                        objEditCtrl.save();
-                        if (!objEditCtrl.changedProperty) {
-                            swal('保存提示', '属性值没有变化，不需要保存！', 'info');
-                            return;
-                        }
-                        param = {
-                            type: 'RDLINK',
-                            command: 'UPDATE',
-                            dbId: App.Temp.dbId,
-                            data: objEditCtrl.changedProperty
-                        };
-                        dsEdit.save(param).then(function (data) {
-                            evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
-                            if (data != null) {
-                                rdLink.redraw();
-                                rdnode.redraw();
-                                relationData.redraw();
-                                // treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
-                            }
-                        });
-                        // evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
+                        evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
+                        // objEditCtrl.save();
+                        // if (!objEditCtrl.changedProperty) {
+                        //     swal('保存提示', '属性值没有变化，不需要保存！', 'info');
+                        //     return;
+                        // }
+                        // param = {
+                        //     type: 'RDLINK',
+                        //     command: 'UPDATE',
+                        //     dbId: App.Temp.dbId,
+                        //     data: objEditCtrl.changedProperty
+                        // };
+                        // dsEdit.save(param).then(function (data) {
+                        //     // evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
+                        //     if (data != null) {
+                        //         rdLink.redraw();
+                        //         rdnode.redraw();
+                        //         relationData.redraw();
+                        //         treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
+                        //     }
+                        // });
                     } else {
                         pointOfArrow = geo.pointForDirect;
                         var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
@@ -729,6 +730,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                             rdLink.redraw();
                             rdnode.redraw();
                             rdCross.redraw();
+                            rdSame.redraw();
+                            adLink.redraw();
+                            adNode.redraw();
+                            zoneLink.redraw();
+                            zoneNode.redraw();
+                            luNode.redraw();
+                            luLink.redraw();
                             ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
                             tpl = 'attr_node_tpl/rdNodeFormTpl.html';
                         } else if (param.type === 'ADNODE') {
