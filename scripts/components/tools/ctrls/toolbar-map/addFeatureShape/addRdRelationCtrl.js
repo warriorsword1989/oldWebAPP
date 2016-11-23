@@ -1365,7 +1365,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         dsEdit.getByPid($scope.warningInfo.nodePid, 'RDNODE').then(function (data) {
                             if (data) {
                                 if (data.meshes.length > 1) {
-                                    tooltipsCtrl.setCurrentTooltip('警示信息中的点形态不能是图廓点!');
+                                    tooltipsCtrl.notify('警示信息中的点形态不能是图廓点!' , 'error');
                                     map.currentTool.selectedFeatures.pop();
                                 } else {
                                     highLightFeatures.push({
