@@ -43,7 +43,6 @@ angular.module('app').controller('addSameFeatureCtrl', ['$scope', '$ocLazyLoad',
             $('#popoverTips').hide();
 
             if (type === 'RDSAMENODE') {
-                // $scope.dropdownStatus.isopen = !$scope.dropdownStatus.isopen;//控制下拉菜单显示,如果彻底的取消dropdown的显示,需要注销掉resetToolAndMap方法中的event.stopPropagation();
                 $scope.resetOperator('addRelation', type);
                 tooltipsCtrl.setCurrentTooltip('请框选同一点要素点！');
                 map.currentTool = new fastmap.uikit.SelectForRectang({
@@ -100,7 +99,7 @@ angular.module('app').controller('addSameFeatureCtrl', ['$scope', '$ocLazyLoad',
                 map.currentTool.enable();
                 eventController.off(eventController.eventTypes.GETRECTDATA);
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
-                    if (data.length <= 0) {
+                    if (data.data.length <= 0) {
                         return;
                     }
                     // 根据ID去重
