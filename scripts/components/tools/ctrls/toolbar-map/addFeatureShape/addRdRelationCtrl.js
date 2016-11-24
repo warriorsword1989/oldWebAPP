@@ -2848,6 +2848,11 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 // 选择分歧监听事件;
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                    if (['0', '10', '13', '11', '8', '9'].indexOf(data.properties.kind) > -1) {
+                        tooltipsCtrl.setCurrentTooltip('道路种别不能为作业中道路，步行道路，渡轮，人渡，其他道路，非引导道路！');
+                        map.currentTool.selectedFeatures.pop();
+                        return;
+                    }
                     if (data.index === 0) { // 第一次选择进入线的逻辑
                         // 清除吸附的十字
                         map.currentTool.snapHandler.snaped = false;
@@ -2897,6 +2902,31 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         tooltipsCtrl.setCurrentTooltip('已经选择进入点,请选择退出线!');
                         map.currentTool.snapHandler.addGuideLayer(rdLink);
                     } else if (data.index === 2) {
+                        if (data.properties.snode != $scope.limitRelation.nodePid && data.properties.enode != $scope.limitRelation.nodePid) {
+                            tooltipsCtrl.setCurrentTooltip('退出线必须与进入点衔接!');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
+                        if (data.id == $scope.limitRelation.inLinkPid) {
+                            tooltipsCtrl.setCurrentTooltip('退出线不能与进入线重合!');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
+                        if (data.properties.enode == $scope.linkNodes[0] && data.properties.direct == 3) {
+                            $scope.limitRelation.outLinkPid = data.id;
+                            $scope.linkNodes.push(parseInt(data.properties.snode));
+                        } else if (data.properties.snode == $scope.linkNodes[0] && data.properties.direct == 2) {
+                            $scope.limitRelation.outLinkPid = data.id;
+                            $scope.linkNodes.push(parseInt(data.properties.enode));
+                        } else if ((data.properties.enode == $scope.linkNodes[0] || data.properties.snode == $scope.linkNodes[0]) && data.properties.direct == 1) {
+                            $scope.limitRelation.outLinkPid = data.id;
+                            var tmepNode = (data.properties.enode == $scope.linkNodes[0]) ? parseInt(data.properties.snode, 10) : parseInt(data.properties.enode, 10);
+                            $scope.linkNodes.push(parseInt(tmepNode));
+                        } else {
+                            tooltipsCtrl.setCurrentTooltip('退出线没有和进入点衔接或者方向有误！');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
                         $scope.limitRelation.outLinkPid = data.id;
                         highLightObjs.push({
                             id: data.id.toString(),
@@ -2904,8 +2934,6 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             style: {}
                         });
                         $scope.highLightObj(highLightObjs);
-                        var tempNode = (data.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? parseInt(data.properties.snode) : parseInt(data.properties.enode)
-                        $scope.linkNodes.push(tempNode);
                         var param = {
                             command: 'CREATE',
                             dbId: App.Temp.dbId,
