@@ -137,7 +137,10 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
                                 nodeId: data[item].properties.nodeId,
                                 name: data[item].properties.name,
                                 event: event,
-                                layer: this.selectLayers[i]
+                                layer: this.selectLayers[i],
+                                loctableId: data[item].properties.loctableId,
+                                locoffPos: data[item].properties.locoffPos,
+                                locoffNeg: data[item].properties.locoffNeg
                             });
                         }
                     }
