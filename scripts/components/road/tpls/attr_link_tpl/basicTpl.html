@@ -11,7 +11,7 @@
             <div><label class="control-label">图幅号码</label></div>
             <div class="inline">
                 <input type="text" placeholder="0"
-                       ng-model="linkData.meshId" disabled class="chosen-disabled">
+                ng-model="linkData.meshId" disabled class="chosen-disabled">
             </div>
         </li>
         <li class="list-group-item" style="padding-left: 15px">
@@ -20,7 +20,7 @@
             </div>
             <div class="inline">
                 <select  ng-model="linkData.kind" ng-change="changeKind(linkData.kind, '{{linkData.kind}}');"
-                        ng-options="value.id as value.label for value in kindOptions">
+                    ng-options="value.id as value.label for value in kindOptions">
                     <option>--</option>
                 </select>
             </div>
@@ -36,13 +36,13 @@
             <div class="inline">
                 <label for="LaneNum" style="margin-left: -3px;">总</label>
                 <input class="limit-length" id="LaneNum" type="text" style="width: 30px;" ng-model="linkData.laneNum"
-                       ng-change="numberLengthLimit(1,linkData.laneNum)"/>
+                ng-change="numberLengthLimit(1,linkData.laneNum)"/>
                 <label ng-class="{'chosen-disabled':!(linkData.direct==1)}" for="leftLaneNum">左</label>
                 <input ng-disabled="linkData.direct!=1" ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"
-                       ng-change="numberLengthLimit(2,linkData.laneLeft,linkData.laneRight)"/>
+                ng-change="numberLengthLimit(2,linkData.laneLeft,linkData.laneRight)"/>
                 <label ng-class="{'chosen-disabled':!(linkData.direct==1)}" for="rightLneNum">右</label>
                 <input ng-disabled="linkData.direct!=1" ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="rightLneNum" type="text" style="width: 30px" ng-model="linkData.laneRight"
-                       ng-change="numberLengthLimit(3,linkData.laneLeft,linkData.laneRight)"/>
+                ng-change="numberLengthLimit(3,linkData.laneLeft,linkData.laneRight)"/>
             </div>
         </li>
         <li class="list-group-item">
@@ -51,7 +51,7 @@
             </div>
             <div class="inline">
                 <select  ng-model="linkData.laneClass"
-                        ng-options="value.id as value.label for value in laneClassOptions">
+                    ng-options="value.id as value.label for value in laneClassOptions">
                 </select>
             </div>
         </li>
@@ -74,9 +74,8 @@
             </div>
             <div class="inline">
                 <select  ng-model="linkData.imiCode"
-                        ng-options="value.id as value.label for value in imiCodeOptions">
+                    ng-options="value.id as value.label for value in imiCodeOptions">
                     <option>--</option>
-
                 </select>
             </div>
         </li>
@@ -86,7 +85,7 @@
             </div>
             <div class="inline">
                 <select  ng-model="linkData.functionClass"
-                        ng-options="value.id as value.label for value in functionClassOptions">
+                    ng-options="value.id as value.label for value in functionClassOptions">
                     <option>--</option>
                 </select>
             </div>
@@ -153,7 +152,6 @@
         </li>
         <li class="list-group-item">
             <div><label class="control-label">城市道路</label></div>
-
             <div class="radio inline" style="text-align: left">
                 <label>
                     <input type="radio" name="urbanRadio" value="0" ng-model="linkData.urban">
@@ -166,43 +164,45 @@
             </div>
         </li>
         <!--<li class="list-group-item">-->
-            <!--<div><label class="control-label">道路名</label></div>-->
-            <!--<div class="inline">-->
-                <!--<span>(<a ng-click="showNames()" ng-if="linkData!=undefined" style="cursor: pointer;" >{{linkData.names.length}}</a>)个</span>-->
-            <!--</div>-->
+        <!--<div><label class="control-label">道路名</label></div>-->
+        <!--<div class="inline">-->
+        <!--<span>(<a ng-click="showNames()" ng-if="linkData!=undefined" style="cursor: pointer;" >{{linkData.names.length}}</a>)个</span>-->
+        <!--</div>-->
         <!--</li>-->
         <li class="list-group-item">
             <div><label class="control-label">道路形态</label></div>
             <div class="inline">
                 <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
             </div>
-
         </li>
-        <li style="padding-left: 20px">
-            <div id="fromOfWRoaddiv" style="width:260px;" >
-                <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
-                      {{fromitem.label}}
+        <li style="padding:3px 20px;">
+            <div ng-repeat="item in linkData.forms | filter:{status: true} track by $index" style="margin:2px 0px;">
+                <div style="display:inline-block;width: 120px;">{{getFowLabel(item.formOfWay)}}</div>
+                <div style="display:inline-block;width: 90px;">
+                    <select ng-model="item.auxiFlag" ng-options="rec.id as rec.label for rec in auxiFlagoption" style="width: auto;">
+                    </select>
                 </div>
             </div>
         </li>
-        </ul>
+    </ul>
     </from>
-        <ul class="list-group list-group-lg m-b-none">
-            <li class="list-group-item1">
-                <div  class="inline" style="text-align: left;width: 120px;">
-                    <a ng-click="showOther()" style="cursor: pointer;color:#FFF;">附加属性</a>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div  ng-click="showOther()" style="cursor: pointer;width: 180px"><label style="padding-top: 5px;cursor: pointer;width:160px" class="control-label">起终点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费信息</label>
-                </div>
-            </li>
-        </ul>
-        <ul class="list-group list-group-lg m-b-none">
-            <li class="list-group-item1">
-                <div  class="inline" style="text-align: left;width: 120px;" >
-                    <a ng-click="showZone(linkData.zones.length)" style="cursor: pointer;color:#FFF;" >zone属性（共<span ng-if="linkData!=undefined">{{ linkData.zones.length}}</span>条）</a>
-                </div>
-            </li>
-        </ul>
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item1">
+            <div  class="inline" style="text-align: left;width: 120px;">
+                <a ng-click="showOther()" style="cursor: pointer;color:#FFF;">附加属性</a>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div  ng-click="showOther()" style="cursor: pointer;width: 180px">
+                <label style="padding-top: 5px;cursor: pointer;width:160px" class="control-label">起终点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费信息</label>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item1">
+            <div  class="inline" style="text-align: left;width: 120px;" >
+                <a ng-click="showZone(linkData.zones.length)" style="cursor: pointer;color:#FFF;" >zone属性（共<span ng-if="linkData!=undefined">{{ linkData.zones.length}}</span>条）</a>
+            </div>
+        </li>
+    </ul>
 </div>
