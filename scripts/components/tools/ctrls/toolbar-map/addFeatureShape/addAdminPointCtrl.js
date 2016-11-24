@@ -53,7 +53,6 @@ angular.module('app').controller('addAdminPointCtrl', ['$scope', '$ocLazyLoad',
 
                 tooltipsCtrl.setEditEventType('addAdAdmin');
                 tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！', 'info');
-                tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
             }
         };
     }

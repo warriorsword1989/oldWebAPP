@@ -64,10 +64,13 @@ fastmap.mapApi.UpdateAdminPoint = L.Handler.extend({
         this.container.style.cursor = 'pointer';
         this.targetPoint = this._map.layerPointToLatLng(event.layerPoint);
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
-        if(this.resultData){
+        if(this.resultData && JSON.stringify(this.resultData) != "{}"){
             points.components[0].x = this.resultData.lng;
             points.components[0].y = this.resultData.lat;
-        }else{
+        }else if(this.resultData && JSON.stringify(this.resultData) == "{}"){
+            points.components[0].x = points.components[0].x;
+            points.components[0].y = points.components[0].y;
+        } else{
             points.components[0].x = this.targetPoint.lng;
             points.components[0].y = this.targetPoint.lat;
         }

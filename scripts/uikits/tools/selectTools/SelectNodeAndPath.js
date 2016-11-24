@@ -128,6 +128,19 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
                         });
                     }
                 } else if (data[item].geometry.type == 'Point') {
+                    if (data[item].properties.featType === 'TMCPOINT') {
+                        if (this._TouchesRelationPoint(data[item].geometry.coordinates, x, y, 20)) {
+                            selectFeatures.push({
+                                id: data[item].properties.id,
+                                optype: data[item].properties.featType,
+                                origType: data[item].geometry.type,
+                                nodeId: data[item].properties.nodeId,
+                                name: data[item].properties.name,
+                                event: event,
+                                layer: this.selectLayers[i]
+                            });
+                        }
+                    }
                     if (this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)) {
                         selectFeatures.push({
                             id: data[item].properties.id,
@@ -188,6 +201,24 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
             }
         }
         return touched;
+    },
+    /** *
+     *点击普通的关系
+     * @param {Array}d 几何图形
+     * @param {number}x 鼠标x
+     * @param {number}y 鼠标y
+     * @param {number}r 半径
+     * @returns {number}
+     * @private
+     */
+    _TouchesRelationPoint: function (d, x, y, r) {
+        var dx = x - d[0];
+        var dy = y - d[1];
+        if ((dx * dx + dy * dy) <= r * r) {
+            return 1;
+        } else {
+            return 0;
+        }
     },
     /** *
      *
