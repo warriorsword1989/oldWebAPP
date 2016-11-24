@@ -42,6 +42,45 @@ fastmap.uikit.canvasTMFeature.TMFeature = L.Class.extend({
             case 508: // 专题图 车道数(总数)
                 ret = new fastmap.uikit.canvasTMFeature.TMLinkLaneNum(data);
                 break;
+            case 509: // 专题图 开发状态
+                ret = new fastmap.uikit.canvasTMFeature.TMDevelopState(data);
+                break;
+            case 510: // 专题图 上下线分离
+                ret = new fastmap.uikit.canvasTMFeature.TMMultiDigitized(data);
+                break;
+            case 511: // 专题图 铺设状态
+                ret = new fastmap.uikit.canvasTMFeature.TMPaveStatus(data);
+                break;
+            case 512: // 专题图 收费信息
+                ret = new fastmap.uikit.canvasTMFeature.TMTollInfo(data);
+                break;
+            case 513: // 专题图 特殊交通
+                ret = new fastmap.uikit.canvasTMFeature.TMSpecialTraffic(data);
+                break;
+            case 514: // 专题图 高架
+                ret = new fastmap.uikit.canvasTMFeature.TMIsViaduct(data);
+                break;
+            case 515: // 专题图 供用信息
+                ret = new fastmap.uikit.canvasTMFeature.TMAppInfo(data);
+                break;
+            case 516: // 专题图 交叉口内道路
+                ret = new fastmap.uikit.canvasTMFeature.TMRdLinkForm(data);
+                break;
+            //case 517: // 专题图 道路名内容
+            //    ret = new fastmap.uikit.canvasTMFeature.TMNameContent(data);
+            //    break;
+            case 518: // 专题图 道路名组数
+                ret = new fastmap.uikit.canvasTMFeature.TMNameGroupid(data);
+                break;
+            case 519: // 专题图 名称类型
+                ret = new fastmap.uikit.canvasTMFeature.TMNameType(data);
+                break;
+            case 520: // 专题图 条件线限速个数
+                ret = new fastmap.uikit.canvasTMFeature.TMSpeedlimitConditionCount(data);
+                break;
+            case 520: // 专题图 禁止穿行
+                ret = new fastmap.uikit.canvasTMFeature.TMRdLinkLimitType(data);
+                break;
             }
             return ret;
         },
