@@ -155,6 +155,37 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
             return linksObj;
         };
         /**
+         * 运算两条线的交点坐标
+         * @param a
+         * @param b
+         * @returns {*}
+         */
+        $scope.segmentsIntr = function(a, b) { // ([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
+            var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
+            var area_abd = (a[0].x - b[1].x) * (a[1].y - b[1].y) - (a[0].y - b[1].y) * (a[1].x - b[1].x);
+            // 面积符号相同则两点在线段同侧,不相交 (对点在线段上的情况,本例当作不相交处理);
+            if (area_abc * area_abd >= 0) {
+                return false;
+            }
+            var area_cda = (b[0].x - a[0].x) * (b[1].y - a[0].y) - (b[0].y - a[0].y) * (b[1].x - a[0].x);
+            var area_cdb = area_cda + area_abc - area_abd;
+            if (area_cda * area_cdb >= 0) {
+                return false;
+            }
+            // 计算交点坐标
+            var t = area_cda / (area_abd - area_abc);
+            var dx = t * (a[1].x - a[0].x),
+                dy = t * (a[1].y - a[0].y);
+            return {
+                x: (a[0].x + dx).toFixed(5),
+                y: (a[0].y + dy).toFixed(5),
+                linkIdA: a[2],
+                featTypeA: a[3],
+                linkIdB: b[2],
+                featTypeB: b[3]
+            }; // 保留小数点后5位
+        };
+        /**
          * 将折线拆分成多条第一个线段与最后一个线段的夹角小于一个固定角度的折线
          * 注：用于替代上边的$scope.seprateLink()
          * @param shapePoints link的形状点数组（地理坐标）
@@ -190,35 +221,80 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
             return segments;
         };
         /**
-         * 运算两条线的交点坐标
-         * @param a
-         * @param b
-         * @returns {*}
+         * 使用向量叉积的方法计算直线段的交点
          */
-        $scope.segmentsIntr = function(a, b) { // ([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
-            var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
-            var area_abd = (a[0].x - b[1].x) * (a[1].y - b[1].y) - (a[0].y - b[1].y) * (a[1].x - b[1].x);
-            // 面积符号相同则两点在线段同侧,不相交 (对点在线段上的情况,本例当作不相交处理);
-            if (area_abc * area_abd >= 0) {
+        var segmentIntersect = function(pt1, pt2, pt3, pt4) {
+            //计算向量p3p1和向量p2p1的叉积
+            var vec = function(p1, p2, p3) {
+                return (p1.x - p3.x) * (p1.y - p2.y) - (p1.y - p3.y) * (p1.x - p2.x);
+            };
+            //判断点p3是否在线段p1 p2上
+            var onSegment = function(p1, p2, p3) {
+                if (Math.min(p1.x, p2.x) <= p3.x && p3.x <= Math.max(p1.x, p1.x)) {
+                    if (Math.min(p1.y, p2.y) <= p3.y && p4.y <= Math.max(p1.y, pj.y)) {
+                        return true;
+                    }
+                }
                 return false;
+            };
+            var inter = null;
+            var v1 = vec(pt3, pt4, pt1);
+            var v2 = vec(pt3, pt4, pt2);
+            var v3 = vec(pt1, pt2, pt3);
+            var v4 = vec(pt1, pt2, pt4);
+            if (v1 * v2 < 0 && v3 * v4 < 0) { // 相交
+                var t = v3 / (v2 - v1);
+                var dx = (pt4.x - pt3.x) * t;
+                var dy = (pt4.y - pt3.y) * t;
+                inter = {
+                    flag: 0,
+                    point: {
+                        x: (pt3.x + dx).toFixed(5),
+                        y: (pt3.y + dy).toFixed(5)
+                    }
+                };
+            } else if (v1 == 0 && v2 != 0 && onSegment(pt3, pt4, pt1)) { // 以下都是相切的情况
+                inter = {
+                    flag: 1,
+                    point: pt1
+                };
+            } else if (v2 == 0 && v1 != 0 && onSegment(pt3, pt4, pt2)) {
+                inter = {
+                    flag: 2,
+                    point: pt2
+                };
+            } else if (v3 == 0 && v4 != 0 && onSegment(pt1, pt2, pt3)) {
+                inter = {
+                    flag: 3,
+                    point: pt3
+                };
+            } else if (v4 == 0 && v3 != 0 && onSegment(pt1, pt2, pt4)) {
+                inter = {
+                    flag: 4,
+                    point: pt4
+                };
             }
-            var area_cda = (b[0].x - a[0].x) * (b[1].y - a[0].y) - (b[0].y - a[0].y) * (b[1].x - a[0].x);
-            var area_cdb = area_cda + area_abc - area_abd;
-            if (area_cda * area_cdb >= 0) {
-                return false;
+            return inter;
+        };
+        /**
+         * 计算折线段的交点
+         */
+        var linkIntersect = function(seg1, seg2) {
+            var i, j, pt1, pt2, pt3, pt4;
+            var inter = null;
+            for (var i = 0; i < seg1.shapePoints.length - 1; i++) {
+                pt1 = seg1.shapePoints[i];
+                pt2 = seg1.shapePoints[i + 1];
+                for (var j = 0; j < seg2.shapePoints.length - 1; j++) {
+                    pt3 = seg2.shapePoints[j];
+                    pt4 = seg2.shapePoints[j + 1];
+                    inter = segmentIntersect(pt1, pt2, pt3, pt4);
+                    if (inter) {
+                        break;
+                    }
+                }
             }
-            // 计算交点坐标
-            var t = area_cda / (area_abd - area_abc);
-            var dx = t * (a[1].x - a[0].x),
-                dy = t * (a[1].y - a[0].y);
-            return {
-                x: (a[0].x + dx).toFixed(5),
-                y: (a[0].y + dy).toFixed(5),
-                linkIdA: a[2],
-                featTypeA: a[3],
-                linkIdB: b[2],
-                featTypeB: b[3]
-            }; // 保留小数点后5位
+            return inter;
         };
         /**
          * 去除重复的坐标点，保留一个
@@ -957,10 +1033,10 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             $scope.selfInterData.links = sepLinks;
                             for (var i = 0; i < sepLinks.pointsObj.length - 1; i++) {
                                 for (var j = i + 1; j < sepLinks.pointsObj.length; j++) {
-                                    var lineGeoArr = function (index) {
+                                    var lineGeoArr = function(index) {
                                         return [sepLinks.pointsObj[index][0], sepLinks.pointsObj[index][sepLinks.pointsObj[index].length - 1]];
                                     };
-                                    var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j));// 获取线的交点
+                                    var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)); // 获取线的交点
                                     if (temp) {
                                         crossGeos.push(temp);
                                         $scope.selfInter = true;
@@ -1149,26 +1225,55 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     var featList = [];
                     /* 过滤框选后的数组，去重*/
                     var pushed = {};
-                    for (var i = 0; i < event.data.length; i++) {
+                    var i, j;
+                    for (i = 0; i < event.data.length; i++) {
                         if (!pushed[event.data[i].data.properties.id]) {
                             featList.push(event.data[i]);
                             pushed[event.data[i].data.properties.id] = true;
                         }
                     }
                     var crossPoints = []; // 交叉点信息
-                    var lineSegments = []; // 要素link差分出来的线段（与角度有关系，可能是曲线）
+                    var linkSegments = []; // 要素link拆分出来的线段（与角度有关系，可能是曲线）
+                    var segments;
                     for (i = 0; i < featList.length; i++) {
-                        var links = $scope.seprateLink(dealData[i].line.points).pointsObj; // 将线分成多条线
-                        var linkData = [];
-                        for (var t = 0; t < links.length; t++) {
-                            var linkObj = {
-                                line: links[t],
-                                data: dealData[i].data,
-                                index: t
-                            };
-                            linkData.push(linkObj);
+                        segments = seperateLink(featList[i].line.points, 0); // 将线分成多条线
+                        for (j = 0; j < segments.length; j++) {
+                            linkSegments.push({
+                                pid: featList[i].data.properties.id,
+                                featType: featList[i].data.properties.featType,
+                                segment: segments[j],
+                                index: j
+                            });
                         }
-                        sepLinks = sepLinks.concat(linkData);
+                    }
+                    var intersectList = [],
+                        intersectPoint;
+                    // 计算折线段的交点
+                    for (i = 0; i < linkSegments.length; i++) {
+                        for (j = i + 1; j < linkSegments.length; j++) {
+                            // 同一个要素link的相挂接的两条折线不进行相交计算
+                            if (linkSegments[i].pid == linkSegments[j].pid && linkSegments[i].featType == linkSegments[j].featType && linkSegments[i].index + 1 == linkSegments[j].index) {
+                                continue;
+                            }
+                            intersectPoint = linkIntersect(linkSegments[i].segment, linkSegments[j].segment);
+                            if (intersectPoint) {
+                                intersectList.push({
+                                    point: intersectPoint.point,
+                                    data: [linkSegments[i], linkSegments[j]]
+                                });
+                            }
+                        }
+                    }
+                    var m, n;
+                    for (i = 0; i < intersectList.length; i++) {
+                        inter1 = intersectList[i]
+                        for (j = i + 1; j < intersectList.length; j++) {
+                            if (Math.abs(intersectList[i].point.x - intersectList[j].point.x) < 0.00001 && Math.abs(intersectList[i].point.y - intersectList[j].point.y) < 0.00001) {
+                                for (m = 0; m < intersectList[i].data.length; m++) {
+                                    for (n = 0; n < intersectList[j].data.length; n++) {}
+                                }
+                            }
+                        }
                     }
                     for (var i = 0; i < sepLinks.length; i++) {
                         for (var j = i + 1; j < sepLinks.length; j++) {
@@ -1585,7 +1690,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         dsEdit.getByPid($scope.warningInfo.nodePid, 'RDNODE').then(function(data) {
                             if (data) {
                                 if (data.meshes.length > 1) {
-                                    tooltipsCtrl.notify('警示信息中的点形态不能是图廓点!' , 'error');
+                                    tooltipsCtrl.notify('警示信息中的点形态不能是图廓点!', 'error');
                                     map.currentTool.selectedFeatures.pop();
                                 } else {
                                     highLightFeatures.push({
