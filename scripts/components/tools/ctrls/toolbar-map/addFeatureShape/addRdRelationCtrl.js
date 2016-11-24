@@ -1462,17 +1462,17 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 });
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdnode);
-                map.currentTool.snapHandler.addGuideLayer(rdLink);
                 var nodeArr = [];
                 var linkArr = [];
-                var slopeData = {
+                var slopeData = {//保存坡度数据;
                     inNode:'',
+                    outNode:'',
                     ouLink:'',
-                    links:[]
+                    links:[],
+                    linkLength:0,
+                    lastNode:'',
+                    recomendOutLinks:[]//坡度退出线可推荐的link
                 }
-                var linkLength = 0;
-                var selectLinksFlag = false;
-                var recomendOutLinks = [];
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(dataresult){
                     if (dataresult.index === 0) {
@@ -1482,36 +1482,31 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         * (1) 如果进入点是孤立的点（一般只有错误数据才有）
                         *（2）如果进入点挂接一个link，并且该link方向错误；
                         * */
-                        if (!dataresult.links.length) {
-                            tooltipsCtrl.notify('该点无法做坡度','error');
-                            map.currentTool.selectedFeatures.pop();
-                            return;
-                        }
                         for (var i = 0; i < dataresult.links.length; i++){
                             if ((dataresult.links[i].enode == dataresult.id  && dataresult.links[i].direct == 2) || (dataresult.links[i].snode == dataresult.id  && dataresult.links[i].direct == 3)){
                                 dataresult.links.splice(i,1);
                                 i--;
                             }
                         }
-
                         if (dataresult.links.length === 0) {
-                            console.log('该点无法做坡度');
                             map.currentTool.selectedFeatures.pop();
                             tooltipsCtrl.notify('该点无法做坡度', 'error');
                             return;
                         }else{
-                            //无论一条还是多条都是高亮显示并手动选择
-                            console.log('高亮显示可选退出线')
+                            // 无论一条还是多条都是高亮显示并手动选择
                             nodeArr.push(dataresult.id.toString());
                             highRenderCtrl.highLightFeatures.push({
                                 id: dataresult.id.toString(),
                                 layerid: 'rdLink',
                                 type: 'node',
-                                style: {color: '#21ed25'}
+                                style: {color: 'green'}
                             })
-                            tooltipsCtrl.setCurrentTooltip('已选择进入点，根据提示选择进入线', 'succ');
+                            slopeData.inNode = dataresult.id.toString();
+                            slopeData.lastNode = dataresult.id.toString();
+                            console.log('------------------------------已选择进入点------------------------------')
+                            tooltipsCtrl.setCurrentTooltip('已选择进入点，根据提示选择退出线', 'succ');
                             for (var i = 0 ; i < dataresult.links.length; i++){
-                                recomendOutLinks.push(dataresult.links[i].id);
+                                slopeData.recomendOutLinks.push(dataresult.links[i].id);
                                 highRenderCtrl.highLightFeatures.push({
                                     id: dataresult.links[i].id,
                                     layerid: 'rdLink',
@@ -1520,85 +1515,232 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 });
                             }
                             highRenderCtrl.drawHighlight();
+                            // 开始扑捉线;
+                            map.currentTool.snapHandler._guides.length = 0;
+                            map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
                     }else {
-                        var selectOutLinkIndex = recomendOutLinks.indexOf(dataresult.id);
-                        if(selectOutLinkIndex!=-1){
+                        var selectOutLinkIndex = slopeData.recomendOutLinks.indexOf(dataresult.id);
+                        // 满足退出线的条件;
+                        if((!slopeData.ouLink&&selectOutLinkIndex!=-1) || (slopeData.ouLink&&selectOutLinkIndex!=-1&&dataresult.id!=slopeData.ouLink)){
+                            slopeData.links.length = 0;
                             slopeData.ouLink = dataresult.id;
+                            slopeData.outNode = dataresult.properties.enode==slopeData.inNode?dataresult.properties.snode:dataresult.properties.enode;
+                            slopeData.lastNode = slopeData.outNode;
+                            slopeData.linkLength = 0;
+                            slopeData.linkLength += parseInt(dataresult.properties.length);
                             highRenderCtrl.highLightFeatures.splice(1);
                             highRenderCtrl.highLightFeatures.push({
                                 id: dataresult.id.toString(),
                                 layerid: 'rdLink',
                                 type: 'line',
-                                style: {color: 'blue'}
+                                style: {color: 'red'}
                             });
                             highRenderCtrl._cleanHighLight();
                             highRenderCtrl.drawHighlight();
-                            console.log('已选择退出线');
-                            var outLinkLinks = [];
-                            if(dataresult.properties.enode==nodeArr[0]){
+                            console.log('------------------------------已选择退出线----------------------------');
+                            // 与退出线挂接的10级以下的link;
+                            var satisfiedJoinLinks = [];
+                            if(dataresult.properties.enode==slopeData.inNode){
                                 for(var i=0;i<dataresult.sNodeLink.length;i++){
                                     if(parseInt(dataresult.sNodeLink[i].kind)<10){
-                                        outLinkLinks.push(dataresult.sNodeLink[i])
+                                        satisfiedJoinLinks.push(dataresult.sNodeLink[i])
                                     }
                                 }
-                                nodeArr.push(dataresult.properties.snode)
-                            }else if(dataresult.properties.snode==nodeArr[0]){
+                            }else if(dataresult.properties.snode==slopeData.inNode){
                                 for(var i=0;i<dataresult.eNodeLink.length;i++){
                                     if(parseInt(dataresult.eNodeLink[i].kind)<10){
-                                        outLinkLinks.push(dataresult.eNodeLink[i])
+                                        satisfiedJoinLinks.push(dataresult.eNodeLink[i])
                                     }
                                 }
-                                nodeArr.push(dataresult.properties.enode)
                             }
-                            linkLength += parseInt(dataresult.properties.length);
-                            if(outLinkLinks.length==0){
-                                selectLinksFlag = false;
-                                tooltipsCtrl.setCurrentTooltip('该推出线长度为'+linkLength+'没有挂接link，无法职务接续线，请保存或取消当前操作', 'info');
-                            }else if(outLinkLinks.length==1 && parseInt(dataresult.properties.length)<100){
-                                selectLinksFlag = true;
-                                //自动追踪;
-                                var param = {};
-                                param.dbId = App.Temp.dbId;
-                                param.type = 'RDLINK';
-                                param.data = {
-                                    'linkPid': dataresult.properties.id,
-                                    'nodePidDir': nodeArr[1],
-                                    'length': dataresult.properties.length,
-                                    'queryType': 'RDSLOPE'
+                            /*
+                            * 对这些满足的接续线进行判断;
+                            *  (1)如果没有挂接，则不开启追踪，不能手动选择;
+                            *  (2)如果挂接>=2,则不开启追踪，不能手动选择;
+                            *  (3)如果只挂接一条，且这一条link方向正确且退出线小于100米则开启追踪，追踪完后可以手动选择；
+                            *  (4)如果只挂接一条，且这一条link方向正确但退出线大于100米则不追踪了，可以继续手动选择;
+                            *
+                            * */
+                            // 判断link与上一个link连续且方向正确的方法;
+                            function isDirectRight(nodePid,linkInfo){
+                                if(linkInfo.enode==nodePid || linkInfo.snode==nodePid){
+                                    if(linkInfo.direct==1){
+                                        return true;
+                                    }
+                                    if(linkInfo.direct==2 && linkInfo.snode==nodePid){
+                                        return true;
+                                    }
+                                    if(linkInfo.direct==3 && linkInfo.enode==nodePid){
+                                        return true;
+                                    }
                                 }
-                                $scope.$emit('showFullLoadingOrNot',true);
-                                dsEdit.getByCondition(param).then(function(linkData) {
-                                    if (linkData.errcode === -1) {
-                                        return;
+                                return false;
+                            }
+                            if(satisfiedJoinLinks.length==0 || satisfiedJoinLinks.length>=2){
+                                console.log('退出线无挂接或挂接除10级外的link>=2')
+                                tooltipsCtrl.setCurrentTooltip('坡度长度为'+slopeData.linkLength+'米','info');
+                                return;
+                            }
+                            if(satisfiedJoinLinks.length==1){
+                                if(isDirectRight(slopeData.outNode,satisfiedJoinLinks[0])){
+                                    if(slopeData.linkLength<100){
+                                        console.log('开始追踪')
+                                        $scope.$emit('showFullLoadingOrNot',true);
+                                        var param = {};
+                                        param.dbId = App.Temp.dbId;
+                                        param.type = 'RDLINK';
+                                        param.data = {
+                                            'linkPid': slopeData.ouLink,
+                                            'nodePidDir': slopeData.outNode,
+                                            'length': slopeData.linkLength,
+                                            'queryType': 'RDSLOPE'
+                                        }
+                                        dsEdit.getByCondition(param).then(function(linkData) {
+                                            if (linkData.errcode === -1) {return;}
+                                            //slopeData.links.length = 0;
+                                            $scope.$emit('showFullLoadingOrNot',false);
+                                            if(linkData.data.length){
+                                                for(var i = 0;i < linkData.data.length; i++){
+                                                    slopeData.links.push(linkData.data[i]);
+                                                    slopeData.linkLength += parseInt(linkData.data[i].length);
+                                                    highRenderCtrl.highLightFeatures.push({
+                                                        id: linkData.data[i].pid.toString(),
+                                                        layerid: 'rdLink',
+                                                        type: 'line',
+                                                        style: {color: 'blue'}
+                                                    });
+                                                }
+                                                highRenderCtrl._cleanHighLight();
+                                                highRenderCtrl.drawHighlight();
+                                            }
+                                            tooltipsCtrl.setCurrentTooltip('坡度长度为'+slopeData.linkLength+'米','info');
+                                        })
+                                    }else{
+                                        console.log('不追踪，但能编辑')
                                     }
-                                    for(var i = 0;i < linkData.data.length; i++){
-                                        linkLength += linkData.data.
-                                        highRenderCtrl.highLightFeatures.push({
-                                            id: linkData.data[i].pid.toString(),
-                                            layerid: 'rdLink',
-                                            type: 'line',
-                                            style: {color: '#00ffff'}
-                                        });
+                                }else{
+                                    tooltipsCtrl.setCurrentTooltip('坡度长度为'+slopeData.linkLength+'米','info');
+                                    return;
+                                }
+                            }
+                        }else if(!slopeData.ouLink && selectOutLinkIndex==-1){
+                            tooltipsCtrl.notify('请先选择退出线','error');
+                            return;
+                        }else if(slopeData.ouLink && slopeData.ouLink==dataresult.id){
+                            slopeData.linkLength = 0;
+                            slopeData.linkLength += parseInt(dataresult.properties.length);
+                            console.log('退出线与之前的重复');
+                            return;
+                        }else{
+                            console.log('**********开始判断接续线**********');
+                            //if(slopeData.links.length==1){
+                            //    slopeData.lastNode = slopeData.links[0].eNodePid==slopeData.outNode?slopeData.links[0].sNodePid:slopeData.links[0].eNodePid;
+                            //}else if(slopeData.links.length>1){
+                            //    if((slopeData.links[slopeData.links.length-1].eNodePid==slopeData.links[slopeData.links.length-2].eNodePid)){
+                            //        slopeData.lastNode = slopeData.links[slopeData.links.length-1].sNodePid
+                            //    }
+                            //    if((slopeData.links[slopeData.links.length-1].eNodePid==slopeData.links[slopeData.links.length-2].sNodePid)){
+                            //        slopeData.lastNode = slopeData.links[slopeData.links.length-1].sNodePid
+                            //    }
+                            //    if((slopeData.links[slopeData.links.length-1].sNodePid==slopeData.links[slopeData.links.length-2].eNodePid)){
+                            //        slopeData.lastNode = slopeData.links[slopeData.links.length-1].eNodePid
+                            //    }
+                            //    if((slopeData.links[slopeData.links.length-1].sNodePid==slopeData.links[slopeData.links.length-2].sNodePid)){
+                            //        slopeData.lastNode = slopeData.links[slopeData.links.length-1].eNodePid
+                            //    }
+                            //}
+                            function setLastNode(index){
+                                if(!index){
+                                    if(slopeData.links.length==1){
+                                        slopeData.lastNode = slopeData.links[0].eNodePid==slopeData.outNode?slopeData.links[0].sNodePid:slopeData.links[0].eNodePid;
+                                    }else if(slopeData.links.length>1){
+                                        if((slopeData.links[slopeData.links.length-1].eNodePid==slopeData.links[slopeData.links.length-2].eNodePid)){
+                                            slopeData.lastNode = slopeData.links[slopeData.links.length-1].sNodePid
+                                        }
+                                        if((slopeData.links[slopeData.links.length-1].eNodePid==slopeData.links[slopeData.links.length-2].sNodePid)){
+                                            slopeData.lastNode = slopeData.links[slopeData.links.length-1].sNodePid
+                                        }
+                                        if((slopeData.links[slopeData.links.length-1].sNodePid==slopeData.links[slopeData.links.length-2].eNodePid)){
+                                            slopeData.lastNode = slopeData.links[slopeData.links.length-1].eNodePid
+                                        }
+                                        if((slopeData.links[slopeData.links.length-1].sNodePid==slopeData.links[slopeData.links.length-2].sNodePid)){
+                                            slopeData.lastNode = slopeData.links[slopeData.links.length-1].eNodePid
+                                        }
                                     }
+                                }else{
+                                    if(slopeData.links.length==1){
+                                        slopeData.lastNode = slopeData.links[0].eNodePid==slopeData.outNode?slopeData.links[0].eNodePid:slopeData.links[0].sNodePid;
+                                    }else if(slopeData.links.length>1){
+                                        if((slopeData.links[index].eNodePid==slopeData.links[index-1].eNodePid)){
+                                            slopeData.lastNode = slopeData.links[index-1].eNodePid;
+                                        }
+                                        if((slopeData.links[index].eNodePid==slopeData.links[index-1].sNodePid)){
+                                            slopeData.lastNode = slopeData.links[index-1].sNodePid;
+                                        }
+                                        if((slopeData.links[index].sNodePid==slopeData.links[index-1].eNodePid)){
+                                            slopeData.lastNode = slopeData.links[index-1].eNodePid;
+                                        }
+                                        if((slopeData.links[index].sNodePid==slopeData.links[index-1].sNodePid)){
+                                            slopeData.lastNode = slopeData.links[index-1].sNodePid;
+                                        }
+                                    }
+                                }
+                            }
+                            var linkInJoinLinksIndex = -1;
+                            for(var i=0;i<slopeData.links.length;i++){
+                                if(dataresult.id == slopeData.links[i].pid){
+                                    linkInJoinLinksIndex = i;
+                                }
+                            }
+                            if(linkInJoinLinksIndex==-1){
+                                setLastNode();
+                                var satisfiedJoinLinks = [];
+                                if(dataresult.properties.enode==slopeData.lastNode){
+                                    for(var i=0;i<dataresult.eNodeLink.length;i++){
+                                        if(parseInt(dataresult.eNodeLink[i].kind)<10){
+                                            satisfiedJoinLinks.push(dataresult.eNodeLink[i])
+                                        }
+                                    }
+                                }else if(dataresult.properties.snode==slopeData.lastNode){
+                                    for(var i=0;i<dataresult.sNodeLink.length;i++){
+                                        if(parseInt(dataresult.sNodeLink[i].kind)<10){
+                                            satisfiedJoinLinks.push(dataresult.sNodeLink[i])
+                                        }
+                                    }
+                                }else{
+                                    tooltipsCtrl.notify('该link无法做接续线!','error');
+                                    return;
+                                }
+                                if(satisfiedJoinLinks.length==1){
+                                    slopeData.lastNode = (dataresult.properties.enode==slopeData.lastNode)?dataresult.properties.snode:dataresult.properties.enode;
+                                    dataresult.properties.eNodePid = dataresult.properties.enode;
+                                    dataresult.properties.sNodePid = dataresult.properties.snode;
+                                    slopeData.links.push(dataresult.properties);
+                                    highRenderCtrl.highLightFeatures.push({
+                                        id: dataresult.id.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {color: 'blue'}
+                                    });
                                     highRenderCtrl._cleanHighLight();
                                     highRenderCtrl.drawHighlight();
-                                    $scope.$emit('showFullLoadingOrNot',false);
-                                    tooltipsCtrl.setCurrentTooltip('已选择退出线,长度为'+dataresult.properties.length+'米，程序开始自动追踪', 'succ');
-                                })
-                            }else if(outLinkLinks.length==1 && parseInt(dataresult.properties.length)>100){
-                                selectLinksFlag = true;
-                                tooltipsCtrl.setCurrentTooltip('退出线长度为'+dataresult.properties.length+'米，手动选择接续线或保存或取消当前操作', 'info');
-                            }
-                        }else{
-                            if(!slopeData.ouLink){
-                                console.log('请先选择退出线!');
-                                return;
+                                    console.log('add')
+                                }else{
+                                    tooltipsCtrl.notify('接续线选择错误!','error');
+                                }
                             }else{
-
+                                console.log('yes');
+                                setLastNode(linkInJoinLinksIndex);
+                                var tempLen = slopeData.links;
+                                slopeData.links.splice(linkInJoinLinksIndex);
+                                highRenderCtrl.highLightFeatures.splice(2+linkInJoinLinksIndex+1);
+                                highRenderCtrl._cleanHighLight();
+                                highRenderCtrl.drawHighlight();
                             }
                         }
                     }
+
                 })
                 //    param.dbId = App.Temp.dbId;
                 //    param.type = 'RDLINK';

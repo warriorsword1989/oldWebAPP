@@ -403,7 +403,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             {
                                 'text': "<span class='float-option-bar'>分</span>",
                                 'title': "分离节点",
-                                'type': 'PATHDEPARTNODE',
+                                'type': 'PATHDEPARTNODE_RDLINK',
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                         },
@@ -2502,7 +2502,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                         return;
                     }
-                } else if (type.split('_')[0] === 'PATHVERTEXREMOVE') {
+                } else if (type === 'PATHVERTEXREMOVE') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                         // tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
@@ -2516,7 +2516,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
                         return;
                     }
-                } else if (type === 'PATHDEPARTNODE') {
+                } else if (type.split('_')[0] === 'PATHDEPARTNODE') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'PATHDEPARTNODE')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                         // tooltipsCtrl.setCurrentTooltip('<span style="color: red;">道路线的端点已经修改过或分离，请先按空格键保存！</span>');
