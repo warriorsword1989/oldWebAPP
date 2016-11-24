@@ -1489,7 +1489,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 param.data.pid = featCodeCtrl.getFeatCode().pid;
                 param.data.links = featCodeCtrl.getFeatCode().links;
                 param.data.nodes = featCodeCtrl.getFeatCode().nodes;
-                if (param.data.nodes == undefined || param.data.nodes == []) {
+                if (param.data.nodes == undefined || param.data.nodes.length === 0) {
                     swal('操作失败', '未选中Node点！', 'info');
                     return;
                 }
@@ -1537,7 +1537,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 var oriData = objEditCtrl.data;
                 param.data.pid = featCodeCtrl.getFeatCode().pid;
                 param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
-                if (param.data.linkPids == undefined || param.data.linkPids == []) {
+                if (param.data.linkPids == undefined || param.data.linkPids.length === 0) {
                     swal('操作失败', '未选中Link！', 'info');
                     return;
                 }
