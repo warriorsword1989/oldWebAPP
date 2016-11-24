@@ -1,13 +1,16 @@
 fastmap.uikit.canvasFeature.TmcPoint = fastmap.uikit.canvasFeature.Feature.extend({
     setAttribute: function (item) {
         this.properties.featType = 'TMCPOINT';
+        this.properties.loctableId = item.m.d;
+        this.properties.locoffPos = item.m.e;
+        this.properties.locoffNeg = item.m.f;
         this.geometry.type = 'Point';
         this.properties.markerStyle = {};
         this.properties.markerStyle.icon = [];
         this.geometry.coordinates = item.g;
         this.properties.markerStyle.icon.push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                iconName: '../../../images/road/tmc/tmc.png',
+                iconName: '../../../images/road/tmc/tmcPoint.png',
                 row: 0,
                 column: 1,
                 location: this.geometry.coordinates

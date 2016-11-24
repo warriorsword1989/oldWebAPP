@@ -9,6 +9,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
         var rdLink = layerCtrl.getLayerById('rdLink');
         var rdnode = layerCtrl.getLayerById('rdNode');
         var crfData = layerCtrl.getLayerById('crfData');
+        var rdCross = layerCtrl.getLayerById('rdCross');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var eventController = fastmap.uikit.EventController();
 
@@ -126,20 +127,58 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     lngMin.push(new L.point(pointsArr[i].x, pointsArr[i].y));
                 }
             }
-            if (latMax[0].x === lngMin[0].x || latMax[0].x === lngMax[0].x) {
-                latMax[0].x += 0.0001;
+            var latMaxFlag = false;
+            var latMinFlag = false;
+            var lngMaxFlag = false;
+            var lngMinFlag = false;
+            if (latMax[0].x === lngMin[0].x) {
+                latMaxFlag = true;
+                lngMinFlag = true;
+            }
+            if (latMax[0].x === lngMax[0].x) {
+                latMaxFlag = true;
+                lngMaxFlag = true;
+            }
+            if (latMin[0].x === lngMin[0].x) {
+                latMinFlag = true;
+                lngMinFlag = true;
+            }
+            if (latMin[0].x === lngMax[0].x) {
+                latMinFlag = true;
+                lngMaxFlag = true;
+            }
+            if (lngMax[0].y === latMax[0].y) {
+                lngMaxFlag = true;
+                latMaxFlag = true;
+            }
+            if (lngMax[0].y === latMin[0].y) {
+                lngMaxFlag = true;
+                latMinFlag = true;
             }
 
-            if (latMin[0].x === lngMax[0].x || latMin[0].x === lngMin[0].x) {
-                latMin[0].x -= 0.0001;
+            if (lngMin[0].y === latMax[0].y) {
+                lngMinFlag = true;
+                latMaxFlag = true;
             }
-
-            if (lngMax[0].y === latMax[0].y || lngMax[0].y === latMin[0].y) {
-                lngMax[0].y += 0.0001;
+            if (lngMin[0].y === latMin[0].y) {
+                lngMinFlag = true;
+                latMinFlag = true;
             }
-
-            if (lngMin[0].y === latMax[0].y || lngMin[0].y === latMin[0].y) {
-                lngMin[0].y -= 0.0001;
+            if (latMaxFlag) {
+                latMax[0].x += 0.00005;
+                latMax[0].y -= 0.00005;
+            }
+            if (latMinFlag) {
+                latMin[0].x -= 0.00005;
+                latMin[0].y += 0.00005;
+            }
+            if (lngMaxFlag) {
+                lngMax[0].y += 0.00005;
+                lngMax[0].x += 0.00005;
+            }
+            if (lngMinFlag) {
+                lngMin[0].y -= 0.00005;
+                lngMin[0].x -= 0.00005;
             }
             newArr = newArr.concat(latMax);
             newArr = newArr.concat(lngMin);
@@ -702,7 +741,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
                         shapeEditor: shapeCtrl,
-                        selectLayers: [crfData, rdLink],
+                        selectLayers: [crfData, rdLink, rdCross],
                         snapLayers: [rdLink]
                     });
                     map.currentTool.enable();
@@ -828,7 +867,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     });
 
                     shapeCtrl.shapeEditorResult.setFinalGeometry(objData);
-                    console.log(objData);
                     tooltipsCtrl.setCurrentTooltip('请追加、取消对象或者点击空格保存CRF对象,按ESC键取消!');
                 });
             }
