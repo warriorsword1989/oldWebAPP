@@ -446,8 +446,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         $scope.linkNodes = [];
         $scope.links = [];
         $scope.refreshHighLight();
-        eventController.off(eventController.eventTypes.GETNODEID);
-        eventController.off(eventController.eventTypes.GETFEATURE);
         if ($scope.autoTrack) {
             // 如果进入线是单方向道路，自动选择进入点;
             if ($scope.rticData.direct === 2 || $scope.rticData.direct === 3) {
@@ -473,6 +471,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 // 地图编辑相关设置;
                 tooltipsCtrl.setCurrentTooltip('选择进入点！');
                 // 初始化选择点工具
+                map.currentTool.disable();
                 map.currentTool = new fastmap.uikit.SelectNode({
                     map: map,
                     nodesFlag: true,
@@ -497,8 +496,8 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                     tooltipsCtrl.setCurrentTooltip('已经选择进入点!');
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     $scope.getTruckLinks();
-                    eventController.off(eventController.eventTypes.GETNODEID);
-                    map.currentTool.disable();
+                    // eventController.off(eventController.eventTypes.GETNODEID);
+                    // map.currentTool.disable();
                     /* 自动追踪后需要手动修改，或选择TMCPoint */
                     $scope.afterTruckFunc();
                 });
