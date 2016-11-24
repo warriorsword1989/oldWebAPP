@@ -182,7 +182,7 @@ fastmap.mapApi.ShapeOptionType = {
      * TMC
      * */
     TMCLOCATION: 'tmcLocation',
-    //平滑修形
-    PATHSMOOTH:'pathSmooth'
+    // 平滑修形
+    PATHSMOOTH: 'pathSmooth'
 };
 

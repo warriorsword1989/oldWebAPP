@@ -13,11 +13,11 @@ FM.dataApi.CheckRule = FM.dataApi.DataModel.extend({
         this.ruleId = data.ruleId;
     },
     getIntegrate: function () {
-    	var ret = {};
-    	ret.severity = this.severity;
-    	ret.ruleType = this.ruleTyep;
-    	ret.ruleDesc = this.ruleDesc;
-    	ret.ruleId = this.ruleId;
-    	return ret;
+        var ret = {};
+        ret.severity = this.severity;
+        ret.ruleType = this.ruleTyep;
+        ret.ruleDesc = this.ruleDesc;
+        ret.ruleId = this.ruleId;
+        return ret;
     }
 });

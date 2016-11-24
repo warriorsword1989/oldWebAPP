@@ -179,6 +179,8 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             LayersList: [tmcLayer]
         });
         map.currentTool.enable();
+        eventController.off(eventController.eventTypes.GETNODEID);
+        eventController.off(eventController.eventTypes.GETFEATURE);
         eventController.off(eventController.eventTypes.GETRECTDATA);
         eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
             var tmcPointArray = [];
@@ -248,6 +250,71 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             }
         });
     };
+    /* 选择link作用方向 */
+    $scope.changeLinkDirect = function () {
+        map.currentTool.disable();
+        selectCtrl.onSelected({
+            geometry: $scope.rticData.geometry.coordinates,
+            id: $scope.rticData.pid,
+            direct: $scope.rticData.direct,
+            point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
+        });
+        if ($scope.rticData.direct === 1) {
+            tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
+            var point = fastmap.mapApi.point($scope.rticData.geometry.coordinates[0][0], $scope.rticData.geometry.coordinates[0][1]);
+            var linkCoords = $scope.rticData.geometry.coordinates;
+            // 计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
+            // 并用斜率判断默认值
+            var index = 0,
+                tp = map.latLngToContainerPoint([point.y, point.x]),
+                dist,
+                sVertex,
+                eVertex,
+                d1,
+                d2,
+                d3;
+            for (var i = 0, len = linkCoords.length - 1; i < len; i++) {
+                sVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i][1], linkCoords[i][0]));
+                eVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i + 1][1], linkCoords[i + 1][0]));
+                dist = L.LineUtil.pointToSegmentDistance(tp, sVertex, eVertex);
+                if (dist < 5) {
+                    d1 = (tp.x - sVertex.x) * (tp.x - sVertex.x) + (tp.y - sVertex.y) * (tp.y - sVertex.y);
+                    d2 = (tp.x - eVertex.x) * (tp.x - eVertex.x) + (tp.y - eVertex.y) * (tp.y - eVertex.y);
+                    d3 = (sVertex.x - eVertex.x) * (sVertex.x - eVertex.x) + (sVertex.y - eVertex.y) * (sVertex.y - eVertex.y);
+                    if (d1 <= d3 && d2 <= d3) {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+            angle = $scope.angleOfLink(sVertex, eVertex);
+            if (sVertex.x > eVertex.x || (sVertex.x == eVertex.x && sVertex.y > eVertex.y)) { // 从右往左划线或者从下网上划线
+                angle = Math.PI + angle;
+            }
+            tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
+            var marker = {
+                flag: false,
+                point: point,
+                type: 'marker',
+                angle: angle,
+                orientation: '2',
+                pointForDirect: point
+            };
+            layerCtrl.pushLayerFront('edit');
+            var sObj = shapeCtrl.shapeEditorResult;
+            editLayer.drawGeometry = marker;
+            editLayer.draw(marker, editLayer);
+            sObj.setOriginalGeometry(marker);
+            sObj.setFinalGeometry(marker);
+            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.ELECTRONICEYE);
+            shapeCtrl.startEditing();
+            tooltipsCtrl.setCurrentTooltip('点击地图开始修改方向！');
+        } else {
+            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+            tooltipsCtrl.setCurrentTooltip('请点击保存,创建TMCLocation!');
+            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.ELECTRONICEYE);
+        }
+    };
     /* 修改追踪线或选择tmcPoint */
     $scope.afterTruckFunc = function () {
         // 初始化选择关系的工具
@@ -261,6 +328,24 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         eventController.off(eventController.eventTypes.GETFEATURE);
         eventController.on(eventController.eventTypes.GETFEATURE, function (tData) {
             console.log(tData)
+            $scope.tmcRelation.pointPids.push(tData);
+            // 防止多次点击去重
+            $scope.tmcRelation.pointPids = Utils.distinctArr($scope.tmcRelation.pointPids);
+            if ($scope.tmcRelation.pointPids.length > 1 && $scope.tmcRelation.pointPids[0].locoffPos !== 0) {
+                // 如果选择的第二个位置点是第一个位置点的正向偏移量则，则位置方向赋值为“+”
+                if ($scope.tmcRelation.pointPids[0].locoffPos === $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].pid) {
+                    $scope.tmcRelation.locDirect = 1;
+                } else if ($scope.tmcRelation.pointPids[0].locoffNeg === $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].pid) {
+                    // 如果选择的第二个位置点是第一个位置点的负向偏移量则，则位置方向赋值为“-”
+                    $scope.tmcRelation.locDirect = 2;
+                }
+                // 赋值位置表标识
+                $scope.tmcRelation.loctableId = $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].loctableId;
+                // 选择link作用方向
+                $scope.changeLinkDirect();
+            }
+            // 高亮第一个tmcPoint和最后一个tmcPoint
+            $scope.refreshHighLight();
         });
     };
     /* 追踪link方法 */
@@ -278,22 +363,67 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             };
             dsEdit.getByCondition(param).then(function (data) {
                 $scope.tmcRelation.linkPids = data.data;
-                $scope.hightlightViasLink();
+                $scope.refreshHighLight();
             });
         }
+    };
+    // 刷新高亮方法
+    $scope.refreshHighLight = function () {
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures = [];
+        highRenderCtrl.highLightFeatures.push({
+            id: parseInt($scope.rticData.pid).toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {}
+        });
+        if ($scope.tmcRelation.linkPids.length) {
+            for (var i = 0; i < $scope.tmcRelation.linkPids.length; i++) {
+                highRenderCtrl.highLightFeatures.push({
+                    id: parseInt($scope.tmcRelation.linkPids[i].pid).toString(),
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {
+                        color: 'blue'
+                    }
+                });
+            }
+        }
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.tmcRelation.nodePid.toString(),
+            layerid: 'rdLink',
+            type: 'node',
+            style: {
+                color: 'yellow'
+            }
+        });
+        // 高亮第一个tmcPoint和最后一个tmcPoint
+        for (var i = 0; i < $scope.tmcRelation.pointPids.length; i++) {
+            if (i === 0 || i === $scope.tmcRelation.pointPids.length - 1) {
+                highRenderCtrl.highLightFeatures.push({
+                    id: $scope.tmcRelation.pointPids[i].id.toString(),
+                    layerid: 'tmcData',
+                    type: 'TMCPOINT',
+                    style: {}
+                });
+            }
+        }
+        highRenderCtrl.drawHighlight();
     };
     // 高亮接续线方法;
     $scope.hightlightViasLink = function () {
         highRenderCtrl.highLightFeatures.splice(3);
-        for (var i = 0; i < $scope.tmcRelation.linkPids.length; i++) {
-            highRenderCtrl.highLightFeatures.push({
-                id: parseInt($scope.tmcRelation.linkPids[i].pid).toString(),
-                layerid: 'rdLink',
-                type: 'line',
-                style: {
-                    color: 'blue'
-                }
-            });
+        if ($scope.tmcRelation.linkPids && $scope.tmcRelation.linkPids.length) {
+            for (var i = 0; i < $scope.tmcRelation.linkPids.length; i++) {
+                highRenderCtrl.highLightFeatures.push({
+                    id: parseInt($scope.tmcRelation.linkPids[i].pid).toString(),
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {
+                        color: 'blue'
+                    }
+                });
+            }
         }
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.drawHighlight();
@@ -315,8 +445,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         };
         $scope.linkNodes = [];
         $scope.links = [];
-        eventController.off(eventController.eventTypes.GETNODEID);
-        eventController.off(eventController.eventTypes.GETFEATURE);
+        $scope.refreshHighLight();
         if ($scope.autoTrack) {
             // 如果进入线是单方向道路，自动选择进入点;
             if ($scope.rticData.direct === 2 || $scope.rticData.direct === 3) {
@@ -342,6 +471,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 // 地图编辑相关设置;
                 tooltipsCtrl.setCurrentTooltip('选择进入点！');
                 // 初始化选择点工具
+                map.currentTool.disable();
                 map.currentTool = new fastmap.uikit.SelectNode({
                     map: map,
                     nodesFlag: true,
@@ -366,15 +496,15 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                     tooltipsCtrl.setCurrentTooltip('已经选择进入点!');
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     $scope.getTruckLinks();
-                    eventController.off(eventController.eventTypes.GETNODEID);
-                    map.currentTool.disable();
+                    // eventController.off(eventController.eventTypes.GETNODEID);
+                    // map.currentTool.disable();
                     /* 自动追踪后需要手动修改，或选择TMCPoint */
                     $scope.afterTruckFunc();
                 });
             }
         } else {
             $scope.tmcRelation.linkPids = [];
-            $scope.hightlightViasLink();
+            $scope.refreshHighLight();
         }
     };
     $scope.minusCarRtic = function (id) {

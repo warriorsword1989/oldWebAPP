@@ -12,7 +12,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
         var rdCross = layerCtrl.getLayerById('rdCross');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var eventController = fastmap.uikit.EventController();
-
         /**
          * 点数组转为对象数组
          * @param arr
@@ -27,7 +26,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             }
             return newArr;
         }
-
         /**
          * 对象数组转为点数组
          * @param arrobj
@@ -42,7 +40,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             }
             return newArr;
         }
-
         /**
          * 去除凹的顶点
          * @param arr
@@ -66,7 +63,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             }
             return arr;
         }
-
         /**
          * 点去重
          * @param pointsArr
@@ -83,7 +79,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             }
             return arrobjToArr(repeatIndex);
         }
-
         /**
          * 计算多边形的包络线
          * @param pointsArr
@@ -155,7 +150,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                 lngMaxFlag = true;
                 latMinFlag = true;
             }
-
             if (lngMin[0].y === latMax[0].y) {
                 lngMinFlag = true;
                 latMaxFlag = true;
@@ -217,8 +211,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                         minY = newArr[sp].y;
                         maxY = newArr[sp + 1].y;
                     }
-                    if ((sideList[sl].x >= minX) && (sideList[sl].x <= maxX) &&
-                        (sideList[sl].y <= maxY) && (sideList[sl].y >= minY)) {
+                    if ((sideList[sl].x >= minX) && (sideList[sl].x <= maxX) && (sideList[sl].y <= maxY) && (sideList[sl].y >= minY)) {
                         newArr.splice(sp + 1, 0, sideList[sl]);
                         // sp++;
                         break;
@@ -228,7 +221,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             newArr = checkPoints(newArr);
             return newArr;
         }
-
         /**
          * 计算多边形的重心
          * @param arr
@@ -242,31 +234,24 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                 y: 0
             };
             for (var i = 0; i < arr.length - 1; i++) {
-                area += (((arr[i].x * arr[i + 1].y) -
-                (arr[i + 1].x * arr[i].y)) / 2);
-                center.x += ((arr[i].x * arr[i + 1].y) -
-                    (arr[i + 1].x * arr[i].y)) * (arr[i].x + arr[i + 1].x);
-                center.y += ((arr[i].x * arr[i + 1].y) -
-                    (arr[i + 1].x * arr[i].y)) * (arr[i].y + arr[i + 1].y);
+                area += (((arr[i].x * arr[i + 1].y) - (arr[i + 1].x * arr[i].y)) / 2);
+                center.x += ((arr[i].x * arr[i + 1].y) - (arr[i + 1].x * arr[i].y)) * (arr[i].x + arr[i + 1].x);
+                center.y += ((arr[i].x * arr[i + 1].y) - (arr[i + 1].x * arr[i].y)) * (arr[i].y + arr[i + 1].y);
             }
-            area += (((arr[arr.length - 1].x * arr[0].y) -
-            (arr[0].x * arr[arr.length - 1].y)) / 2);
-            center.x += ((arr[arr.length - 1].x * arr[0].y) -
-                (arr[0].x * arr[arr.length - 1].y)) * (arr[arr.length - 1].x + arr[0].x);
-            center.y += ((arr[arr.length - 1].x * arr[0].y) -
-                (arr[0].x * arr[arr.length - 1].y)) * (arr[arr.length - 1].y + arr[0].y);
+            area += (((arr[arr.length - 1].x * arr[0].y) - (arr[0].x * arr[arr.length - 1].y)) / 2);
+            center.x += ((arr[arr.length - 1].x * arr[0].y) - (arr[0].x * arr[arr.length - 1].y)) * (arr[arr.length - 1].x + arr[0].x);
+            center.y += ((arr[arr.length - 1].x * arr[0].y) - (arr[0].x * arr[arr.length - 1].y)) * (arr[arr.length - 1].y + arr[0].y);
             center.x /= 6 * area;
             center.y /= 6 * area;
             return center;
         }
-
         /**
          * 去除重复的数据，保留一个
          * @param arr
          * @returns {*}
          * @constructor
          */
-        $scope.ArrUnique = function (data) {
+        $scope.ArrUnique = function(data) {
             /* 过滤框选后的数组，去重*/
             var newData = []; // 去重后的数据
             var repeatIdArr = [];
@@ -278,7 +263,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             }
             return newData;
         };
-
         /**
          * 添加geometry
          * @param type
@@ -301,7 +285,10 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             if (type === 'CRFINTER') { // CRF交叉点
                 $scope.resetOperator('addRelation', type);
                 var highLightFeatures = [];
-                var interData = { links: [], nodes: [] };// 推荐的退出线.
+                var interData = {
+                    links: [],
+                    nodes: []
+                }; // 推荐的退出线.
                 var pointList = [];
                 var crfPids = [];
                 highRenderCtrl.highLightFeatures = [];
@@ -317,9 +304,8 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     LayersList: [rdLink, rdnode, crfData]
                 });
                 map.currentTool.enable();
-
                 eventController.off(eventController.eventTypes.GETRECTDATA);
-                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+                eventController.on(eventController.eventTypes.GETRECTDATA, function(data) {
                     if (data && data.data && data.data.length === 0) {
                         tooltipsCtrl.setCurrentTooltip('请重新框选制作CRF交叉点的道路点！');
                         return;
@@ -344,6 +330,10 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                         if (data.data[i].data && data.data[i].data.geometry.type == 'LineString' && crfPids.indexOf(data.data[i].data.properties.id) < 0) {
                             if (interData.links.indexOf(parseInt(data.data[i].data.properties.id)) < 0) {
                                 if (pointList.indexOf(data.data[i].data.properties.snode) > -1 && pointList.indexOf(data.data[i].data.properties.enode) > -1) {
+                                    // add by chenx on 2016-11-24, 非环岛且imiCode为1/2的道路不能制作crfi，参见bug2003
+                                    if (data.data[i].data.properties.form.indexOf('33') < 0 && ['1', '2'].indexOf(data.data[i].data.properties.imiCode) >= 0) {
+                                        continue;
+                                    }
                                     interData.links.push(parseInt(data.data[i].data.properties.id));
                                     highLightFeatures.push({
                                         id: data.data[i].data.properties.id.toString(),
@@ -369,7 +359,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                             }
                         }
                     }
-                    interData.links = $scope.ArrUnique(interData.links);// link去重
+                    interData.links = $scope.ArrUnique(interData.links); // link去重
                     highRenderCtrl.highLightFeatures = highLightFeatures;
                     highRenderCtrl.drawHighlight();
                     map.currentTool.disable();
@@ -378,11 +368,11 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                         map: map,
                         shapeEditor: shapeCtrl,
                         selectLayers: [crfData, rdnode],
-                        snapLayers: [rdnode]// 将rdnode放前面，优先捕捉
+                        snapLayers: [rdnode] // 将rdnode放前面，优先捕捉
                     });
                     map.currentTool.enable();
                     eventController.off(eventController.eventTypes.GETFEATURE);
-                    eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
+                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
                         highRenderCtrl._cleanHighLight();
                         if (data.optype == 'RDNODE') {
                             if (interData.nodes.indexOf(parseInt(data.id)) < 0) {
@@ -401,7 +391,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                         color: '#02F78E'
                                     }
                                 });
-                                dsEdit.getByCondition(param1).then(function (exLinks) {
+                                dsEdit.getByCondition(param1).then(function(exLinks) {
                                     if (exLinks.errcode === -1) {
                                         return;
                                     }
@@ -419,10 +409,9 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                                 });
                                                 highRenderCtrl.drawHighlight();
                                             } else {
-                                                dsEdit.getByPid(exLinks.data[i].pid, 'RDLINK').then(function (linkData) {
+                                                dsEdit.getByPid(exLinks.data[i].pid, 'RDLINK').then(function(linkData) {
                                                     if ((interData.nodes.indexOf(linkData.eNodePid) > -1 && linkData.eNodePid != parseInt(data.id)) || (interData.nodes.indexOf(linkData.sNodePid) > -1 && linkData.sNodePid != parseInt(data.id))) {
- // 线正好是中间部分,把线也加入
-
+                                                        // 线正好是中间部分,把线也加入
                                                         interData.links.push(linkData.pid);
                                                         highRenderCtrl.highLightFeatures.push({
                                                             id: linkData.pid.toString(),
@@ -453,7 +442,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                 param.data = {
                                     nodePid: parseInt(data.id)
                                 };
-                                dsEdit.getByCondition(param).then(function (conLinks) { // 找出所有的挂接线，删除存在于框选范围内的
+                                dsEdit.getByCondition(param).then(function(conLinks) { // 找出所有的挂接线，删除存在于框选范围内的
                                     highRenderCtrl._cleanHighLight();
                                     if (conLinks.errcode === -1) {
                                         return;
@@ -484,7 +473,9 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
             } else if (type === 'CRFROAD') { // CRF道路
                 $scope.resetOperator('addRelation', type);
                 var highLightFeatures = [];
-                var interData = { linkPids: [] };// 推荐的退出线.
+                var interData = {
+                    linkPids: []
+                }; // 推荐的退出线.
                 var lineList = [];
                 var crfPids = [];
                 highRenderCtrl.highLightFeatures = [];
@@ -500,9 +491,8 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     LayersList: [rdLink, crfData]
                 });
                 map.currentTool.enable();
-
                 eventController.off(eventController.eventTypes.GETRECTDATA);
-                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+                eventController.on(eventController.eventTypes.GETRECTDATA, function(data) {
                     if (data && data.data && data.data.length == 0) {
                         tooltipsCtrl.setCurrentTooltip('请重新框选制作CRF交叉点的道路线！');
                         return;
@@ -548,7 +538,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     });
                     map.currentTool.enable();
                     eventController.off(eventController.eventTypes.GETFEATURE);
-                    eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
+                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
                         highRenderCtrl._cleanHighLight();
                         if (data.optype == 'RDLINK') {
                             if (interData.linkPids.indexOf(parseInt(data.id)) < 0) {
@@ -586,6 +576,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     longitude: null,
                     latitude: null
                 };
+
                 function changeCenter(e) {
                     objData.longitude = e.target._latlng.lng;
                     objData.latitude = e.target._latlng.lat;
@@ -607,15 +598,14 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     LayersList: [rdLink, crfData]
                 });
                 map.currentTool.enable();
-
                 eventController.off(eventController.eventTypes.GETRECTDATA);
-                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+                eventController.on(eventController.eventTypes.GETRECTDATA, function(data) {
                     var pointsArr = [];
                     if (data && data.data && data.data.length == 0) {
                         tooltipsCtrl.setCurrentTooltip('请重新框选制作CRF对象的要素！');
                         return;
                     }
-               // crf中的node和link与常规的node、link的pid是一样的，要排除掉常规中的这些数据
+                    // crf中的node和link与常规的node、link的pid是一样的，要排除掉常规中的这些数据
                     for (var i = 0; i < data.data.length; i++) {
                         if (data.data[i].line) {
                             for (var j = 0; j < data.data[i].line.components.length; j++) {
@@ -624,7 +614,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                         } else {
                             pointsArr.push(L.point(parseFloat(data.data[i].data.point.y.toFixed(6)), parseFloat(data.data[i].data.point.x.toFixed(6))));
                         }
-
                         // 将所有的单独的link放进去
                         if (data.data[i].data && data.data[i].data.properties.featType != 'RDINTER' && data.data[i].data.properties.featType != 'RDROAD' && data.data[i].data.properties.featType != 'RDOBJECT' && data.data[i].data.geometry.type == 'LineString') {
                             allLinks.push(data.data[i].data.properties.id);
@@ -638,7 +627,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                 crfPids.push(data.data[i].data.properties.id);
                                 if (data.data[i].data.properties.featType == 'RDINTER' && objData.inters.indexOf(data.data[i].data.properties.id) < 0) {
                                     objData.inters.push(parseInt(data.data[i].data.properties.id));
-                                    dsEdit.getByPid(parseInt(data.data[i].data.properties.id), 'RDINTER').then(function (interData) {
+                                    dsEdit.getByPid(parseInt(data.data[i].data.properties.id), 'RDINTER').then(function(interData) {
                                         var tempData = {
                                             pid: interData.pid,
                                             highLightId: []
@@ -651,7 +640,9 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                                 id: linkArr[i].linkPid.toString(),
                                                 layerid: 'rdLink',
                                                 type: 'line',
-                                                style: { color: '#00FFFF' }
+                                                style: {
+                                                    color: '#00FFFF'
+                                                }
                                             });
                                         }
                                         for (var i = 0, len = points.length; i < len; i++) {
@@ -671,7 +662,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                 }
                                 if (data.data[i].data.properties.featType == 'RDROAD' && objData.roads.indexOf(data.data[i].data.properties.id) < 0) {
                                     objData.roads.push(parseInt(data.data[i].data.properties.id));
-                                    dsEdit.getByPid(parseInt(data.data[i].data.properties.id), 'RDROAD').then(function (roadData) {
+                                    dsEdit.getByPid(parseInt(data.data[i].data.properties.id), 'RDROAD').then(function(roadData) {
                                         var tempData = {
                                             pid: roadData.pid,
                                             highLightId: []
@@ -683,7 +674,9 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                                 id: linkArr[i].linkPid.toString(),
                                                 layerid: 'rdLink',
                                                 type: 'line',
-                                                style: { color: '#DAB1D5' }
+                                                style: {
+                                                    color: '#DAB1D5'
+                                                }
                                             });
                                         }
                                         highRenderCtrl.drawHighlight();
@@ -746,7 +739,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     });
                     map.currentTool.enable();
                     eventController.off(eventController.eventTypes.GETFEATURE);
-                    eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
+                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
                         highRenderCtrl._cleanHighLight();
                         map.removeLayer(map.markerLayer);
                         map.markerLayer = null;
@@ -791,7 +784,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                 }
                             } else { // 不在，查之
                                 objData.inters.push(parseInt(data.id));
-                                dsEdit.getByPid(parseInt(data.id), 'RDINTER').then(function (interData) {
+                                dsEdit.getByPid(parseInt(data.id), 'RDINTER').then(function(interData) {
                                     crfPids.push(interData.pid.toString());
                                     var tempData = {
                                         pid: interData.pid,
@@ -805,7 +798,9 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                             id: linkArr[i].linkPid.toString(),
                                             layerid: 'rdLink',
                                             type: 'line',
-                                            style: { color: '#00FFFF' }
+                                            style: {
+                                                color: '#00FFFF'
+                                            }
                                         });
                                     }
                                     for (var i = 0, len = points.length; i < len; i++) {
@@ -842,7 +837,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                 }
                             } else { // 不在，查之
                                 objData.roads.push(parseInt(data.id));
-                                dsEdit.getByPid(parseInt(data.id), 'RDROAD').then(function (roadData) {
+                                dsEdit.getByPid(parseInt(data.id), 'RDROAD').then(function(roadData) {
                                     crfPids.push(roadData.pid.toString());
                                     var tempData = {
                                         pid: roadData.pid,
@@ -855,7 +850,9 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                             id: linkArr[i].linkPid.toString(),
                                             layerid: 'rdLink',
                                             type: 'line',
-                                            style: { color: '#DAB1D5' }
+                                            style: {
+                                                color: '#DAB1D5'
+                                            }
                                         });
                                     }
                                     highRenderCtrl.drawHighlight();
@@ -865,7 +862,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                         }
                         highRenderCtrl.drawHighlight();
                     });
-
                     shapeCtrl.shapeEditorResult.setFinalGeometry(objData);
                     tooltipsCtrl.setCurrentTooltip('请追加、取消对象或者点击空格保存CRF对象,按ESC键取消!');
                 });
