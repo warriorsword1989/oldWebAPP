@@ -401,7 +401,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             {
                                 'text': "<span class='float-option-bar'>分</span>",
                                 'title': "分离节点",
-                                'type': 'PATHDEPARTNODE',
+                                'type': 'PATHDEPARTNODE_RDLINK',
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                         },
@@ -2498,7 +2498,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                         return;
                     }
-                } else if (type.split('_')[0] === 'PATHVERTEXREMOVE') {
+                } else if (type === 'PATHVERTEXREMOVE') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                         // tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
@@ -2512,7 +2512,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
                         return;
                     }
-                } else if (type === 'PATHDEPARTNODE') {
+                } else if (type.split('_')[0] === 'PATHDEPARTNODE') {
                     // 防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                     if (shapeCtrl.editType && !(shapeCtrl.editType == 'PATHDEPARTNODE')) { // 这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                         // tooltipsCtrl.setCurrentTooltip('<span style="color: red;">道路线的端点已经修改过或分离，请先按空格键保存！</span>');
@@ -3997,7 +3997,8 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     };
                     // 可变限速当前数据模型的拷贝;
                     var tempObj = objCtrl.data.getIntegrate();
-                    $scope.linkNodes = [], $scope.links = [];
+                    $scope.linkNodes = [], // 存储可变限速的所有线，顺序是 进入线--退出线--接续线
+                        $scope.links = []; // 存储可变限速的所有点，顺序是 进入点--退出点--接续线的点
                     // 将临时接续线对象数组改为pid的数组;
                     function uniqueArray(arr) {
                         var result = [],
@@ -4055,7 +4056,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         });
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setCurrentTooltipText('已选择一条退出线!');
+                        tooltipsCtrl.setCurrentTooltip('已选择一条退出线!');
                     }
                     // 高亮接续线方法;
                     function hightlightViasLink() {
@@ -4072,12 +4073,32 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         }
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setCurrentTooltipText('已选接续线!');
+                        tooltipsCtrl.setCurrentTooltip('已选接续线!');
                     }
+                    // 自动追踪功能;
+                    var autoTrail = function (param) {
+                        dsEdit.getByCondition(param).then(function (upAndDownData) {
+                            console.info(upAndDownData);
+                            if (upAndDownData.errcode !== 0) {
+                                return;
+                            }
+                            var arrLinks = upAndDownData.data;
+                            if (arrLinks.length <= 1) {
+                                tooltipsCtrl.setCurrentTooltip('没有找到接续线，请手动选择或保存或ESC退出！');
+                                return;
+                            }
+                            for (var i = 1; i < arrLinks.length; i++) { // 获取第二条到最后的数据(排除第一条)
+                                tempObj.vias.push(arrLinks[i].pid);
+                                $scope.links.push(arrLinks[i].pid);
+                            }
+                            hightlightViasLink();
+                            tooltipsCtrl.setCurrentTooltip('接续线已经自动计算，请按空格保存或者修改接续线！');
+                        });
+                    };
                     eventController.off(eventController.eventTypes.GETOUTLINKSPID);
                     eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(dataresult) {
                         if (['0', '10', '13', '11', '8', '9'].indexOf(dataresult.properties.kind) > -1) {
-                            tooltipsCtrl.setCurrentTooltip('道路种别不能为作业中道路，步行道路，渡轮，人渡，其他道路，非引导道路！');
+                            tooltipsCtrl.setCurrentTooltip('道路种别不能为作业中道路，步行道路，渡轮，人渡，其他道路，非引导道路！', 'warn');
                             map.currentTool.selectedFeatures.pop();
                             return;
                         }
@@ -4085,66 +4106,81 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         if (selectIndex == -1) {
                             selectIndex = $scope.links.length - 1;
                         }
+                        var param = {
+                            command: 'CREATE',
+                            dbId: App.Temp.dbId,
+                            type: 'RDLINK',
+                            data: {
+                                linkPid: '',
+                                nodePidDir: ''
+                            }
+                        };
                         // 如果是修改退出线;
                         if (dataresult.properties.enode == $scope.linkNodes[0] && dataresult.properties.direct == 3 && $scope.links[0] != dataresult.id) {
                             tempObj.outLinkPid = dataresult.id;
                             tempObj.vias = [];
-                            // 对于node和link数组的维护;
                             $scope.links.splice(1);
                             $scope.links.push(parseInt(dataresult.id));
                             $scope.linkNodes.splice(1);
                             $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+
+                            param.data.linkPid = dataresult.id;
+                            param.data.nodePidDir = dataresult.properties.snode;
+                            autoTrail(param);
                             hightlightOutLink();
                         } else if (dataresult.properties.snode == $scope.linkNodes[0] && dataresult.properties.direct == 2 && $scope.links[0] != dataresult.id) {
                             tempObj.outLinkPid = dataresult.id;
                             tempObj.vias = [];
-                            // 对于node和link数组的维护;
                             $scope.links.splice(1);
                             $scope.links.push(parseInt(dataresult.id));
                             $scope.linkNodes.splice(1);
                             $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+
+                            param.data.linkPid = dataresult.id;
+                            param.data.nodePidDir = dataresult.properties.snode;
+                            autoTrail(param);
+
                             hightlightOutLink();
                         } else if ($scope.links[0] != dataresult.id && (dataresult.properties.enode == $scope.linkNodes[0] || dataresult.properties.snode == $scope.linkNodes[0]) && dataresult.properties.direct == 1) {
                             tempObj.outLinkPid = dataresult.id;
                             tempObj.vias = [];
-                            // 对于node和link数组的维护;
                             $scope.links.splice(1);
                             $scope.links.push(parseInt(dataresult.id));
                             $scope.linkNodes.splice(1);
-                            (dataresult.properties.enode == $scope.linkNodes[0]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                            var nd = (dataresult.properties.enode == $scope.linkNodes[0]) ? parseInt(dataresult.properties.snode) : parseInt(dataresult.properties.enode);
+                            $scope.linkNodes.push(nd);
+
+                            param.data.linkPid = dataresult.id;
+                            param.data.nodePidDir = nd;
+                            autoTrail(param);
+
                             hightlightOutLink();
                         }
-                        // else {
-                        //     tooltipsCtrl.setCurrentTooltipText("退出线与进入点不连续或方向错误!");
-                        // }
+
                         /* 判断接续线是否能与进入线重合，原则上不能重合*/
                         if (dataresult.id == $scope.links[0]) {
-                            tooltipsCtrl.setCurrentTooltipText('接续线不能与进入线重合!');
+                            tooltipsCtrl.setCurrentTooltip('接续线不能与进入线重合!', 'warn');
                             return;
                         }
                         /* 如果没有接续线接续线直接跟退出线挂接;*/
                         if (tempObj.vias.indexOf(parseInt(dataresult.id)) == -1) {
                             if (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1] && dataresult.properties.direct == 3 && $scope.links[1] != dataresult.id) {
                                 tempObj.vias.push(parseInt(dataresult.id));
-                                // 对于node和link数组的维护;
                                 $scope.links.push(parseInt(dataresult.id));
                                 $scope.linkNodes.push(parseInt(dataresult.properties.snode));
                                 hightlightViasLink();
                             } else if (dataresult.properties.snode == $scope.linkNodes[$scope.linkNodes.length - 1] && dataresult.properties.direct == 2 && $scope.links[1] != dataresult.id) {
                                 tempObj.vias.push(parseInt(dataresult.id));
-                                // 对于node和link数组的维护;
                                 $scope.links.push(parseInt(dataresult.id));
                                 $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                                 hightlightViasLink();
                             } else if ($scope.links[1] != dataresult.id && (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1] || dataresult.properties.snode == $scope.linkNodes[$scope.linkNodes.length - 1]) && dataresult.properties.direct == 1) {
-                                // 对于node和link数组的维护;
                                 $scope.links.push(parseInt(dataresult.id));
                                 tempObj.vias.push(parseInt(dataresult.id));
-                                (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                                var nd = (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? parseInt(dataresult.properties.snode) : parseInt(dataresult.properties.enode);
+                                $scope.linkNodes.push(nd);
                                 hightlightViasLink();
-                            } else if (dataresult.id != tempObj.outLinkPid) {
-                                tooltipsCtrl.setCurrentTooltipText('您选择的接续线与上一条不连续或方向错误!');
-                            }
+                            } else if (dataresult.id != tempObj.outLinkPid) { tooltipsCtrl.setCurrentTooltip('您选择的接续线与上一条不连续或方向错误!', 'warn'); }
                         } else {
                             $scope.links.splice(selectIndex);
                             $scope.linkNodes.splice(selectIndex);
