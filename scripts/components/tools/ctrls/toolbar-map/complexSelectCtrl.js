@@ -83,6 +83,66 @@ angular.module('app').controller('complexSelectCtrl', ['$scope', '$ocLazyLoad', 
                         console.info(res);
                     });
                 });
+            } else if (type === 'TRACK_RDLINK') { // 追踪选rdlink
+                tooltipsCtrl.setCurrentTooltip('请先选择进入线！');
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    map: map,
+                    currentEditLayer: rdLink,
+                    shapeEditor: shapeCtrl,
+                    operationList: ['line', 'point']
+                });
+                map.currentTool.enable();
+                map.currentTool.snapHandler.addGuideLayer(rdLink); // 添加自动吸附的图层
+                var linkId,
+                    nodeId,
+                    highLightObjs = [];
+                eventController.off(eventController.eventTypes.GETLINKID);
+                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                    var direct;
+                    // 清除吸附的十字
+                    map.currentTool.snapHandler.snaped = false;
+                    map.currentTool.clearCross();
+                    map.currentTool.snapHandler._guides = [];
+                    if (data.index === 0) {
+                        direct = data.properties.direct;
+                        linkId = data.id;
+                        highLightObjs.push(linkId);
+                        $scope.highLightObj(highLightObjs, 'line');
+                        if (direct === '3') { //  3逆方向
+                            nodeId = data.properties.snode;
+                            map.currentTool.selectedFeatures.push(nodeId);
+                        } else if (direct === '2') { // 2顺方向
+                            nodeId = data.properties.enode;
+                            map.currentTool.selectedFeatures.push(nodeId);
+                        } else {
+                            tooltipsCtrl.setCurrentTooltip('请选择进入点！');
+                            map.currentTool.snapHandler.addGuideLayer(rdNode);
+                            return;
+                        }
+                    } else if (data.index === 1) {
+                        nodeId = data.id;
+                        map.currentTool.selectedFeatures.push(nodeId);
+                    }
+                    if (linkId && nodeId && data.index <= 1) {
+                        var param = {
+                            command: 'CREATE',
+                            dbId: App.Temp.dbId,
+                            type: 'RDLINK',
+                            data: {
+                                linkPid: linkId,
+                                nodePidDir: nodeId
+                            }
+                        };
+                        dsEdit.getByCondition(param).then(function (res) {
+                            if (res.errcode === 0) {
+                                for (var i = 1; i < res.data.length; i++) {
+                                    highLightObjs.push(res.data[i].pid);
+                                }
+                                $scope.highLightObj(highLightObjs, 'line');
+                            }
+                        });
+                    }
+                });
             }
         };
         /**
