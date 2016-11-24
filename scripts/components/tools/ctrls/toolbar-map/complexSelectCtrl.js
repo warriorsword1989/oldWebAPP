@@ -90,7 +90,7 @@ angular.module('app').controller('complexSelectCtrl', ['$scope', '$ocLazyLoad', 
          * type 暂时可以是 line、node，需要其他在扩展
          */
         $scope.highLightObj = function (arr, type, style) {
-            highRenderCtrl.cleanHighLight();
+            highRenderCtrl.clear();
             var highlightFeatures = [];
             if (!style) {
                 style = {};

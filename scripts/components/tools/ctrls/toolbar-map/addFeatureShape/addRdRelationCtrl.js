@@ -631,7 +631,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          *  }]
          */
         $scope.highLightObj = function (arr) {
-            highRenderCtrl.cleanHighLight();
+            highRenderCtrl.clear();
             var highlightFeatures = [];
             for (var i = 0, lenI = arr.length; i < lenI; i++) {
                 highlightFeatures.push({
@@ -3208,7 +3208,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     hgwgLimitObj.latitude = e.latlng.lat;
                     hgwgLimitObj.longitude = e.latlng.lng;
                     highLightFeatures = [];
-                    highRenderCtrl.cleanHighLight();
+                    highRenderCtrl.clear();
                     highLightFeatures.push({
                         id: pro.id.toString(),
                         layerid: 'rdLink',
@@ -3560,7 +3560,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.VARIABLESPEED);
                 // 地图编辑相关设置;
                 tooltipsCtrl.setEditEventType('rdBranch');
-                tooltipsCtrl.setCurrentTooltip('正要新建可变限速,先选择线！'); 
+                tooltipsCtrl.setCurrentTooltip('正要新建可变限速,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createRestrictFlag: true,
