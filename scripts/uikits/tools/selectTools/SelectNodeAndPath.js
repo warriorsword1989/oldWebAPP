@@ -138,32 +138,57 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
                                     nodeId: data[item].properties.nodeId,
                                     name: data[item].properties.name,
                                     event: event,
-                                    layer: this.selectLayers[i]
+                                    layer: this.selectLayers[i],
+                                    loctableId: data[item].properties.loctableId,
+                                    locoffPos: data[item].properties.locoffPos,
+                                    locoffNeg: data[item].properties.locoffNeg
                                 });
                             }
-                        }
-                        if (this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)) {
-                            selectFeatures.push({
-                                id: data[item].properties.id,
-                                optype: data[item].properties.featType,
-                                origType: data[item].geometry.type,
-                                nodeId: data[item].properties.nodeId,
-                                name: data[item].properties.name,
-                                event: event,
-                                layer: this.selectLayers[i],
-                                loctableId: data[item].properties.loctableId,
-                                locoffPos: data[item].properties.locoffPos,
-                                locoffNeg: data[item].properties.locoffNeg
-                            });
+                        } else {
+                            if (this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)) {
+                                selectFeatures.push({
+                                    id: data[item].properties.id,
+                                    optype: data[item].properties.featType,
+                                    origType: data[item].geometry.type,
+                                    nodeId: data[item].properties.nodeId,
+                                    name: data[item].properties.name,
+                                    event: event,
+                                    layer: this.selectLayers[i],
+                                    loctableId: data[item].properties.loctableId,
+                                    locoffPos: data[item].properties.locoffPos,
+                                    locoffNeg: data[item].properties.locoffNeg
+                                });
+                            }
                         }
                     }
                 }
             }
         }
-        if (selectFeatures.length > 0) {
+        if (selectFeatures.length === 1) {
             this.selectCtrl.selectedFeatures = selectFeatures[0];
             this.eventController.fire(this.eventController.eventTypes.GETFEATURE, selectFeatures[0]);
             selectFeatures[0].layer.selectedid = selectFeatures[0].id;
+        }else if (selectFeatures.length > 1) {
+            var html = '<ul id="layerpopup">';
+            // this.overlays = this.unique(this.overlays);
+            for (var item in selectFeatures) {
+                html += '<li><a href="#" id="' + item + '">' + selectFeatures[item].optype + '-' + selectFeatures[item].id + '</a></li>';
+            }
+            html += '</ul>';
+            this.popup.setLatLng(event.latlng).setContent(html);
+            var that = this;
+            this._map.on('popupopen', function () {
+                document.getElementById('layerpopup').onclick = function (e) {
+                    that.selectCtrl.selectedFeatures = selectFeatures[e.target.id];
+                    that.eventController.fire(that.eventController.eventTypes.GETFEATURE, selectFeatures[e.target.id]);
+                    selectFeatures[e.target.id].layer.selectedid = selectFeatures[e.target.id].id;
+                    that._map.closePopup(that.popup);
+                    that._map.off('popupopen');
+                };
+            });
+            setTimeout(function () {
+                that._map.openPopup(that.popup);
+            }, 200);
         }
         // if (selectFeatures.length == 1) {
         //     this.selectCtrl.selectedFeatures = selectFeatures[0];
