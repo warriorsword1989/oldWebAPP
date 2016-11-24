@@ -512,7 +512,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     };
     // 保存按钮
     $scope.doSave = function () {
-        if (rdLaneTopoDetail.topoIds.length === 0 && rdLaneTopoDetail.laneTopoInfos.length === 0){
+        if (rdLaneTopoDetail.topoIds.length === 0 && rdLaneTopoDetail.laneTopoInfos.length === 0) {
             swal('提示', '车道连通信息未发生改变！', 'warning');
             return;
         }

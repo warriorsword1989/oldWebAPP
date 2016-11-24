@@ -106,6 +106,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 map.removeLayer(map.markerLayer);
                 map.markerLayer = null;
             }
+            if (rdnode.selectedid) {
+                rdnode.selectedid = null;
+            }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures = [];
             editLayer.drawGeometry = null;
