@@ -5,38 +5,39 @@ var directConnexityApp = angular.module('app');
 directConnexityApp.controller('directOfConnexityController', function ($scope) {
     map.currentTool.disable();
     var objCtrl = fastmap.uikit.ObjectEditController();
+    // modified by chenx on 2016-11-24, 按照二代的显示修改
     $scope.laneDirectData = [
         {
-            flag: 'a',
-            log: '直'
+            flag: 'd',
+            log: '调'
+        },
+        {
+            flag: 'l',
+            log: '调左'
         },
         {
             flag: 'b',
             log: '左'
         },
         {
-            flag: 'c',
-            log: '右'
+            flag: 'g',
+            log: '直左'
         },
         {
-            flag: 'd',
-            log: '调'
-        },
-        {
-            flag: 'e',
-            log: '直调'
+            flag: 'a',
+            log: '直'
         },
         {
             flag: 'f',
             log: '直右'
         },
         {
-            flag: 'g',
-            log: '直左'
+            flag: 'c',
+            log: '右'
         },
         {
-            flag: 'h',
-            log: '左直右'
+            flag: 'e',
+            log: '直调'
         },
         {
             flag: 'i',
@@ -44,23 +45,19 @@ directConnexityApp.controller('directOfConnexityController', function ($scope) {
         },
         {
             flag: 'j',
-            log: '调左值'
+            log: '调左直'
         },
         {
             flag: 'k',
             log: '左右'
         },
         {
-            flag: 'i',
-            log: '调右'
+            flag: 'h',
+            log: '左直右'
         },
         {
             flag: 'm',
             log: '调左右'
-        },
-        {
-            flag: 'n',
-            log: '调右'
         },
         {
             flag: 'o',

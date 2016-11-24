@@ -138,6 +138,7 @@
                         <button class="fm-top-btn blank" title="制作限高限重" ng-controller="addRdRelationCtrl" ng-click="addShape('RDHGWGLIMIT')">重</button>
                         <button class="fm-top-btn blank" title="制作卡车交限" ng-controller="addRdRelationCtrl" ng-click="addShape('RDRESTRICTIONTRUCK')">卡</button>
                         <button class="fm-top-btn blank" title="制作里程桩" ng-controller="addRdRelationCtrl" ng-click="addShape('RDMILEAGEPILE')">里</button>
+                        <!--<button class="fm-top-btn blank" title="制作TMC" ng-controller="addRdRelationCtrl" ng-click="addShape('RDTMCLOCATION')">TMC</button>-->
                     </div>
                 </div>
             </li>
@@ -201,6 +202,16 @@
                         <button class="fm-top-btn blank" title="框选RdNode" ng-controller="complexSelectCtrl" ng-click="selectShape('RDNODE')">点</button>
                         <button class="fm-top-btn blank" title="框选RdLink" ng-controller="complexSelectCtrl" ng-click="selectShape('RDLINK')">线</button>
                         <!-- <button class="fm-top-btn blank" title="框选Tips" ng-controller="complexSelectCtrl" ng-click="selectShape('TIPS')">tips</button> -->
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="row" style="margin:0px;padding:0px;">
+                    <div class="col-md-3" style="text-align:center;">
+                        追踪选
+                    </div>
+                    <div class="col-md-9">
+                        <button class="fm-top-btn blank" title="追踪选RdLink" ng-controller="complexSelectCtrl" ng-click="selectShape('TRACK_RDLINK')">线</button>
                     </div>
                 </div>
             </li>

@@ -188,7 +188,20 @@
         'TMLinkSpeedlimitSpeedClass.js',
         'TMLinkSpeedlimitSpeedClassWork.js',
         'TMLinkSpeedlimitSpeedLimitSrc.js',
-        'TMTruckLimitData.js'
+        'TMTruckLimitData.js',
+        'TMDevelopState.js',
+        'TMMultiDigitized.js',
+        'TMPaveStatus.js',
+        'TMTollInfo.js',
+        'TMSpecialTraffic.js',
+        'TMIsViaduct.js',
+        'TMAppInfo.js',
+        'TMRdLinkForm.js',
+        'TMNameContent.js',
+        'TMNameGroupid.js',
+        'TMNameType.js',
+        'TMSpeedlimitConditionCount.js',
+        'TMRdLinkLimitType.js'
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

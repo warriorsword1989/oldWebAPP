@@ -4077,6 +4077,12 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     }
                     eventController.off(eventController.eventTypes.GETOUTLINKSPID);
                     eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (dataresult) {
+                        if (['0', '10', '13', '11', '8', '9'].indexOf(dataresult.properties.kind) > -1) {
+                            tooltipsCtrl.setCurrentTooltip('道路种别不能为作业中道路，步行道路，渡轮，人渡，其他道路，非引导道路！');
+                            map.currentTool.selectedFeatures.pop();
+                            return;
+                        }
+
                         var selectIndex = $scope.links.indexOf(parseInt(dataresult.id));
                         if (selectIndex == -1) {
                             selectIndex = $scope.links.length - 1;

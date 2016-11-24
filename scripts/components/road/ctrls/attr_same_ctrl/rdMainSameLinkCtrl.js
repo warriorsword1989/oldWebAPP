@@ -48,45 +48,45 @@ mainSameLinkApp.controller('MainSameLinkController', ['$scope', '$ocLazyLoad', '
         var data = $scope.same.sameLinkList;
         for (var i = 0, len = data.length; i < len; i++) {
             if (data[i].checked) {
-                if (data[i].featType == 'RDLINK') {
+                if (data[i].featType === 'RDLINK') {
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'rdLink',
                         type: 'line',
                         style: {
-                            color: 'black'
-                        },
-                        radius: 5
+                            color: 'black',
+                            strokeWidth: 5
+                        }
                     });
-                } else if (data[i].featType == 'ADLINK') {
+                } else if (data[i].featType === 'ADLINK') {
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'adLink',
                         type: 'line',
                         style: {
-                            color: 'red'
-                        },
-                        radius: 5
+                            color: 'red',
+                            strokeWidth: 5
+                        }
                     });
-                } else if (data[i].featType == 'ZONELINK') {
+                } else if (data[i].featType === 'ZONELINK') {
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'zoneLink',
                         type: 'line',
                         style: {
-                            color: 'Blue'
-                        },
-                        radius: 5
+                            color: 'Blue',
+                            strokeWidth: 5
+                        }
                     });
-                } else if (data[i].featType == 'LULINK') {
+                } else if (data[i].featType === 'LULINK') {
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'luLink',
                         type: 'line',
                         style: {
-                            color: 'Green'
-                        },
-                        radius: 5
+                            color: 'Green',
+                            strokeWidth: 5
+                        }
                     });
                 }
             }
@@ -100,13 +100,13 @@ mainSameLinkApp.controller('MainSameLinkController', ['$scope', '$ocLazyLoad', '
      * 保存
      */
     $scope.saveSame = function () {
-        var data = $scope.same.sameLinkList;
-        var types = {};
-        var rdLink = 0,
+        var data = $scope.same.sameLinkList,
+            types = {},
+            rdLink = 0,
             adLink = 0,
             zoneLink = 0,
-            luLink = 0;
-        var resultArr = [];
+            luLink = 0,
+            resultArr = [];
         for (var i = 0, len = data.length; i < len; i++) {
             if (data[i].checked) {
                 var obj = {};
@@ -115,13 +115,13 @@ mainSameLinkApp.controller('MainSameLinkController', ['$scope', '$ocLazyLoad', '
                 resultArr.push(obj);
                 obj.isMain = 0;// 非主要素
                 types[data[i].featType] = '';// 用户记录node的类型
-                if (data[i].featType == 'RDLINK') {
+                if (data[i].featType === 'RDLINK') {
                     rdLink++;
-                } else if (data[i].featType == 'ADLINK') {
+                } else if (data[i].featType === 'ADLINK') {
                     adLink++;
-                } else if (data[i].featType == 'ZONELINK') {
+                } else if (data[i].featType === 'ZONELINK') {
                     zoneLink++;
-                } else if (data[i].featType == 'LULINK') {
+                } else if (data[i].featType === 'LULINK') {
                     luLink++;
                 }
             }

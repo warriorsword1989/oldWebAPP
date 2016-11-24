@@ -175,10 +175,14 @@ fastmap.mapApi.ShapeOptionType = {
      */
     PATHDEPARTNODE: 'pathDepartNode',
     /*
-    * 限高限重
-    * */
+     * 限高限重
+     * */
     UPDATEHGWHLIMITNODE: 'updateHgwgLimitNode',
-    //平滑修形
-    PATHSMOOTH:'pathSmooth'
+    /*
+     * TMC
+     * */
+    TMCLOCATION: 'tmcLocation',
+    // 平滑修形
+    PATHSMOOTH: 'pathSmooth'
 };
 

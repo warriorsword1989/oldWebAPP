@@ -68,45 +68,45 @@ sameRelationshapApp.controller('SameRelationshapController', ['$scope', '$ocLazy
         var data = $scope.same.sameNodeList;
         for (var i = 0, len = data.length; i < len; i++) {
             if (data[i].checked) {
-                if (data[i].featType == 'RDNODE') {
+                if (data[i].featType === 'RDNODE') {
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'rdLink',
                         type: 'node',
                         style: {
-                            color: 'black'
-                        },
-                        radius: 5
+                            color: 'black',
+                            radius: 4
+                        }
                     });
-                } else if (data[i].featType == 'ADNODE') {
+                } else if (data[i].featType === 'ADNODE') {
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'adLink',
                         type: 'node',
                         style: {
-                            color: 'red'
-                        },
-                        radius: 5
+                            color: 'red',
+                            radius: 4
+                        }
                     });
-                } else if (data[i].featType == 'ZONENODE') {
+                } else if (data[i].featType === 'ZONENODE') {
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'zoneLink',
                         type: 'node',
                         style: {
-                            color: 'Blue'
-                        },
-                        radius: 5
+                            color: 'Blue',
+                            radius: 4
+                        }
                     });
-                } else if (data[i].featType == 'LUNODE') {
+                } else if (data[i].featType === 'LUNODE') {
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'luLink',
                         type: 'node',
                         style: {
-                            color: 'Green'
-                        },
-                        radius: 5
+                            color: 'Green',
+                            radius: 4
+                        }
                     });
                 }
             }
@@ -121,8 +121,8 @@ sameRelationshapApp.controller('SameRelationshapController', ['$scope', '$ocLazy
      */
     $scope.saveSame = function () {
         var data = $scope.same.sameNodeList;
-        var types = {};
-        var rdNode = 0,
+        var types = {},
+            rdNode = 0,
             adNode = 0,
             zoneNode = 0,
             luNode = 0;
@@ -136,13 +136,13 @@ sameRelationshapApp.controller('SameRelationshapController', ['$scope', '$ocLazy
                 resultArr.push(obj);
 
                 types[data[i].featType] = '';// 用户记录node的类型
-                if (data[i].featType == 'RDNODE') {
+                if (data[i].featType === 'RDNODE') {
                     rdNode++;
-                } else if (data[i].featType == 'ADNODE') {
+                } else if (data[i].featType === 'ADNODE') {
                     adNode++;
-                } else if (data[i].featType == 'ZONENODE') {
+                } else if (data[i].featType === 'ZONENODE') {
                     zoneNode++;
-                } else if (data[i].featType == 'LUNODE') {
+                } else if (data[i].featType === 'LUNODE') {
                     luNode++;
                 }
             }
@@ -153,7 +153,7 @@ sameRelationshapApp.controller('SameRelationshapController', ['$scope', '$ocLazy
             return;
         }
         if (Object.keys(types).length < 2) {
-            if (!(resultArr[0].type == 'LUNODE')) { // 有一种特殊情况排除在外，就只当值选择了luNode，并且符合后面代码的规则时，也是可以做同一点的
+            if (!(resultArr[0].type === 'LUNODE')) { // 有一种特殊情况排除在外，就只当值选择了luNode，并且符合后面代码的规则时，也是可以做同一点的
                 swal('提示', '同一点关系中,至少需要两种要素！', 'warning');
                 return;
             }
@@ -194,8 +194,8 @@ sameRelationshapApp.controller('SameRelationshapController', ['$scope', '$ocLazy
                 zoneLinkLayer.redraw();
                 luLinkLayer.redraw();
 
-                dsEdit.getByPid(callData.pid, 'RDSAMENODE').then(function (data) {
-                    objCtrl.setCurrentObject('RDSAMENODE', data);
+                dsEdit.getByPid(callData.pid, 'RDSAMENODE').then(function (res) {
+                    objCtrl.setCurrentObject('RDSAMENODE', res);
                     var changedDirectObj = {
                         loadType: 'attrTplContainer',
                         propertyCtrl: appPath.road + 'ctrls/attr_same_ctrl/rdSameNodeCtrl',
