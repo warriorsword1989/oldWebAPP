@@ -64,6 +64,13 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
             this._map.off('click', this.onMouseDown_np, this);
         }
     },
+    disable: function () {
+        if (!this._enabled) {
+            return;
+        }
+        this._enabled = false;
+        this.removeHooks();
+    },
     onMouseMove_np: function (event) {
         this.snapHandler.setTargetIndex(0);
         if (this.snapHandler.snaped) {
