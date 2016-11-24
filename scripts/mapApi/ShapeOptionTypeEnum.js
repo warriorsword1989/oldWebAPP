@@ -185,3 +185,4 @@ fastmap.mapApi.ShapeOptionType = {
     // 平滑修形
     PATHSMOOTH: 'pathSmooth'
 };
+

@@ -112,24 +112,37 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
             if (this.selectLayers[i].options.showNodeLevel > this._map.getZoom() || !this.selectLayers[i].options.visible) {
                 continue;
             }
-            data = this.selectLayers[i].tiles[tilePoint[0] + ':' + tilePoint[1]].data;
-            for (var item in data) {
-                if (data[item].geometry.type == 'LineString') {
-                    if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
-                        selectFeatures.push({
-                            id: data[item].properties.id,
-                            optype: data[item].properties.featType,
-                            origType: data[item].geometry.type,
-                            linkId: data[item].properties.linkId,
-                            event: event,
-                            point: point,
-                            properties: data[item].properties,
-                            layer: this.selectLayers[i]
-                        });
-                    }
-                } else if (data[item].geometry.type == 'Point') {
-                    if (data[item].properties.featType === 'TMCPOINT') {
-                        if (this._TouchesRelationPoint(data[item].geometry.coordinates, x, y, 20)) {
+            if (this.selectLayers[i].tiles[tilePoint[0] + ':' + tilePoint[1]]) {
+                data = this.selectLayers[i].tiles[tilePoint[0] + ':' + tilePoint[1]].data;
+                for (var item in data) {
+                    if (data[item].geometry.type == 'LineString') {
+                        if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                            selectFeatures.push({
+                                id: data[item].properties.id,
+                                optype: data[item].properties.featType,
+                                origType: data[item].geometry.type,
+                                linkId: data[item].properties.linkId,
+                                event: event,
+                                point: point,
+                                properties: data[item].properties,
+                                layer: this.selectLayers[i]
+                            });
+                        }
+                    } else if (data[item].geometry.type == 'Point') {
+                        if (data[item].properties.featType === 'TMCPOINT') {
+                            if (this._TouchesRelationPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                selectFeatures.push({
+                                    id: data[item].properties.id,
+                                    optype: data[item].properties.featType,
+                                    origType: data[item].geometry.type,
+                                    nodeId: data[item].properties.nodeId,
+                                    name: data[item].properties.name,
+                                    event: event,
+                                    layer: this.selectLayers[i]
+                                });
+                            }
+                        }
+                        if (this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)) {
                             selectFeatures.push({
                                 id: data[item].properties.id,
                                 optype: data[item].properties.featType,
@@ -137,20 +150,12 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
                                 nodeId: data[item].properties.nodeId,
                                 name: data[item].properties.name,
                                 event: event,
-                                layer: this.selectLayers[i]
+                                layer: this.selectLayers[i],
+                                loctableId: data[item].properties.loctableId,
+                                locoffPos: data[item].properties.locoffPos,
+                                locoffNeg: data[item].properties.locoffNeg
                             });
                         }
-                    }
-                    if (this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)) {
-                        selectFeatures.push({
-                            id: data[item].properties.id,
-                            optype: data[item].properties.featType,
-                            origType: data[item].geometry.type,
-                            nodeId: data[item].properties.nodeId,
-                            name: data[item].properties.name,
-                            event: event,
-                            layer: this.selectLayers[i]
-                        });
                     }
                 }
             }

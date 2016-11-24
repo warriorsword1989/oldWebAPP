@@ -109,7 +109,9 @@ fastmap.uikit.EventController = (function () {
                             delete events[type];
                             delete events[indexKey];
                             delete events[indexLenKey];
-                            delete eventTypesMap[type];
+                            if (this.eventTypesMap[type]) {
+                                delete this.eventTypesMap[type];
+                            }
                         } else {
                             listeners = contextId && typeIndex ? typeIndex[contextId] : events[type];
 
@@ -128,10 +130,11 @@ fastmap.uikit.EventController = (function () {
                                     events[indexLenKey]--;
                                 }
                             }
-
-                            for (var i = 0, len = this.eventTypesMap[type].length; i < len; i++) {
-                                if (this.eventTypesMap[type][i] === fn) {
-                                    this.eventTypesMap[type].splice(j, 1);
+                            if (this.eventTypesMap[type]) {
+                                for (var i = 0, len = this.eventTypesMap[type].length; i < len; i++) {
+                                    if (this.eventTypesMap[type][i] === fn) {
+                                        this.eventTypesMap[type].splice(j, 1);
+                                    }
                                 }
                             }
                         }
@@ -159,6 +162,7 @@ fastmap.uikit.EventController = (function () {
                 L.setOptions(this, options);
                 this.eventTypes = L.Mixin.EventTypes;
                 this.on = this.addEventListener;
+                this.off = this.removeEventListener;
                 this.eventTypesMap = {};
             }
 
@@ -172,5 +176,5 @@ fastmap.uikit.EventController = (function () {
         }
         return instantiated;
     };
-}());
+})();
 
