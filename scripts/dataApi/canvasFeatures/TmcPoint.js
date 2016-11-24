@@ -10,7 +10,7 @@ fastmap.uikit.canvasFeature.TmcPoint = fastmap.uikit.canvasFeature.Feature.exten
         this.geometry.coordinates = item.g;
         this.properties.markerStyle.icon.push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                iconName: '../../../images/road/tmc/tmcPoint.png',
+                iconName: '../../../images/road/tmc/tmc.png',
                 row: 0,
                 column: 1,
                 location: this.geometry.coordinates

@@ -260,7 +260,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
         });
         if ($scope.rticData.direct === 1) {
-            tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
             var point = fastmap.mapApi.point($scope.rticData.geometry.coordinates[0][0], $scope.rticData.geometry.coordinates[0][1]);
             var linkCoords = $scope.rticData.geometry.coordinates;
             // 计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
@@ -291,7 +290,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             if (sVertex.x > eVertex.x || (sVertex.x == eVertex.x && sVertex.y > eVertex.y)) { // 从右往左划线或者从下网上划线
                 angle = Math.PI + angle;
             }
-            tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
             var marker = {
                 flag: false,
                 point: point,
@@ -306,13 +304,11 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             editLayer.draw(marker, editLayer);
             sObj.setOriginalGeometry(marker);
             sObj.setFinalGeometry(marker);
-            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.ELECTRONICEYE);
             shapeCtrl.startEditing();
-            tooltipsCtrl.setCurrentTooltip('点击地图开始修改方向！');
+            tooltipsCtrl.setCurrentTooltip('请点击空格创建TMCLocation！');
         } else {
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-            tooltipsCtrl.setCurrentTooltip('请点击保存,创建TMCLocation!');
-            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.ELECTRONICEYE);
+            tooltipsCtrl.setCurrentTooltip('请点击空格创建TMCLocation!');
         }
     };
     /* 修改追踪线或选择tmcPoint */
@@ -327,22 +323,31 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         map.currentTool.enable();
         eventController.off(eventController.eventTypes.GETFEATURE);
         eventController.on(eventController.eventTypes.GETFEATURE, function (tData) {
-            console.log(tData)
-            $scope.tmcRelation.pointPids.push(tData);
-            // 防止多次点击去重
-            $scope.tmcRelation.pointPids = Utils.distinctArr($scope.tmcRelation.pointPids);
-            if ($scope.tmcRelation.pointPids.length > 1 && $scope.tmcRelation.pointPids[0].locoffPos !== 0) {
-                // 如果选择的第二个位置点是第一个位置点的正向偏移量则，则位置方向赋值为“+”
-                if ($scope.tmcRelation.pointPids[0].locoffPos === $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].pid) {
-                    $scope.tmcRelation.locDirect = 1;
-                } else if ($scope.tmcRelation.pointPids[0].locoffNeg === $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].pid) {
-                    // 如果选择的第二个位置点是第一个位置点的负向偏移量则，则位置方向赋值为“-”
-                    $scope.tmcRelation.locDirect = 2;
+            if (tData.optype !== 'TMCPOINT' || tData.optype !== 'RDLINK') {
+                tooltipsCtrl.notify('修改追踪link或者选择两个TMCPoint！', 'error');
+                return;
+            }
+            // 如果选择的是link，则修改追踪线
+            if (tData.optype === 'RDLINK') {
+
+            } else if (tData.optype === 'TMCPOINT') { // 如果选择tmcPoint，则计算locDirect
+                $scope.tmcRelation.pointPids.push(tData);
+                // 防止多次点击去重
+                // $scope.tmcRelation.pointPids = Utils.distinctArr($scope.tmcRelation.pointPids);
+                if ($scope.tmcRelation.pointPids.length > 1 && $scope.tmcRelation.pointPids[0].locoffPos !== 0) {
+                    // 如果选择的第二个位置点是第一个位置点的正向偏移量则，则位置方向赋值为“+”
+                    if ($scope.tmcRelation.pointPids[0].locoffPos === $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].pid) {
+                        $scope.tmcRelation.locDirect = 1;
+                    } else if ($scope.tmcRelation.pointPids[0].locoffNeg === $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].pid) {
+                        // 如果选择的第二个位置点是第一个位置点的负向偏移量则，则位置方向赋值为“-”
+                        $scope.tmcRelation.locDirect = 2;
+                    }
+                    // 赋值位置表标识
+                    $scope.tmcRelation.loctableId = $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].loctableId;
+                    // 选择link作用方向
+                    tooltipsCtrl.setCurrentTooltip('已选择TMCPoint，点击地图开始修改方向！');
+                    $scope.changeLinkDirect();
                 }
-                // 赋值位置表标识
-                $scope.tmcRelation.loctableId = $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].loctableId;
-                // 选择link作用方向
-                $scope.changeLinkDirect();
             }
             // 高亮第一个tmcPoint和最后一个tmcPoint
             $scope.refreshHighLight();
@@ -377,7 +382,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             type: 'line',
             style: {}
         });
-        if ($scope.tmcRelation.linkPids.length) {
+        if ($scope.tmcRelation.linkPids && $scope.tmcRelation.linkPids.length) {
             for (var i = 0; i < $scope.tmcRelation.linkPids.length; i++) {
                 highRenderCtrl.highLightFeatures.push({
                     id: parseInt($scope.tmcRelation.linkPids[i].pid).toString(),
@@ -389,23 +394,27 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 });
             }
         }
-        highRenderCtrl.highLightFeatures.push({
-            id: $scope.tmcRelation.nodePid.toString(),
-            layerid: 'rdLink',
-            type: 'node',
-            style: {
-                color: 'yellow'
-            }
-        });
+        if ($scope.tmcRelation.nodePid) {
+            highRenderCtrl.highLightFeatures.push({
+                id: $scope.tmcRelation.nodePid.toString(),
+                layerid: 'rdLink',
+                type: 'node',
+                style: {
+                    color: 'yellow'
+                }
+            });
+        }
         // 高亮第一个tmcPoint和最后一个tmcPoint
-        for (var i = 0; i < $scope.tmcRelation.pointPids.length; i++) {
-            if (i === 0 || i === $scope.tmcRelation.pointPids.length - 1) {
-                highRenderCtrl.highLightFeatures.push({
-                    id: $scope.tmcRelation.pointPids[i].id.toString(),
-                    layerid: 'tmcData',
-                    type: 'TMCPOINT',
-                    style: {}
-                });
+        if ($scope.tmcRelation.pointPids && $scope.tmcRelation.pointPids.length) {
+            for (var i = 0; i < $scope.tmcRelation.pointPids.length; i++) {
+                if (i === 0 || i === $scope.tmcRelation.pointPids.length - 1) {
+                    highRenderCtrl.highLightFeatures.push({
+                        id: $scope.tmcRelation.pointPids[i].id.toString(),
+                        layerid: 'tmcData',
+                        type: 'TMCPOINT',
+                        style: {}
+                    });
+                }
             }
         }
         highRenderCtrl.drawHighlight();
@@ -448,6 +457,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         $scope.refreshHighLight();
         if ($scope.autoTrack) {
             // 如果进入线是单方向道路，自动选择进入点;
+            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCLOCATION);
             if ($scope.rticData.direct === 2 || $scope.rticData.direct === 3) {
                 $scope.tmcRelation.nodePid = parseInt($scope.rticData.direct === 2 ? $scope.rticData.eNodePid : $scope.rticData.sNodePid);
                 $scope.linkNodes.push($scope.tmcRelation.nodePid);
@@ -465,8 +475,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 $scope.afterTruckFunc();
             } else {
                 // 如果双方向则先选择方向
-                // $scope.resetOperator('addRelation', type);
-                // 保存所有需要高亮的图层数组;
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCLOCATION);
                 // 地图编辑相关设置;
                 tooltipsCtrl.setCurrentTooltip('选择进入点！');
@@ -481,6 +489,10 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 // 需要捕捉的图层
                 eventController.off(eventController.eventTypes.GETNODEID);
                 eventController.on(eventController.eventTypes.GETNODEID, function (data) {
+                    if (parseInt(data.id) !== $scope.rticData.sNodePid && data.id !== $scope.rticData.eNodePid) {
+                        tooltipsCtrl.notify('必须选择link的端点！', 'error');
+                        return;
+                    }
                     // 如果进入线是双方向的，则根据用户的选择高亮进入点;
                     $scope.tmcRelation.nodePid = parseInt(data.id);
                     $scope.linkNodes.push($scope.tmcRelation.nodePid);
