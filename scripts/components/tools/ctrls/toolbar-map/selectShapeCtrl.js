@@ -3697,10 +3697,10 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 });
                             }
                         } else if (data.optype == 'RDINTER') {
-                            if (crfPids.indexOf(data.id) < 0) {
+                            if (crfPids.indexOf(parseInt(data.id)) < 0) {
                                 objData.inters.push(parseInt(data.id));
                                 dsEdit.getByPid(parseInt(data.id), 'RDINTER').then(function(interData) {
-                                    crfPids.push(interData.pid.toString());
+                                    crfPids.push(interData.pid);
                                     var tempData = {
                                         pid: interData.pid,
                                         highLightId: []
@@ -3742,10 +3742,10 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 });
                             }
                         } else if (data.optype == 'RDROAD') {
-                            if (crfPids.indexOf(data.id) < 0) {
+                            if (crfPids.indexOf(parseInt(data.id)) < 0) {
                                 objData.roads.push(parseInt(data.id));
-                                dsEdit.getByPid(parseInt(data.id), 'RDROAD').then(function(roadData) {
-                                    crfPids.push(roadData.pid.toString());
+                                dsEdit.getByPid(parseInt(data.id), 'RDROAD').then(function (roadData) {
+                                    crfPids.push(roadData.pid);
                                     var tempData = {
                                         pid: roadData.pid,
                                         highLightId: []
@@ -3758,7 +3758,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                             layerid: 'rdLink',
                                             type: 'line',
                                             style: {
-                                                color: '#DAB1D5'
+                                                color: '#00FFFF'
                                             }
                                         });
                                     }
@@ -3798,9 +3798,9 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     });
                     map.currentTool.enable();
                     eventController.off(eventController.eventTypes.GETFEATURE);
-                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
-                        highRenderCtrl._cleanHighLight();
+                    eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
                         if (data.optype == 'RDOBJECT' && parseInt(data.id) == objCtrl.data.pid) { // 属于rdobject的要素
+                            highRenderCtrl._cleanHighLight();
                             if (data.properties.orgType == 'RDLINK') {
                                 if (objData.links.indexOf(parseInt(data.linkId)) > -1) {
                                     objData.links.splice(objData.links.indexOf(parseInt(data.linkId)), 1);
@@ -3829,7 +3829,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                         }
                                     }
                                 }
-                            } else if (data.properties.optype == 'RDROAD') {
+                            } else if (data.properties.orgType == 'RDROAD') {
                                 if (crfPids.indexOf(data.properties.rdRoadPid) > -1) { // 存在于现有数据中,删除之
                                     for (var i = 0; i < selectCRFData.length; i++) {
                                         if (selectCRFData[i].pid == parseInt(data.properties.rdRoadPid)) {
