@@ -395,4 +395,24 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
         });
         return defer.promise;
     };
+    //根据Name_id查询道路名
+    this.queryRdNByNameID = function (nameId) {
+        var defer = $q.defer();
+        var param = {
+            nameId: nameId
+        };
+        ajax.get('metadata/rdname/getByNameId/', {
+            parameter: JSON.stringify(param)
+        }).success(function (data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal('根据NameId查询道路名出错：', data.errmsg, 'error');
+                defer.resolve(null);
+            }
+        }).error(function (rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);

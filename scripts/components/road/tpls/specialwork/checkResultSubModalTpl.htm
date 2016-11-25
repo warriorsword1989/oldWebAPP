@@ -1,0 +1,85 @@
+<div class="fm-panel handleCheck" ng-controller="checkResultSubModalCtl">
+    <div class="title">检查结果</div>
+    <div class="content">
+        <table id="checkResultTable" class="table table-bordered table-condensed">
+	        <thead>
+	            <tr>
+					<!--['检查规则', '错误等级', '错误对象', '错误信息', '检查时间', '检查管理'];-->
+	                <th ng-repeat="item in theadInfo">
+	                    {{item}}
+	                </th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr ng-if="!checkResultData || checkResultData.length == 0">
+	                <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
+	            </tr>
+	            <tr ng-repeat="row in checkResultData">
+	                <td>
+	                    <div style="width: 100px" class="text-ellipsis" title="{{row.ruleid}}">{{row.shortRuleId}}</div>
+	                </td>
+	                <td>
+	                    <div style="width: 60px">
+	                        <span ng-if="row.rank==0" >无 </span>
+	                        <span ng-if="row.rank==1" >Fatal </span>
+	                        <span ng-if="row.rank==2" >Critical </span>
+	                        <span ng-if="row.rank==3" >Error </span>
+	                        <span ng-if="row.rank==4" >warning </span>
+	                    </div>
+	                </td>
+	                <td width="5%">
+	                    <div ng-if="row.mutiCheck">
+	                        [{{row.featureType}},
+	                        <span ng-repeat="item in row.mutiListCheck">
+	                            <a href="#" ng-if="$index < row.mutiListCheck.length-1" class="fm-target" ng-click="showDetail(item)">{{item }},</a>
+	                            <a href="#" ng-if="$index == row.mutiListCheck.length-1" class="fm-target" ng-click="showDetail(item)">{{item }}</a>
+	                        </span>
+	                        ]
+	                    </div>
+	                </td>
+	                <td>
+	                    <div title="{{row.information}}">{{row.shortInfo}}</div>
+	                </td>
+	                <td width="110">
+	                    <div>{{row.create_date.substr(0,10)}}</div>
+	                </td>
+	                <td width="110">
+	                    <!--<select ng-class="{'fm-control':true,'chosen-disabled':initType!=0}" class="fm-control" ng-model="initType"-->
+	                            <!--ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)" ng-disabled="initType!=0">-->
+	                    <!--</select>-->
+						<select class="fm-control" ng-model="initType"
+								ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)">
+						</select>
+	                </td>
+	            </tr>
+	        </tbody>
+    	</table>
+		<div class="fm-pagination pull-right">
+			<div class="check-total pull-left">
+				共
+				<span ng-bind="checkResultTotal"></span>
+				项错误
+			</div>
+			<div class="pull-left">
+				第
+				<span ng-bind="checkPageNow"></span>
+				页 | 共
+				<span ng-bind="checkPageTotal"></span>
+				页
+			</div>
+			<div class="pull-left fm-pagination-btn">
+				<button class="btn btn-xs fm-output-btn fm-page-btn-prev" ng-disabled="checkPageNow == 1" ng-click="turnPage('prev');">
+					<i class="glyphicon glyphicon-menu-left"></i>
+				</button>
+				<button class="btn btn-xs fm-output-btn fm-page-btn-next" ng-disabled="checkPageNow == checkPageTotal" ng-click="turnPage('next');">
+					<i class="glyphicon glyphicon-menu-right"></i>
+				</button>
+			</div>
+			<button class="btn btn-xs fm-output-btn pull-right" style="margin-left:5px" ng-click="refreshCheckResult();">
+				<i class="glyphicon glyphicon-refresh"></i>
+				刷新检查
+			</button>
+		</div>
+	</div>
+    </div>
+</div>
