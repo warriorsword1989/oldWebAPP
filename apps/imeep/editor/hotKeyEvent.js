@@ -1899,6 +1899,12 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         tmcLayer.redraw();
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
+                        dsEdit.getByPid(parseInt(objEditCtrl.data.pid), 'RDLINK').then(function (data) {
+                            if (data) {
+                                objEditCtrl.setCurrentObject('RDLINK', data);
+                                objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+                            }
+                        });
                     }
                 });
             }
