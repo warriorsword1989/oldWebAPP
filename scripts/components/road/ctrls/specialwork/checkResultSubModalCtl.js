@@ -100,7 +100,12 @@ angular.module('app').controller('checkResultSubModalCtl', ['$window', '$scope',
      */
     $scope.showDetail = function (id){
         dsMeta.queryRdNByNameID(id).then(function (data) {
-            $scope.$emit('openEditPanel', data);
+            if (data) {
+                $scope.$emit('openEditPanel', data);
+                $scope.closeSubModal();
+            } else {
+                swal('提示', '未查询到数据', 'error');
+            }
         });
     }
     /* 翻页事件 */

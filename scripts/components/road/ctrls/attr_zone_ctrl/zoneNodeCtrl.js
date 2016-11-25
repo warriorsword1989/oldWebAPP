@@ -23,7 +23,9 @@ zoneNodeApp.controller('zoneNodeController', ['$scope', 'dsEdit', function ($sco
     ];
     // 种别
     $scope.kind = [
-        { id: 1, label: '平面交叉点' }
+        { id: 1, label: '平面交叉点' },
+        { id: 1, label: 'AOIZone 边界点' },
+        { id: 1, label: 'KDZone 边界点' }
     ];
     // 初始化
     $scope.initializeData = function () {
