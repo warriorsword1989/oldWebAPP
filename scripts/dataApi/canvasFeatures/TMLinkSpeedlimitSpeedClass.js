@@ -2,11 +2,28 @@
  * Created by zhaohang on 2016/11/14.
  */
 // 普通线限速限速等级
-fastmap.uikit.canvasTMFeature.TMLinkSpeedlimitSpeedClass = fastmap.uikit.canvasTMFeature.TMFeature.extend({
+fastmap.uikit.canvasTMFeature.TMLinkSpeedlimitSpeedClass =
+fastmap.uikit.canvasTMFeature.TMFeature.extend({
     geometry: {},
     properties: {},
     setAttribute: function (data) {
-        var RD_LINK_Colors = ['#C0C0C0', '#808000', '#FF0000', '#00A000', '#FFC000', '#0000FF', '#FF50A8', '#3291F5', '#000000'];
+        var rdLinkColor = {
+            0: '#C0C0C0',
+            1: '#808000',
+            2: '#FF0000',
+            3: '#00A000',
+            4: '#FFC000',
+            5: '#0000FF',
+            6: '#FF50A8',
+            7: '#3291F5',
+            8: '#000000',
+            9: 'red' };
+        var color = '';
+        if (parseInt(data.m.a, 10) === 99) {
+            color = rdLinkColor[9];
+        } else {
+            color = rdLinkColor[parseInt(data.m.a, 10)];
+        }
         this.geometry.type = 'LineString';
         this.properties.featType = 'RDLINK';
         this.properties.kind = data.m.a;
@@ -21,7 +38,7 @@ fastmap.uikit.canvasTMFeature.TMLinkSpeedlimitSpeedClass = fastmap.uikit.canvasT
         var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
 
         this.properties.symbol = symbolFactory.createSymbol('CompositeLineSymbol');
-        this.properties.style.strokeColor = RD_LINK_Colors[parseInt(data.m.a)];
+        this.properties.style.strokeColor = color;
         this.properties.style.strokeWidth = 1;
         this.properties.style.strokeOpacity = 1;
     }

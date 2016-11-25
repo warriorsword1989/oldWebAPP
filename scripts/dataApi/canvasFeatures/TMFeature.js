@@ -66,7 +66,7 @@ fastmap.uikit.canvasTMFeature.TMFeature = L.Class.extend({
             case 516: // 专题图 交叉口内道路
                 ret = new fastmap.uikit.canvasTMFeature.TMRdLinkForm(data);
                 break;
-            //case 517: // 专题图 道路名内容
+            // case 517: // 专题图 道路名内容
             //    ret = new fastmap.uikit.canvasTMFeature.TMNameContent(data);
             //    break;
             case 518: // 专题图 道路名组数
@@ -78,8 +78,10 @@ fastmap.uikit.canvasTMFeature.TMFeature = L.Class.extend({
             case 520: // 专题图 条件线限速个数
                 ret = new fastmap.uikit.canvasTMFeature.TMSpeedlimitConditionCount(data);
                 break;
-            case 520: // 专题图 禁止穿行
+            case 521: // 专题图 禁止穿行
                 ret = new fastmap.uikit.canvasTMFeature.TMRdLinkLimitType(data);
+                break;
+            default:
                 break;
             }
             return ret;
