@@ -500,23 +500,27 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     // crf中的node和link与常规的node、link的pid是一样的，要排除掉常规中的这些数据
                     for (var i = 0; i < data.data.length; i++) {
                         // 将所有的link放进去
-                        if (data.data[i].data && data.data[i].data.properties.featType != 'RDINTER' && data.data[i].data.properties.featType != 'RDROAD' && data.data[i].data.geometry.type == 'LineString') {
-                            lineList.push(data.data[i].data.properties.id);
+                        var selData = data.data[i].data;
+                        if (selData && selData.properties.featType != 'RDINTER' && selData.properties.featType != 'RDROAD' && selData.geometry.type == 'LineString') {
+                            lineList.push(selData.properties.id);
                         }
-                        if (data.data[i].data && data.data[i].data.properties.featType == 'RDINTER' || data.data[i].data.properties.featType == 'RDROAD') {
-                            if (data.data[i].data.properties.linkId != undefined) {
-                                crfPids.push(data.data[i].data.properties.linkId);
+                        if (selData && (selData.properties.featType == 'RDINTER' || selData.properties.featType == 'RDROAD')) {
+                            if (selData.properties.linkId != undefined) {
+                                crfPids.push(selData.properties.linkId);
                             }
                             data.data.splice(i, 1);
                             i--;
                         }
                     }
                     for (var i = 0; i < data.data.length; i++) {
-                        if (data.data[i].data && data.data[i].data.geometry.type == 'LineString' && crfPids.indexOf(data.data[i].data.properties.id) < 0) {
-                            if (interData.linkPids.indexOf(parseInt(data.data[i].data.properties.id)) < 0 && crfPids.indexOf(parseInt(data.data[i].data.properties.id)) < 0) {
-                                interData.linkPids.push(parseInt(data.data[i].data.properties.id));
+                        var targetData = data.data[i].data;
+                        if (targetData && targetData.geometry.type == 'LineString'
+                            && crfPids.indexOf(targetData.properties.id) < 0) {
+                            if (interData.linkPids.indexOf(parseInt(targetData.properties.id)) < 0
+                                && crfPids.indexOf(parseInt(targetData.properties.id)) < 0) {
+                                interData.linkPids.push(parseInt(targetData.properties.id));
                                 highLightFeatures.push({
-                                    id: data.data[i].data.properties.id.toString(),
+                                    id: targetData.properties.id.toString(),
                                     layerid: 'rdLink',
                                     type: 'line',
                                     style: {
@@ -529,7 +533,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     highRenderCtrl.highLightFeatures = highLightFeatures;
                     highRenderCtrl.drawHighlight();
                     map.currentTool.disable();
-                    map.currentTool = {};
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
                         shapeEditor: shapeCtrl,
@@ -576,7 +579,6 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     longitude: null,
                     latitude: null
                 };
-
                 function changeCenter(e) {
                     objData.longitude = e.target._latlng.lng;
                     objData.latitude = e.target._latlng.lat;
@@ -599,35 +601,40 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                 });
                 map.currentTool.enable();
                 eventController.off(eventController.eventTypes.GETRECTDATA);
-                eventController.on(eventController.eventTypes.GETRECTDATA, function(data) {
+                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
                     var pointsArr = [];
-                    if (data && data.data && data.data.length == 0) {
+                    if (data && data.data && data.data.length === 0) {
                         tooltipsCtrl.setCurrentTooltip('请重新框选制作CRF对象的要素！');
                         return;
                     }
                     // crf中的node和link与常规的node、link的pid是一样的，要排除掉常规中的这些数据
                     for (var i = 0; i < data.data.length; i++) {
+                        var coData = null;
+                        if (data.data[i].data) {
+                            coData = data.data[i].data;
+                        }
                         if (data.data[i].line) {
                             for (var j = 0; j < data.data[i].line.components.length; j++) {
                                 pointsArr.push(L.point(parseFloat(data.data[i].line.components[j].y.toFixed(6)), parseFloat(data.data[i].line.components[j].x.toFixed(6))));
                             }
                         } else {
-                            pointsArr.push(L.point(parseFloat(data.data[i].data.point.y.toFixed(6)), parseFloat(data.data[i].data.point.x.toFixed(6))));
+                            pointsArr.push(L.point(parseFloat(coData.point.y.toFixed(6)), parseFloat(coData.point.x.toFixed(6))));
                         }
                         // 将所有的单独的link放进去
-                        if (data.data[i].data && data.data[i].data.properties.featType != 'RDINTER' && data.data[i].data.properties.featType != 'RDROAD' && data.data[i].data.properties.featType != 'RDOBJECT' && data.data[i].data.geometry.type == 'LineString') {
-                            allLinks.push(data.data[i].data.properties.id);
+                        if (coData && coData.properties.featType !== 'RDINTER' && coData.properties.featType !== 'RDROAD'
+                            && coData.properties.featType !== 'RDOBJECT' && coData.geometry.type === 'LineString') {
+                            allLinks.push(coData.properties.id);
                         }
                         // 将crf的pid放进去
-                        if (data.data[i].data && data.data[i].data.properties.featType == 'RDINTER' || data.data[i].data.properties.featType == 'RDROAD' || data.data[i].data.properties.featType == 'RDOBJECT') {
-                            if (data.data[i].data.properties.linkId != undefined) {
-                                crfLinkPids.push(data.data[i].data.properties.linkId);
-                            }
-                            if (crfPids.indexOf(data.data[i].data.properties.id) < 0) {
-                                crfPids.push(data.data[i].data.properties.id);
-                                if (data.data[i].data.properties.featType == 'RDINTER' && objData.inters.indexOf(data.data[i].data.properties.id) < 0) {
-                                    objData.inters.push(parseInt(data.data[i].data.properties.id));
-                                    dsEdit.getByPid(parseInt(data.data[i].data.properties.id), 'RDINTER').then(function(interData) {
+                        if (coData && (coData.properties.featType === 'RDINTER' || coData.properties.featType === 'RDROAD')) {
+                            // if (coData.properties.linkId != undefined) {
+                            //     crfLinkPids.push(coData.properties.linkId);
+                            // }
+                            if (crfPids.indexOf(coData.properties.id) < 0) {
+                                crfPids.push(coData.properties.id);
+                                if (coData.properties.featType === 'RDINTER' && objData.inters.indexOf(coData.properties.id) < 0) {
+                                    objData.inters.push(parseInt(coData.properties.id));
+                                    dsEdit.getByPid(parseInt(coData.properties.id), 'RDINTER').then(function(interData) {
                                         var tempData = {
                                             pid: interData.pid,
                                             highLightId: []
@@ -660,9 +667,9 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                         selectCRFData.push(tempData);
                                     });
                                 }
-                                if (data.data[i].data.properties.featType == 'RDROAD' && objData.roads.indexOf(data.data[i].data.properties.id) < 0) {
-                                    objData.roads.push(parseInt(data.data[i].data.properties.id));
-                                    dsEdit.getByPid(parseInt(data.data[i].data.properties.id), 'RDROAD').then(function(roadData) {
+                                if (coData.properties.featType === 'RDROAD' && objData.roads.indexOf(coData.properties.id) < 0) {
+                                    objData.roads.push(parseInt(coData.properties.id));
+                                    dsEdit.getByPid(parseInt(coData.properties.id), 'RDROAD').then(function(roadData) {
                                         var tempData = {
                                             pid: roadData.pid,
                                             highLightId: []
@@ -734,18 +741,18 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
                         shapeEditor: shapeCtrl,
-                        selectLayers: [crfData, rdLink, rdCross],
+                        selectLayers: [crfData, rdLink],
                         snapLayers: [rdLink]
                     });
                     map.currentTool.enable();
                     eventController.off(eventController.eventTypes.GETFEATURE);
                     eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
                         highRenderCtrl._cleanHighLight();
-                        map.removeLayer(map.markerLayer);
-                        map.markerLayer = null;
-                        map.getPanes().markerPane.children.length = 0;
-                        map.getPanes().overlayPane.children.length = 0;
-                        if (data.optype == 'RDLINK') {
+                        if (map.markerLayer){
+                            map.removeLayer(map.markerLayer);
+                            map.markerLayer = null;
+                        }
+                        if (data.optype === 'RDLINK') {
                             if (objData.links.indexOf(parseInt(data.id)) < 0) {
                                 objData.links.push(parseInt(data.id));
                                 highRenderCtrl.highLightFeatures.push({
@@ -765,7 +772,7 @@ angular.module('app').controller('addCRFShapeCtrl', ['$scope', '$ocLazyLoad', 'd
                                     }
                                 }
                             }
-                        } else if (data.optype == 'RDINTER') {
+                        } else if (data.optype === 'RDINTER') {
                             if (crfPids.indexOf(data.id) > -1) { // 存在于现有数据中,删除之
                                 for (var i = 0; i < selectCRFData.length; i++) {
                                     if (selectCRFData[i].pid == parseInt(data.id)) {

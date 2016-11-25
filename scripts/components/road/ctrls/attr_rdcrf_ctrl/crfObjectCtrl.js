@@ -248,21 +248,25 @@ rdcrfObjectApp.controller('crfObjectCtrl', ['$scope', 'dsEdit', function ($scope
 
     $scope.minusName = function (index, item) {
         // $scope.crfObjData.names.splice(id, 1);
-        for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
-            if ($scope.nameGroup[i]) {
-                for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
-                    if ($scope.nameGroup[i][j] === item) {
-                        if ($scope.nameGroup[i].length == 1) {
-                            $scope.nameGroup.splice(i, 1);
-                            for (var n = 0, nu = $scope.nameGroup.length; n < nu; n++) {
-                                if (n >= i) {
-                                    for (var m = 0, num = $scope.nameGroup[n].length; m < num; m++) {
-                                        $scope.nameGroup[n][m].nameGroupid--;
+        if (item.langCode === 'CHI' || item.langCode === 'CHT') {
+            $scope.nameGroup.splice(index, 1);
+        } else {
+            for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
+                if ($scope.nameGroup[i]) {
+                    for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
+                        if ($scope.nameGroup[i][j] === item) {
+                            if ($scope.nameGroup[i].length == 1) {
+                                $scope.nameGroup.splice(i, 1);
+                                for (var n = 0, nu = $scope.nameGroup.length; n < nu; n++) {
+                                    if (n >= i) {
+                                        for (var m = 0, num = $scope.nameGroup[n].length; m < num; m++) {
+                                            $scope.nameGroup[n][m].nameGroupid--;
+                                        }
                                     }
                                 }
+                            } else {
+                                $scope.nameGroup[i].splice(index, 1);
                             }
-                        } else {
-                            $scope.nameGroup[i].splice(index, 1);
                         }
                     }
                 }
