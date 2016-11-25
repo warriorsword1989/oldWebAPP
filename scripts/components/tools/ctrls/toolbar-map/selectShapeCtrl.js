@@ -3697,10 +3697,10 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 });
                             }
                         } else if (data.optype == 'RDINTER') {
-                            if (crfPids.indexOf(data.id) < 0) {
+                            if (crfPids.indexOf(parseInt(data.id)) < 0) {
                                 objData.inters.push(parseInt(data.id));
                                 dsEdit.getByPid(parseInt(data.id), 'RDINTER').then(function(interData) {
-                                    crfPids.push(interData.pid.toString());
+                                    crfPids.push(interData.pid);
                                     var tempData = {
                                         pid: interData.pid,
                                         highLightId: []
@@ -3829,7 +3829,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                         }
                                     }
                                 }
-                            } else if (data.properties.optype == 'RDROAD') {
+                            } else if (data.properties.orgType == 'RDROAD') {
                                 if (crfPids.indexOf(data.properties.rdRoadPid) > -1) { // 存在于现有数据中,删除之
                                     for (var i = 0; i < selectCRFData.length; i++) {
                                         if (selectCRFData[i].pid == parseInt(data.properties.rdRoadPid)) {
