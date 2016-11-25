@@ -1380,11 +1380,22 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 });
             } else if (shapeCtrl.editType === 'rdSlope') {
-                if (!geo.linkPid) {
+                var rdSlopeData = featCodeCtrl.getFeatCode();
+                var tempArr = [];
+                for(var i=0; i< rdSlopeData.links.length; i++){
+                    tempArr.push(parseInt(rdSlopeData.links[i].pid));
+                }
+                var param = {
+                    'nodePid': rdSlopeData.inNode,
+                    'linkPid': rdSlopeData.ouLink,
+                    'linkPids': tempArr,
+                    'length' :rdSlopeData.linkLength
+                };
+                if (!param.linkPid) {
                     swal('提示', '请选择退出线！', 'warning');
                     return;
                 }
-                dsEdit.create('RDSLOPE', geo).then(function (data) {
+                dsEdit.create('RDSLOPE', param).then(function (data) {
                     if (data != null) {
                         relationData.redraw();
                         treatmentOfChanged(data, 'RDSLOPE', 'attr_rdSlope_ctrl/rdSlopeCtrl', 'attr_rdSlope_tpl/rdSlopeTpl.html');
