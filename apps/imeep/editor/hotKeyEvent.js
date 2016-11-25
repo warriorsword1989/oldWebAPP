@@ -1579,6 +1579,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 // }
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        if (data === '属性值未发生变化') {
+                            swal('提示', '几何属性未发生变化!', 'info');
+                            return;
+                        }
                         crfData.redraw();
                         treatmentOfChanged(data, 'RDOBJECT', 'attr_rdcrf_ctrl/crfObjectCtrl', 'attr_rdcrf_tpl/crfObjectTpl.html');
                     }
@@ -1900,6 +1904,12 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         tmcLayer.redraw();
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
+                        dsEdit.getByPid(parseInt(objEditCtrl.data.pid), 'RDLINK').then(function (data) {
+                            if (data) {
+                                objEditCtrl.setCurrentObject('RDLINK', data);
+                                objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+                            }
+                        });
                     }
                 });
             }

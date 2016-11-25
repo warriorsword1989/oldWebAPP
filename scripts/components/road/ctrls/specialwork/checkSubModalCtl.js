@@ -11,7 +11,6 @@ angular.module('app').controller('CheckSubModalCtrl', ['$scope', '$interval', 'd
 //        $scope.batchType = ([1, 8, 9, 10].indexOf($scope.currentSubTaskType) == -1) ? 0 : ([0, 5, 6, 7].indexOf($scope.currentSubTaskType) == -1) ? 1 : 0;
         $scope.dataLoading = true;
         $scope.currentBoxIndex = 0;
-
         /**
         * 切换道路和poi批处理tab页;
         * @param type
@@ -99,15 +98,17 @@ angular.module('app').controller('CheckSubModalCtrl', ['$scope', '$interval', 'd
             if ($scope.selectedBatches.length == 0) {
                 swal('请选择要执行的检查项', '', 'info');
             } else {
+                $scope.closeSubModal();
                 var param = {
                     taskId: App.Temp.subTaskId,
                     ruleCode: $scope.selectedBatches.join(','),
                     type: 2
                 };
-                $scope.running = true;
-                $scope.$emit('job-check', {
-                    status: 'begin'
+                $scope.$emit('check-run', {
+                    checkRunning: true
                 });
+                // $scope.checkRunning = true;
+                $scope.running = true;
                 dsEdit.exeOnlineSearch(param).then(function (data) {
                     if (data) {
                         $scope.closeAdvancedToolsPanel();
@@ -118,10 +119,11 @@ angular.module('app').controller('CheckSubModalCtrl', ['$scope', '$interval', 'd
                                     var timeLog = parseInt((new Date().getTime() - start) / 1000) + '秒';
                                     $interval.cancel(timer);
                                     $scope.progress = 100;
-                                    $scope.$emit('job-check', {
-                                        status: 'end'
-                                    });
                                     $scope.running = false;
+                                    $scope.$emit('check-run', {
+                                        checkRunning: false
+                                    });
+                                    // $scope.checkRunning = false;
                                     if (d.status == 3) {
                                         dsOutput.push({
                                             op: '执行检查执行成功',
