@@ -274,6 +274,5 @@ formOfWayApp.controller('formOfWayController', function ($scope) {
                 }
             }
         }
-        objCtrl.updateObject();
     };
 });

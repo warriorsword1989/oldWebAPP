@@ -286,7 +286,7 @@ angular.module('app').controller('restrictionTruckController', ['$rootScope', '$
         // 结束编辑状态
         dsEdit.save(param).then(function (data) {
             rdRestriction.redraw();
-            highRenderCtrl.cleanHighLight();
+            highRenderCtrl.clear();
             map.currentTool.disable();
             $scope.$emit('SWITCHCONTAINERSTATE', { attrContainerTpl: false, subAttrContainerTpl: false });
         });

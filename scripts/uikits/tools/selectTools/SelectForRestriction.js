@@ -120,31 +120,41 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         var y = PointPixel[1] - 256 * PointLoc[1];
 
         var data = this.tiles[tilePoint[0] + ':' + tilePoint[1]].data;
-
+        var linksWidthOneNode = [];
         if (this.operationList.length > this.selectedFeatures.length) {
             if (this.operationList[this.selectedFeatures.length] == 'point') {
+                // 找出选中点的所有关联link;
+                for (var item in data) {
+                    var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5);
+                    if (touchids.length) {
+                        linksWidthOneNode.push(data[item].properties);
+                    }
+                }
                 for (var item in data) {
                     var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5);
                     if (touchids.length) {
                         var id = data[item].properties.id;
-
                         if (this.selectedFeatures.length == 0 || (this.selectedFeatures.length > 0 && id == this.selectedFeatures[0])) {
                         	this.selectedFeatures.push(id);
                         	if (touchids[0] == 0) {
-                            this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
-                                id: data[item].properties.snode,
-                                event: event,
-                                properties: data[item].properties,
-                                index: this.selectedFeatures.length - 1
-                            });
-                        } else {
-                            this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
-                                id: data[item].properties.enode,
-                                event: event,
-                                properties: data[item].properties,
-                                index: this.selectedFeatures.length - 1
-                            });
-                        }
+                                //查找所有于改点关联的link;
+
+                                this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                                    id: data[item].properties.snode,
+                                    event: event,
+                                    properties: data[item].properties,
+                                    index: this.selectedFeatures.length - 1,
+                                    links: linksWidthOneNode
+                                });
+                            } else {
+                                this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                                    id: data[item].properties.enode,
+                                    event: event,
+                                    properties: data[item].properties,
+                                    index: this.selectedFeatures.length - 1,
+                                    links: linksWidthOneNode
+                                });
+                            }
                         	// 为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
                             // this.selectedFeatures.push(id);
                             break;
@@ -152,6 +162,29 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                     }
                 }
             } else if (this.operationList[this.selectedFeatures.length] == 'line') {
+                var selectLinkSnode = selectLinkEnode = selectLinkPid = '';
+                var sNodeLinks = []; eNodeLinks = [];
+                for (var item in data) {
+                    if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                        selectLinkSnode = data[item].properties.snode;
+                        selectLinkEnode = data[item].properties.enode;
+                        selectLinkPid = data[item].properties.id;
+                        break;
+                    }
+                }
+                for(var item in data){
+                    if(data[item].properties.snode==selectLinkSnode||data[item].properties.enode==selectLinkSnode){
+                        if(selectLinkPid!=data[item].properties.id){
+                            sNodeLinks.push(data[item].properties)
+                        }
+                    }
+                    if(data[item].properties.snode==selectLinkEnode||data[item].properties.enode==selectLinkEnode){
+                        if(selectLinkPid!=data[item].properties.id){
+                            eNodeLinks.push(data[item].properties)
+                        }
+                    }
+                }
+
                 for (var item in data) {
                     if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
                         var id = data[item].properties.id;
@@ -160,7 +193,9 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                             id: id,
                             event: event,
                             properties: data[item].properties,
-                            index: this.selectedFeatures.length - 1
+                            index: this.selectedFeatures.length - 1,
+                            sNodeLink: sNodeLinks,
+                            eNodeLink: eNodeLinks
                         });
                         // 为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
                         // this.selectedFeatures.push(id);
@@ -170,6 +205,13 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
             }
         } else { // 因为最后一步可以多次选中，所以做了此处理
             if (this.operationList[this.operationList.length - 1] == 'point') {
+                // 找出选中点的所有关联link;
+                for (var item in data) {
+                    var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5);
+                    if (touchids.length) {
+                        linksWidthOneNode.push(data[item].properties);
+                    }
+                }
                 for (var item in data) {
                     var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5);
                     if (touchids.length) {
@@ -181,14 +223,16 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                                     id: data[item].properties.snode,
                                     event: event,
                                     index: this.selectedFeatures.length - 1,
-                                    style: 'node'
+                                    style: 'node',
+                                    links: linksWidthOneNode
                                 });
                             } else {
                                 this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                     id: data[item].properties.enode,
                                     event: event,
                                     index: this.selectedFeatures.length - 1,
-                                    style: 'node'
+                                    style: 'node',
+                                    links: linksWidthOneNode
                                 });
                             }
                             // 为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
@@ -198,6 +242,27 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                     }
                 }
             } else if (this.operationList[this.operationList.length - 1] == 'line') {
+                var sNodeLinks = []; eNodeLinks = [];
+                for (var item in data) {
+                    if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                        selectLinkSnode = data[item].properties.snode;
+                        selectLinkEnode = data[item].properties.enode;
+                        selectLinkPid = data[item].properties.id;
+                        break;
+                    }
+                }
+                for(var item in data){
+                    if(data[item].properties.snode==selectLinkSnode||data[item].properties.enode==selectLinkSnode){
+                        if(selectLinkPid!=data[item].properties.id){
+                            sNodeLinks.push(data[item].properties)
+                        }
+                    }
+                    if(data[item].properties.snode==selectLinkEnode||data[item].properties.enode==selectLinkEnode){
+                        if(selectLinkPid!=data[item].properties.id){
+                            eNodeLinks.push(data[item].properties)
+                        }
+                    }
+                }
                 for (var item in data) {
                     if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
                         var id = data[item].properties.id;
@@ -205,7 +270,9 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                             id: id,
                             properties: data[item].properties,
-                            index: this.selectedFeatures.length - 1
+                            index: this.selectedFeatures.length - 1,
+                            sNodeLink: sNodeLinks,
+                            eNodeLink: eNodeLinks
                         });
                         // 为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
                         // this.selectedFeatures.push(id);
