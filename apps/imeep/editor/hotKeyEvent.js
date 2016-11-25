@@ -36,6 +36,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
         var rdLinkSpeedLimit = layerCtrl.getLayerById('rdLinkSpeedLimit');
+        var rdSame = layerCtrl.getLayerById('rdSame');
         var resetPageFlag = true;
         if (event.keyCode == 27) {
             // event.preventDefault(); // 取消浏览器快捷键的默认设置
@@ -104,6 +105,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             if (map.markerLayer) { // 清除marker图层
                 map.removeLayer(map.markerLayer);
                 map.markerLayer = null;
+            }
+            if (rdnode.selectedid) {
+                rdnode.selectedid = null;
             }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures = [];
@@ -729,6 +733,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                             rdLink.redraw();
                             rdnode.redraw();
                             rdCross.redraw();
+                            rdSame.redraw();
+                            adLink.redraw();
+                            adNode.redraw();
+                            zoneLink.redraw();
+                            zoneNode.redraw();
+                            luNode.redraw();
+                            luLink.redraw();
                             ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
                             tpl = 'attr_node_tpl/rdNodeFormTpl.html';
                         } else if (param.type === 'ADNODE') {
@@ -1478,7 +1489,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 param.data.pid = featCodeCtrl.getFeatCode().pid;
                 param.data.links = featCodeCtrl.getFeatCode().links;
                 param.data.nodes = featCodeCtrl.getFeatCode().nodes;
-                if (param.data.nodes == undefined || param.data.nodes == []) {
+                if (param.data.nodes == undefined || param.data.nodes.length === 0) {
                     swal('操作失败', '未选中Node点！', 'info');
                     return;
                 }
@@ -1526,7 +1537,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 var oriData = objEditCtrl.data;
                 param.data.pid = featCodeCtrl.getFeatCode().pid;
                 param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
-                if (param.data.linkPids == undefined || param.data.linkPids == []) {
+                if (param.data.linkPids == undefined || param.data.linkPids.length === 0) {
                     swal('操作失败', '未选中Link！', 'info');
                     return;
                 }
@@ -1861,7 +1872,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         }
                     });
                 }
-            } else if (shapeCtrl.editType === 'addTmcLocation') {    // 增加TMC匹配信息
+            } else if (shapeCtrl.editType === 'tmcTransformDirect') {    // 增加TMC匹配信息
                 console.info(featCodeCtrl.getFeatCode(), selectCtrl);
 
                 featCodeCtrl.newObj = [];

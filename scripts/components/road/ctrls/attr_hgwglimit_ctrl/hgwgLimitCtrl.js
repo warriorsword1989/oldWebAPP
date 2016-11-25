@@ -29,7 +29,7 @@ angular.module('app').controller('hgwgLimitCtl', ['$scope', '$timeout', 'dsEdit'
             $scope.hgwgLimitObj.geometryStr = $scope.hgwgLimitObj.geometry.coordinates[0] + ',' + $scope.hgwgLimitObj.geometry.coordinates[1];
         }
 
-        highRenderCtrl.cleanHighLight();
+        highRenderCtrl.clear();
         var highlightFeatures = [];
         highlightFeatures.push({
             id: $scope.hgwgLimitObj.linkPid.toString(),
@@ -95,7 +95,7 @@ angular.module('app').controller('hgwgLimitCtl', ['$scope', '$timeout', 'dsEdit'
             if (data) {
                 relationData.redraw();
                 $scope.hgwgLimitObj = null;
-                highRenderCtrl.cleanHighLight(); // 清空高亮
+                highRenderCtrl.clear(); // 清空高亮
                 $scope.$emit('SWITCHCONTAINERSTATE', { attrContainerTpl: false, subAttrContainerTpl: false });
             }
         });
