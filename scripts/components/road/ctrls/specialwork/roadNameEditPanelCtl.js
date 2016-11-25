@@ -373,6 +373,10 @@ angular.module('app').controller('RoadNameEditPanelCtl', ['$scope', '$ocLazyLoad
                 	};
                 	dsMeta.roadNameSave(param).then(function (data) {
                 		if (data) {
+                			if(data.flag == -1){
+                				swal('重复', '新增道路名重复', 'error');
+                				return;
+                			}
                 			$scope.closeSubModal();
 //                    		$scope.$emit("REFRESHROADNAMELIST");
                     		swal({
@@ -408,6 +412,10 @@ angular.module('app').controller('RoadNameEditPanelCtl', ['$scope', '$ocLazyLoad
                 	};
                 	dsMeta.roadNameSave(param).then(function (data) {
                 		if (data) {
+                			if(data.flag == -1){
+                				swal('重复', '新增道路名重复', 'error');
+                				return;
+                			}
                 			$scope.closeEditPanel();
                 			swal({
         						title: '保存成功',
