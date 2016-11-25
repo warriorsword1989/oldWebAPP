@@ -701,19 +701,19 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
     /* 验证输入是否合法*/
     $scope.dateValid = function (dateWell) {
         if (dateWell.find("input[time-type='fix-time']").is(':checked')) {
-            if ($scope.wks.checks.length == 0 && !$scope.begin_time && !$scope.end_time) {
+            if ($scope.wks.checks.length == 0 && !$scope.begin_time2 && !$scope.end_time2) {
                 $scope.alertMsg(dateWell, '请至少选择一个条件！');
                 return false;
             }
-            if (!$scope.begin_time && $scope.end_time) {
+            if (!$scope.begin_time2 && $scope.end_time2) {
                 $scope.alertMsg(dateWell, '请选择开始时间！');
                 return false;
             }
-            if ($scope.begin_time && !$scope.end_time) {
+            if ($scope.begin_time2 && !$scope.end_time2) {
                 $scope.alertMsg(dateWell, '请选择结束时间！');
                 return false;
             }
-            if ($scope.begin_time >= $scope.end_time && $scope.begin_time && $scope.end_time) {
+            if ($scope.begin_time2 >= $scope.end_time2 && $scope.begin_time2 && $scope.end_time2) {
                 $scope.alertMsg(dateWell, '结束时间必须大于开始时间！');
                 return false;
             }
@@ -730,19 +730,19 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                     $scope.alertMsg(dateWell, '请选择结束日期！');
                     break;
                 }
-                if (!$scope.d_begin_time && $scope.d_end_time) {
+                if (!$scope.d_begin_time2 && $scope.d_end_time2) {
                     $scope.alertMsg(dateWell, '请选择开始时间！');
                     break;
                 }
-                if ($scope.d_begin_time && !$scope.d_end_time) {
+                if ($scope.d_begin_time2 && !$scope.d_end_time2) {
                     $scope.alertMsg(dateWell, '请选择结束时间！');
                     break;
                 }
-                if ($scope.dBeginDate == $scope.dEndDate && !$scope.d_begin_time && !$scope.d_end_time) {
+                if ($scope.dBeginDate == $scope.dEndDate && !$scope.d_begin_time2 && !$scope.d_end_time2) {
                     $scope.alertMsg(dateWell, '开始时间不能等于结束时间！');
                     break;
                 }
-                if ($scope.dBeginDate == $scope.dEndDate && $scope.d_begin_time > $scope.d_end_time) {
+                if ($scope.dBeginDate == $scope.dEndDate && $scope.d_begin_time2 > $scope.d_end_time2) {
                     $scope.alertMsg(dateWell, '结束时间必须大于开始时间！');
                     break;
                 }
@@ -752,7 +752,7 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                     $scope.alertMsg(dateWell, '请选择开始时间的星期！');
                     break;
                 }
-                if (!$scope.w_begin_time && $scope.w_end_time) {
+                if (!$scope.w_begin_time2 && $scope.w_end_time2) {
                     $scope.alertMsg(dateWell, '请选择开始时间！');
                     break;
                 }
@@ -760,15 +760,15 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                     $scope.alertMsg(dateWell, '请选择结束时间的星期！');
                     break;
                 }
-                if (!$scope.w_end_time && $scope.w_begin_time) {
+                if (!$scope.w_end_time2 && $scope.w_begin_time2) {
                     $scope.alertMsg(dateWell, '请选择结束时间！');
                     break;
                 }
-                if (($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope.w_begin_time == $scope.w_end_time)) {
+                if (($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope.w_begin_time2 == $scope.w_end_time2)) {
                     $scope.alertMsg(dateWell, '开始时间不能等于结束时间！');
                     break;
                 }
-                if (($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope.w_begin_time > $scope.w_end_time)) {
+                if (($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope.w_begin_time2 > $scope.w_end_time2)) {
                     $scope.alertMsg(dateWell, '开始时间不能大于结束时间！');
                     break;
                 }
@@ -805,8 +805,8 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                 $(v).removeClass('active');
             });
             $scope.wks.selection = $scope.wks.values[0];
-            $scope.begin_time = '';
-            $scope.end_time = '';
+            $scope.begin_time2 = '';
+            $scope.end_time2 = '';
             /* 持续时间*/
             // scope.dwm.selection = scope.dwm.values[0];
             /* 日*/
@@ -841,15 +841,15 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                         _result += 't' + v;
                     });
                     /* 第一种可能：固定时间 只选择了星期*/
-                    if (!$scope.begin_time && !$scope.end_time) {
+                    if (!$scope.begin_time2 && !$scope.end_time2) {
                         if ($scope.vagueTime) {
                             return '[(' + _result + ')*z]';
                         } else {
                             return '[(' + _result + ')]';
                         }
-                    } else if ($scope.wks.checks.length != 0 && $scope.begin_time && $scope.end_time) {     // 第二种可能：固定时间 选了 星期和 时间段
-                        var $beginTime = $scope.begin_time.split(':');
-                        var $endTime = $scope.end_time.split(':');
+                    } else if ($scope.wks.checks.length != 0 && $scope.begin_time2 && $scope.end_time2) {     // 第二种可能：固定时间 选了 星期和 时间段
+                        var $beginTime = $scope.begin_time2.split(':');
+                        var $endTime = $scope.end_time2.split(':');
                         var $beginHour = $beginTime[0];
                         var $beginMinute = $beginTime[1];
                         var $endHour = $endTime[0];
@@ -860,8 +860,8 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                             return '[[(h' + $beginHour + 'm' + $beginMinute + ')(h' + $endHour + 'm' + $endMinute + ')]*(' + _result + ')]';
                         }
                     } else if ($scope.wks.checks.length == 0) {  // 第三种可能：固定时间 只选择时间段
-                        var $beginTime = $scope.begin_time.split(':');
-                        var $endTime = $scope.end_time.split(':');
+                        var $beginTime = $scope.begin_time2.split(':');
+                        var $endTime = $scope.end_time2.split(':');
                         var $beginHour = $beginTime[0];
                         var $beginMinute = $beginTime[1];
                         var $endHour = $endTime[0];
@@ -887,23 +887,23 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                         var $beginTime,
                             $beginHour,
                             $beginMinute;
-                        if ($scope.d_begin_time) {
-                            $beginTime = $scope.d_begin_time.split(':');
+                        if ($scope.d_begin_time2) {
+                            $beginTime = $scope.d_begin_time2.split(':');
                             $beginHour = $beginTime[0]; // 开始小时数
                             $beginMinute = $beginTime[1];   // 开始分钟
                         }
                         var $endTime,
                             $endHour,
                             $endMinute;
-                        if ($scope.d_end_time) {
-                            $endTime = $scope.d_end_time.split(':');
+                        if ($scope.d_end_time2) {
+                            $endTime = $scope.d_end_time2.split(':');
                             $endHour = $endTime[0]; // 结束小时数
                             $endMinute = $endTime[1];   // 结束分钟
                         }
                         var yearLength = parseInt($endYear) - parseInt($beginYear);
                         if ($scope.vagueTime) {
                                 /* 如果没有选择时间，只选择日期*/
-                            if (!$scope.d_begin_time || !$scope.d_end_time) {
+                            if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
                                 if (yearLength == 0) {   // 开始年和结束年为同一年
                                     return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
                                             '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]*z]';
@@ -947,7 +947,7 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                                             '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]*z]';
                                 }
                             }
-                        } else if (!$scope.d_begin_time || !$scope.d_end_time) {
+                        } else if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
                             if (yearLength == 0) {   // 开始年和结束年为同一年
                                 return '[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
                                             '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]';
@@ -998,16 +998,16 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                         var $beginTime,
                             $beginHour,
                             $beginMinute;
-                        if ($scope.w_begin_time) {
-                            $beginTime = $scope.w_begin_time.split(':');
+                        if ($scope.w_begin_time2) {
+                            $beginTime = $scope.w_begin_time2.split(':');
                             $beginHour = $beginTime[0]; // 开始小时数
                             $beginMinute = $beginTime[1];   // 开始分钟
                         }
                         var $endTime,
                             $endHour,
                             $endMinute;
-                        if ($scope.w_end_time) {
-                            $endTime = $scope.w_end_time.split(':');
+                        if ($scope.w_end_time2) {
+                            $endTime = $scope.w_end_time2.split(':');
                             $endHour = $endTime[0]; // 结束小时数
                             $endMinute = $endTime[1];   // 结束分钟
                         }
@@ -1022,7 +1022,7 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                         }
                         var _result = [];
                         $.each(selWeek, function (i, v) {
-                            if ($scope.w_begin_time && $scope.w_end_time) {
+                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
                                 if (i == 0) {
                                     _result.push('[t' + v + '*[(h' + $beginHour + 'm' + $beginMinute + ')(h23m59)]]');
                                 } else if (i == selWeek.length - 1) {
@@ -1036,14 +1036,14 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                         });
                         if ($scope.vagueTime) {
                                 /* 模糊*/
-                            if ($scope.w_begin_time && $scope.w_end_time) {
+                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
                                 return '[[' + _result.join('+') + ']*z]';
                             } else {
                                 return '[[(' + _result.join('') + ')]*z]';
                             }
                         } else {
                                 /* 精确*/
-                            if ($scope.w_begin_time && $scope.w_end_time) {
+                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
                                 return '[' + _result.join('+') + ']';
                             } else {
                                 return '[(' + _result.join('') + ')]';
@@ -1098,23 +1098,23 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                         }
                     });
                     /* 第一种可能：固定时间 只选择了星期*/
-                    if (!$scope.begin_time && !$scope.end_time) {
+                    if (!$scope.begin_time2 && !$scope.end_time2) {
                         if ($scope.vagueTime) {
                             return '每个星期的' + _result + '(模糊)';
                         } else {
                             return '每个星期的' + _result;
                         }
-                    } else if ($scope.wks.checks.length != 0 && $scope.begin_time && $scope.end_time) { // 第二种可能：固定时间 既有星期还有时间段
+                    } else if ($scope.wks.checks.length != 0 && $scope.begin_time2 && $scope.end_time2) { // 第二种可能：固定时间 既有星期还有时间段
                         if ($scope.vagueTime) {
-                            return '每个星期的' + _result + '的' + $scope.begin_time + '到' + $scope.end_time + '（模糊）';
+                            return '每个星期的' + _result + '的' + $scope.begin_time2 + '到' + $scope.end_time2 + '（模糊）';
                         } else {
-                            return '每个星期的' + _result + '的' + $scope.begin_time + '到' + $scope.end_time;
+                            return '每个星期的' + _result + '的' + $scope.begin_time2 + '到' + $scope.end_time2;
                         }
                     } else if ($scope.wks.checks.length == 0) {  // 第三种可能：固定时间 只选择时间段
                         if ($scope.vagueTime) {
-                            return '每天的' + $scope.begin_time + '到' + $scope.end_time + '（模糊）';
+                            return '每天的' + $scope.begin_time2 + '到' + $scope.end_time2 + '（模糊）';
                         } else {
-                            return '每天的' + $scope.begin_time + '到' + $scope.end_time;
+                            return '每天的' + $scope.begin_time2 + '到' + $scope.end_time2;
                         }
                     }
                 } else {
@@ -1132,33 +1132,33 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                         var $beginTime,
                             $beginHour,
                             $beginMinute;
-                        if ($scope.d_begin_time) {
-                            $beginTime = $scope.d_begin_time.split(':');
+                        if ($scope.d_begin_time2) {
+                            $beginTime = $scope.d_begin_time2.split(':');
                             $beginHour = $beginTime[0]; // 开始小时数
                             $beginMinute = $beginTime[1];   // 开始分钟
                         }
                         var $endTime,
                             $endHour,
                             $endMinute;
-                        if ($scope.d_end_time) {
-                            $endTime = $scope.d_end_time.split(':');
+                        if ($scope.d_end_time2) {
+                            $endTime = $scope.d_end_time2.split(':');
                             $endHour = $endTime[0]; // 结束小时数
                             $endMinute = $endTime[1];   // 结束分钟
                         }
                         if ($scope.vagueTime) {
-                            if (!$scope.d_begin_time || !$scope.d_end_time) {
+                            if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
                                 return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日到' +
                                         $endYear + '年' + $endMonth + '月' + $endDay + '日（模糊）';
                             } else {
-                                return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日的' + $scope.d_begin_time + '到' +
-                                        $endYear + '年' + $endMonth + '月' + $endDay + '日的' + $scope.d_end_time + '（模糊）';
+                                return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日的' + $scope.d_begin_time2 + '到' +
+                                        $endYear + '年' + $endMonth + '月' + $endDay + '日的' + $scope.d_end_time2 + '（模糊）';
                             }
-                        } else if (!$scope.d_begin_time || !$scope.d_end_time) {
+                        } else if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
                             return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日到' +
                                         $endYear + '年' + $endMonth + '月' + $endDay + '日';
                         } else {
-                            return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日的' + $scope.d_begin_time + '到' +
-                                        $endYear + '年' + $endMonth + '月' + $endDay + '日的' + $scope.d_end_time;
+                            return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日的' + $scope.d_begin_time2 + '到' +
+                                        $endYear + '年' + $endMonth + '月' + $endDay + '日的' + $scope.d_end_time2;
                         }
                     case 'w':
                         var $beginWeek = $scope.wks.wBeginSelection;
@@ -1171,7 +1171,7 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                             $beginHour,
                             $beginMinute;
                         if ($beginTime) {
-                            $beginTime = $scope.d_begin_time.split(':');
+                            $beginTime = $scope.d_begin_time2.split(':');
                             $beginHour = $beginTime[0];     // 开始小时数
                             $beginMinute = $beginTime[1];   // 开始分钟
                         }
@@ -1179,24 +1179,24 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                             $endHour,
                             $endMinute;
                         if ($endTime) {
-                            var $endTime = $scope.d_end_time.split(':');
+                            var $endTime = $scope.d_end_time2.split(':');
                             var $endHour = $endTime[0];     // 结束小时数
                             var $endMinute = $endTime[1];   // 结束分钟数
                         }
                         if ($scope.vagueTime) {
                                 /* 模糊*/
-                            if ($scope.w_begin_time && $scope.w_end_time) {
-                                return '每个星期中' + $scope.wks.wBeginSelection.name + '的' + $scope.w_begin_time + '到' +
-                                        $scope.wks.wEndSelection.name + '的' + $scope.w_end_time + '（模糊）';
+                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
+                                return '每个星期中' + $scope.wks.wBeginSelection.name + '的' + $scope.w_begin_time2 + '到' +
+                                        $scope.wks.wEndSelection.name + '的' + $scope.w_end_time2 + '（模糊）';
                             } else {
                                 return '每个星期中的' + $scope.wks.wBeginSelection.name + '到' +
                                         $scope.wks.wEndSelection.name + '（模糊）';
                             }
                         } else {
                                 /* 精确*/
-                            if ($scope.w_begin_time && $scope.w_end_time) {
-                                return '每个星期中' + $scope.wks.wBeginSelection.name + '的' + $scope.w_begin_time + '到' +
-                                        $scope.wks.wEndSelection.name + '的' + $scope.w_end_time;
+                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
+                                return '每个星期中' + $scope.wks.wBeginSelection.name + '的' + $scope.w_begin_time2 + '到' +
+                                        $scope.wks.wEndSelection.name + '的' + $scope.w_end_time2;
                             } else {
                                 return '每个星期中的' + $scope.wks.wBeginSelection.name + '到' +
                                         $scope.wks.wEndSelection.name;

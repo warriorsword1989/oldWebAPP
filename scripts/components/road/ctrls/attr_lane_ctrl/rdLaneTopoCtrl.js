@@ -177,6 +177,13 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     $scope.index = null;
     $scope.laneDetail = null;
     $scope.showPanel = false;
+    $scope.batchTopoArr = [];
+    $scope.showBatchLane = false;
+    $scope.batchLanes = {
+        processFlag:2,
+        throughTurn:0,
+        timeDomain:''
+    };
     var laneTopo = null;
     var nodeGeo = null;
     var nodePid = null;
@@ -325,6 +332,30 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             $scope.$apply();
         }, 100);
     };
+    function timeoutLoad1() {
+        $timeout(function () {
+            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+                /* 查询数据库取出时间字符串 */
+                $timeout(function () {
+                    $scope.fmdateTimer1($scope.batchLanes.timeDomain);
+                    $scope.$broadcast('set-code', $scope.batchLanes.timeDomain);
+                    $scope.$apply();
+                }, 100);
+            });
+        });
+    }
+    /* 时间控件 */
+    $scope.fmdateTimer1 = function (str) {
+        $scope.$on('get-date', function (event, data) {
+            $scope.batchLanes.timeDomain = data;
+        });
+        $timeout(function () {
+            $scope.$broadcast('set-code', str);
+            $scope.batchLanes.timeDomain = str;
+            $scope.$apply();
+        }, 100);
+    };
     /* 展示车道连通详情 */
     $scope.showLaneDetails = function (item, index, panelFlag) {
         $('.red').removeClass('red');
@@ -335,6 +366,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             checked: false
         });
         $scope.resetLaneInfo();
+        $scope.showBatchLane = false;
         $scope.showPanel = (panelFlag === 2);
         if (showPanelIndex !== panelFlag) {
             showPanelIndex = panelFlag;
@@ -582,6 +614,27 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             }
         });
     };
+
+    // checkbox中的处理方法
+    $scope.batchItems = function (item, event) {
+        timeoutLoad1();
+        $scope.showLaneDetail = false;
+        $scope.laneDetail = null;
+        event.stopPropagation();
+        item.flag = !item.flag;
+        if (!item.flag) {
+            for (var bt = 0; bt < $scope.batchTopoArr.length; bt++) {
+                if ($scope.batchTopoArr[bt] === item.pid) {
+                    $scope.batchTopoArr.splice(bt, 1);
+                    bt--;
+                }
+            }
+        } else if ($scope.batchTopoArr.indexOf(item.pid) < 0) {
+            $scope.batchTopoArr.push(item.pid);
+        }
+        $scope.showBatchLane = ($scope.batchTopoArr.length > 0);
+    };
+
     // 初始化车道连通数据
     $scope.initTopoData = function () {
         laneTopo = featCodeCtrl.getFeatCode().laneTopo;// 服务返回的数据;
@@ -590,6 +643,9 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
         $scope.laneTopoInfoArr = laneTopo[0].laneTopoInfos;// 所有的原始的车道连通
         inLinkPid = $scope.rdLaneData.linkPids[0]; // 进入线
         nodePid = $scope.rdLaneData.nodePid; // 进入点
+        for (var iii = 0; iii < $scope.laneTopoInfoArr.length; iii++) {
+            $scope.laneTopoInfoArr[iii].flag = false;
+        }
         for (var ii = 0; ii < $scope.laneInfoArr.length; ii++) {
             laneInfoObject[$scope.laneInfoArr[ii].linkPid] = {
                 eNode: $scope.laneInfoArr[ii].eNodePid,

@@ -17,7 +17,11 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                 item.checked = value;
             });
         });
-
+        /* 控制检查按钮是否可用*/
+        $scope.checkRunning = false;
+        $scope.$on('check-run', function (event, data) {
+            $scope.checkRunning = data.checkRunning
+        });
         $scope.cols = [
             {
                 field: 'selector',
@@ -308,6 +312,13 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          });
         	 console.log('双击');
         };
+        $scope.$on('openEditPanel', function (event, data) {
+            if (data) {
+                $scope.openEditPanel(data);
+            } else {
+                swal('提示', '未查询到数据', 'error');
+            }
+        });
          /** *
           * 关闭编辑面板
           */
@@ -342,8 +353,10 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         		 // alert('暂无');
         		 // $scope.subModalTpl = '';
         		 // $scope.subModal = false;
-        	 } else {
-
+        	 } else if (type == 'checkResult') {
+                 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/checkResultSubModalCtl.js').then(function () {
+                     $scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/checkResultSubModalTpl.htm';
+                 });
         	 }
         };
          /**

@@ -631,7 +631,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
          *  }]
          */
         $scope.highLightObj = function (arr) {
-            highRenderCtrl.cleanHighLight();
+            highRenderCtrl.clear();
             var highlightFeatures = [];
             for (var i = 0, lenI = arr.length; i < lenI; i++) {
                 highlightFeatures.push({
@@ -3230,7 +3230,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     hgwgLimitObj.latitude = e.latlng.lat;
                     hgwgLimitObj.longitude = e.latlng.lng;
                     highLightFeatures = [];
-                    highRenderCtrl.cleanHighLight();
+                    highRenderCtrl.clear();
                     highLightFeatures.push({
                         id: pro.id.toString(),
                         layerid: 'rdLink',
@@ -3258,7 +3258,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 direct: pro.direct
                             });
                             if (pro.direct == 1) {
-                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
+                                //tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
                                 var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
                                 var linkCoords = data.geometry.coordinates;
                                 // 计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
@@ -3289,7 +3289,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 if (sVertex.x > eVertex.x || (sVertex.x == eVertex.x && sVertex.y > eVertex.y)) { // 从右往左划线或者从下网上划线
                                     angle = Math.PI + angle;
                                 }
-                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
+                                // tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
                                 var marker = {
                                     flag: false,
                                     point: point,
@@ -3582,7 +3582,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.VARIABLESPEED);
                 // 地图编辑相关设置;
                 tooltipsCtrl.setEditEventType('rdBranch');
-                tooltipsCtrl.setCurrentTooltip('正要新建可变限速,先选择线！'); 
+                tooltipsCtrl.setCurrentTooltip('正要新建可变限速,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createRestrictFlag: true,

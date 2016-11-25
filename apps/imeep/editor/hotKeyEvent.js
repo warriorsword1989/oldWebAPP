@@ -35,6 +35,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var relationData = layerCtrl.getLayerById('relationData');
         var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
+        var tmcLayer = layerCtrl.getLayerById('tmcData');
         var rdLinkSpeedLimit = layerCtrl.getLayerById('rdLinkSpeedLimit');
         var rdSame = layerCtrl.getLayerById('rdSame');
         var resetPageFlag = true;
@@ -1589,6 +1590,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 // }
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        if (data === '属性值未发生变化') {
+                            swal('提示', '几何属性未发生变化!', 'info');
+                            return;
+                        }
                         crfData.redraw();
                         treatmentOfChanged(data, 'RDOBJECT', 'attr_rdcrf_ctrl/crfObjectCtrl', 'attr_rdcrf_tpl/crfObjectTpl.html');
                     }
@@ -1806,7 +1811,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         }
                     }
                 });
-            } else if (shapeCtrl.editType == 'hgwgLimitDirect') {
+            } else if (shapeCtrl.editType === 'hgwgLimitDirect') {
                 var temp = selectCtrl.selectedFeatures;
                 if (temp.linkPid) {
                     var param = {
@@ -1829,8 +1834,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 } else {
                     swal('错误提示', '请先创建限高限重！', 'error');
                 }
-            } else if (shapeCtrl.editType == 'updateHgwgLimitNode') {
-                console.info(featCodeCtrl.getFeatCode());
+            } else if (shapeCtrl.editType === 'updateHgwgLimit') {
                 var temp = featCodeCtrl.getFeatCode();
                 if (temp.linkPid) {
                     var param = {
@@ -1841,7 +1845,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                             pid: temp.pid,
                             linkPid: temp.linkPid,
                             latitude: temp.lat,
-                            longitude: temp.lng
+                            longitude: temp.lng,
+                            direct: temp.direct
                         }
                     };
                     dsEdit.save(param).then(function (data) {
@@ -1883,10 +1888,40 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         }
                     });
                 }
-            } else if (shapeCtrl.editType === 'addTmcLocation') {    // 增加TMC匹配信息
-                console.info(featCodeCtrl.getFeatCode(), selectCtrl);
-
-                featCodeCtrl.newObj = [];
+            } else if (shapeCtrl.editType === 'tmcTransformDirect') {    // 增加TMC匹配信息
+                console.info(featCodeCtrl.getFeatCode());
+                var linkPids = [];
+                // 遍历取出linkPid数组
+                for (var i = 0; i < featCodeCtrl.getFeatCode().linkPids.length; i++) {
+                    linkPids.push(featCodeCtrl.getFeatCode().linkPids[i].pid);
+                 }
+                var param = {
+                    command: 'CREATE',
+                    type: 'RDTMCLOCATION',
+                    dbId: App.Temp.dbId,
+                    data: {
+                        tmcId: featCodeCtrl.getFeatCode().tmcId.toString(),
+                        direct: featCodeCtrl.getFeatCode().direct.toString(),
+                        locDirect: featCodeCtrl.getFeatCode().locDirect.toString(),
+                        loctableId: featCodeCtrl.getFeatCode().loctableId.toString(),
+                        linkPids: linkPids
+                    }
+                };
+                // 调用编辑接口;
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        relationData.redraw();
+                        tmcLayer.redraw();
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures = [];
+                        dsEdit.getByPid(parseInt(objEditCtrl.data.pid), 'RDLINK').then(function (data) {
+                            if (data) {
+                                objEditCtrl.setCurrentObject('RDLINK', data);
+                                objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+                            }
+                        });
+                    }
+                });
             }
             //平滑修形
             else if (shapeCtrl.editType === "pathSmooth") {

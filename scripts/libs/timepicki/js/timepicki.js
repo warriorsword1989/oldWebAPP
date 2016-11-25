@@ -36,6 +36,7 @@
             });
             var cur_time = new Date().getHours();
             var cur_mins = '00';
+            set_date();
             $(".datetip.fm-datepick-tip").off("click").on("click",function(event) {
                 if (!$(event.target).is(ele_next)) {
                     if (!$(event.target).is(ele)) {

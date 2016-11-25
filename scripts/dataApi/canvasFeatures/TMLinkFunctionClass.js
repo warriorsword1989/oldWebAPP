@@ -6,7 +6,14 @@ fastmap.uikit.canvasTMFeature.TMLinkFunctionClass = fastmap.uikit.canvasTMFeatur
     geometry: {},
     properties: {},
     setAttribute: function (data) {
-        var RD_LINK_Colors = ['#000000', '#FF0000', '#00A500', '#E7EFF7', '#0000FF', '#EFEFF7'];
+        var rdLinkColor = {
+            0: '#000000',
+            1: '#FF0000',
+            2: '#00A500',
+            3: '#E7EFF7',
+            4: '#0000FF',
+            5: '#EFEFF7' };
+        var color = rdLinkColor[parseInt(data.m.a, 10)];
         this.geometry.type = 'LineString';
         this.properties.featType = 'RDLINK';
         this.properties.kind = data.m.a;
@@ -21,7 +28,7 @@ fastmap.uikit.canvasTMFeature.TMLinkFunctionClass = fastmap.uikit.canvasTMFeatur
         var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
 
         this.properties.symbol = symbolFactory.createSymbol('CompositeLineSymbol');
-        this.properties.style.strokeColor = RD_LINK_Colors[parseInt(data.m.a)];
+        this.properties.style.strokeColor = color;
         this.properties.style.strokeWidth = 1;
         this.properties.style.strokeOpacity = 1;
     }

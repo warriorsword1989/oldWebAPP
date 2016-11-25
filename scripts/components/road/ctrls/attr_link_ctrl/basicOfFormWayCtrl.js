@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/3/5.
  */
 var formOfWayApp = angular.module('app');
-formOfWayApp.controller('formOfWayController', function ($scope) {
+formOfWayApp.controller('formOfWayController', function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.formsData = objCtrl.data.forms;
     $scope.fromOfWayOption = [
@@ -214,8 +214,16 @@ formOfWayApp.controller('formOfWayController', function ($scope) {
             }
         }
     }
-    $scope.toggle = function (item) {
+    $scope.toggle = function(item) {
         if (item.isCheck) {
+            // add by chenx on 2016-11-25, bug923: 双方向道路不能制作全封闭道路形态
+            if (item.id == 14) {
+                if (objCtrl.data.direct == 1) {
+                    swal("双方向道路不能制作全封闭道路形态", null, "error");
+                    item.isCheck = false;
+                    return;
+                }
+            }
             if (item.id == 0 || item.id == 1) {
                 $scope.formsData.length = 0;
                 for (var s in $scope.fromOfWayOption) {
@@ -226,8 +234,8 @@ formOfWayApp.controller('formOfWayController', function ($scope) {
             } else {
                 for (var p in $scope.formsData) {
                     if ($scope.formsData[p].formOfWay == 0 || $scope.formsData[p].formOfWay == 1) {
-//                        $scope.formsData.splice(p, 1);
-                    	$scope.formsData[p].status = false;
+                        // $scope.formsData.splice(p, 1);
+                        $scope.formsData[p].status = false;
                     }
                 }
                 $scope.fromOfWayOption[0].isCheck = false;
@@ -236,20 +244,19 @@ formOfWayApp.controller('formOfWayController', function ($scope) {
             var exitFlag = false;
             for (var p in $scope.formsData) {
                 if ($scope.formsData[p].formOfWay == item.id) {
-//                    $scope.formsData.splice(p, 1);
-                	$scope.formsData[p].status = true;
-                	exitFlag = true;
+                    // $scope.formsData.splice(p, 1);
+                    $scope.formsData[p].status = true;
+                    exitFlag = true;
                 }
             }
             if (!exitFlag) {
-            	var newForm = fastmap.dataApi.rdLinkForm({
-                linkPid: objCtrl.data.pid,
-                formOfWay: parseInt(item.id)
-            });
+                var newForm = fastmap.dataApi.rdLinkForm({
+                    linkPid: objCtrl.data.pid,
+                    formOfWay: parseInt(item.id)
+                });
                 // if (parseInt(item.id) === 53) {
                 //     newForm.auxiFlag = 3;
                 // }
-
                 $scope.formsData.unshift(newForm);
             }
         } else {
@@ -259,8 +266,8 @@ formOfWayApp.controller('formOfWayController', function ($scope) {
             } else {
                 for (var p in $scope.formsData) {
                     if ($scope.formsData[p].formOfWay == item.id) {
-//                        $scope.formsData.splice(p, 1);
-                    	$scope.formsData[p].status = false;
+                        //                        $scope.formsData.splice(p, 1);
+                        $scope.formsData[p].status = false;
                     }
                 }
                 // 形态全部去掉后，自动加上无属性
@@ -274,6 +281,5 @@ formOfWayApp.controller('formOfWayController', function ($scope) {
                 }
             }
         }
-        objCtrl.updateObject();
     };
 });

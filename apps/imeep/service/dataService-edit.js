@@ -849,4 +849,48 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
     return defer.promise;
 
   };
+  //道路名库檢查;
+  this.getRoadNameCheckResult = function (num) {
+    var defer = $q.defer();
+    var param = {
+      subtaskId: parseInt(App.Util.getUrlParam('subtaskId')),
+      pageSize: 5,
+      pageNum: num,
+      type:2
+    };
+    ajax.get('edit/check/listRdnResult/', {
+      parameter: JSON.stringify(param)
+    }).success(function (data) {
+      if (data.errcode == 0) {
+        defer.resolve(data.data);
+      } else {
+        swal('查询检查结果出错：', data.errmsg, 'error');
+        defer.resolve(null);
+      }
+    }).error(function (rejection) {
+      defer.reject(rejection);
+    });
+    return defer.promise;
+  };
+  //修改道路名库检查结果状态
+  this.updateRdNCheckType = function (id , type) {
+    var defer = $q.defer();
+    var param = {
+      id: id,
+      type: type
+    };
+    ajax.get('edit/check/updateRdnResult/', {
+      parameter: JSON.stringify(param)
+    }).success(function (data) {
+      if (data.errcode == 0) {
+        defer.resolve(data.data);
+      } else {
+        swal('修改检查结果状态出错：', data.errmsg, 'error');
+        defer.resolve(null);
+      }
+    }).error(function (rejection) {
+      defer.reject(rejection);
+    });
+    return defer.promise;
+  };
 }])
