@@ -1872,7 +1872,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         }
                     });
                 }
-            } else if (shapeCtrl.editType === 'addTmcLocation') {    // 增加TMC匹配信息
+            } else if (shapeCtrl.editType === 'tmcTransformDirect') {    // 增加TMC匹配信息
                 console.info(featCodeCtrl.getFeatCode(), selectCtrl);
 
                 featCodeCtrl.newObj = [];

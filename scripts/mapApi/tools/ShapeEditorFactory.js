@@ -44,6 +44,7 @@ fastmap.mapApi.ShapeEditorFactory = (function () {
                     addAdAdminPoint: new fastmap.mapApi.adAdminPointAdd({ shapeEditor: shapeEditor }),
                     updateAdminPoint: new fastmap.mapApi.UpdateAdminPoint({ shapeEditor: shapeEditor }),
                     addTmcLocation: new fastmap.mapApi.adTmcAdd({ shapeEditor: shapeEditor }),
+                    tmcTransformDirect: new fastmap.mapApi.TransformDirection({ shapeEditor: shapeEditor }),
                     poiLocMove: new fastmap.mapApi.poiLocMove({ shapeEditor: shapeEditor, autoDrag: false }),
                     poiAutoDrag: new fastmap.mapApi.poiLocMove({ shapeEditor: shapeEditor, autoDrag: true }),
                     SelectParent: new fastmap.mapApi.SelectParent({ shapeEditor: shapeEditor }),
