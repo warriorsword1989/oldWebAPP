@@ -3,7 +3,7 @@
     <div class="content">
         <div class="radio">
             <label>
-                <input type="radio" name="optionsRadios" value="close" checked ng-click="selectThematicMap('close',$event)">关闭专题图
+                <input type="radio" name="optionsRadios" value="close" checked ng-click="selectThematicMap({type: 'close'},$event)">关闭专题图
             </label>
         </div>
         <div class="radio" ng-repeat="ThematicMap in ThematicMapArray">

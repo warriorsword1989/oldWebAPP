@@ -48,7 +48,7 @@ angular.module('webeditor').controller('editorCtrl', ['$scope', '$rootScope',
     // 顶部工具条模板地址
         $scope.headToolbarTemp = './editor/templates/poiHeaderTemp.html';
     // 左侧弹出栏
-        $scope.leftPanelTemp = './editor/templates/poiLeftPanelTemp.html';
+        $scope.leftPanelTemp = './editor/templates/roadLeftPanelTemp.html';
     // 右侧弹出栏工具条
         $scope.rightPanelToolbarTemp = './editor/templates/poiToolTemp.html';
     // 右侧弹出属性栏

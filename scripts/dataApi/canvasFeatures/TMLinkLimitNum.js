@@ -6,7 +6,13 @@ fastmap.uikit.canvasTMFeature.TMLinkLimitNum = fastmap.uikit.canvasTMFeature.TMF
     geometry: {},
     properties: {},
     setAttribute: function (data) {
-        var RD_LINK_Colors = ['#C0C0C0', '#0000FF', '#FF0000'];
+        var rdLinkColor = { 0: '#C0C0C0', 1: '#0000FF', 2: '#FF0000' };
+        var color = '';
+        if (parseInt(data.m.a, 10) > 1) {
+            color = rdLinkColor[2];
+        } else {
+            color = rdLinkColor[parseInt(data.m.a, 10)];
+        }
         this.geometry.type = 'LineString';
         this.properties.featType = 'RDLINK';
         this.properties.kind = data.m.a;
@@ -19,9 +25,8 @@ fastmap.uikit.canvasTMFeature.TMLinkLimitNum = fastmap.uikit.canvasTMFeature.TMF
         this.properties.fc = data.m.i;
         this.properties.imiCode = data.m.j;
         var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
-
         this.properties.symbol = symbolFactory.createSymbol('CompositeLineSymbol');
-        this.properties.style.strokeColor = RD_LINK_Colors[parseInt(data.m.a)];
+        this.properties.style.strokeColor = color;
         this.properties.style.strokeWidth = 1;
         this.properties.style.strokeOpacity = 1;
     }

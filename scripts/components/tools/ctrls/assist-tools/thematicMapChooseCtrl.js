@@ -71,8 +71,8 @@ angular.module('app').controller('ThematicMap', ['$scope',
         //    {
         //    type: 'rdLinkNameContent',
         //    name: '道路名内容'
-        //},
-            {
+        // },
+        {
             type: 'rdLinkNameGroupid',
             name: '道路名组数',
             minZoom: 10
