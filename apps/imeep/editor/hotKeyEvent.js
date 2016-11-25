@@ -35,6 +35,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var relationData = layerCtrl.getLayerById('relationData');
         var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
+        var tmcLayer = layerCtrl.getLayerById('tmcData');
         var rdLinkSpeedLimit = layerCtrl.getLayerById('rdLinkSpeedLimit');
         var rdSame = layerCtrl.getLayerById('rdSame');
         var resetPageFlag = true;
@@ -1873,9 +1874,33 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     });
                 }
             } else if (shapeCtrl.editType === 'tmcTransformDirect') {    // 增加TMC匹配信息
-                console.info(featCodeCtrl.getFeatCode(), selectCtrl);
-
-                featCodeCtrl.newObj = [];
+                console.info(featCodeCtrl.getFeatCode());
+                var linkPids = [];
+                // 遍历取出linkPid数组
+                for (var i = 0; i < featCodeCtrl.getFeatCode().linkPids.length; i++) {
+                    linkPids.push(featCodeCtrl.getFeatCode().linkPids[i].pid);
+                 }
+                var param = {
+                    command: 'CREATE',
+                    type: 'RDTMCLOCATION',
+                    dbId: App.Temp.dbId,
+                    data: {
+                        tmcId: featCodeCtrl.getFeatCode().tmcId.toString(),
+                        direct: featCodeCtrl.getFeatCode().direct.toString(),
+                        locDirect: featCodeCtrl.getFeatCode().locDirect.toString(),
+                        loctableId: featCodeCtrl.getFeatCode().loctableId.toString(),
+                        linkPids: linkPids
+                    }
+                };
+                // 调用编辑接口;
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        relationData.redraw();
+                        tmcLayer.redraw();
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures = [];
+                    }
+                });
             }
             //平滑修形
             else if (shapeCtrl.editType === "pathSmooth") {

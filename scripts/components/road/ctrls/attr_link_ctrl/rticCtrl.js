@@ -322,12 +322,16 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
                 $scope.tmcRelation.direct = parseInt(event.geometry.orientation) == 2?1:2;
                 tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
+                /* 组装数据对象*/
+                featCodeCtrl.setFeatCode($scope.tmcRelation);
             });
             tooltipsCtrl.setCurrentTooltip('请点击空格创建TMCLocation！');
         } else {
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             tooltipsCtrl.setCurrentTooltip('请点击空格创建TMCLocation!');
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCTRANSFORMDIRECT);
+            /* 组装数据对象*/
+            featCodeCtrl.setFeatCode($scope.tmcRelation);
         }
     };
     /* 修改追踪线或选择tmcPoint */
@@ -372,8 +376,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             }
             // 高亮第一个tmcPoint和最后一个tmcPoint
             $scope.refreshHighLight();
-            /* 组装数据对象*/
-            featCodeCtrl.setFeatCode($scope.tmcRelation);
         });
     };
     /* 追踪link方法 */
@@ -477,6 +479,10 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         $scope.linkNodes = [];
         $scope.links = [];
         $scope.refreshHighLight();
+        map.currentTool.disable();
+        eventController.off(eventController.eventTypes.GETNODEID);
+        eventController.off(eventController.eventTypes.GETFEATURE);
+        eventController.off(eventController.eventTypes.GETRECTDATA);
         if ($scope.autoTrack) {
             // 如果进入线是单方向道路，自动选择进入点;
             // shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCTRANSFORMDIRECT);
@@ -526,7 +532,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                         }
                     });
                     highRenderCtrl.drawHighlight();
-                    tooltipsCtrl.setCurrentTooltip('已经选择进入点!');
+                    tooltipsCtrl.setCurrentTooltip('已经选择进入点!请选择TMCPoint');
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     $scope.getTruckLinks();
                     // eventController.off(eventController.eventTypes.GETNODEID);
