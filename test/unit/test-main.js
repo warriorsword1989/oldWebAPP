@@ -6,19 +6,19 @@ var allTestFiles = [];
 
 // Get a list of all the test files to include
 for (var file in window.__karma__.files) {
-    if (!window.__karma__.files.hasOwnProperty(file)) {
-        continue;
-    }
-
-    if (TEST_REGEXP.test(file)) {
-        allTestFiles.push(file);
+    if (window.__karma__.files.hasOwnProperty(file)) {
+        if (TEST_REGEXP.test(file)) {
+            allTestFiles.push(file);
+        }
     }
 }
 require.config({
     // Karma serves files under /base, which is the basePath from your config file
     baseUrl: '/base',
 
-    // example of using a couple path translations (paths), to allow us to refer to different library dependencies, without using relative paths
+    /* example of using a couple path translations (paths), to allow us
+       to refer to different library dependencies, without using relative paths
+     */
     paths: {
         jquery: 'scripts/libs/jquery/2.1.1/jquery-2.1.1',
         sweatAlert: 'scripts/libs/sweet-alert/js/sweet-alert.min',

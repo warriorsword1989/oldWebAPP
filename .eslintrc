@@ -16,7 +16,10 @@
     "expect":true,
     "define":true,
     "beforeEach":true,
-    "describe":true
+    "describe":true,
+    "spyOn":true,
+    "Application":true,
+    "jasmine":true
   },
   "plugins": ["angular"],
   /**
@@ -35,6 +38,8 @@
     "linebreak-style": 0,
     // 允许二进制运算符
     "no-bitwise":0,
+    // 允许变量在块作用域外使用，暂时先关掉
+    "block-scoped-var":0,
     // 允许直接使用 Object.prototypes 的内置属性
     "no-prototype-builtins":0,
     // 允许使用特定的语法
