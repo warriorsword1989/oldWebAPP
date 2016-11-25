@@ -2847,6 +2847,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         };
                         featCodeCtrl.setFeatCode(tempData);
                         if (parseInt(hgwgLimitData.data.linkPid, 10) === parseInt(pro.id, 10)) { // 选择的线和原来的是同一条线
+                            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.UPDATEHGWHLIMIT);
                             tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消！');
                         } else { // 其他线
                             // 暂时没有校验联通性检查，需要服务提供接口。
