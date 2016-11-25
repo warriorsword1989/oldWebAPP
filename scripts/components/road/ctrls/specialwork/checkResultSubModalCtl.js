@@ -30,25 +30,25 @@ angular.module('app').controller('checkResultSubModalCtl', ['$window', '$scope',
      * 查找检查结果
       */
      function getCheckResultData(num) {
-          // dsEdit.getRoadNameCheckResult(num).then(function (data) {
-          //     if (data == -1) {
-          //         return;
-          //     }
-          //     $scope.checkResultData = [];
-          //     for (var i = 0, len = data.result.length; i < len; i++) {
-          //         $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data.result[i]));
-          //         $scope.checkResultTotal = data.totalCount;
-          //         $scope.checkPageTotal = data.totalCount > 0 ? Math.ceil(data.totalCount / 5) : 1;
-          //     }
-          // });
-       dsMeta.columnDataList(num).then(function (data) {
-           $scope.checkResultData = [];
-           for (var i = 0, len = data.rows.length; i < len; i++) {
-               $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data.rows[i]));
-               $scope.checkResultTotal = data.total;
-               $scope.checkPageTotal = data.total > 0 ? Math.ceil(data.total / 5) : 1;
-           }
-       })
+          dsEdit.getRoadNameCheckResult(num).then(function (data) {
+              if (data == -1) {
+                  return;
+              }
+              $scope.checkResultData = [];
+              for (var i = 0, len = data.result.length; i < len; i++) {
+                  $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data.result[i]));
+                  $scope.checkResultTotal = data.totalCount;
+                  $scope.checkPageTotal = data.totalCount > 0 ? Math.ceil(data.totalCount / 5) : 1;
+              }
+          });
+       // dsMeta.columnDataList(num).then(function (data) {
+       //     $scope.checkResultData = [];
+       //     for (var i = 0, len = data.rows.length; i < len; i++) {
+       //         $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data.rows[i]));
+       //         $scope.checkResultTotal = data.total;
+       //         $scope.checkPageTotal = data.total > 0 ? Math.ceil(data.total / 5) : 1;
+       //     }
+       // })
 
      }
      initCheckResultData();
