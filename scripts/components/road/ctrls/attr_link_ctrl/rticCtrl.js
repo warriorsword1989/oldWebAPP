@@ -270,7 +270,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             direct: $scope.rticData.direct,
             point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
         });
-        if ($scope.rticData.direct === 1) {
+        // if ($scope.rticData.direct === 1) {
             var point = fastmap.mapApi.point($scope.rticData.geometry.coordinates[0][0], $scope.rticData.geometry.coordinates[0][1]);
             var linkCoords = $scope.rticData.geometry.coordinates;
             // 计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
@@ -327,13 +327,13 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 featCodeCtrl.setFeatCode($scope.tmcRelation);
             });
             tooltipsCtrl.setCurrentTooltip('请点击空格创建TMCLocation！');
-        } else {
+        /*} else {
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             tooltipsCtrl.setCurrentTooltip('请点击空格创建TMCLocation!');
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCTRANSFORMDIRECT);
-            /* 组装数据对象*/
+            /!* 组装数据对象*!/
             featCodeCtrl.setFeatCode($scope.tmcRelation);
-        }
+        }*/
     };
     function setLastNode(index){
         if(index==undefined){

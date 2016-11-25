@@ -1905,7 +1905,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         highRenderCtrl.highLightFeatures = [];
                         dsEdit.getByPid(parseInt(objEditCtrl.data.pid), 'RDLINK').then(function (data) {
                             if (data) {
-                                $scope.$emit('SWITCHCONTAINERSTATE', {
+                                scope.$emit('SWITCHCONTAINERSTATE', {
                                     subAttrContainerTpl: false,
                                     attrContainerTpl: true
                                 });
