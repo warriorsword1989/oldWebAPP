@@ -508,20 +508,6 @@ basicApp.controller('basicController', function($scope, $ocLazyLoad) {
         };
         $scope.$emit('transitCtrlAndTpl', addFormOfWayInfoObj);
     };
-    // 过滤条件
-    $scope.flag = 0;
-    $scope.auxiFilter = function(item) {
-        if (item.auxiFlag !== 3) {
-            $scope.flag += 1;
-            if ($scope.flag === $scope.linkData.forms.length) {
-                $scope.flag = 0;
-                return item.auxiFlag === 0;
-            }
-        } else {
-            $scope.flag = 0;
-            return item.auxiFlag === 3;
-        }
-    };
     $scope.typeoption = [
         {
             id: 0,

@@ -150,6 +150,10 @@ fastmap.uikit.FeatureConfig = {
             name: '收费站',
             checked: false
         },
+        1108: {
+            name: '减速带',
+            checked: false
+        },
         1109: {
             name: '电子眼',
             checked: false

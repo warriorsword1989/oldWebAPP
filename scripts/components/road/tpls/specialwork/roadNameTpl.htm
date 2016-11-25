@@ -5,7 +5,9 @@
        		<button type="button" class="btn btn-shape" ng-click="openSubModal('search')">查询 </button>
             <button type="button" class="btn btn-shape" ng-click="openSubModal('add')">新增 </button>
             <button type="button" class="btn btn-shape" ng-click="openSplitSubModal('split')">拆分</button>
-        	<button type="button" class="btn btn-shape" ng-click="openSubModal('check')">检查 </button>
+        	<button type="button" class="btn btn-shape" ng-click="openSubModal('check')" ng-show="!checkRunning">检查</button>
+			<button type="button" class="btn btn-shape" disabled ng-show="checkRunning">检查中...</button>
+			<button type="button" class="btn btn-shape" ng-click="openSubModal('checkResult')">检查结果查看 </button>
 	        <div class="pull-right btn-group dropdown" sytle="position:fixed;right:0px;width:100%;" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
 	            <button type="button" class="btn dropdown-toggle btn-xs btn-shape" style="height:33px;width:50px;" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
 	                <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>

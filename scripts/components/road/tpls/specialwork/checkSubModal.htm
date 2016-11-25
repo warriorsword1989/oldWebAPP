@@ -23,9 +23,9 @@
 <div class="fm-panel handleCheck" ng-controller="CheckSubModalCtrl">
     <div class="title">执 行 检 查</div>
     <div class="content">
-        <div class="fm-tabs" style="margin-left: -5px;">
+        <!--<div class="fm-tabs" style="margin-left: -5px;">
             <a ng-if="[1,8,9,10].indexOf(currentSubTaskType)==-1" href="#" class="tab" ng-class="{0:'active'}[batchType]" ng-click="switchBatchType(0)">道路名库检查</a>
-        </div>
+        </div>-->
         <div style="postion:relative;min-height: 200px;" class="container-fluid">
             <div style="width: 100%;position: absolute; text-align: center;font-size: 16px;font-weight: bold" ng-show="dataLoading" class="row dataLoading">数据加载中...</div>
             <div ng-show="!dataLoading" class="row">
@@ -59,7 +59,7 @@
                             <th>规则号</th>
                             <th>检查描述</th>
                             <th>检查等级</th>
-                            <th>前置依赖</th>
+                            <!--<th>前置依赖</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -70,9 +70,9 @@
                             <td style="width:10px;"><input ng-change="setFatherSelectStyle()" ng-model="item.checked" type="checkbox" /></td>
                             <td title="{{item.ruleName}}" style="width:100px;">{{item.ruleName.length>12?item.ruleName.substr(0,12)+'...':item.ruleName}}</td>
                             <td style="width:40px;">{{item.ruleCode}}</td>
-                            <td title="{{item.ruleDesc}}" style="width:120px;">{{item.ruleDesc.length>42?item.ruleDesc.substr(0,42)+'...':item.ruleDesc}}</td>
+                            <td title="{{item.ruleDesc}}">{{item.ruleDesc.length>42?item.ruleDesc.substr(0,42)+'...':item.ruleDesc}}</td>
                             <td>{{item.ruleLevel}}</td>
-                            <td>{{item.depends?item.depends:'(无)'}}</td>
+                            <!--<td>{{item.depends?item.depends:'(无)'}}</td>-->
                         </tr>
                         </tbody>
                     </table>

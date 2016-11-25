@@ -216,7 +216,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             }
             tmcPointArray = Utils.distinctArr(tmcPointArray);
             highRenderCtrl.drawHighlight();
-            tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
+            // tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
             // console.info(Utils.distinctArr(tmcPointArray));
             $scope.getTmcTree(tmcPointArray);
             map.currentTool.disable();
@@ -322,14 +322,62 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
                 $scope.tmcRelation.direct = parseInt(event.geometry.orientation) == 2?1:2;
                 tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
+                /* 组装数据对象*/
+                featCodeCtrl.setFeatCode($scope.tmcRelation);
             });
             tooltipsCtrl.setCurrentTooltip('请点击空格创建TMCLocation！');
         } else {
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             tooltipsCtrl.setCurrentTooltip('请点击空格创建TMCLocation!');
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCTRANSFORMDIRECT);
+            /* 组装数据对象*/
+            featCodeCtrl.setFeatCode($scope.tmcRelation);
         }
     };
+    // 选择接续线（支持修改退出线和接续线）;
+    function selectOutOrSeriesLinks(dataresult) {
+        // 判断选的线的合法性;
+        if (dataresult.id == $scope.tmcRelation.inLinkPid) {
+            tooltipsCtrl.setCurrentTooltipText('所选线不能与进入线重复!');
+            return;
+        }
+        /* -----------------------------------如果增加的是接续线（支持修改）;-----------------------------------*/
+        /* 判断接续线是否能与进入线重合，原则上不能重合*/
+        if (dataresult.id == $scope.tmcRelation.inLinkPid) {
+            tooltipsCtrl.setCurrentTooltipText('接续线不能与进入线重合!');
+            return;
+        }
+        /* 如果没有接续线接续线直接跟退出线挂接;*/
+        if ($scope.tmcRelation.linkPids.indexOf(parseInt(dataresult.id)) == -1) {
+            if (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1] && dataresult.properties.direct == 3) {
+                $scope.tmcRelation.linkPids.push(parseInt(dataresult.id));
+                // 对于node和link数组的维护;
+                $scope.links.push(parseInt(dataresult.id));
+                $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                $scope.hightlightViasLink();
+            } else if (dataresult.properties.snode == $scope.linkNodes[$scope.linkNodes.length - 1] && dataresult.properties.direct == 2) {
+                $scope.tmcRelation.linkPids.push(parseInt(dataresult.id));
+                // 对于node和link数组的维护;
+                $scope.links.push(parseInt(dataresult.id));
+                $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                $scope.hightlightViasLink();
+            } else if ((dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1] || dataresult.properties.snode == $scope.linkNodes[$scope.linkNodes.length - 1]) && dataresult.properties.direct == 1) {
+                // 对于node和link数组的维护;
+                $scope.links.push(parseInt(dataresult.id));
+                $scope.tmcRelation.linkPids.push(parseInt(dataresult.id));
+                (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                $scope.hightlightViasLink();
+            } else {
+                tooltipsCtrl.setCurrentTooltipText('您选择的接续线与上一条不连续或方向错误!');
+            }
+        } else {
+            var selectIndex = $scope.tmcRelation.linkPids.indexOf(parseInt(dataresult.id));
+            $scope.links.splice(selectIndex);
+            $scope.linkNodes.splice(selectIndex + 2);
+            $scope.tmcRelation.linkPids.splice(selectIndex);
+            $scope.hightlightViasLink();
+        }
+    }
     /* 修改追踪线或选择tmcPoint */
     $scope.afterTruckFunc = function () {
         // 初始化选择关系的工具
@@ -348,18 +396,21 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             }
             // 如果选择的是link，则修改追踪线
             if (tData.optype === 'RDLINK') {
-
+                selectOutOrSeriesLinks(tData);
             } else if (tData.optype === 'TMCPOINT') { // 如果选择tmcPoint，则计算locDirect
                 $scope.tmcRelation.pointPids.push(tData);
                 // 防止多次点击去重
                 // $scope.tmcRelation.pointPids = Utils.distinctArr($scope.tmcRelation.pointPids);
                 if ($scope.tmcRelation.pointPids.length > 1 && $scope.tmcRelation.pointPids[0].locoffPos !== 0) {
                     // 如果选择的第二个位置点是第一个位置点的正向偏移量则，则位置方向赋值为“+”
-                    if ($scope.tmcRelation.pointPids[0].locoffPos === $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].id) {
+                    if ($scope.tmcRelation.pointPids[0].locoffPos === parseInt($scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].id)) {
                         $scope.tmcRelation.locDirect = 1;
-                    } else if ($scope.tmcRelation.pointPids[0].locoffNeg === $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].id) {
+                    } else if ($scope.tmcRelation.pointPids[0].locoffNeg === parseInt($scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].id)) {
                         // 如果选择的第二个位置点是第一个位置点的负向偏移量则，则位置方向赋值为“-”
                         $scope.tmcRelation.locDirect = 2;
+                    } else {
+                        tooltipsCtrl.notify('选择的两个TMCPoint无法匹配，请重新选择！', 'error');
+                        return;
                     }
                     // 赋值位置表标识
                     $scope.tmcRelation.loctableId = $scope.tmcRelation.pointPids[$scope.tmcRelation.pointPids.length - 1].loctableId;
@@ -372,8 +423,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             }
             // 高亮第一个tmcPoint和最后一个tmcPoint
             $scope.refreshHighLight();
-            /* 组装数据对象*/
-            featCodeCtrl.setFeatCode($scope.tmcRelation);
         });
     };
     /* 追踪link方法 */
@@ -390,8 +439,14 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 }
             };
             dsEdit.getByCondition(param).then(function (data) {
-                $scope.tmcRelation.linkPids = data.data;
-                $scope.refreshHighLight();
+                if (data.data) {
+                    // 遍历取出linkPid数组
+                    for (var i = 0; i < data.data.length; i++) {
+                        $scope.tmcRelation.linkPids.push(data.data[i].pid);
+                    }
+                    // $scope.tmcRelation.linkPids = data.data;
+                    $scope.refreshHighLight();
+                }
             });
         }
     };
@@ -408,7 +463,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         if ($scope.tmcRelation.linkPids && $scope.tmcRelation.linkPids.length) {
             for (var i = 0; i < $scope.tmcRelation.linkPids.length; i++) {
                 highRenderCtrl.highLightFeatures.push({
-                    id: parseInt($scope.tmcRelation.linkPids[i].pid).toString(),
+                    id: parseInt($scope.tmcRelation.linkPids[i]).toString(),
                     layerid: 'rdLink',
                     type: 'line',
                     style: {
@@ -448,7 +503,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         if ($scope.tmcRelation.linkPids && $scope.tmcRelation.linkPids.length) {
             for (var i = 0; i < $scope.tmcRelation.linkPids.length; i++) {
                 highRenderCtrl.highLightFeatures.push({
-                    id: parseInt($scope.tmcRelation.linkPids[i].pid).toString(),
+                    id: parseInt($scope.tmcRelation.linkPids).toString(),
                     layerid: 'rdLink',
                     type: 'line',
                     style: {
@@ -472,14 +527,21 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             inLinkPid: $scope.rticData.pid,
             nodePid: '',
             linkPids: [],
+            vias: [],
             pointPids: []
         };
         $scope.linkNodes = [];
         $scope.links = [];
         $scope.refreshHighLight();
+        map.currentTool.disable();
+        eventController.off(eventController.eventTypes.GETNODEID);
+        eventController.off(eventController.eventTypes.GETFEATURE);
+        eventController.off(eventController.eventTypes.GETRECTDATA);
         if ($scope.autoTrack) {
             // 如果进入线是单方向道路，自动选择进入点;
-            // shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCTRANSFORMDIRECT);
+            $scope.linkNodes = [];
+            $scope.links = [];
+            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCTRANSFORMDIRECT);
             if ($scope.rticData.direct === 2 || $scope.rticData.direct === 3) {
                 $scope.tmcRelation.nodePid = parseInt($scope.rticData.direct === 2 ? $scope.rticData.eNodePid : $scope.rticData.sNodePid);
                 $scope.linkNodes.push($scope.tmcRelation.nodePid);
@@ -510,7 +572,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 // 需要捕捉的图层
                 eventController.off(eventController.eventTypes.GETNODEID);
                 eventController.on(eventController.eventTypes.GETNODEID, function (data) {
-                    if (parseInt(data.id) !== $scope.rticData.sNodePid && data.id !== $scope.rticData.eNodePid) {
+                    if (parseInt(data.id) !== $scope.rticData.sNodePid && parseInt(data.id) !== $scope.rticData.eNodePid) {
                         tooltipsCtrl.notify('必须选择link的端点！', 'error');
                         return;
                     }
@@ -526,7 +588,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                         }
                     });
                     highRenderCtrl.drawHighlight();
-                    tooltipsCtrl.setCurrentTooltip('已经选择进入点!');
+                    tooltipsCtrl.setCurrentTooltip('已经选择进入点!请选择TMCPoint');
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     $scope.getTruckLinks();
                     // eventController.off(eventController.eventTypes.GETNODEID);

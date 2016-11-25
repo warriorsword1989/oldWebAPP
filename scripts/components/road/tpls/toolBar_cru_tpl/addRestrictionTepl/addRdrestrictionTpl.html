@@ -1,13 +1,4 @@
 <style>
-
-    div {
-        -webkit-font-smoothing: antialiased;
-        line-height: 1.42857143;
-        color: #58666e;
-        /*background-color: transparent;*/
-        margin-right: 0px;
-    }
-
     .list-group-item {
         position: relative;
         display: block;
@@ -78,17 +69,17 @@
             </div>
         </li>
         <li class="list-group-item">
-            <div class="inline" ng-repeat="item in directData.showNormalData">
+            <div class="inline" ng-repeat="item in directData.showNormalData" style="min-width: auto;">
                 <div ng-if="restrictionType===0">
                     <span style="float: right;font-size: 12px;top: 0px;margin-top: -5px;
                                  margin-left:-5px;color: #fff;cursor: pointer;"
                           class="glyphicon glyphicon-remove-sign"
                           ng-click="minusNormalData(item,$index,$event)" ></span>
                     <img ng-if="item.flag===false" ng-src="../../../images/road/1302/1302_1_{{item.id}}.svg"
-                         class="show-tips" data-index="{{$index}}" ng-class="{'active':$index==0}" style="width: 30px;margin-left: 10px;"
+                         class="show-tips" data-index="{{$index}}" style="width: 30px;margin-left: 10px;"
                         >
                     <img  ng-if="item.flag===true" ng-src="../../../images/road/1302/1302_2_{{item.id}}.svg"
-                          data-index="{{$index}}" ng-class="{'active':$index==0}" class="show-tips" style="width: 30px;margin-left: 10px;"
+                          data-index="{{$index}}" class="show-tips" style="width: 30px;margin-left: 10px;"
                         >
                 </div>
                 <div ng-if="restrictionType===1">
@@ -97,7 +88,7 @@
                           class="glyphicon glyphicon-remove-sign"
                           ng-click="minusNormalData(item,$index,$event)" ></span>
                     <img ng-src="../../../images/road/1302/1302_0_{{item.id}}.svg"
-                         class="show-tips" data-index="{{$index}}" ng-class="{'active':$index==0}" style="width: 30px;margin-left: 10px;"
+                         class="show-tips" data-index="{{$index}}" style="width: 30px;margin-left: 10px;"
                     >
                 </div>
             </div>
