@@ -1824,7 +1824,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     swal('错误提示', '请先创建限高限重！', 'error');
                 }
             } else if (shapeCtrl.editType === 'updateHgwgLimit') {
-                console.info(featCodeCtrl.getFeatCode());
                 var temp = featCodeCtrl.getFeatCode();
                 if (temp.linkPid) {
                     var param = {
