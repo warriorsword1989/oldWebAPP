@@ -1800,7 +1800,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         }
                     }
                 });
-            } else if (shapeCtrl.editType == 'hgwgLimitDirect') {
+            } else if (shapeCtrl.editType === 'hgwgLimitDirect') {
                 var temp = selectCtrl.selectedFeatures;
                 if (temp.linkPid) {
                     var param = {
@@ -1823,8 +1823,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 } else {
                     swal('错误提示', '请先创建限高限重！', 'error');
                 }
-            } else if (shapeCtrl.editType == 'updateHgwgLimitNode') {
-                console.info(featCodeCtrl.getFeatCode());
+            } else if (shapeCtrl.editType === 'updateHgwgLimit') {
                 var temp = featCodeCtrl.getFeatCode();
                 if (temp.linkPid) {
                     var param = {
@@ -1835,7 +1834,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                             pid: temp.pid,
                             linkPid: temp.linkPid,
                             latitude: temp.lat,
-                            longitude: temp.lng
+                            longitude: temp.lng,
+                            direct: temp.direct
                         }
                     };
                     dsEdit.save(param).then(function (data) {

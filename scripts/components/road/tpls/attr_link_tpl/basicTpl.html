@@ -176,7 +176,7 @@
             </div>
         </li>
         <li style="padding:3px 20px;">
-            <div ng-repeat="item in linkData.forms | filter:{status: true} track by $index" style="margin:2px 0px;">
+            <div ng-repeat="item in linkData.forms | filter:{status: true} track by $index" style="margin:2px 0px;display:inherit;">
                 <div style="display:inline-block;width: 120px;">{{getFowLabel(item.formOfWay)}}</div>
                 <div style="display:inline-block;width: 90px;">
                     <select ng-model="item.auxiFlag" ng-options="rec.id as rec.label for rec in auxiFlagoption" style="width: auto;">

@@ -1,73 +1,224 @@
-<div style="height:100%;bottom: 25px;padding: 20px;padding-bottom: 70px">
+<style>
+    .roadLeftPanel_container {
+        height: 100%;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px #93bbff;
+        width: 300px;
+        font-family: "Microsoft Yahei", Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12px;
+    }
 
-    <div style="width: 80%;overflow: auto;height: 100%;background-color:#f0f0f0;display: inline-block">
-        <div>
-            <select>
-                <option value ="aaaa">建材城西路(110km/h)</option>
-                <option value ="saab">无名路(40km/h)</option>
-                <option value ="aaaa">无名路(40km/h)</option>
+    .roadLeftPanel {
+        height: 80px;
+        background-color: #636ef5;
+        color: #ffffff;
+        padding-left: 10px;
+    }
+    .roadLeftPanel_line {
+        width: 100%;
+        height: 40px;
+        line-height: 40px
+    }
+    .roadLeftPanel_select {
+        font-size: 12px;
+        color: #ffffff;
+        display: inline-block;
+        width: 180px;
+        height: 24px;
+        border-color: rgba(24, 40, 72, 0.3);
+        border-radius: 3px;
+        padding: 0 0 0 10px;
+        box-shadow: none;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        background: url('../../../../images/newRoad/leftPanelIcon/icon_select_normal.png') no-repeat right center transparent;
+        background-position-x: 160px;
+        background-color: #454dab;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding-right: 20px;
+    }
+    .roadLeftPanel_select:focus {
+        border-color: #5693ff;
+        box-shadow: none;
+        background: url('../../../../images/newRoad/leftPanelIcon/icon_select_active.png') no-repeat right center transparent;
+        background-position-x: 160px;
+        color: #5693ff;
+        background-color: #ffffff;
+    }
+    .roadLeftPanel_select > option {
+        color: #182848;
+    }
+    .roadLeftPanel_div_img {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    .roadLeftPanel_ul {
+        margin-bottom: 8px;
+        background-color: #ffffff;
+        display: block;
+        box-shadow: none;
+    }
+    .roadLeftPanel_ul > li {
+        font-family: "Microsoft Yahei", Verdana, Arial, Helvetica, sans-serif;
+        list-style: none;
+        background-color: #ffffff;
+        font-size: 12px;
+        height: 30px;
+        line-height: 30px;
+        color: #182848;
+    }
+    .roadLeftPanelDiv {
+        display: inline-block;
+        width: 48px;
+        text-align: right;
+        margin-right: 30px;
+    }
+    .roadLeftPanelShowPhoto {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .roadLeftPanelShowPhoto >div {
+        text-align: center;
+        width: 100%;
+        height: 185px;
+        line-height: 185px;
+        background: url("../../../../images/newRoad/leftPanelIcon/phote_big_background.png") no-repeat;
+    }
+    .roadLeftPanel_Thumbnails {
+        padding-top: 10px;
+        height: 58px;
+        padding-left: 10px;
+        padding-right: 10px;
+        position: relative;
+    }
+    .roadLeftPanel_Thumbnails_div {
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+        display: inline-block;
+        text-align: center;
+        background: url("../../../../images/newRoad/leftPanelIcon/photo_small_background.png") no-repeat;
+    }
+    .roadLeftPanel_Thumbnails_div > img{
+        width: auto;
+        height: auto;
+        max-height: 100%;
+        max-width: 100%
+    }
+    .roadLeftPanel_Thumbnails_left {
+        background: url("../../../../images/newRoad/leftPanelIcon/icon_last_normal.png") no-repeat;
+        position: absolute;
+        width: 12px;
+        height: 26px;
+        left: 2px;
+        top: 21px;
+        cursor: pointer;
+    }
+    .roadLeftPanel_Thumbnails_left:hover {
+        background: url("../../../../images/newRoad/leftPanelIcon/icon_last_active.png") no-repeat;
+    }
+    .roadLeftPanel_Thumbnails_right {
+        background: url("../../../../images/newRoad/leftPanelIcon/icon_next_normal.png") no-repeat;
+        position: absolute;
+        width: 12px;
+        height: 26px;
+        right: 2px;
+        top: 21px;
+        cursor: pointer;
+    }
+    .roadLeftPanel_Thumbnails_right:hover {
+        background: url("../../../../images/newRoad/leftPanelIcon/icon_next_active.png") no-repeat;
+    }
+    .roadLeftPanel_audio {
+        padding-top: 10px;
+        height: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
+        position: relative;
+    }
+    .roadLeftPanel_audio_div {
+        width: 48px;
+        height: 30px;
+        display: inline-block;
+    }
+</style>
+<div class="roadLeftPanel_container" ng-controller="roadLeftPanelCtrl">
+    <div class="roadLeftPanel">
+        <div class="roadLeftPanel_line">
+            <img src="../../../../images/newRoad/leftPanelIcon/icon_pending.png" style="padding-right: 10px">
+            <select class="form-control roadLeftPanel_select">
+                <option>点限速（58）</option>
+                <option>323234</option>
+                <option>dasdsa</option>
             </select>
         </div>
-        <div style="width: 100%">
-            <h4>图片</h4>
-            <img style="width: 100%;top: 20%" src="../../../../images/png/botai.jpg">
+        <div class="roadLeftPanel_line">
+            <img src="../../../../images/newRoad/leftPanelIcon/icon_keyEntry_normal.png" style="padding-right: 10px">
+            <select class="form-control roadLeftPanel_select">
+                <option>建材城西路（110km/h）</option>
+                <option>edewdew</option>
+                <option>4444555</option>
+            </select>
         </div>
-
-        <div style="margin-top:15px;height:150px;background: url('../../../../images/png/imglist.png') no-repeat">
-
-        </div>
-        <div style="margin-top:5px;height:60px">
-            <h4>语音</h4>
-            <div style="height:50px;background: url('../../../../images/png/video.png') no-repeat">
-
-            </div>
-        </div>
-        <div style="margin-top:15px">
-            <h4>备注</h4>
-            <div style="width: 100%;height: 2px;background-color: #cfcfcf"></div>
-            <div style="width: 100%;">
-                <textarea style="width: 100%;height: 100px"></textarea>
-            </div>
-
-        </div>
-        <div style="margin-top:15px">
-            <h4>信息</h4>
-            <div style="width: 100%;height: 2px;background-color: #cfcfcf"></div>
-            <div>
-                <strong>来源代码：</strong>
-                <span style="margin-left: 50px">外业现场</span>
-            </div>
-            <div>
-                <strong>状态：</strong>
-                <span style="margin-left: 50px">外业新增</span>
-            </div>
-            <div>
-                <strong>关联道路：</strong>
-                <span style="margin-left: 50px">702694</span>
-            </div>
-            <div>
-                <strong>限速方向：</strong>
-                <span style="margin-left: 50px">不应用</span>
-            </div>
-            <div>
-                <strong>限速值：</strong>
-                <span style="margin-left: 50px">110km/h</span>
-            </div>
-            <div>
-                <strong>限速标志：</strong>
-                <span style="margin-left: 50px">限速开始</span>
-            </div>
-            <div>
-                <strong>采集标志：</strong>
-                <span style="margin-left: 50px">理论判断</span>
-            </div>
-            <div>
-                <strong>文字说明：</strong>
-                <span style="margin-left: 50px">无</span>
-            </div>
+        <img src="../../../../images/newPoi/leftPanelIcon/icon-back-left.png" class="roadLeftPanel_div_img"
+             ng-click="closeLeftPanel()">
+    </div>
+    <div style="padding-left: 12px">
+        <ul class="list-group roadLeftPanel_ul">
+            <li>
+                <div class="roadLeftPanelDiv">
+                    <span>
+                        来源代码
+                    </span>
+                </div>
+                <span>外业现场</span>
+            </li>
+            <li>
+                <div class="roadLeftPanelDiv">
+                    <span>
+                        状态
+                    </span>
+                </div>
+                <span>外业新增</span>
+            </li>
+            <li>
+                <div class="roadLeftPanelDiv">
+                    <span>
+                        限速值
+                    </span>
+                </div>
+                <span>110km/h</span>
+            </li>
+        </ul>
+    </div>
+    <div class="roadLeftPanelShowPhoto">
+        <div>
+            <img ng-src="{{bigImgSrc.src}}" style="width: auto;height: auto;max-height: 100%;max-width: 100%">
         </div>
     </div>
-    <div style="display: inline-block;width:20%;height: 100%;float: right;padding-top: 100px">
-        <img src="../../../../images/png/tool.png">
+    <div class="roadLeftPanel_Thumbnails">
+        <div class="roadLeftPanel_Thumbnails_div" ng-repeat="item in imgSrcList" ng-style="{'margin-right':$index !== 4 ? '10px' : '0'}" ng-click="changeBigImg(item)">
+            <img ng-src="{{item.src}}">
+        </div>
+        <div class="roadLeftPanel_Thumbnails_left" ng-click="lastImg()">
+
+        </div>
+        <div class="roadLeftPanel_Thumbnails_right" ng-click="nextImg()">
+
+        </div>
+    </div>
+    <div class="roadLeftPanel_audio">
+        <div class="roadLeftPanel_audio_div" ng-repeat="item in audioSrcList" ng-style="{'margin-right':$index !== 4 ? '10px' : '0'}">
+            <img ng-src="{{item.flag ? '../../../../images/newRoad/leftPanelIcon/photo_audio.png': '../../../../images/newRoad/leftPanelIcon/photo_no_audio.png'}}">
+        </div>
+        <div class="roadLeftPanel_Thumbnails_left" ng-click="lastAudio()" style="top: 12px">
+
+        </div>
+        <div class="roadLeftPanel_Thumbnails_right" ng-click="nextAudio()" style="top: 12px">
+
+        </div>
     </div>
 </div>

@@ -177,7 +177,7 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      * 限高限重
      * */
-    UPDATEHGWHLIMITNODE: 'updateHgwgLimitNode',
+    UPDATEHGWHLIMIT: 'updateHgwgLimit',
     /*
      * TMC
      * */

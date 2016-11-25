@@ -3257,7 +3257,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 direct: pro.direct
                             });
                             if (pro.direct == 1) {
-                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
+                                //tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
                                 var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
                                 var linkCoords = data.geometry.coordinates;
                                 // 计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
@@ -3288,7 +3288,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 if (sVertex.x > eVertex.x || (sVertex.x == eVertex.x && sVertex.y > eVertex.y)) { // 从右往左划线或者从下网上划线
                                     angle = Math.PI + angle;
                                 }
-                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
+                                // tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
                                 var marker = {
                                     flag: false,
                                     point: point,

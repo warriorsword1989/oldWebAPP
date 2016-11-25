@@ -2,11 +2,30 @@
  * Created by zhaohang on 2016/11/14.
  */
 // 普通线限速限速来源
-fastmap.uikit.canvasTMFeature.TMLinkSpeedlimitSpeedLimitSrc = fastmap.uikit.canvasTMFeature.TMFeature.extend({
+fastmap.uikit.canvasTMFeature.TMLinkSpeedlimitSpeedLimitSrc =
+fastmap.uikit.canvasTMFeature.TMFeature.extend({
     geometry: {},
     properties: {},
     setAttribute: function (data) {
-        var RD_LINK_Colors = ['#C0C0C0', '#FF0000', '#00FF00', '#FFFF00', '#0000FF', '#FF9BFD', '#5176FD', '#8201B2', '#9ACF00', '#FF00FF', '#000000'];
+        var rdLinkColor = {
+            0: '#C0C0C0',
+            1: '#FF0000',
+            2: '#00FF00',
+            3: '#FFFF00',
+            4: '#0000FF',
+            5: '#FF9BFD',
+            6: '#5176FD',
+            7: '#8201B2',
+            8: '#9ACF00',
+            9: '#FF00FF',
+            10: '#000000',
+            11: 'red' };
+        var color = '';
+        if (parseInt(data.m.a, 10) === 99) {
+            color = rdLinkColor[11];
+        } else {
+            color = rdLinkColor[parseInt(data.m.a, 10)];
+        }
         this.geometry.type = 'LineString';
         this.properties.featType = 'RDLINK';
         this.properties.kind = data.m.a;
@@ -21,7 +40,7 @@ fastmap.uikit.canvasTMFeature.TMLinkSpeedlimitSpeedLimitSrc = fastmap.uikit.canv
         var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
 
         this.properties.symbol = symbolFactory.createSymbol('CompositeLineSymbol');
-        this.properties.style.strokeColor = RD_LINK_Colors[parseInt(data.m.a)];
+        this.properties.style.strokeColor = color;
         this.properties.style.strokeWidth = 1;
         this.properties.style.strokeOpacity = 1;
     }
