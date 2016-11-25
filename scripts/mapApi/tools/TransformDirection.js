@@ -56,7 +56,7 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
         var point = this._map.latLngToContainerPoint([geos.point.y, geos.point.x]);
         var orientation = geos.orientation;
         var len = this.distance(layerPoint, point);
-        if (len < 100) {
+        if (len < 50) {
             if (this.type === 'intRticMarker') {
                 switch (orientation) {
                 case '1':
@@ -105,9 +105,8 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
 
                 }
             }
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback(); // update by wuzhen 2016-11-25 解决创建电子眼、限高限重等，在地图上点击时，方向出现无用的重复绘制问题
         }
-
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
     onMouseUp: function (event) {
         this.targetIndex = null;

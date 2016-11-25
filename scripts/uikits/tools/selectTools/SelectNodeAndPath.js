@@ -12,7 +12,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
      *
      * @param {Object}options
      */
-    initialize: function (options) {
+    initialize: function(options) {
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
@@ -25,12 +25,11 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
         this.selectLayers = this.options.selectLayers;
         this._setSnapHandler(this.options.snapLayers);
     },
-
     /** *
      * 开启捕捉
      * @param {type} 捕捉的图层
      */
-    _setSnapHandler: function (layers) {
+    _setSnapHandler: function(layers) {
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
@@ -46,7 +45,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
     /** *
      * 添加事件处理
      */
-    addHooks: function () {
+    addHooks: function() {
         this._map.on('mousedown', this.onMouseDown_np, this);
         this._map.on('mousemove', this.onMouseMove_np, this);
         if (L.Browser.touch) {
@@ -57,14 +56,21 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
     /** *
      * 移除事件
      */
-    removeHooks: function () {
+    removeHooks: function() {
         this._map.off('mousedown', this.onMouseDown_np, this);
         this._map.off('mousemove', this.onMouseMove_np, this);
         if (L.Browser.touch) {
             this._map.off('click', this.onMouseDown_np, this);
         }
     },
-    onMouseMove_np: function (event) {
+    disable: function () {
+        if (!this._enabled) {
+            return;
+        }
+        this._enabled = false;
+        this.removeHooks();
+    },
+    onMouseMove_np: function(event) {
         this.snapHandler.setTargetIndex(0);
         if (this.snapHandler.snaped) {
             this.eventController.fire(this.eventController.eventTypes.SNAPED, {
@@ -84,7 +90,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },
-    onMouseDown_np: function (event) {
+    onMouseDown_np: function(event) {
         this._isDrawing = false;
         var mouseLatlng;
         if (this.snapHandler.snaped) {
@@ -95,56 +101,102 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
             this.selectFromTile(tileCoordinate, event);
         }
     },
-    selectFromTile: function (tilePoint, event) {
-        var pixels = null;
+    selectFromTile: function(tilePoint, event) {
+        var pixels, latLng;
         if (!this.snapHandler.snaped) {
-            pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());
+            latLng = event.latlng;
         } else {
-            pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat, this._map.getZoom());
+            latLng = this.targetPoint;
         }
+        pixels = this.transform.lonlat2Pixel(latLng.lng, latLng.lat, this._map.getZoom());
         var x = pixels[0] - tilePoint[0] * 256,
             y = pixels[1] - tilePoint[1] * 256;
         // 鼠标点击的位置，用于显示操作按钮面板
-        var point = new fastmap.mapApi.Point(this.transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom()));
+        var point = new fastmap.mapApi.Point(latLng.lng, latLng.lat);
         var data,
             selectFeatures = [];
         for (var i = 0; i < this.selectLayers.length; i++) {
-            if (this.selectLayers[i].options.showNodeLevel > this._map.getZoom()) {
+            if (this.selectLayers[i].options.showNodeLevel > this._map.getZoom() || !this.selectLayers[i].options.visible) {
                 continue;
             }
-            data = this.selectLayers[i].tiles[tilePoint[0] + ':' + tilePoint[1]].data;
-            for (var item in data) {
-                if (data[item].geometry.type == 'LineString') {
-                    if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
-                        selectFeatures.push({
-                            id: data[item].properties.id,
-                            optype: data[item].properties.featType,
-                            origType: data[item].geometry.type,
-                            linkId: data[item].properties.linkId,
-                            event: event,
-                            point: point,
-                            properties: data[item].properties,
-                            layer: this.selectLayers[i]
-                        });
-                    }
-                } else if (data[item].geometry.type == 'Point') {
-                    if (this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)) {
-                        selectFeatures.push({
-                            id: data[item].properties.id,
-                            optype: data[item].properties.featType,
-                            origType: data[item].geometry.type,
-                            nodeId: data[item].properties.nodeId,
-                            name: data[item].properties.name,
-                            event: event,
-                            layer: this.selectLayers[i]
-                        });
+            if (this.selectLayers[i].tiles[tilePoint[0] + ':' + tilePoint[1]]) {
+                data = this.selectLayers[i].tiles[tilePoint[0] + ':' + tilePoint[1]].data;
+                for (var item in data) {
+                    if (data[item].geometry.type == 'LineString') {
+                        if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                            selectFeatures.push({
+                                id: data[item].properties.id,
+                                optype: data[item].properties.featType,
+                                origType: data[item].geometry.type,
+                                linkId: data[item].properties.linkId,
+                                event: event,
+                                point: point,
+                                properties: data[item].properties,
+                                layer: this.selectLayers[i]
+                            });
+                        }
+                    } else if (data[item].geometry.type == 'Point') {
+                        if (data[item].properties.featType === 'TMCPOINT') {
+                            if (this._TouchesRelationPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                selectFeatures.push({
+                                    id: data[item].properties.id,
+                                    optype: data[item].properties.featType,
+                                    origType: data[item].geometry.type,
+                                    nodeId: data[item].properties.nodeId,
+                                    name: data[item].properties.name,
+                                    event: event,
+                                    layer: this.selectLayers[i],
+                                    loctableId: data[item].properties.loctableId,
+                                    locoffPos: data[item].properties.locoffPos,
+                                    locoffNeg: data[item].properties.locoffNeg
+                                });
+                            }
+                        } else {
+                            if (this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)) {
+                                selectFeatures.push({
+                                    id: data[item].properties.id,
+                                    optype: data[item].properties.featType,
+                                    origType: data[item].geometry.type,
+                                    nodeId: data[item].properties.nodeId,
+                                    name: data[item].properties.name,
+                                    event: event,
+                                    layer: this.selectLayers[i],
+                                    loctableId: data[item].properties.loctableId,
+                                    locoffPos: data[item].properties.locoffPos,
+                                    locoffNeg: data[item].properties.locoffNeg
+                                });
+                            }
+                        }
                     }
                 }
             }
         }
-        this.selectCtrl.selectedFeatures = selectFeatures[0];
-        this.eventController.fire(this.eventController.eventTypes.GETFEATURE, selectFeatures[0]);
-        selectFeatures[0].layer.selectedid = selectFeatures[0].id;
+        if (selectFeatures.length === 1) {
+            this.selectCtrl.selectedFeatures = selectFeatures[0];
+            this.eventController.fire(this.eventController.eventTypes.GETFEATURE, selectFeatures[0]);
+            selectFeatures[0].layer.selectedid = selectFeatures[0].id;
+        }else if (selectFeatures.length > 1) {
+            var html = '<ul id="layerpopup">';
+            // this.overlays = this.unique(this.overlays);
+            for (var item in selectFeatures) {
+                html += '<li><a href="#" id="' + item + '">' + selectFeatures[item].optype + '-' + selectFeatures[item].id + '</a></li>';
+            }
+            html += '</ul>';
+            this.popup.setLatLng(event.latlng).setContent(html);
+            var that = this;
+            this._map.on('popupopen', function () {
+                document.getElementById('layerpopup').onclick = function (e) {
+                    that.selectCtrl.selectedFeatures = selectFeatures[e.target.id];
+                    that.eventController.fire(that.eventController.eventTypes.GETFEATURE, selectFeatures[e.target.id]);
+                    selectFeatures[e.target.id].layer.selectedid = selectFeatures[e.target.id].id;
+                    that._map.closePopup(that.popup);
+                    that._map.off('popupopen');
+                };
+            });
+            setTimeout(function () {
+                that._map.openPopup(that.popup);
+            }, 200);
+        }
         // if (selectFeatures.length == 1) {
         //     this.selectCtrl.selectedFeatures = selectFeatures[0];
         //     this.eventController.fire(this.eventController.eventTypes.GETFEATURE, selectFeatures[0]);
@@ -178,7 +230,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesNodePoint: function (d, x, y, r) {
+    _TouchesNodePoint: function(d, x, y, r) {
         var touched = false;
         for (var i = 0, len = d.length; i < len; i++) {
             var dx = x - d[0];
@@ -190,6 +242,24 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
         return touched;
     },
     /** *
+     *点击普通的关系
+     * @param {Array}d 几何图形
+     * @param {number}x 鼠标x
+     * @param {number}y 鼠标y
+     * @param {number}r 半径
+     * @returns {number}
+     * @private
+     */
+    _TouchesRelationPoint: function(d, x, y, r) {
+        var dx = x - d[0];
+        var dy = y - d[1];
+        if ((dx * dx + dy * dy) <= r * r) {
+            return 1;
+        } else {
+            return 0;
+        }
+    },
+    /** *
      *
      * @param {Array}d 几何图形
      * @param {number}x 鼠标x
@@ -198,7 +268,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesPath: function (d, x, y, r) {
+    _TouchesPath: function(d, x, y, r) {
         var i;
         var N = d.length;
         var p1x = d[0][0];

@@ -44,6 +44,7 @@
                                         <div ng-repeat="cItem in laneTopoInfoArr" class="blackTheme module-box">
                                             <ul class="fm-ul fm-ul-form">
                                                 <li>
+                                                    <a style="width: 10%;" class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[cItem.flag]" ng-click="batchItems(cItem,$event)"></a>
                                                     <label style="width: 10%;">{{$index +1}}.</label>
                                                     <label style="width: 70%;"
                                                            ng-click="showLaneDetails(cItem,$index,1)">连通PID：{{cItem.pid}}
@@ -185,6 +186,37 @@
                                                 <li>
                                                     <label style="width: 50%">经过Link：</label>
                                                     <label style="width: 50%">{{cItem.viaLinkPid}}</label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fm-panel" style="margin-bottom: 5px;margin-top: 5px;"
+                                     ng-if="showBatchLane">
+                                    <div class="title">
+                                        <div>批量编辑属性</div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="blackTheme module-box">
+                                            <ul class="fm-ul fm-ul-form">
+                                                <li>
+                                                    <label style="width: 30%">处理标志：</label>
+                                                    <div class="inline" style="width: 70%">
+                                                        <select ng-model="batchLanes.processFlag" ng-options="value.id as value.label for value in processFlagOption">
+                                                            <option>--</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label style="width: 30%">是否借道：</label>
+                                                    <div class="inline" style="width: 70%">
+                                                        <select ng-model="batchLanes.throughTurn" ng-options="value.id as value.label for value in throughTurnOption">
+                                                            <option>--</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{batchLanes.timeDomain}}' style="width:100%;padding: 5px;"></div>
                                                 </li>
                                             </ul>
                                         </div>
