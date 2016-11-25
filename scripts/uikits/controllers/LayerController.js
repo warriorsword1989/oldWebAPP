@@ -222,7 +222,7 @@ fastmap.uikit.LayerController = (function () {
             },
             removeHighLightLayer: function () {
                 for (var i = 0, len = this.highLightLayersArr.length; i < len; i++) {
-                    this.highLightLayersArr(i).cleanHighLight();
+                    this.highLightLayersArr(i).clear();
                 }
                 this.highLightLayersArr.length = 0;
             },

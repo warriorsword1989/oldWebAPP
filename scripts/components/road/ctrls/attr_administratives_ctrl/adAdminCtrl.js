@@ -328,6 +328,10 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
                 adAdmin.redraw();
                 $scope.adAdminData = null;
                 highRenderCtrl._cleanHighLight(); // 清空高亮
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
             }
             $scope.$emit('SWITCHCONTAINERSTATE', { attrContainerTpl: false, subAttrContainerTpl: false });
         });
