@@ -180,9 +180,9 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     $scope.batchTopoArr = [];
     $scope.showBatchLane = false;
     $scope.batchLanes = {
-        processFlag:2,
-        throughTurn:0,
-        timeDomain:''
+        processFlag: 2,
+        throughTurn: 0,
+        timeDomain: ''
     };
     var laneTopo = null;
     var nodeGeo = null;
@@ -191,6 +191,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     var laneInfoObject = {};
     var rdLaneTopoDetail = {
         topoIds: [],
+        updateInfos: [],
         inLinkPid: null,
         inNodePid: null,
         laneTopoInfos: []
@@ -308,30 +309,6 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             $('.yellow').removeClass('yellow');
         }
     };
-    function timeoutLoad() {
-        $timeout(function () {
-            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
-                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
-                /* 查询数据库取出时间字符串 */
-                $timeout(function () {
-                    $scope.fmdateTimer($scope.laneDetail.timeDomain);
-                    $scope.$broadcast('set-code', $scope.laneDetail.timeDomain);
-                    $scope.$apply();
-                }, 100);
-            });
-        });
-    }
-    /* 时间控件 */
-    $scope.fmdateTimer = function (str) {
-        $scope.$on('get-date', function (event, data) {
-            $scope.laneDetail.timeDomain = data;
-        });
-        $timeout(function () {
-            $scope.$broadcast('set-code', str);
-            $scope.laneDetail.timeDomain = str;
-            $scope.$apply();
-        }, 100);
-    };
     function timeoutLoad1() {
         $timeout(function () {
             $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
@@ -353,6 +330,30 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
         $timeout(function () {
             $scope.$broadcast('set-code', str);
             $scope.batchLanes.timeDomain = str;
+            $scope.$apply();
+        }, 100);
+    };
+    function timeoutLoad() {
+        $timeout(function () {
+            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimerDouble').then(function () {
+                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimerDouble.html';
+                /* 查询数据库取出时间字符串 */
+                $timeout(function () {
+                    $scope.fmdateTimer($scope.laneDetail.timeDomain);
+                    $scope.$broadcast('set-code-double', $scope.laneDetail.timeDomain);
+                    $scope.$apply();
+                }, 100);
+            });
+        });
+    }
+    /* 时间控件 */
+    $scope.fmdateTimer = function (str) {
+        $scope.$on('get-date-double', function (event, data) {
+            $scope.laneDetail.timeDomain = data;
+        });
+        $timeout(function () {
+            $scope.$broadcast('set-code-double', str);
+            $scope.laneDetail.timeDomain = str;
             $scope.$apply();
         }, 100);
     };
@@ -487,20 +488,20 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
         $scope.clearLanes();
         var flag = $scope.checkLanes();
         var repeat = $scope.checkRepeat();
+        // 不能直接new一个rdlanetopoDetail对象，其他字段不需要
+        var newTopoDetail = {
+            pid: 0,
+            inLanePid: inLanePid,
+            outLanePid: outLanePid,
+            outLinkPid: outLinkPid,
+            topoVias: laneTopoVias,
+            processFlag: 2,
+            throughTurn: 0,
+            timeDomain: ''
+        };
         if (flag && repeat === 1) {
-            rdLaneTopoDetail.laneTopoInfos.push({
-                inLanePid: inLanePid,
-                outLanePid: outLanePid,
-                outLinkPid: outLinkPid,
-                laneTopoVias: laneTopoVias
-            });
-            $scope.insertLaneTopoArr.push(fastmap.dataApi.rdLaneTopoDetail({
-                pid: 0,
-                inLanePid: inLanePid,
-                outLanePid: outLanePid,
-                outLinkPid: outLinkPid,
-                topoVias: laneTopoVias
-            }));
+            rdLaneTopoDetail.laneTopoInfos.push(newTopoDetail);
+            $scope.insertLaneTopoArr.push(newTopoDetail);
             $scope.resetLaneInfo();
             swal('提示', '创建车道连通成功！', 'success');
         } else if (!flag || repeat === 0) {
@@ -520,20 +521,8 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
                     rdLaneTopoDetail.topoIds.push($scope.laneTopoInfoArr[repeat - 10].pid);
                     $scope.deleteLaneTopoArr.push($scope.laneTopoInfoArr[repeat - 10]);
                     $scope.laneTopoInfoArr.splice(repeat - 10, 1);
-
-                    rdLaneTopoDetail.laneTopoInfos.push({
-                        inLanePid: inLanePid,
-                        outLanePid: outLanePid,
-                        outLinkPid: outLinkPid,
-                        laneTopoVias: laneTopoVias
-                    });
-                    $scope.insertLaneTopoArr.push(fastmap.dataApi.rdLaneTopoDetail({
-                        pid: 0,
-                        inLanePid: inLanePid,
-                        outLanePid: outLanePid,
-                        outLinkPid: outLinkPid,
-                        topoVias: laneTopoVias
-                    }));
+                    rdLaneTopoDetail.laneTopoInfos.push(newTopoDetail);
+                    $scope.insertLaneTopoArr.push(newTopoDetail);
                     $scope.resetLaneInfo();
                     swal('提示', '创建车道连通成功！', 'success');
                 } else {
@@ -544,9 +533,25 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     };
     // 保存按钮
     $scope.doSave = function () {
-        if (rdLaneTopoDetail.topoIds.length === 0 && rdLaneTopoDetail.laneTopoInfos.length === 0) {
+        objCtrl.save();
+        if ((rdLaneTopoDetail.topoIds.length === 0 && rdLaneTopoDetail.laneTopoInfos.length === 0)
+            && !objCtrl.changedProperty) {
             swal('提示', '车道连通信息未发生改变！', 'warning');
             return;
+        }
+        if (objCtrl.changedProperty && objCtrl.changedProperty.laneTopoInfos) {
+            if (objCtrl.changedProperty.laneTopoInfos.length > 0) {
+                for (var cl = 0; cl < objCtrl.changedProperty.laneTopoInfos.length; cl++) {
+                    var laneData = objCtrl.changedProperty.laneTopoInfos[cl];
+                    // 必须是修改的数据，且不能为比较出来删除修改的：目前只更改3个字段，加上pid和status，正好是5个
+                    if (laneData.objStatus === 'UPDATE' && Object.getOwnPropertyNames(laneData).length === 5) {
+                        rdLaneTopoDetail.updateInfos.push({
+                            objId: laneData.pid,
+                            data: laneData
+                        });
+                    }
+                }
+            }
         }
         var param = {
             command: 'BATCH',
@@ -586,6 +591,13 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
                                 $scope.index = null;
                                 $scope.laneDetail = null;
                                 $scope.showPanel = false;
+                                $scope.batchTopoArr = [];
+                                $scope.showBatchLane = false;
+                                $scope.batchLanes = {
+                                    processFlag: 2,
+                                    throughTurn: 0,
+                                    timeDomain: ''
+                                };
                                 laneTopo = null;
                                 nodeGeo = null;
                                 nodePid = null;
@@ -593,6 +605,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
                                 laneInfoObject = {};
                                 rdLaneTopoDetail = {
                                     topoIds: [],
+                                    updateInfos: [],
                                     inLinkPid: null,
                                     inNodePid: null,
                                     laneTopoInfos: []
@@ -614,7 +627,15 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             }
         });
     };
-
+    var watch = $scope.$watch('batchLanes', function (newVal, oldVal) {
+        for (var bta = 0; bta < $scope.batchTopoArr.length; bta++) {
+            for (var item in newVal) {
+                if (newVal[item] !== oldVal[item]) {
+                    $scope.batchTopoArr[bta][item] = newVal[item];
+                }
+            }
+        }
+    }, true);
     // checkbox中的处理方法
     $scope.batchItems = function (item, event) {
         timeoutLoad1();
@@ -624,13 +645,13 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
         item.flag = !item.flag;
         if (!item.flag) {
             for (var bt = 0; bt < $scope.batchTopoArr.length; bt++) {
-                if ($scope.batchTopoArr[bt] === item.pid) {
+                if ($scope.batchTopoArr[bt].pid === item.pid) {
                     $scope.batchTopoArr.splice(bt, 1);
                     bt--;
                 }
             }
         } else if ($scope.batchTopoArr.indexOf(item.pid) < 0) {
-            $scope.batchTopoArr.push(item.pid);
+            $scope.batchTopoArr.push(item);
         }
         $scope.showBatchLane = ($scope.batchTopoArr.length > 0);
     };
@@ -640,7 +661,10 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
         laneTopo = featCodeCtrl.getFeatCode().laneTopo;// 服务返回的数据;
         $scope.rdLaneData = featCodeCtrl.getFeatCode().rdLaneData;// 创建前保留的数据
         $scope.laneInfoArr = laneTopo[0].laneInfos;// 所有的详细车道
-        $scope.laneTopoInfoArr = laneTopo[0].laneTopoInfos;// 所有的原始的车道连通
+        // $scope.laneTopoInfoArr = laneTopo[0].laneTopoInfos;// 所有的原始的车道连通
+        objCtrl.setCurrentObject('RDLANETOPODETAILARR', laneTopo[0]);
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        $scope.laneTopoInfoArr = objCtrl.data.laneTopoInfos;// 所有的原始的车道连通
         inLinkPid = $scope.rdLaneData.linkPids[0]; // 进入线
         nodePid = $scope.rdLaneData.nodePid; // 进入点
         for (var iii = 0; iii < $scope.laneTopoInfoArr.length; iii++) {
