@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var realtimeTrafficApp = angular.module('app');
-realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsMeta ,dsEdit) {
+realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsMeta, dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -318,9 +318,9 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             shapeCtrl.startEditing();
             tooltipsCtrl.setCurrentTooltip('点击方向图标开始修改方向！');
             eventController.off(eventController.eventTypes.DIRECTEVENT);
-            eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
+            eventController.on(eventController.eventTypes.DIRECTEVENT, function (event) {
                 selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
-                $scope.tmcRelation.direct = parseInt(event.geometry.orientation) == 2?1:2;
+                $scope.tmcRelation.direct = parseInt(event.geometry.orientation) == 2 ? 1 : 2;
                 tooltipsCtrl.setChangeInnerHtml('点击空格保存,或者按ESC键取消!');
                 /* 组装数据对象*/
                 featCodeCtrl.setFeatCode($scope.tmcRelation);
@@ -365,7 +365,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 // 对于node和link数组的维护;
                 $scope.links.push(parseInt(dataresult.id));
                 $scope.tmcRelation.linkPids.push(parseInt(dataresult.id));
-                (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)) : $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                 $scope.hightlightViasLink();
             } else {
                 tooltipsCtrl.setCurrentTooltipText('您选择的接续线与上一条不连续或方向错误!');
@@ -599,7 +599,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             }
         } else {
             map.currentTool.disable();
-            /*shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+            /* shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);*/
             editLayer.drawGeometry = null;
             editLayer.bringToBack();
@@ -739,7 +739,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         objCtrl.data.oridiRowId = $scope.rticData.intRtics[0].rowId;
         // 默认不追踪link
         $scope.autoTrack = false;
-        /*var showRticsInfoObj = {
+        /* var showRticsInfoObj = {
             loadType: 'subAttrTplContainer',
             propertyCtrl: 'scripts/components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
             propertyHtml: '../../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'

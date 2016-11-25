@@ -20,7 +20,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         /* 控制检查按钮是否可用*/
         $scope.checkRunning = false;
         $scope.$on('check-run', function (event, data) {
-            $scope.checkRunning = data.checkRunning
+            $scope.checkRunning = data.checkRunning;
         });
         $scope.cols = [
             {
@@ -350,9 +350,9 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         		 // $scope.subModalTpl = '';
         		 // $scope.subModal = false;
         	 } else if (type == 'checkResult') {
-                 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/checkResultSubModalCtl.js').then(function () {
-                     $scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/checkResultSubModalTpl.htm';
-                 });
+             $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/checkResultSubModalCtl.js').then(function () {
+                 $scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/checkResultSubModalTpl.htm';
+             });
         	 }
         };
          /**

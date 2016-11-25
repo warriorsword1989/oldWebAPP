@@ -1,4 +1,4 @@
-angular.module('app').controller('checkResultSubModalCtl', ['$window', '$scope', '$timeout', 'dsEdit',  'dsMeta', 'appPath', function ($window, $scope, $timeout, dsEdit, dsMeta, appPath) {
+angular.module('app').controller('checkResultSubModalCtl', ['$window', '$scope', '$timeout', 'dsEdit', 'dsMeta', 'appPath', function ($window, $scope, $timeout, dsEdit, dsMeta, appPath) {
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = new fastmap.uikit.HighRenderController();
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -29,18 +29,18 @@ angular.module('app').controller('checkResultSubModalCtl', ['$window', '$scope',
     /**
      * 查找检查结果
       */
-     function getCheckResultData(num) {
-          dsEdit.getRoadNameCheckResult(num).then(function (data) {
-              if (data == -1) {
-                  return;
-              }
-              $scope.checkResultData = [];
-              for (var i = 0, len = data.result.length; i < len; i++) {
-                  $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data.result[i]));
-                  $scope.checkResultTotal = data.totalCount;
-                  $scope.checkPageTotal = data.totalCount > 0 ? Math.ceil(data.totalCount / 5) : 1;
-              }
-          });
+    function getCheckResultData(num) {
+        dsEdit.getRoadNameCheckResult(num).then(function (data) {
+            if (data == -1) {
+                return;
+            }
+            $scope.checkResultData = [];
+            for (var i = 0, len = data.result.length; i < len; i++) {
+                $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data.result[i]));
+                $scope.checkResultTotal = data.totalCount;
+                $scope.checkPageTotal = data.totalCount > 0 ? Math.ceil(data.totalCount / 5) : 1;
+            }
+        });
        // dsMeta.columnDataList(num).then(function (data) {
        //     $scope.checkResultData = [];
        //     for (var i = 0, len = data.rows.length; i < len; i++) {
@@ -49,16 +49,15 @@ angular.module('app').controller('checkResultSubModalCtl', ['$window', '$scope',
        //         $scope.checkPageTotal = data.total > 0 ? Math.ceil(data.total / 5) : 1;
        //     }
        // })
-
-     }
-     initCheckResultData();
+    }
+    initCheckResultData();
 
      /* 初始化检查结果数据*/
-     function initCheckResultData() {
-         $scope.checkPageNow = 1; // 检查结果当前页
-         getCheckResultData(1);
+    function initCheckResultData() {
+        $scope.checkPageNow = 1; // 检查结果当前页
+        getCheckResultData(1);
 //         $scope.outputResult = dsOutput.output; // 输出结果
-     }
+    }
     /**
      * 修改table单元格显示的宽度防止属性面板弹出挤压出现垂直滚动条;
      */
@@ -98,7 +97,7 @@ angular.module('app').controller('checkResultSubModalCtl', ['$window', '$scope',
      * @param pid
      * @param type
      */
-    $scope.showDetail = function (id){
+    $scope.showDetail = function (id) {
         dsMeta.queryRdNByNameID(id).then(function (data) {
             if (data) {
                 $scope.$emit('openEditPanel', data);
@@ -107,7 +106,7 @@ angular.module('app').controller('checkResultSubModalCtl', ['$window', '$scope',
                 swal('提示', '未查询到数据', 'error');
             }
         });
-    }
+    };
     /* 翻页事件 */
     $scope.turnPage = function (type) {
         if (type == 'prev') { // 上一页

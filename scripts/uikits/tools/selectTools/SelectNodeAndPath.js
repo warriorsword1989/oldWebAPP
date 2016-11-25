@@ -12,7 +12,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
      *
      * @param {Object}options
      */
-    initialize: function(options) {
+    initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
@@ -29,7 +29,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
      * 开启捕捉
      * @param {type} 捕捉的图层
      */
-    _setSnapHandler: function(layers) {
+    _setSnapHandler: function (layers) {
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
@@ -45,7 +45,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
     /** *
      * 添加事件处理
      */
-    addHooks: function() {
+    addHooks: function () {
         this._map.on('mousedown', this.onMouseDown_np, this);
         this._map.on('mousemove', this.onMouseMove_np, this);
         if (L.Browser.touch) {
@@ -56,7 +56,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
     /** *
      * 移除事件
      */
-    removeHooks: function() {
+    removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown_np, this);
         this._map.off('mousemove', this.onMouseMove_np, this);
         if (L.Browser.touch) {
@@ -70,7 +70,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
         this._enabled = false;
         this.removeHooks();
     },
-    onMouseMove_np: function(event) {
+    onMouseMove_np: function (event) {
         this.snapHandler.setTargetIndex(0);
         if (this.snapHandler.snaped) {
             this.eventController.fire(this.eventController.eventTypes.SNAPED, {
@@ -90,7 +90,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },
-    onMouseDown_np: function(event) {
+    onMouseDown_np: function (event) {
         this._isDrawing = false;
         var mouseLatlng;
         if (this.snapHandler.snaped) {
@@ -101,8 +101,9 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
             this.selectFromTile(tileCoordinate, event);
         }
     },
-    selectFromTile: function(tilePoint, event) {
-        var pixels, latLng;
+    selectFromTile: function (tilePoint, event) {
+        var pixels,
+            latLng;
         if (!this.snapHandler.snaped) {
             latLng = event.latlng;
         } else {
@@ -151,21 +152,19 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
                                     locoffNeg: data[item].properties.locoffNeg
                                 });
                             }
-                        } else {
-                            if (this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)) {
-                                selectFeatures.push({
-                                    id: data[item].properties.id,
-                                    optype: data[item].properties.featType,
-                                    origType: data[item].geometry.type,
-                                    nodeId: data[item].properties.nodeId,
-                                    name: data[item].properties.name,
-                                    event: event,
-                                    layer: this.selectLayers[i],
-                                    loctableId: data[item].properties.loctableId,
-                                    locoffPos: data[item].properties.locoffPos,
-                                    locoffNeg: data[item].properties.locoffNeg
-                                });
-                            }
+                        } else if (this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)) {
+                            selectFeatures.push({
+                                id: data[item].properties.id,
+                                optype: data[item].properties.featType,
+                                origType: data[item].geometry.type,
+                                nodeId: data[item].properties.nodeId,
+                                name: data[item].properties.name,
+                                event: event,
+                                layer: this.selectLayers[i],
+                                loctableId: data[item].properties.loctableId,
+                                locoffPos: data[item].properties.locoffPos,
+                                locoffNeg: data[item].properties.locoffNeg
+                            });
                         }
                     }
                 }
@@ -175,7 +174,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
             this.selectCtrl.selectedFeatures = selectFeatures[0];
             this.eventController.fire(this.eventController.eventTypes.GETFEATURE, selectFeatures[0]);
             selectFeatures[0].layer.selectedid = selectFeatures[0].id;
-        }else if (selectFeatures.length > 1) {
+        } else if (selectFeatures.length > 1) {
             var html = '<ul id="layerpopup">';
             // this.overlays = this.unique(this.overlays);
             for (var item in selectFeatures) {
@@ -230,7 +229,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesNodePoint: function(d, x, y, r) {
+    _TouchesNodePoint: function (d, x, y, r) {
         var touched = false;
         for (var i = 0, len = d.length; i < len; i++) {
             var dx = x - d[0];
@@ -250,7 +249,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesRelationPoint: function(d, x, y, r) {
+    _TouchesRelationPoint: function (d, x, y, r) {
         var dx = x - d[0];
         var dy = y - d[1];
         if ((dx * dx + dy * dy) <= r * r) {
@@ -268,7 +267,7 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesPath: function(d, x, y, r) {
+    _TouchesPath: function (d, x, y, r) {
         var i;
         var N = d.length;
         var p1x = d[0][0];

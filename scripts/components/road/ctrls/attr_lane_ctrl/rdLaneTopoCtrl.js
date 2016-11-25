@@ -180,9 +180,9 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     $scope.batchTopoArr = [];
     $scope.showBatchLane = false;
     $scope.batchLanes = {
-        processFlag:2,
-        throughTurn:0,
-        timeDomain:''
+        processFlag: 2,
+        throughTurn: 0,
+        timeDomain: ''
     };
     var laneTopo = null;
     var nodeGeo = null;

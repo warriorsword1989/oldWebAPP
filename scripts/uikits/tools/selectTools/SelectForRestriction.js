@@ -137,24 +137,24 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         if (this.selectedFeatures.length == 0 || (this.selectedFeatures.length > 0 && id == this.selectedFeatures[0])) {
                         	this.selectedFeatures.push(id);
                         	if (touchids[0] == 0) {
-                                //查找所有于改点关联的link;
+                                // 查找所有于改点关联的link;
 
-                                this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
-                                    id: data[item].properties.snode,
-                                    event: event,
-                                    properties: data[item].properties,
-                                    index: this.selectedFeatures.length - 1,
-                                    links: linksWidthOneNode
-                                });
-                            } else {
-                                this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
-                                    id: data[item].properties.enode,
-                                    event: event,
-                                    properties: data[item].properties,
-                                    index: this.selectedFeatures.length - 1,
-                                    links: linksWidthOneNode
-                                });
-                            }
+                            this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                                id: data[item].properties.snode,
+                                event: event,
+                                properties: data[item].properties,
+                                index: this.selectedFeatures.length - 1,
+                                links: linksWidthOneNode
+                            });
+                        } else {
+                            this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                                id: data[item].properties.enode,
+                                event: event,
+                                properties: data[item].properties,
+                                index: this.selectedFeatures.length - 1,
+                                links: linksWidthOneNode
+                            });
+                        }
                         	// 为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
                             // this.selectedFeatures.push(id);
                             break;
@@ -172,15 +172,15 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         break;
                     }
                 }
-                for(var item in data){
-                    if(data[item].properties.snode==selectLinkSnode||data[item].properties.enode==selectLinkSnode){
-                        if(selectLinkPid!=data[item].properties.id){
-                            sNodeLinks.push(data[item].properties)
+                for (var item in data) {
+                    if (data[item].properties.snode == selectLinkSnode || data[item].properties.enode == selectLinkSnode) {
+                        if (selectLinkPid != data[item].properties.id) {
+                            sNodeLinks.push(data[item].properties);
                         }
                     }
-                    if(data[item].properties.snode==selectLinkEnode||data[item].properties.enode==selectLinkEnode){
-                        if(selectLinkPid!=data[item].properties.id){
-                            eNodeLinks.push(data[item].properties)
+                    if (data[item].properties.snode == selectLinkEnode || data[item].properties.enode == selectLinkEnode) {
+                        if (selectLinkPid != data[item].properties.id) {
+                            eNodeLinks.push(data[item].properties);
                         }
                     }
                 }
@@ -251,15 +251,15 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         break;
                     }
                 }
-                for(var item in data){
-                    if(data[item].properties.snode==selectLinkSnode||data[item].properties.enode==selectLinkSnode){
-                        if(selectLinkPid!=data[item].properties.id){
-                            sNodeLinks.push(data[item].properties)
+                for (var item in data) {
+                    if (data[item].properties.snode == selectLinkSnode || data[item].properties.enode == selectLinkSnode) {
+                        if (selectLinkPid != data[item].properties.id) {
+                            sNodeLinks.push(data[item].properties);
                         }
                     }
-                    if(data[item].properties.snode==selectLinkEnode||data[item].properties.enode==selectLinkEnode){
-                        if(selectLinkPid!=data[item].properties.id){
-                            eNodeLinks.push(data[item].properties)
+                    if (data[item].properties.snode == selectLinkEnode || data[item].properties.enode == selectLinkEnode) {
+                        if (selectLinkPid != data[item].properties.id) {
+                            eNodeLinks.push(data[item].properties);
                         }
                     }
                 }
