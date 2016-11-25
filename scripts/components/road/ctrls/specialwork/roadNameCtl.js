@@ -313,11 +313,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         	 console.log('双击');
         };
         $scope.$on('openEditPanel', function (event, data) {
-            if (data) {
-                $scope.openEditPanel(data);
-            } else {
-                swal('提示', '未查询到数据', 'error');
-            }
+            $scope.openEditPanel(data);
         });
          /** *
           * 关闭编辑面板

@@ -1889,7 +1889,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     });
                 }
             } else if (shapeCtrl.editType === 'tmcTransformDirect') {    // 增加TMC匹配信息
-                console.info(featCodeCtrl.getFeatCode());
+                // console.info(featCodeCtrl.getFeatCode());
                 var linkPids = [];
                 // 遍历取出linkPid数组
                 for (var i = 0; i < featCodeCtrl.getFeatCode().linkPids.length; i++) {
@@ -1916,6 +1916,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         highRenderCtrl.highLightFeatures = [];
                         dsEdit.getByPid(parseInt(objEditCtrl.data.pid), 'RDLINK').then(function (data) {
                             if (data) {
+                                scope.$emit('SWITCHCONTAINERSTATE', {
+                                    subAttrContainerTpl: false,
+                                    attrContainerTpl: true
+                                });
                                 objEditCtrl.setCurrentObject('RDLINK', data);
                                 objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
                             }
