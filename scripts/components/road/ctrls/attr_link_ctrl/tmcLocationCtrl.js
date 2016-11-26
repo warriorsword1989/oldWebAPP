@@ -40,7 +40,7 @@ angular.module('app').controller('TmcLocationCtl', ['$scope', function ($scope) 
         }
         highRenderCtrl.drawHighlight();
         // 根据经纬度坐标高亮link
-        /*var lines = [];
+        /* var lines = [];
         for (var i = 0; i < $scope.tmcLocationData.links.length; i++) {
             var points = [];
             for (var j = 0; j < $scope.tmcLocationData.links[i].geometry.coordinates.length; j++) {
