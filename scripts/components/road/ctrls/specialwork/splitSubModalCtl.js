@@ -8,7 +8,6 @@ angular.module('app').controller('SplitSubModalCtl', ['$scope', '$ocLazyLoad', '
             var param = {};
             if ($scope.dataFlag == 1) { // 拆分选中的数据
                 if ($scope.getSelectedData().length == 0) {
-//					swal("请先选择要拆分的数据", "", "info");
                     swal({
                         title: '请先选择要拆分的数据',
                         type: 'info',
@@ -21,7 +20,6 @@ angular.module('app').controller('SplitSubModalCtl', ['$scope', '$ocLazyLoad', '
                             $scope.$apply();
                         }
                     });
-//					$scope.closeSubModal();
                     return;
                 }
                 param = {
@@ -47,7 +45,6 @@ angular.module('app').controller('SplitSubModalCtl', ['$scope', '$ocLazyLoad', '
                     }, function (f) {
                         if (f) {
                             $scope.$emit('REFRESHROADNAMELIST');
-//							$scope.$apply();
                             $scope.closeSplitSubModal();
                         }
                     });

@@ -4,39 +4,39 @@
 angular.module('app').controller('typeTableCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'appPath', '$interval', 'dsEdit', 'dsMeta',
     function ($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, appPath, $interval, dsEdit, dsMeta) {
         $scope.loadTableDataMsg = '数据加载中...';
-		// 初始化ng-table表头
+        // 初始化ng-table表头
         $scope.typeTableCols = [
-			  {
-				  field: 'num_index',
-				  title: '序号',
-				  width: '35px',
-				  show: true
-			  },
-			  {
-				  field: 'name',
-				  title: '名称',
-				  width: '35px',
-				  show: true
-			  },
-			  {
-				  field: 'py',
-				  title: '拼音',
-				  width: '35px',
-				  show: true
-			  },
-			  {
-				  field: 'englishname',
-				  title: '英文',
-				  width: '35px',
-				  show: true
-			  }
-		 ];
-		// 表格配置搜索;
+            {
+                field: 'num_index',
+                title: '序号',
+                width: '35px',
+                show: true
+            },
+            {
+                field: 'name',
+                title: '名称',
+                width: '35px',
+                show: true
+            },
+            {
+                field: 'py',
+                title: '拼音',
+                width: '35px',
+                show: true
+            },
+            {
+                field: 'englishname',
+                title: '英文',
+                width: '35px',
+                show: true
+            }
+        ];
+        // 表格配置搜索;
         $scope.filters = {
-    			name: '',
-    			langCode: ''
-    	 };
-		// 初始化ng-table表格
+            name: '',
+            langCode: ''
+        };
+        // 初始化ng-table表格
         function initTypeTable() {
             $scope.typeTableParams = new NgTableParams({
                 page: 1,
