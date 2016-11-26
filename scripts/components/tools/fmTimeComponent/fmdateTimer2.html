@@ -1,5 +1,5 @@
 <style type="text/css">
-    .datetip-double > .form-group > .btn-group > label {
+    .datetip > .form-group > .btn-group > label {
         transition: all 0.5s;
         padding: 5px;
         border-radius: 0;
@@ -31,7 +31,7 @@
        border-right: 10px solid transparent;
        border-top: 10px solid #fff;
         }  */
-    .datetip-double {
+    .datetip {
         width: 270px;
         display: none;
         padding: 10px;
@@ -87,7 +87,7 @@
         background-color: #494949;
     }
 
-    .date-well-double {
+    .date-well {
         width: 100%;
         border: 1px solid #FFF;
         border-radius: 4px;
@@ -402,7 +402,7 @@
         border-bottom: 6px solid #333;
     }
 </style>
-<div class="date-well-double" ng-controller="DateDoubleCtrl">
+<div class="date-well" ng-controller="DateCtrl2">
     <div class="date-head">
         <h3 class="date-title pull-left">时间段</h3>
 
@@ -414,22 +414,22 @@
         <div class="clearfix"></div>
     </div>
     <div class="date-body col-md-12">
-        <div class="date-list"></div>
+        <div class="date-list" style="margin-bottom: 5px;"></div>
         <div class="date-list col-md-12" ng-repeat="item in dateList">
             <div class="col-xs-10 col-md-10 col-lg-11 date-code-list" date-code="{{item.code}}" ng-bind="item.describe">
             </div>
             <div class="col-xs-2 col-md-2 col-lg-1">
                 <span ng-hide="delBtnHide" class="glyphicon glyphicon-minus-sign remove-date-list pull-right"
-                      ng-click="removeList($event)"></span>
+                      ng-click="removeList($event,$index)"></span>
             </div>
             <div class="clearfix"></div>
             <div class="line"></div>
         </div>
     </div>
-    <div class="datetip-double">
+    <div class="datetip fm-datepick-tip" style="display: none">
         <div class="pull-left" style="margin-top: -8px;color: #FFF;">时间段设置</div>
         <div class="pull-right" style="margin-top: -10px;">
-            <button type="button" class="close" aria-label="Close" ng-click="dateSelect($event)"
+            <button type="button" class="close" aria-label="Close" ng-click="close()"
                     style="color: #fff;opacity: 1;margin-top: -4px;margin-right: -8px;">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -438,18 +438,18 @@
         <div class="line line-date"></div>
         <div class="radio radio-inline date-switch-type">
             <label class="radio-text">
-                <input type="radio" name="timeTypeDouble" time-type="fix-time" ng-click="timeType($event)" checked> 固定时间
+                <input type="radio" name="timeType" time-type="fix-time" ng-click="timeType($event)" checked> 固定时间
             </label>
         </div>
         <div class="radio radio-inline date-switch-type">
             <label class="radio-text">
-                <input type="radio" name="timeTypeDouble" time-type="continue-time" ng-click="timeType($event)"> 持续时间
+                <input type="radio" name="timeType" time-type="continue-time" ng-click="timeType($event)"> 持续时间
             </label>
         </div>
         <!-- begin 固定时间 -->
         <div class="form-group fix-time time-slide-well">
             <div class="btn-group d-btn" data-toggle="buttons" style="width: 100%;">
-                <label class="btn week-group" ng-click="weekGroup($event)" check-code='{{week.code}}'
+                <label name="weekGroupBtn" class="btn week-group" ng-click="weekGroup($event)" check-code='{{week.code}}'
                        check-name="{{week.name}}" check-value="{{week.value}}" ng-repeat="week in wks.values"
                        style="font-size: 12px;width: 14.28%;">
                     {{week.value}}
@@ -459,7 +459,7 @@
                 <span class="col-xs-4 col-md-3 col-lg-3 time-name">开始时间 </span>
 
                 <div class="input-group col-xs-7 col-md-8 col-lg-9">
-                    <input type="text" class="select-time" ng-click="selectTime($event)" ng-model="begin_time2"
+                    <input type="text" class="select-time" ng-click="selectTime($event)" ng-model="begin_time"
                            placeholder="开始时间" readonly>
                 </div>
                 <!-- <span class="empty-time" date-model-name="begin_time">×</span> -->
@@ -468,7 +468,7 @@
                 <span class="col-xs-4 col-md-3 col-lg-3 time-name">结束时间 </span>
 
                 <div class="input-group col-xs-7 col-md-8 col-lg-9">
-                    <input type="text" class="select-time" ng-click="selectTime($event)" ng-model="end_time2"
+                    <input type="text" class="select-time" ng-click="selectTime($event)" ng-model="end_time"
                            placeholder="结束时间" readonly>
                 </div>
                 <!-- <span class="empty-time" date-model-name="end_time">×</span> -->
@@ -501,7 +501,7 @@
                     选择
                   </span>
                         <input type="text" class="select-time select-time-add" ng-click="selectTime($event)"
-                               ng-model="d_begin_time2" placeholder="开始" readonly>
+                               ng-model="d_begin_time" placeholder="开始" readonly>
                     </div>
                 </div>
                 <div class="time-select">
@@ -518,7 +518,7 @@
                     选择
                   </span>
                         <input type="text" class="select-time select-time-add" ng-click="selectTime($event)"
-                               ng-model="d_end_time2" placeholder="结束" readonly>
+                               ng-model="d_end_time" placeholder="结束" readonly>
                     </div>
                 </div>
             </div>
@@ -535,7 +535,7 @@
                     </select>
                   </span>
                         <input type="text" class="select-time select-time-after" ng-click="selectTime($event)"
-                               ng-model="w_begin_time2" placeholder="时间" readonly>
+                               ng-model="w_begin_time" placeholder="时间" readonly>
                     </div>
                 </div>
                 <div class="time-select">
@@ -549,7 +549,7 @@
                     </select>
                   </span>
                         <input type="text" class="select-time select-time-after" ng-click="selectTime($event)"
-                               ng-model="w_end_time2" placeholder="时间" readonly>
+                               ng-model="w_end_time" placeholder="时间" readonly>
                     </div>
                 </div>
             </div>
@@ -582,8 +582,8 @@
             </label>
         </div>
         <div class="btn-option btn-group">
-            <button class="btn date-btn" type="button" ng-click="dateSelect($event)">关闭</button>
-            <button class="btn date-btn" ng-click="dateSave($event)" type="button">
+            <button class="btn date-btn" name="fmSaveDateIdTemporary" type="button" ng-click="close()">关闭</button>
+            <button class="btn date-btn" name="fmSaveDateIdTemporary" ng-click="dateSave($event)" type="button">
                 <i class="glyphicon glyphicon-floppy-disk"></i> 保存
             </button>
         </div>

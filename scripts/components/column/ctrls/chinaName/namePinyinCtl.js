@@ -18,7 +18,10 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         // popover
         $scope.popoverIsOpen = false;
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
-        $scope.costomWorkNumEum = [{ num: 10, desc: '每次10条' }, { num: 20, desc: '每次20条' }, { num: 30, desc: '每次30条' }, { num: '', desc: '自定义' }];
+        $scope.costomWorkNumEum = [{ num: 10, desc: '每次10条' }, { num: 20, desc: '每次20条' }, {
+            num: 30,
+            desc: '每次30条'
+        }, { num: '', desc: '自定义' }];
 
         $scope.changeTabs = function (flag) {
             $scope.workedFlag = flag;
@@ -36,10 +39,12 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             var html = $scope.heightLightCn(row.nameObj.name, row.nameObj.multiPinyin);
             return '<span>' + html + '<span>';
         }
+
         function getPinyin($scope, row) {
-	        var html = $scope.heightLightPin(row.nameObj.namePhonetic, row.nameObj.name, row.nameObj.multiPinyin, row.num_index);
-	        return '<span>' + html + '</span>';
+            var html = $scope.heightLightPin(row.nameObj.namePhonetic, row.nameObj.name, row.nameObj.multiPinyin, row.num_index);
+            return '<span>' + html + '</span>';
         }
+
         function getClassifyRules($scope, row) {
             var type = row.classifyRules.split(',');
             var html = '';
@@ -48,6 +53,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             }
             return html;
         }
+
         $scope.selectData = function (row, index) {
             var temp = $scope.tableDataList;
             var checkedArr = [];
@@ -58,9 +64,9 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             }
             var editArr = [];
             if (checkedArr.length > 0) {
-            	editArr = checkedArr;
+                editArr = checkedArr;
             } else {
-            	editArr = $scope.tableDataList;
+                editArr = $scope.tableDataList;
             }
             $scope.getPerPageEditData(editArr);
             $scope.editPanelIsOpen = true;
@@ -75,45 +81,45 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             for (var i in data.names) {
                 var composeStr = data.names[i].nameClass + '' + data.names[i].nameType + '' + data.names[i].langCode;
                 switch (composeStr) {
-                case '11CHI':// 官方标准化中文名
-                case '11CHT':// 港澳官方标准化中文名
-                    	if (data.names[i].multiPinyin && data.names[i].multiPinyin.length > 0) {
-                    		var newpoi = angular.copy(data);
-                    		newpoi.names = [];
-                    		data.names[i].nameClass = 'A';
-                    		data.names[i].nameType = 'A';
-                    		data.names[i].langCode = 'A';
-                    		newpoi.names.push(data.names[i]);
-                    		datalist.push(newpoi);
-                    	}
-                    	break;
-                case '51CHI':// 中文简称
-                case '51CHT':// 港澳中文简称
-        	            if (data.names[i].multiPinyin && data.names[i].multiPinyin.length > 0) {
-        	            	var newpoi = angular.copy(data);
-                    		newpoi.names = [];
-                    		data.names[i].nameClass = 'A';
-                    		data.names[i].nameType = 'A';
-                    		data.names[i].langCode = 'A';
-                    		newpoi.names.push(data.names[i]);
-                    		datalist.push(newpoi);
-        	            }
-        	            break;
+                    case '11CHI':// 官方标准化中文名
+                    case '11CHT':// 港澳官方标准化中文名
+                        if (data.names[i].multiPinyin && data.names[i].multiPinyin.length > 0) {
+                            var newpoi = angular.copy(data);
+                            newpoi.names = [];
+                            data.names[i].nameClass = 'A';
+                            data.names[i].nameType = 'A';
+                            data.names[i].langCode = 'A';
+                            newpoi.names.push(data.names[i]);
+                            datalist.push(newpoi);
+                        }
+                        break;
+                    case '51CHI':// 中文简称
+                    case '51CHT':// 港澳中文简称
+                        if (data.names[i].multiPinyin && data.names[i].multiPinyin.length > 0) {
+                            var newpoi = angular.copy(data);
+                            newpoi.names = [];
+                            data.names[i].nameClass = 'A';
+                            data.names[i].nameType = 'A';
+                            data.names[i].langCode = 'A';
+                            newpoi.names.push(data.names[i]);
+                            datalist.push(newpoi);
+                        }
+                        break;
                 }
             }
             return datalist;
         };
         $scope.parseNamePinyin = function (dataArr) {
-        	var data = [];
-        	for (var i = 0, length = dataArr.length; i < length; i++) {
-            	var temp = parseNamesMultiPinyin(dataArr[i]);
-            if ($.isArray(temp)) {
-                data = data.concat(temp);
-            } else {
-                data.push(temp);
+            var data = [];
+            for (var i = 0, length = dataArr.length; i < length; i++) {
+                var temp = parseNamesMultiPinyin(dataArr[i]);
+                if ($.isArray(temp)) {
+                    data = data.concat(temp);
+                } else {
+                    data.push(temp);
+                }
             }
-        }
-        	return data;
+            return data;
         };
         $scope.searchType = 'name';
 
@@ -140,7 +146,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
                 counts: [],
                 getData: function ($defer, params) {
                     var param = {
-                    		type: 'integrate',
+                        type: 'integrate',
                         firstWorkItem: 'poi_name',
                         secondWorkItem: 'namePinyin',
                         status: 1
@@ -156,6 +162,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
                 }
             });
         }
+
         // 给每条数据安排序号;
         ngTableEventsChannel.onAfterReloadData(function () {
             $scope.tableParams.data.checkedAll = false;
@@ -176,24 +183,24 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             console.info(chage);
             // 调用接口
             if ($scope.editAllDataList.length <= $scope.editorLines) {
-            	swal('已经是最后一页了!', '', 'info');
+                swal('已经是最后一页了!', '', 'info');
             }
             $scope.getPerPageEditData($scope.editAllDataList);
             initEditTable();
         };
         // 获取当前页要编辑的条数
         $scope.getPerPageEditData = function (allData) {
-        	// 需要编辑的所有数据
-        	$scope.editAllDataList = allData;
-        	if ($scope.editAllDataList.length > $scope.editorLines) {
-        		// 当前页要编辑的数据
-            	var resultArr = $scope.editAllDataList.splice(0, $scope.editorLines);
-            	$scope.currentEditOrig = angular.copy(resultArr);
-    	        $scope.currentEdited = angular.copy(resultArr);
-        	} else {
-        		$scope.currentEditOrig = angular.copy($scope.editAllDataList);
-    	        $scope.currentEdited = angular.copy($scope.editAllDataList);
-        	}
+            // 需要编辑的所有数据
+            $scope.editAllDataList = allData;
+            if ($scope.editAllDataList.length > $scope.editorLines) {
+                // 当前页要编辑的数据
+                var resultArr = $scope.editAllDataList.splice(0, $scope.editorLines);
+                $scope.currentEditOrig = angular.copy(resultArr);
+                $scope.currentEdited = angular.copy(resultArr);
+            } else {
+                $scope.currentEditOrig = angular.copy($scope.editAllDataList);
+                $scope.currentEdited = angular.copy($scope.editAllDataList);
+            }
         };
         // 设置每次作业条数的radio选择逻辑;
         $scope.selectNum = function (params, arg2) {
@@ -217,7 +224,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         /** *****************  编辑页面begin  ****************/
         $scope.editor = {};
         $scope.editor.editorCols = [
-//            { field: "num_index", title: "序号",show: true,width:'20px'},
+            // { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '50px' },
             { field: 'kindCodeName', title: '分类', show: true, width: '50px' },
             { field: 'nameObj', title: '名称', getValue: getName, show: true, width: '50px' },
@@ -229,29 +236,31 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         function getDetails($scope, row) {
             return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
+
         var pCreatradio = [];
+
         function getReferenceInfo($scope, row) {
-        	var rowIndex = row.num_index;
-        	var yinArr = row.nameObj.multiPinyin;
-	        var pinyin = row.nameObj.nameStrPinyin;
-	        var charArr;
-	        var pinyinArr;
-	        var html = '';
-	        for (var j = 0; j < yinArr.length; j++) {
-	            	var yin = yinArr[j].toString();
-	            	var str = yin.substr(yin.indexOf(',') + 3);
-	            	pinyinArr = str.split(',');
-	            	var multiPYindex = yinArr[j][0];
-	            	for (var i = 0; i < pinyinArr.length; i++) {
-         				if (pinyinArr[i] == $scope.radioDefaultVal[j]) {
-         					html += pinyinArr[i] + '<input type="radio" checked= true ng-click = "changePinyin($event,row)"  name="' + row.nameObj.pid + '_' + j + '"  value="' + pinyinArr[i] + '_' + j + '" >';
-         				} else {
-         					html += pinyinArr[i] + '<input type="radio" ng-click = "changePinyin($event,row)"  name="' + row.nameObj.pid + '_' + j + '"  value="' + pinyinArr[i] + '_' + j + '" >';
-         				}
-	            	}
-	            	html += '<br>';
-	         }
-	         return '<span>' + html + '</span>';
+            var rowIndex = row.num_index;
+            var yinArr = row.nameObj.multiPinyin;
+            var pinyin = row.nameObj.nameStrPinyin;
+            var charArr;
+            var pinyinArr;
+            var html = '';
+            for (var j = 0; j < yinArr.length; j++) {
+                var yin = yinArr[j].toString();
+                var str = yin.substr(yin.indexOf(',') + 3);
+                pinyinArr = str.split(',');
+                var multiPYindex = yinArr[j][0];
+                for (var i = 0; i < pinyinArr.length; i++) {
+                    if (pinyinArr[i] == $scope.radioDefaultVal[j]) {
+                        html += pinyinArr[i] + '<input type="radio" checked= true ng-click = "changePinyin($event,row)"  name="' + row.nameObj.pid + '_' + j + '"  value="' + pinyinArr[i] + '_' + j + '" >';
+                    } else {
+                        html += pinyinArr[i] + '<input type="radio" ng-click = "changePinyin($event,row)"  name="' + row.nameObj.pid + '_' + j + '"  value="' + pinyinArr[i] + '_' + j + '" >';
+                    }
+                }
+                html += '<br>';
+            }
+            return '<span>' + html + '</span>';
         }
 
         $scope.changePinyin = function (e, row) {
@@ -276,14 +285,14 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         };
 
         function initEditTable() {
-            _self.editorTable = new NgTableParams({
-            }, {
+            _self.editorTable = new NgTableParams({}, {
                 counts: [],
                 dataset: $scope.currentEdited
             });
         }
+
         $scope.showView = function (row) {
-        	$scope.showInfo = row;
+            $scope.showInfo = row;
             $scope.showImgInfoo = true;
             $scope.slides = [
                 {
@@ -307,8 +316,9 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         /** *****************  编辑页面end  ******************/
         /* 初始化方法*/
         function initPage() {
-        	initTable();
+            initTable();
         }
+
         initPage();
     }
 ]);

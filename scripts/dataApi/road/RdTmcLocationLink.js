@@ -21,7 +21,7 @@ fastmap.dataApi.RdTmcLocationLink = fastmap.dataApi.GeoDataModel.extend({
         this.locDirect = data.locDirect || 0;
         this.rowId = data.rowId;
         this.direct = data.direct || 0;
-        this.geometry = data.geometry || null;
+        // this.geometry = data.geometry || null;
     },
 
     /*
@@ -34,7 +34,7 @@ fastmap.dataApi.RdTmcLocationLink = fastmap.dataApi.GeoDataModel.extend({
         data.locDirect = this.locDirect;
         data.rowId = this.rowId;
         data.direct = this.direct;
-        data.geometry = this.geometry;
+        // data.geometry = this.geometry;
         return data;
     },
 
@@ -45,7 +45,7 @@ fastmap.dataApi.RdTmcLocationLink = fastmap.dataApi.GeoDataModel.extend({
         data.locDirect = this.locDirect;
         data.rowId = this.rowId;
         data.direct = this.direct;
-        data.geometry = this.geometry;
+        // data.geometry = this.geometry;
         return data;
     }
 

@@ -22,17 +22,24 @@ rdSlopeApp.controller('rdSlopeCtl', ['$scope', 'dsEdit', function ($scope, dsEdi
         selectCtrl.onSelected({
             id: $scope.slopeData.pid
         });
+        // 坡度图标;
         highLightFeatures.push({
-            id: $scope.slopeData.linkPid.toString(),
-            layerid: 'rdLink',
-            type: 'line',
-            style: { color: 'red' }
+            id: $scope.slopeData.pid.toString(),
+            layerid: 'relationData',
+            type: 'relationData',
+            style: {}
         });
         highLightFeatures.push({
             id: $scope.slopeData.nodePid.toString(),
             layerid: 'rdLink',
             type: 'node',
-            style: {}
+            style: { color: 'green' }
+        });
+        highLightFeatures.push({
+            id: $scope.slopeData.linkPid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: { color: 'red' }
         });
         var linkArr = $scope.slopeData.slopeVias,
             points = [];
@@ -41,7 +48,7 @@ rdSlopeApp.controller('rdSlopeCtl', ['$scope', 'dsEdit', function ($scope, dsEdi
                 id: linkArr[i].linkPid.toString(),
                 layerid: 'rdLink',
                 type: 'line',
-                style: {}
+                style: { color: 'blue' }
             });
         }
         highRenderCtrl.highLightFeatures = highLightFeatures;

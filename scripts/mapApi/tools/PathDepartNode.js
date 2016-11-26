@@ -110,7 +110,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             return;
         }
         // 防止分离的线自己被扑捉
-        if (this.snapHandler.snaped == true && this.snapHandler.properties.id!=this.selectCtrl.selectedFeatures.id) {
+        if (this.snapHandler.snaped == true && this.snapHandler.properties.id != this.selectCtrl.selectedFeatures.id) {
             this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: true });
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
@@ -136,7 +136,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         }
         this.selectCtrl.selectedFeatures.catchFlag = this.snapHandler.properties.featType;
         // 当前分离的线不能作为被扑捉的线；
-        this.selectCtrl.selectedFeatures.catchNodePid = (this.snapHandler.snaped && this.snapHandler.properties.id!=this.selectCtrl.selectedFeatures.id) ? this.snapHandler.properties.id : 0;
+        this.selectCtrl.selectedFeatures.catchNodePid = (this.snapHandler.snaped && this.snapHandler.properties.id != this.selectCtrl.selectedFeatures.id) ? this.snapHandler.properties.id : 0;
         this.selectCtrl.selectedFeatures.selectedLinkPid = this.selectCtrl.workLinkPid;
         // 如果是扑捉node，不传几何；如果是线或者不扑捉要传几何;
         if (this.snapHandler.snaped && this.snapHandler.properties.featType == 'RDNODE') {

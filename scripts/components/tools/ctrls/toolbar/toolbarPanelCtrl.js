@@ -148,6 +148,8 @@ angular.module('app').controller('ToolbarCtrl', ['$scope', '$ocLazyLoad', '$q', 
                 map.removeLayer(map.markerLayer);
                 map.markerLayer = null;
             }
+            // 清除车道连通面板
+            $scope.$emit('CLOSERDLANETOPO');
             if (selectCtrl.rowKey) {
                 selectCtrl.rowKey = null;
             }
@@ -210,36 +212,36 @@ angular.module('app').controller('ToolbarCtrl', ['$scope', '$ocLazyLoad', '$q', 
             if (tool.shapeEditor != undefined) {
                 var linkType = tool.shapeEditor.editFeatType;
                 switch (linkType) {
-                case 'RDLINK':
-                    nodeType = 'RDNODE';
-                    snapLink = rdLink;
-                    snapNode = rdNode;
-                    break;
-                case 'RWLINK':
-                    nodeType = 'RWNODE';
-                    snapLink = rwLink;
-                    snapNode = rwNode;
-                    break;
-                case 'ADLINK':
-                    nodeType = 'ADNODE';
-                    snapLink = adLink;
-                    snapNode = adNode;
-                    break;
-                case 'ZONELINK':
-                    nodeType = 'ZONENODE';
-                    snapLink = zoneLink;
-                    snapNode = zoneNode;
-                    break;
-                case 'LCLINK':
-                    nodeType = 'LCNODE';
-                    snapLink = lcLink;
-                    snapNode = lcNode;
-                    break;
-                case 'LULINK':
-                    nodeType = 'LUNODE';
-                    snapLink = luLink;
-                    snapNode = luNode;
-                    break;
+                    case 'RDLINK':
+                        nodeType = 'RDNODE';
+                        snapLink = rdLink;
+                        snapNode = rdNode;
+                        break;
+                    case 'RWLINK':
+                        nodeType = 'RWNODE';
+                        snapLink = rwLink;
+                        snapNode = rwNode;
+                        break;
+                    case 'ADLINK':
+                        nodeType = 'ADNODE';
+                        snapLink = adLink;
+                        snapNode = adNode;
+                        break;
+                    case 'ZONELINK':
+                        nodeType = 'ZONENODE';
+                        snapLink = zoneLink;
+                        snapNode = zoneNode;
+                        break;
+                    case 'LCLINK':
+                        nodeType = 'LCNODE';
+                        snapLink = lcLink;
+                        snapNode = lcNode;
+                        break;
+                    case 'LULINK':
+                        nodeType = 'LUNODE';
+                        snapLink = luLink;
+                        snapNode = luNode;
+                        break;
                 }
                 if (type == 'node') {
                     $scope.changeSnap('node', nodeType, snapNode);

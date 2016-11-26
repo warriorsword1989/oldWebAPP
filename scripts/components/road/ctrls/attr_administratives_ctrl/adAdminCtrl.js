@@ -65,8 +65,8 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
             style: { src: '../../images/road/img/heightStar.svg' }
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
-        dsEdit.getByPid(parseInt($scope.adAdminData.linkPid), 'RDLINK').then(function(data){
-            var minDis = Infinity ;
+        dsEdit.getByPid(parseInt($scope.adAdminData.linkPid), 'RDLINK').then(function (data) {
+            var minDis = Infinity;
             var minIndex = 0;
             var tempDis = 0;
             for (var i = 0; i < data.geometry.coordinates.length - 1; i++) {
@@ -80,13 +80,13 @@ adAdminZone.controller('adAdminController', ['$scope', 'appPath', 'dsEdit', func
                     minIndex = i;
                 }
             }
-            selectCtrl.selectedFeatures.linkcapturePoint =L.LineUtil.closestPointOnSegment(
+            selectCtrl.selectedFeatures.linkcapturePoint = L.LineUtil.closestPointOnSegment(
                 L.point(linkArr[1], linkArr[0]),
                 L.point(data.geometry.coordinates[minIndex][1], data.geometry.coordinates[minIndex][0]),
                 L.point(data.geometry.coordinates[minIndex + 1][1], data.geometry.coordinates[minIndex + 1][0])
-            )
+            );
             highRenderCtrl.drawHighlight(selectCtrl.selectedFeatures.linkcapturePoint);
-        })
+        });
 
         // 回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if ($scope.adAdminForm) {

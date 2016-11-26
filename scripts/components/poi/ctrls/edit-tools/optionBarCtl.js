@@ -17,27 +17,27 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     $scope.changeTag = function (tagName) {
         $scope.tagSelect = tagName;
         switch (tagName) {
-        case 'outputResult':
-            $ocll.load('scripts/components/poi/ctrls/edit-tools/outputResultCtl').then(function () {
-                $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/outputResultTpl.html';
-            });
-            break;
-        case 'errorCheck':
-            initCheckResultData();
-            $ocll.load('scripts/components/poi/ctrls/edit-tools/errorCheckCtl').then(function () {
-                $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/errorCheckTpl.html';
-            });
-            break;
-        case 'searchResult':
-            $ocll.load('scripts/components/poi/ctrls/edit-tools/searchResultCtl').then(function () {
-                $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/searchResultTpl.html';
-            });
-            break;
-        default:
-            $ocll.load('scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function () {
-                $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
-            });
-            break;
+            case 'outputResult':
+                $ocll.load('scripts/components/poi/ctrls/edit-tools/outputResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/outputResultTpl.html';
+                });
+                break;
+            case 'errorCheck':
+                initCheckResultData();
+                $ocll.load('scripts/components/poi/ctrls/edit-tools/errorCheckCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/errorCheckTpl.html';
+                });
+                break;
+            case 'searchResult':
+                $ocll.load('scripts/components/poi/ctrls/edit-tools/searchResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/searchResultTpl.html';
+                });
+                break;
+            default:
+                $ocll.load('scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+                });
+                break;
         }
     };
 

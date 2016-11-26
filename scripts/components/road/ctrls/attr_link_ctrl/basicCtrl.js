@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var basicApp = angular.module('app');
-basicApp.controller('basicController', function($scope, $ocLazyLoad) {
+basicApp.controller('basicController', function ($scope, $ocLazyLoad) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
@@ -414,7 +414,7 @@ basicApp.controller('basicController', function($scope, $ocLazyLoad) {
         }
     }
     // 车道数修改对车道等级的维护；
-    $scope.numberLengthLimit = function() {
+    $scope.numberLengthLimit = function () {
         switch (arguments[0]) {
             case 1:
                 if (parseInt($scope.linkData.laneNum)) {
@@ -468,19 +468,19 @@ basicApp.controller('basicController', function($scope, $ocLazyLoad) {
             $scope.basicFrom.$setPristine();
         }
     }
-    $scope.emptyGroupId = function() {
+    $scope.emptyGroupId = function () {
         $('#difGroupIdText').val('');
     };
-    $scope.changeKind = function(newVal, oldVal) {
+    $scope.changeKind = function (newVal, oldVal) {
         // 在模型里设置方法处理种别 变化的关联维护;
         $scope.linkData.changeKind(newVal, oldVal);
     };
-    $scope.showNames = function() {
+    $scope.showNames = function () {
         var showNameInfoObj = { // 这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             loadType: 'subAttrTplContainer',
             propertyCtrl: 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
             propertyHtml: '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
-            callback: function() {
+            callback: function () {
                 var showNameObj = {
                     loadType: 'subAttrTplContainer',
                     propertyCtrl: 'scripts/components/road/ctrls/attr_link_ctrl/namesOfDetailCtrl',
@@ -492,12 +492,12 @@ basicApp.controller('basicController', function($scope, $ocLazyLoad) {
         $scope.$emit('transitCtrlAndTpl', showNameInfoObj);
     };
     // 修改道路形态
-    $scope.addFormOfWay = function() {
+    $scope.addFormOfWay = function () {
         var addFormOfWayInfoObj = { // 这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             loadType: 'subAttrTplContainer',
             propertyCtrl: 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
             propertyHtml: '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
-            callback: function() {
+            callback: function () {
                 var addFormOfWayObj = {
                     loadType: 'subAttrTplContainer',
                     propertyCtrl: 'scripts/components/road/ctrls/attr_link_ctrl/basicOfFormWayCtrl',
@@ -526,7 +526,7 @@ basicApp.controller('basicController', function($scope, $ocLazyLoad) {
             label: 'GCZone'
         }
     ];
-    $scope.showZoneWin = function(item) {
+    $scope.showZoneWin = function (item) {
         $scope.linkData.oridiRowId = item.rowId;
         var showZoneWinObj = {
             loadType: 'subAttrTplContainer',
@@ -535,7 +535,7 @@ basicApp.controller('basicController', function($scope, $ocLazyLoad) {
         };
         $scope.$emit('transitCtrlAndTpl', showZoneWinObj);
     };
-    $scope.showZone = function(item) {
+    $scope.showZone = function (item) {
         if (item == 0) {} else {
             var showZoneObj = {
                 loadType: 'subAttrTplContainer',
@@ -545,12 +545,12 @@ basicApp.controller('basicController', function($scope, $ocLazyLoad) {
             $scope.$emit('transitCtrlAndTpl', showZoneObj);
         }
     };
-    $scope.showOther = function() {
+    $scope.showOther = function () {
         var showOtherObj = {
             loadType: 'subAttrTplContainer',
             propertyCtrl: 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
             propertyHtml: '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
-            callback: function() {
+            callback: function () {
                 var basicObj = {
                     loadType: 'subAttrTplContainer',
                     propertyCtrl: 'scripts/components/road/ctrls/attr_link_ctrl/basicOfOtherCtrl',
@@ -561,13 +561,13 @@ basicApp.controller('basicController', function($scope, $ocLazyLoad) {
         };
         $scope.$emit('transitCtrlAndTpl', showOtherObj);
     };
-    $scope.getFowLabel = function(fow) {
+    $scope.getFowLabel = function (fow) {
         var label;
-        for(var i=0;i<$scope.fromOfWayOption.length;i++) {
-            if($scope.fromOfWayOption[i].id == fow) {
+        for (var i = 0; i < $scope.fromOfWayOption.length; i++) {
+            if ($scope.fromOfWayOption[i].id == fow) {
                 label = $scope.fromOfWayOption[i].label;
             }
         }
         return label;
-    }
+    };
 });

@@ -66,66 +66,66 @@ angular.module('webeditor').controller('TaskSelectionCtl', ['$scope', 'dsManage'
             $scope.taskStatus = 6;
             // 构建过滤请求参数;
             switch ($scope.dataListType) {
-            case 1:
-                $scope.requestParams.classType = 0;
-                $scope.requestParams.classStage = 0;
-                break;
-            case 2:
-                $scope.requestParams.classType = 1;
-                $scope.requestParams.classStage = 0;
-                break;
-            case 3:
-                $scope.requestParams.classType = 2;
-                $scope.requestParams.classStage = 0;
-                break;
-            case 4:
-                $scope.requestParams.classType = 0;
-                $scope.requestParams.classStage = 1;
-                break;
-            case 5:
-                $scope.requestParams.classType = 3;
-                $scope.requestParams.classStage = 1;
-                break;
-            case 16:
-                $scope.requestParams.classType = 4;
-                $scope.requestParams.classStage = 1;
-                break;
-            case 17:
-                $scope.requestParams.classType = 5;
-                $scope.requestParams.classStage = 1;
-                break;
-            case 18:
-                $scope.requestParams.classType = 6;
-                $scope.requestParams.classStage = 2;
-                break;
-            case 19:
-                $scope.requestParams.classType = 7;
-                $scope.requestParams.classStage = 2;
-                break;
-            case 20:
-                $scope.requestParams.classType = 8;
-                $scope.requestParams.classStage = 2;
-                break;
-            case 21:
-                $scope.requestParams.classType = 9;
-                $scope.requestParams.classStage = 2;
-                break;
-            case 22:
-                $scope.requestParams.classType = 10;
-                $scope.requestParams.classStage = 2;
-                break;
-            case 6:
-                $scope.isDeepTask = true;
-                loadDeepTaskFn();
-                return;
-                break;
-            case 7:
+                case 1:
+                    $scope.requestParams.classType = 0;
+                    $scope.requestParams.classStage = 0;
+                    break;
+                case 2:
+                    $scope.requestParams.classType = 1;
+                    $scope.requestParams.classStage = 0;
+                    break;
+                case 3:
+                    $scope.requestParams.classType = 2;
+                    $scope.requestParams.classStage = 0;
+                    break;
+                case 4:
+                    $scope.requestParams.classType = 0;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 5:
+                    $scope.requestParams.classType = 3;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 16:
+                    $scope.requestParams.classType = 4;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 17:
+                    $scope.requestParams.classType = 5;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 18:
+                    $scope.requestParams.classType = 6;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 19:
+                    $scope.requestParams.classType = 7;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 20:
+                    $scope.requestParams.classType = 8;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 21:
+                    $scope.requestParams.classType = 9;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 22:
+                    $scope.requestParams.classType = 10;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 6:
+                    $scope.isDeepTask = true;
+                    loadDeepTaskFn();
+                    return;
+                    break;
+                case 7:
                     // 顶标签初始状态;
-                $scope.taskStatus = 9;
-                $scope.showDetailEdit = true;
-                loadPoiDetailTaskFn();
-                return;
-                break;
+                    $scope.taskStatus = 9;
+                    $scope.showDetailEdit = true;
+                    loadPoiDetailTaskFn();
+                    return;
+                    break;
             }
             loadSubTaskfn($scope.requestParams);
         };
@@ -133,40 +133,40 @@ angular.module('webeditor').controller('TaskSelectionCtl', ['$scope', 'dsManage'
             $scope.startBtnDisabled = true;
             $scope.taskStatus = val;
             switch ($scope.taskStatus) {
-            case 6:
-                if ($scope.isDeepTask) {
-                    $scope.currentSubTaskList = [];
-                    return;
-                }
-                delete $scope.requestParams.currentStatus;
-                break;
-            case 7:
-                if ($scope.isDeepTask) {
-                    $scope.currentSubTaskList = [];
-                    return;
-                }
-                $scope.requestParams.currentStatus = 1;
-                break;
-            case 8:
-                if ($scope.isDeepTask) {
-                    $scope.currentSubTaskList = [];
-                    return;
-                }
-                $scope.requestParams.currentStatus = 0;
-                break;
+                case 6:
+                    if ($scope.isDeepTask) {
+                        $scope.currentSubTaskList = [];
+                        return;
+                    }
+                    delete $scope.requestParams.currentStatus;
+                    break;
+                case 7:
+                    if ($scope.isDeepTask) {
+                        $scope.currentSubTaskList = [];
+                        return;
+                    }
+                    $scope.requestParams.currentStatus = 1;
+                    break;
+                case 8:
+                    if ($scope.isDeepTask) {
+                        $scope.currentSubTaskList = [];
+                        return;
+                    }
+                    $scope.requestParams.currentStatus = 0;
+                    break;
                 /* poi精编分类部分*/
-            case 9:
-                return;
-                break;
-            case 10:
-                return;
-                break;
-            case 11:
-                return;
-                break;
-            case 12:
-                return;
-                break;
+                case 9:
+                    return;
+                    break;
+                case 10:
+                    return;
+                    break;
+                case 11:
+                    return;
+                    break;
+                case 12:
+                    return;
+                    break;
             }
             loadSubTaskfn($scope.requestParams);
         };
@@ -227,42 +227,42 @@ angular.module('webeditor').controller('TaskSelectionCtl', ['$scope', 'dsManage'
 
         function getCurrentDataType(param) {
             switch (param) {
-            case 1:
-                return 'POI采集';
-                break;
-            case 2:
-                return '道路采集';
-                break;
-            case 3:
-                return '一体化采集';
-                break;
-            case 4:
-                return 'POI日编';
-                break;
-            case 5:
-                return '一体化gGRID粗编';
-                break;
-            case 16:
-                return '一体化区域';
-                break;
-            case 17:
-                return '多源POI';
-                break;
-            case 18:
-                return '代理店';
-                break;
-            case 19:
-                return 'POI专项';
-                break;
-            case 20:
-                return '道路GRID精编';
-                break;
-            case 21:
-                return '道路一体化粗编';
-                break;
-            case 22:
-                return '道路区域';
-                break;
+                case 1:
+                    return 'POI采集';
+                    break;
+                case 2:
+                    return '道路采集';
+                    break;
+                case 3:
+                    return '一体化采集';
+                    break;
+                case 4:
+                    return 'POI日编';
+                    break;
+                case 5:
+                    return '一体化gGRID粗编';
+                    break;
+                case 16:
+                    return '一体化区域';
+                    break;
+                case 17:
+                    return '多源POI';
+                    break;
+                case 18:
+                    return '代理店';
+                    break;
+                case 19:
+                    return 'POI专项';
+                    break;
+                case 20:
+                    return '道路GRID精编';
+                    break;
+                case 21:
+                    return '道路一体化粗编';
+                    break;
+                case 22:
+                    return '道路区域';
+                    break;
             }
         }
 

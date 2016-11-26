@@ -49,7 +49,7 @@ define(['symbol.Vector'], function () {
                 var result = vector1.cross(vector2);
                 expect(result).toEqual(1);
 
-                var result = vector2.cross(vector1);
+                result = vector2.cross(vector1);
                 expect(result).toEqual(-1);
             });
         });

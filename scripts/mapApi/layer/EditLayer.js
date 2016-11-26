@@ -34,7 +34,6 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         });
         this.eventController.on(this.eventController.eventTypes.STARTSHAPEEDITRESULTFEEDBACK, delegateDraw);
         function delegateDraw(event) {
-          
             that.selectCtrl = fastmap.uikit.SelectController();
             if (that.shapeEditor.shapeEditorResult == null) {
                 return;
@@ -54,7 +53,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
         this.eventController.on(this.eventController.eventTypes.STOPSHAPEEDITRESULTFEEDBACK, function () {
             that.map._container.style.cursor = '';
-            console.log('draw-----------------draw')
+            console.log('draw-----------------draw');
             var coordinate1 = [];
             if (that.drawGeometry) {
                 for (var index in that.drawGeometry.components) {
@@ -106,40 +105,40 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
         switch (currentGeo.type) {
 
-        case 'LineString':
-            drawLineString(currentGeo.components, null, { color: 'red', size: 2 }, false, null, false, false, self);
-            break;
-        case 'Link':
-            self.clear();
-            drawLineString(currentGeo.geometry.components, currentGeo.direct, {
-                color: 'red',
-                size: 2
-            }, false, null, false, true, self);
-            break;
-        case 'Point':
-            drawPoint(currentGeo, { color: 'red', radius: 3 }, false);
-            break;
-        case 'Polygon':
-            drawPolygon(currentGeo, { color: 'red', outline: 3 }, false);
-            break;
-        case 'Cross':
-            drawCross(currentGeo, { color: 'blue', width: 1 }, false, self);
-            break;
-        case 'marker':
-            drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
-            break;
-        case 'MultiPolyline':
-            drawMultiPolyline(currentGeo.coordinates, { color: 'red', width: 2 }, self);
-            break;
-        case 'intRticMarker':
-            drawRticMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
-            break;
-        case 'Buffer':
-            drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
-            break;
-        case 'Poi':
-            drawPoiAndLink(currentGeo.components, { color: 'blue', size: 2 }, self);
-            break;
+            case 'LineString':
+                drawLineString(currentGeo.components, null, { color: 'red', size: 2 }, false, null, false, false, self);
+                break;
+            case 'Link':
+                self.clear();
+                drawLineString(currentGeo.geometry.components, currentGeo.direct, {
+                    color: 'red',
+                    size: 2
+                }, false, null, false, true, self);
+                break;
+            case 'Point':
+                drawPoint(currentGeo, { color: 'red', radius: 3 }, false);
+                break;
+            case 'Polygon':
+                drawPolygon(currentGeo, { color: 'red', outline: 3 }, false);
+                break;
+            case 'Cross':
+                drawCross(currentGeo, { color: 'blue', width: 1 }, false, self);
+                break;
+            case 'marker':
+                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
+                break;
+            case 'MultiPolyline':
+                drawMultiPolyline(currentGeo.coordinates, { color: 'red', width: 2 }, self);
+                break;
+            case 'intRticMarker':
+                drawRticMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
+                break;
+            case 'Buffer':
+                drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
+                break;
+            case 'Poi':
+                drawPoiAndLink(currentGeo.components, { color: 'blue', size: 2 }, self);
+                break;
         }
 
         function drawCross(geom, style, boolPixelCrs, self) {

@@ -14,12 +14,12 @@ FM.dataApi.IxPoiBrand = FM.dataApi.DataModel.extend({
         this.level = data.level;
     },
     getIntegrate: function () {
-    	var ret = {};
-    	ret.category = this.category;
-    	ret.chainCode = this.chainCode;
-    	ret.chainName = this.chainName;
-    	ret.weight = this.weight;
-    	ret.level = this.level;
-    	return ret;
+        var ret = {};
+        ret.category = this.category;
+        ret.chainCode = this.chainCode;
+        ret.chainName = this.chainName;
+        ret.weight = this.weight;
+        ret.level = this.level;
+        return ret;
     }
 });

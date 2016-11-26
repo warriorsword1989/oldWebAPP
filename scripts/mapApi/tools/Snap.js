@@ -143,7 +143,9 @@ fastmap.mapApi.Snap = L.Handler.extend({
         var candidateId = options.candidateId ? options.candidateId : null;
 
 
-        var mindistline = 10, mindistvertex = 10, mindistnode = 10,
+        var mindistline = 10,
+            mindistvertex = 10,
+            mindistnode = 10,
             result = null,
             distaceResult = null,
             distance = 10;
@@ -168,7 +170,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
                                     index: distaceResult.index,
                                     distance: distance,
                                     properties: data[i].properties,
-                                    snaptype:'line'
+                                    snaptype: 'line'
                                 };
                             }
                         }
@@ -187,7 +189,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
                                 index: distaceResult.index,
                                 distance: distance,
                                 properties: data[i].properties,
-                                snaptype:'line'
+                                snaptype: 'line'
                             };
                         }
                     }
@@ -207,9 +209,8 @@ fastmap.mapApi.Snap = L.Handler.extend({
                                     index: distaceResult.index,
                                     properties: data[i].properties,
                                     selectedVertexe: true,
-                                    snaptype:'vertex',
-                                }
-
+                                    snaptype: 'vertex'
+                                };
                             }
                         }
                     } else {
@@ -224,9 +225,9 @@ fastmap.mapApi.Snap = L.Handler.extend({
                                 distance: mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
                                 index: distaceResult.index,
                                 properties: data[i].properties,
-                                selectedVertexe:true,
-                                snaptype:'vertex',
-                            }
+                                selectedVertexe: true,
+                                snaptype: 'vertex'
+                            };
                         }
                     }
                 }
@@ -242,7 +243,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
                             distance: distaceResult,
                             properties: data[i].properties,
                             index: -2,
-                            snaptype:'node',
+                            snaptype: 'node'
                         };
                     }
                 }

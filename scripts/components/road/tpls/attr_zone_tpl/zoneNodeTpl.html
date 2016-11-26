@@ -8,12 +8,14 @@
             <div class="fm-panel" >
                 <div class="content">
 					<ul class="fm-ul fm-ul-form">
-		                <li>
-		                    <label>种 别</label>
-		                    <div ng-repeat="item in kind | filter:{id:zoneNodeData.kind}">
-		                        <input type="text" ng-model="item.label" disabled="disabled">
-		                    </div>
-		                </li>
+						<li>
+							<label>种 别</label>
+							<div>
+								<select  ng-model="zoneNodeData.kind"
+										 ng-options="value.id as value.label for value in kind" >
+								</select>
+							</div>
+						</li>
 		                <li>
 		                    <label>形 态</label>
 		                    <div>

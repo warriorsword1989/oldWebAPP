@@ -176,5 +176,5 @@ fastmap.uikit.EventController = (function () {
         }
         return instantiated;
     };
-})();
+}());
 

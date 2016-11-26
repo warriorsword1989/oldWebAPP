@@ -13,10 +13,10 @@ FM.dataApi.IxPoiTopKind = FM.dataApi.DataModel.extend({
         this.name = data.name;
     },
     getIntegrate: function () {
-    	var ret = {};
-    	ret.id = this.id;
-    	ret.code = this.code;
-    	ret.name = this.name;
-    	return ret;
+        var ret = {};
+        ret.id = this.id;
+        ret.code = this.code;
+        ret.name = this.name;
+        return ret;
     }
 });

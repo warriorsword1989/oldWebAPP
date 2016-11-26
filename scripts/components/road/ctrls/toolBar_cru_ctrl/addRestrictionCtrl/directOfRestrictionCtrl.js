@@ -44,13 +44,11 @@ addDirectOfRestriction.controller('addDirectOfRestrictionController', function (
                     $scope.showData.inLaneInfoArr.splice(len - 1, 0, item.id);
                 }
             }
-        } else {
-            if ($scope.showData.showAdditionalData.length === 0) {
-                $scope.showData.showNormalData.push({
-                    id: item
-                });
-                $scope.showData.inLaneInfoArr.push(item);
-            }
+        } else if ($scope.showData.showAdditionalData.length === 0) {
+            $scope.showData.showNormalData.push({
+                id: item
+            });
+            $scope.showData.inLaneInfoArr.push(item);
         }
     };
 });

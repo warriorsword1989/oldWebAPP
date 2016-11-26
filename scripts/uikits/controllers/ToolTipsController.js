@@ -124,18 +124,18 @@ fastmap.uikit.ToolTipsController = (function () {
                 };
                 if (type) {
                     switch (type) {
-                    case 'info': // 信息
-                        style.backgroundColor = '#31b0d5';
-                        break;
-                    case 'warn': // 警告
-                        style.backgroundColor = '#f0ad4e';
-                        break;
-                    case 'error': // 错误
-                        style.backgroundColor = '#c9302c';
-                        break;
-                    case 'succ': // 成功
-                        style.backgroundColor = '#449d44';
-                        break;
+                        case 'info': // 信息
+                            style.backgroundColor = '#31b0d5';
+                            break;
+                        case 'warn': // 警告
+                            style.backgroundColor = '#f0ad4e';
+                            break;
+                        case 'error': // 错误
+                            style.backgroundColor = '#c9302c';
+                            break;
+                        case 'succ': // 成功
+                            style.backgroundColor = '#449d44';
+                            break;
                     }
                 }
                 this.currentStyle = style;
@@ -155,18 +155,18 @@ fastmap.uikit.ToolTipsController = (function () {
                     var bgColor = '#c9302c'; // 默认红色
                     if (type) {
                         switch (type) {
-                        case 'info': // 信息
-                            bgColor = '#31b0d5';
-                            break;
-                        case 'warn': // 警告
-                            bgColor = '#f0ad4e';
-                            break;
-                        case 'error': // 错误
-                            bgColor = '#c9302c';
-                            break;
-                        case 'succ': // 成功
-                            bgColor = '#449d44';
-                            break;
+                            case 'info': // 信息
+                                bgColor = '#31b0d5';
+                                break;
+                            case 'warn': // 警告
+                                bgColor = '#f0ad4e';
+                                break;
+                            case 'error': // 错误
+                                bgColor = '#c9302c';
+                                break;
+                            case 'succ': // 成功
+                                bgColor = '#449d44';
+                                break;
                         }
                     }
                     this.tooltipDiv.style.backgroundColor = bgColor;
