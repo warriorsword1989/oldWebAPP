@@ -364,111 +364,58 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 attrContainerTpl: false
             });
             switch (data.optype) {
-<<<<<<< HEAD
-            case 'RDLINK':
-                    // 悬浮工具条的设置
-                toolsObj = {
-                    items: [{
-                        text: "<span class='float-option-bar'>插</span>",
-                        title: '插入形状点',
-                        type: 'PATHVERTEXINSERT',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }, {
-                        text: "<span class='float-option-bar'>删</span>",
-                        title: '删除形状点',
-                        type: 'PATHVERTEXREMOVE',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }, {
-                        text: "<span class='float-option-bar'>修</span>",
-                        title: '修改形状点',
-                        type: 'PATHVERTEXMOVE',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }, {
-                        text: "<span class='float-option-bar'>方</span>",
-                        title: '修改道路方向',
-                        type: 'TRANSFORMDIRECT',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }, {
-                        text: "<span class='float-option-bar'>断</span>",
-                        title: '打断link',
-                        type: 'PATHBREAK',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    },
-                    {
-                        text: "<span class='float-option-bar'>分</span>",
-                        title: '分离节点',
-                        type: 'PATHDEPARTNODE_RDLINK',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    },
-                    {
-                        text: "<span class='float-option-bar'>平</span>",
-                        title: '平滑修行',
-                        type: 'PATHSMOOTH',
-                        class: 'feaf',
-                        callback: $scope.modifyTools
-                    }
-                    ]
-                };
-                    // 当在移动端进行编辑时,弹出此按钮
-=======
                 case "RDLINK":
                     //悬浮工具条的设置
                     toolsObj = {
                         items: [{
-                                'text': "<span class='float-option-bar'>插</span>",
-                                'title': "插入形状点",
-                                'type': 'PATHVERTEXINSERT',
-                                'class': "feaf",
-                                callback: $scope.modifyTools
+                            'text': "<span class='float-option-bar'>插</span>",
+                            'title': "插入形状点",
+                            'type': 'PATHVERTEXINSERT',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
                         }, {
-                                'text': "<span class='float-option-bar'>删</span>",
-                                'title': "删除形状点",
-                                'type': 'PATHVERTEXREMOVE',
-                                'class': "feaf",
-                                callback: $scope.modifyTools
+                            'text': "<span class='float-option-bar'>删</span>",
+                            'title': "删除形状点",
+                            'type': 'PATHVERTEXREMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
                         }, {
-                                'text': "<span class='float-option-bar'>修</span>",
-                                'title': "修改形状点",
-                                'type': 'PATHVERTEXMOVE',
-                                'class': "feaf",
-                                callback: $scope.modifyTools
+                            'text': "<span class='float-option-bar'>修</span>",
+                            'title': "修改形状点",
+                            'type': 'PATHVERTEXMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
                         }, {
-                                'text': "<span class='float-option-bar'>方</span>",
-                                'title': "修改道路方向",
-                                'type': 'TRANSFORMDIRECT',
-                                'class': "feaf",
-                                callback: $scope.modifyTools
+                            'text': "<span class='float-option-bar'>方</span>",
+                            'title': "修改道路方向",
+                            'type': 'TRANSFORMDIRECT',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
                         }, {
-                                'text': "<span class='float-option-bar'>断</span>",
-                                'title': "打断link",
-                                'type': 'PATHBREAK',
-                                'class': "feaf",
-                                callback: $scope.modifyTools
-                        },{
+                            'text': "<span class='float-option-bar'>断</span>",
+                            'title': "打断link",
+                            'type': 'PATHBREAK',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
                             'text': "<span class='float-option-bar'>分</span>",
                             'title': "分离节点",
                             'type': 'PATHDEPARTNODE_RDLINK',
                             'class': "feaf",
                             callback: $scope.modifyTools
-                        },{
+                        }, {
                             'text': "<span class='float-option-bar'>平</span>",
                             'title': "平滑修行",
                             'type': 'PATHSMOOTH',
                             'class': "feaf",
                             callback: $scope.modifyTools
-                        },{
+                        }, {
                             'text': "<span class='float-option-bar'>TMC</span>",
                             'title': "修改TMC方向",
                             'type': 'MOTIFYTMCLOCATION',
                             'class': "feaf",
                             callback: $scope.modifyTools
-                        },{
+                        }, {
                             'text': "<span class='float-option-bar'>接</span>",
                             'title': "修改接续线",
                             'type': 'MOTIFYTRUCKLINK',
@@ -478,7 +425,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
->>>>>>> FastmapSDK/master
                     // if (L.Browser.touch) {
                     //     toolsObj.items.push({
                     //         'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
@@ -492,13 +438,13 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     //         }
                     //     })
                     // }
-                selectCtrl.onSelected({
-                    point: data.point
-                });
-                ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rdLinkCtrl';
-                ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_link_tpl/rdLinkTpl.html';
-                $scope.getFeatDataCallback(data, data.id, 'RDLINK', ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml, toolsObj);
-                break;
+                    selectCtrl.onSelected({
+                        point: data.point
+                    });
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rdLinkCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_link_tpl/rdLinkTpl.html';
+                    $scope.getFeatDataCallback(data, data.id, 'RDLINK', ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml, toolsObj);
+                    break;
             case 'RDNODE':
                 toolsObj = {
                     items: [{

@@ -148,6 +148,8 @@ angular.module('app').controller('ToolbarCtrl', ['$scope', '$ocLazyLoad', '$q', 
                 map.removeLayer(map.markerLayer);
                 map.markerLayer = null;
             }
+            // 清除车道连通面板
+            $scope.$emit('CLOSERDLANETOPO');
             if (selectCtrl.rowKey) {
                 selectCtrl.rowKey = null;
             }

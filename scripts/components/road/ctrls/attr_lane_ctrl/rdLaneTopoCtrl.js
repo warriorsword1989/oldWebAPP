@@ -165,10 +165,9 @@ function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
     modifyNums();
 }
 
-rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sce', '$timeout', '$ocLazyLoad', function ($scope, $compile, dsEdit, $sce, $timeout, $ocLazyLoad) {
+rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sce', '$timeout', '$ocLazyLoad', 'hotkeys', function ($scope, $compile, dsEdit, $sce, $timeout, $ocLazyLoad, hotkeys) {
     var featCodeCtrl = fastmap.uikit.FeatCodeController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var eventCtrl = fastmap.uikit.EventController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var relationData = layerCtrl.getLayerById('relationData');
     $scope.deleteLaneTopoArr = [];// 所有的删除的车道连通
@@ -335,12 +334,12 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     };
     function timeoutLoad() {
         $timeout(function () {
-            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimerDouble').then(function () {
-                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimerDouble.html';
+            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer2').then(function () {
+                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer2.html';
                 /* 查询数据库取出时间字符串 */
                 $timeout(function () {
                     $scope.fmdateTimer($scope.laneDetail.timeDomain);
-                    $scope.$broadcast('set-code-double', $scope.laneDetail.timeDomain);
+                    $scope.$broadcast('set-code-2', $scope.laneDetail.timeDomain);
                     $scope.$apply();
                 }, 100);
             });
@@ -348,11 +347,11 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     }
     /* 时间控件 */
     $scope.fmdateTimer = function (str) {
-        $scope.$on('get-date-double', function (event, data) {
+        $scope.$on('get-date-2', function (event, data) {
             $scope.laneDetail.timeDomain = data;
         });
         $timeout(function () {
-            $scope.$broadcast('set-code-double', str);
+            $scope.$broadcast('set-code-2', str);
             $scope.laneDetail.timeDomain = str;
             $scope.$apply();
         }, 100);
@@ -367,7 +366,16 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             checked: false
         });
         $scope.resetLaneInfo();
+
+        // 清除批量选择
         $scope.showBatchLane = false;
+        $scope.batchTopoArr = [];
+        for (var bta = 0; bta < $scope.laneTopoInfoArr.length; bta++) {
+            if ($scope.laneTopoInfoArr[bta].flag) {
+                $scope.laneTopoInfoArr[bta].flag = false;
+            }
+        }
+
         $scope.showPanel = (panelFlag === 2);
         if (showPanelIndex !== panelFlag) {
             showPanelIndex = panelFlag;
@@ -388,6 +396,7 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             panelIndex = index;
             $scope.showLaneDetail = true;
             $scope.laneDetail = item;
+            timeoutLoad();
             $('#' + item.inLanePid).addClass('red');
             $('#' + item.outLanePid).addClass('yellow');
             for (var i = 0; i < item.topoVias.length; i++) {
@@ -531,6 +540,13 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
             });
         }
     };
+    hotkeys.bindTo($scope).add({
+        combo: 'space',
+        description: '创建车道连通',
+        callback: function () {
+            $scope.doCreate();
+        }
+    });
     // 保存按钮
     $scope.doSave = function () {
         objCtrl.save();
@@ -640,6 +656,8 @@ rdLaneTopoApp.controller('rdLaneTopoCtrl', ['$scope', '$compile', 'dsEdit', '$sc
     $scope.batchItems = function (item, event) {
         timeoutLoad1();
         $scope.showLaneDetail = false;
+        showPanelIndex = null;
+        panelIndex = null;
         $scope.laneDetail = null;
         event.stopPropagation();
         item.flag = !item.flag;
