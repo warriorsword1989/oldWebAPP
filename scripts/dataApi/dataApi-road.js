@@ -105,6 +105,7 @@
         'dataApi/road/RdLane.js',
         'dataApi/road/RdLaneCondition.js',
         'dataApi/road/RdLaneTopoDetail.js',
+        'dataApi/road/RdLaneTopoDetailArr.js',
         'dataApi/road/RdLaneTopoVia.js',
         'dataApi/road/RdHgwgLimit.js',
         'dataApi/road/geoDataModelComparison.js',

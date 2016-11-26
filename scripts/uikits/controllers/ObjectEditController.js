@@ -202,8 +202,8 @@ fastmap.uikit.ObjectEditController = (function () {
                 case 'RDLANE':// 详细车道
                     this.data = fastmap.dataApi.rdLanes(obj);
                     break;
-                case 'RDLANETOPODETAIL':// 车道连通
-                    this.data = fastmap.dataApi.RdLaneTopoDetail(obj);
+                case 'RDLANETOPODETAILARR':// 车道连通
+                    this.data = fastmap.dataApi.rdLaneTopoDetailArr(obj);
                     break;
                 case 'RDMILEAGEPILE':
                     this.data = fastmap.dataApi.rdMileagePile(obj);
