@@ -368,28 +368,28 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     // 悬浮工具条的设置
                     toolsObj = {
                         items: [{
-                            text: "<span class='float-option-bar'>插</span>",
-                            title: '插入形状点',
-                            type: 'PATHVERTEXINSERT',
-                            class: 'feaf',
+                            'text': "<span class='float-option-bar'>插</span>",
+                            'title': "插入形状点",
+                            'type': 'PATHVERTEXINSERT',
+                            'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            text: "<span class='float-option-bar'>删</span>",
-                            title: '删除形状点',
-                            type: 'PATHVERTEXREMOVE',
-                            class: 'feaf',
+                            'text': "<span class='float-option-bar'>删</span>",
+                            'title': "删除形状点",
+                            'type': 'PATHVERTEXREMOVE',
+                            'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            text: "<span class='float-option-bar'>修</span>",
-                            title: '修改形状点',
-                            type: 'PATHVERTEXMOVE',
-                            class: 'feaf',
+                            'text': "<span class='float-option-bar'>修</span>",
+                            'title': "修改形状点",
+                            'type': 'PATHVERTEXMOVE',
+                            'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            text: "<span class='float-option-bar'>方</span>",
-                            title: '修改道路方向',
-                            type: 'TRANSFORMDIRECT',
-                            class: 'feaf',
+                            'text': "<span class='float-option-bar'>方</span>",
+                            'title': "修改道路方向",
+                            'type': 'TRANSFORMDIRECT',
+                            'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
                             text: "<span class='float-option-bar'>断</span>",
@@ -820,19 +820,19 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                 case 'RDBRANCH':
                     toolsObj = {
                         items: [{
-                            text: "<span class='float-option-bar'>退</span>",
-                            title: '改退出线',
-                            type: 'MODIFYBRANCH_OUT',
-                            class: 'feaf',
-                            callback: $scope.modifyTools
-                        }
-                        //    {
-                        //    'text': "<span class='float-option-bar'>经</span>",
-                        //    'title': "修改经过线",
-                        //    'type': "MODIFYBRANCH_THROUGH",
-                        //    'class': "feaf",
-                        //    callback: $scope.modifyTools
-                        // }
+                                text: "<span class='float-option-bar'>退</span>",
+                                title: '改退出线',
+                                type: 'MODIFYBRANCH_OUT',
+                                class: 'feaf',
+                                callback: $scope.modifyTools
+                            }
+                            //    {
+                            //    'text': "<span class='float-option-bar'>经</span>",
+                            //    'title': "修改经过线",
+                            //    'type': "MODIFYBRANCH_THROUGH",
+                            //    'class': "feaf",
+                            //    callback: $scope.modifyTools
+                            // }
                         ]
                     };
                     // 当在移动端进行编辑时,弹出此按钮
@@ -893,15 +893,19 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             type: 'PATHBREAK',
                             class: 'feaf',
                             callback: $scope.modifyTools
-                        },
-                        {
+                        }, {
                             text: "<span class='float-option-bar'>分</span>",
                             title: '分离节点',
                             type: 'PATHDEPARTNODE_RWLINK',
                             class: 'feaf',
                             callback: $scope.modifyTools
-                        }
-                        ]
+                        }, {
+                            'text': "<span class='float-option-bar'>平</span>",
+                            'title': "平滑修行",
+                            'type': 'PATHSMOOTH',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwLinkCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + 'tpls/attr_link_tpl/rwLinkTpl.html';
@@ -961,12 +965,17 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             type: 'PATHBREAK',
                             class: 'feaf',
                             callback: $scope.modifyTools
-                        },
-                        {
+                        }, {
                             text: "<span class='float-option-bar'>分</span>",
                             title: '分离节点',
                             type: 'PATHDEPARTNODE_ADLINK',
                             class: 'feaf',
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<span class='float-option-bar'>平</span>",
+                            'title': "平滑修行",
+                            'type': 'PATHSMOOTH',
+                            'class': "feaf",
                             callback: $scope.modifyTools
                         }]
                     };
@@ -1024,6 +1033,12 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             title: '分离节点',
                             type: 'PATHDEPARTNODE_ZONELINK',
                             class: 'feaf',
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<span class='float-option-bar'>平</span>",
+                            'title': "平滑修行",
+                            'type': 'PATHSMOOTH',
+                            'class': "feaf",
                             callback: $scope.modifyTools
                         }]
                     };
@@ -1087,6 +1102,12 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             type: 'PATHDEPARTNODE_LULINK',
                             class: 'feaf',
                             callback: $scope.modifyTools
+                        }, {
+                            'text': "<span class='float-option-bar'>平</span>",
+                            'title': "平滑修行",
+                            'type': 'PATHSMOOTH',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
                         }]
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lu_ctrl/luLinkCtrl';
@@ -1133,12 +1154,17 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             type: 'PATHBREAK',
                             class: 'feaf',
                             callback: $scope.modifyTools
-                        },
-                        {
+                        }, {
                             text: "<span class='float-option-bar'>分</span>",
                             title: '分离节点',
                             type: 'PATHDEPARTNODE_LCLINK',
                             class: 'feaf',
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<span class='float-option-bar'>平</span>",
+                            'title': "平滑修行",
+                            'type': 'PATHSMOOTH',
+                            'class': "feaf",
                             callback: $scope.modifyTools
                         }]
                     };
@@ -3713,7 +3739,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         } else if (data.optype == 'RDROAD') {
                             if (crfPids.indexOf(parseInt(data.id)) < 0) {
                                 objData.roads.push(parseInt(data.id));
-                                dsEdit.getByPid(parseInt(data.id), 'RDROAD').then(function (roadData) {
+                                dsEdit.getByPid(parseInt(data.id), 'RDROAD').then(function(roadData) {
                                     crfPids.push(roadData.pid);
                                     var tempData = {
                                         pid: roadData.pid,
@@ -3767,7 +3793,7 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                     });
                     map.currentTool.enable();
                     eventController.off(eventController.eventTypes.GETFEATURE);
-                    eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
+                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
                         if (data.optype == 'RDOBJECT' && parseInt(data.id) == objCtrl.data.pid) { // 属于rdobject的要素
                             highRenderCtrl._cleanHighLight();
                             if (data.properties.orgType == 'RDLINK') {
@@ -4045,8 +4071,8 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('已选接续线!');
                     }
                     // 自动追踪功能;
-                    var autoTrail = function (param) {
-                        dsEdit.getByCondition(param).then(function (upAndDownData) {
+                    var autoTrail = function(param) {
+                        dsEdit.getByCondition(param).then(function(upAndDownData) {
                             console.info(upAndDownData);
                             if (upAndDownData.errcode !== 0) {
                                 return;
@@ -4092,7 +4118,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             $scope.links.push(parseInt(dataresult.id));
                             $scope.linkNodes.splice(1);
                             $scope.linkNodes.push(parseInt(dataresult.properties.snode));
-
                             param.data.linkPid = dataresult.id;
                             param.data.nodePidDir = dataresult.properties.snode;
                             autoTrail(param);
@@ -4104,11 +4129,9 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             $scope.links.push(parseInt(dataresult.id));
                             $scope.linkNodes.splice(1);
                             $scope.linkNodes.push(parseInt(dataresult.properties.enode));
-
                             param.data.linkPid = dataresult.id;
                             param.data.nodePidDir = dataresult.properties.snode;
                             autoTrail(param);
-
                             hightlightOutLink();
                         } else if ($scope.links[0] != dataresult.id && (dataresult.properties.enode == $scope.linkNodes[0] || dataresult.properties.snode == $scope.linkNodes[0]) && dataresult.properties.direct == 1) {
                             tempObj.outLinkPid = dataresult.id;
@@ -4118,14 +4141,11 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             $scope.linkNodes.splice(1);
                             var nd = (dataresult.properties.enode == $scope.linkNodes[0]) ? parseInt(dataresult.properties.snode) : parseInt(dataresult.properties.enode);
                             $scope.linkNodes.push(nd);
-
                             param.data.linkPid = dataresult.id;
                             param.data.nodePidDir = nd;
                             autoTrail(param);
-
                             hightlightOutLink();
                         }
-
                         /* 判断接续线是否能与进入线重合，原则上不能重合*/
                         if (dataresult.id == $scope.links[0]) {
                             tooltipsCtrl.setCurrentTooltip('接续线不能与进入线重合!', 'warn');
@@ -4149,7 +4169,9 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                 var nd = (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? parseInt(dataresult.properties.snode) : parseInt(dataresult.properties.enode);
                                 $scope.linkNodes.push(nd);
                                 hightlightViasLink();
-                            } else if (dataresult.id != tempObj.outLinkPid) { tooltipsCtrl.setCurrentTooltip('您选择的接续线与上一条不连续或方向错误!', 'warn'); }
+                            } else if (dataresult.id != tempObj.outLinkPid) {
+                                tooltipsCtrl.setCurrentTooltip('您选择的接续线与上一条不连续或方向错误!', 'warn');
+                            }
                         } else {
                             $scope.links.splice(selectIndex);
                             $scope.linkNodes.splice(selectIndex);
