@@ -8,17 +8,39 @@ angular.module('app').controller('TmcLocationCtl', ['$scope', function ($scope) 
     var layerCtrl = fastmap.uikit.LayerController();
     var editLayer = layerCtrl.getLayerById('edit');
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initTmcLoc = function () {
-        editLayer.clear();
+        // editLayer.clear();
         $scope.tmcLocationData = objCtrl.tmcInfos;
         if ($scope.tmcLocationData.tmcId.toString().length === 8) {
             $scope.loctableCode = $scope.tmcLocationData.tmcId.toString().substr(0, 1);
         } else if ($scope.tmcLocationData.tmcId.toString().length === 9) {
             $scope.loctableCode = $scope.tmcLocationData.tmcId.toString().substr(0, 2);
         }
-
+        highRenderCtrl.clear();
         /* 高亮links */
-        var lines = [];
+        for (var i = 0; i < $scope.tmcLocationData.links.length; i++) {
+            if ($scope.tmcLocationData.links[i].linkPid === objCtrl.data.pid) {
+                highRenderCtrl.highLightFeatures.push({
+                    id: parseInt($scope.tmcLocationData.links[i].linkPid).toString(),
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {}
+                });
+            } else {
+                highRenderCtrl.highLightFeatures.push({
+                    id: parseInt($scope.tmcLocationData.links[i].linkPid).toString(),
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {
+                        color: 'blue'
+                    }
+                });
+            }
+        }
+        highRenderCtrl.drawHighlight();
+        // 根据经纬度坐标高亮link
+        /*var lines = [];
         for (var i = 0; i < $scope.tmcLocationData.links.length; i++) {
             var points = [];
             for (var j = 0; j < $scope.tmcLocationData.links[i].geometry.coordinates.length; j++) {
@@ -34,7 +56,7 @@ angular.module('app').controller('TmcLocationCtl', ['$scope', function ($scope) 
         editLayer.drawGeometry = multiPolyLine;
         editLayer.draw(multiPolyLine, editLayer);
         sObj.setOriginalGeometry(multiPolyLine);
-        sObj.setFinalGeometry(multiPolyLine);
+        sObj.setFinalGeometry(multiPolyLine);*/
     };
     /* 位置方向 */
     $scope.locDirectOptions = [

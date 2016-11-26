@@ -422,14 +422,8 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                 $scope.hightlightViasLink();
             } else if ((dataresult.properties.enode == $scope.tmcRelation.lastNode || dataresult.properties.snode == $scope.tmcRelation.lastNode) && dataresult.properties.direct == 1) {
                 // 对于node和link数组的维护;
-<<<<<<< HEAD
-                $scope.links.push(parseInt(dataresult.id));
-                $scope.tmcRelation.linkPids.push(parseInt(dataresult.id));
-                (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)) : $scope.linkNodes.push(parseInt(dataresult.properties.enode));
-=======
                 $scope.tmcRelation.linkPids.push(formatLinkObject(dataresult));
                 // (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
->>>>>>> FastmapSDK/master
                 $scope.hightlightViasLink();
             } else {
                 tooltipsCtrl.setCurrentTooltipText('您选择的接续线与上一条不连续或方向错误!');
@@ -593,7 +587,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             nodePid: '',
             linkPids: [],
             lastNode: '',
-            vias: [],
             pointPids: []
         };
         $scope.linkNodes = [];
@@ -605,6 +598,11 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         if ($scope.autoTrack) {
             // 如果进入线是单方向道路，自动选择进入点;
             $scope.linkNodes = [];
+            // 清除地图上工具按钮
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCTRANSFORMDIRECT);
             if ($scope.rticData.direct === 2 || $scope.rticData.direct === 3) {
                 $scope.tmcRelation.nodePid = parseInt($scope.rticData.direct === 2 ? $scope.rticData.eNodePid : $scope.rticData.sNodePid);
