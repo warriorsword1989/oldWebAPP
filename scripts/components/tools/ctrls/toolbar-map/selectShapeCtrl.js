@@ -409,18 +409,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                             'type': 'PATHSMOOTH',
                             'class': "feaf",
                             callback: $scope.modifyTools
-                        },{
-                            'text': "<span class='float-option-bar'>TMC</span>",
-                            'title': "修改TMC方向",
-                            'type': 'MOTIFYTMCLOCATION',
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        },{
-                            'text': "<span class='float-option-bar'>接</span>",
-                            'title': "修改接续线",
-                            'type': 'MOTIFYTRUCKLINK',
-                            'class': "feaf",
-                            callback: $scope.modifyTools
                         }
                         ]
                     };
@@ -4295,10 +4283,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('正要平滑修形,请选择形状点或是端点进行移动！');
                         return;
                     }
-                } else if (type == 'MOTIFYTMCLOCATION') {   // 修改TMC方向
-
-                } else if (type == 'MOTIFYTRUCKLINK') { //修改接续线
-                    
                 }
                 if (!selectCtrl.selectedFeatures) {
                     return;
