@@ -2028,7 +2028,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             dataresult.properties.eNodePid = dataresult.properties.enode;
                             dataresult.properties.sNodePid = dataresult.properties.snode;
                             dataresult.properties.pid = dataresult.properties.id;
-                            function setLastNode(index) {
+                            function setLastNode (index) {
                                 if (index == undefined) {
                                     if (slopeData.links.length == 1) {
                                         slopeData.lastNode = slopeData.links[0].eNodePid == slopeData.outNode ? slopeData.links[0].sNodePid : slopeData.links[0].eNodePid;
@@ -2090,7 +2090,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                             lastLinkPid = slopeData.ouLink;
                                         }
                                         linkKidCon = parseInt(joinLinks.data[oi].kind, 10) < 10;
-                                        noSelf = joinLinks.data[oi].pid != lastLinkPid
+                                        noSelf = joinLinks.data[oi].pid != lastLinkPid;
                                         var isJoinLink = (linkKidCon && noSelf);
                                         if (isJoinLink) {
                                             satisfiedJoinLinks.push(joinLinks.data[oi]);
