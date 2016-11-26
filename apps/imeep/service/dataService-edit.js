@@ -283,7 +283,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
                 if (data) {
                     var test = data.result;
                     var html = [],
-                      temp;
+                        temp;
                     for (var key in test) {
                         html.push("<p style='text-align:left;font-weight:bold;'>" + key + '：</p>');
                         temp = test[key];
@@ -804,8 +804,8 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
      * 修改对象属性
      */
     this.batchUpdate = function (linkPids, type, data) {
-        delete data['pids'];
-        delete data['pid'];
+        delete data.pids;
+        delete data.pid;
 
         var param = {
             command: 'BATCH',
@@ -815,7 +815,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
             linkPids: linkPids
         };
         return this.save(param);
-    }
+    };
     /**
      * 根据pids获取要素详细属性
      * @param id     要素PID
@@ -859,7 +859,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
             subtaskId: parseInt(App.Util.getUrlParam('subtaskId')),
             pageSize: 5,
             pageNum: num,
-            type:2
+            type: 2
         };
         ajax.get('edit/check/listRdnResult/', {
             parameter: JSON.stringify(param)
@@ -881,7 +881,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
      * @param type
      * @returns {Promise}
      */
-    this.updateRdNCheckType = function (id , type) {
+    this.updateRdNCheckType = function (id, type) {
         var defer = $q.defer();
         var param = {
             id: id,

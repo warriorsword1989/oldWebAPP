@@ -212,22 +212,22 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
         // 显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
-            case 1:
-                $scope.showContent = '外业删除';
-                break;
-            case 2:
-                $scope.showContent = '外业修改';
-                $scope.labelInfo = false;
-                $scope.labelSuc = true;
-                break;
-            case 3:
-                $scope.showContent = '外业新增';
-                $scope.labelInfo = true;
-                $scope.labelSuc = false;
-                break;
-            case 0:
-                $scope.showContent = '默认值';
-                break;
+                case 1:
+                    $scope.showContent = '外业删除';
+                    break;
+                case 2:
+                    $scope.showContent = '外业修改';
+                    $scope.labelInfo = false;
+                    $scope.labelSuc = true;
+                    break;
+                case 3:
+                    $scope.showContent = '外业新增';
+                    $scope.labelInfo = true;
+                    $scope.labelSuc = false;
+                    break;
+                case 0:
+                    $scope.showContent = '默认值';
+                    break;
             }
         }
         $scope.wArrayitem = {};
@@ -249,551 +249,551 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
         $scope.outIdS = [];
         $scope.variableDirectionInfo = '';
         switch ($scope.allTipsType) {
-        case '1101': // 点限速
-            $scope.speedDirectTypeOptions = [{
-                id: 0,
-                label: '未调查'
-            }, {
-                id: 2,
-                label: '顺方向'
-            }, {
-                id: 3,
-                label: '逆方向'
-            }];
-            for (var i in $scope.speedDirectTypeOptions) {
-                if ($scope.speedDirectTypeOptions[i].id == $scope.dataTipsData.rdDir) {
-                    $scope.rdDir = $scope.speedDirectTypeOptions[i].label;
+            case '1101': // 点限速
+                $scope.speedDirectTypeOptions = [{
+                    id: 0,
+                    label: '未调查'
+                }, {
+                    id: 2,
+                    label: '顺方向'
+                }, {
+                    id: 3,
+                    label: '逆方向'
+                }];
+                for (var i in $scope.speedDirectTypeOptions) {
+                    if ($scope.speedDirectTypeOptions[i].id == $scope.dataTipsData.rdDir) {
+                        $scope.rdDir = $scope.speedDirectTypeOptions[i].label;
+                    }
                 }
-            }
-            $scope.limitSrcOption = [{
-                id: 0,
-                label: '无'
-            }, {
-                id: 1,
-                label: '现场标牌'
-            }, {
-                id: 2,
-                label: '城区标识'
-            }, {
-                id: 3,
-                label: '高速标识'
-            }, {
-                id: 4,
-                label: '车道限速'
-            }, {
-                id: 5,
-                label: '方向限速'
-            }, {
-                id: 6,
-                label: '机动车限速'
-            }, {
-                id: 7,
-                label: '匝道未调查'
-            }, {
-                id: 8,
-                label: '缓速行驶'
-            }, {
-                id: 9,
-                label: '未调查'
-            }];
-            for (var i in $scope.limitSrcOption) {
-                if ($scope.limitSrcOption[i].id == $scope.dataTipsData.src) {
-                    $scope.limitSrc = $scope.limitSrcOption[i].label;
+                $scope.limitSrcOption = [{
+                    id: 0,
+                    label: '无'
+                }, {
+                    id: 1,
+                    label: '现场标牌'
+                }, {
+                    id: 2,
+                    label: '城区标识'
+                }, {
+                    id: 3,
+                    label: '高速标识'
+                }, {
+                    id: 4,
+                    label: '车道限速'
+                }, {
+                    id: 5,
+                    label: '方向限速'
+                }, {
+                    id: 6,
+                    label: '机动车限速'
+                }, {
+                    id: 7,
+                    label: '匝道未调查'
+                }, {
+                    id: 8,
+                    label: '缓速行驶'
+                }, {
+                    id: 9,
+                    label: '未调查'
+                }];
+                for (var i in $scope.limitSrcOption) {
+                    if ($scope.limitSrcOption[i].id == $scope.dataTipsData.src) {
+                        $scope.limitSrc = $scope.limitSrcOption[i].label;
+                    }
                 }
-            }
-            $scope.limitDesc = $scope.dataTipsData.desc;
-            break;
-        case '1102': // 红绿灯
-            var trafficLightArr = $scope.dataTipsData.f_array;
-            $scope.inCt = $scope.dataTipsData.inCt;
-            $scope.dataTipsData.enableCtl = [];
-            $scope.dataTipsData.disableCtl = [];
+                $scope.limitDesc = $scope.dataTipsData.desc;
+                break;
+            case '1102': // 红绿灯
+                var trafficLightArr = $scope.dataTipsData.f_array;
+                $scope.inCt = $scope.dataTipsData.inCt;
+                $scope.dataTipsData.enableCtl = [];
+                $scope.dataTipsData.disableCtl = [];
                 // if(trafficLightArr){
-            try {
-                for (var i = 0, len = trafficLightArr.length; i < len; i++) {
-                    if (trafficLightArr[i].ctrl == 1) {
-                        $scope.dataTipsData.enableCtl.push(trafficLightArr[i]);
-                    } else {
-                        $scope.dataTipsData.disableCtl.push(trafficLightArr[i]);
+                try {
+                    for (var i = 0, len = trafficLightArr.length; i < len; i++) {
+                        if (trafficLightArr[i].ctrl == 1) {
+                            $scope.dataTipsData.enableCtl.push(trafficLightArr[i]);
+                        } else {
+                            $scope.dataTipsData.disableCtl.push(trafficLightArr[i]);
+                        }
                     }
+                } catch (e) {
+                    console.log(e.toLocaleString());
                 }
-            } catch (e) {
-                console.log(e.toLocaleString());
-            }
                 // }
-            $scope.dataTipsData.isTrafficLights = true;
-            break;
-        case '1103': // 红绿灯方向
-            $scope.linkPid = $scope.dataTipsData.in.id;
-            var directionObj = {
-                0: '未调查',
-                1: '左',
-                2: '右',
-                3: '左右',
-                4: '上',
-                5: '左上',
-                6: '右上',
-                7: '左上右'
-            };
-            $scope.dataTipsData.traffDirection = directionObj[$scope.dataTipsData.loc];
-            $scope.dataTipsData.isTrafficLightsDir = true;
-            break;
-        case '1104': // 大门
-            $scope.inLinkPid = $scope.dataTipsData.in.id;
-            $scope.outLinkPid = '';
-            if ($scope.dataTipsData.out) {
-                $scope.outLinkPid = $scope.dataTipsData.out.id;
-            }
-            var gateTypeObj = {
-                0: 'EG',
-                1: 'KG',
-                2: 'PG'
-            };
-            var gateDirObj = {
-                0: '未调查',
-                1: '单向',
-                2: '双向'
-            };
-            $scope.dataTipsData.gateType = gateTypeObj[$scope.dataTipsData.tp];
-            $scope.dataTipsData.gateDir = gateDirObj[$scope.dataTipsData.dir];
-            $scope.dataTipsData.isGate = true;
-            break;
-        case '1105':
-            $scope.wArrayitem = $scope.dataTipsData.w_array[0];
-            $scope.dangerTypeObj = {
-                10501: '上陡坡',
-                10502: '下陡坡',
-                10701: '两侧变窄',
-                13401: '事故易发路段',
-                13703: '交通意外黑点',
-                20301: '会车让行',
-                20101: '停车让行',
-                11802: '傍山险路(右)',
-                11801: '傍山险路(左)',
-                20201: '减速让行',
-                10901: '双向交通',
-                10301: '反向弯路a',
-                10702: '右侧变窄',
-                13603: '右侧绕行',
-                10202: '向右急弯路',
-                10201: '向左急弯路',
-                11902: '堤坝路(右)',
-                11901: '堤坝路(左)',
-                10703: '左侧变窄',
-                13602: '左侧绕行',
-                13601: '左右绕行',
-                13702: '文字性警示标牌',
-                13101: '斜杠符号a50米',
-                13102: '斜杠符号b100米',
-                13103: '斜杠符号c150米',
-                12901: '无人看守铁路道口',
-                11701: '易滑',
-                12801: '有人看守铁路道口',
-                12001: '村庄',
-                11101: '注意儿童',
-                13701: '注意危险',
-                14402: '注意右侧合流',
-                14401: '注意左侧合流',
-                11601: '注意横风',
-                14101: '注意潮汐车道',
-                11201: '注意牲畜',
-                11502: '注意落石(右)',
-                11501: '注意落石(左)',
-                22901: '禁止超车',
-                10801: '窄桥',
-                23001: '解除禁止超车',
-                12401: '路面不平',
-                12601: '路面低洼',
-                12501: '路面高凸',
-                12701: '过水路面',
-                10601: '连续下坡',
-                10401: '连续弯路',
-                14001: '隧道开车灯',
-                12301: '驼峰桥',
-                31501: '鸣喇叭'
-            };
-            $scope.dataTipsData.linkRoad = $scope.dataTipsData.in;
-            break;
-        case '1106': // 坡度
-            var slopeTypeObj = {
-                0: '未调查',
-                1: '水平',
-                2: '上坡',
-                3: '下坡'
-            };
-            var endSlopeFlagObj = {
-                0: '否',
-                1: '是'
-            };
-            $scope.dataTipsData.slopeType = slopeTypeObj[$scope.dataTipsData.tp];
-            $scope.dataTipsData.endSlopeFlag = endSlopeFlagObj[$scope.dataTipsData.end];
-            $scope.dataTipsData.isSlope = true;
-            break;
-        case '1107': // 收费站
-            $scope.TollType = [{
-                id: 0,
-                label: '未调查'
-            }, {
-                id: 1,
-                label: '领卡'
-            }, {
-                id: 2,
-                label: '交卡付费'
-            }, {
-                id: 3,
-                label: '固定收费(次费)'
-            }, {
-                id: 4,
-                label: '交卡付费后再领卡'
-            }, {
-                id: 5,
-                label: '交卡付费并代收固定费用'
-            }, {
-                id: 6,
-                label: '验票(无票收费)值先保留'
-            }, {
-                id: 7,
-                label: '领卡并代收固定费用'
-            }, {
-                id: 8,
-                label: '持卡打标识不收费'
-            }, {
-                id: 9,
-                label: '验票领卡'
-            }, {
-                id: 10,
-                label: '交卡不收费'
-            }];
-            for (var i in $scope.TollType) {
-                if ($scope.TollType[i].id == $scope.dataTipsData.tp) {
-                    $scope.tollGateTp = $scope.TollType[i].label;
+                $scope.dataTipsData.isTrafficLights = true;
+                break;
+            case '1103': // 红绿灯方向
+                $scope.linkPid = $scope.dataTipsData.in.id;
+                var directionObj = {
+                    0: '未调查',
+                    1: '左',
+                    2: '右',
+                    3: '左右',
+                    4: '上',
+                    5: '左上',
+                    6: '右上',
+                    7: '左上右'
+                };
+                $scope.dataTipsData.traffDirection = directionObj[$scope.dataTipsData.loc];
+                $scope.dataTipsData.isTrafficLightsDir = true;
+                break;
+            case '1104': // 大门
+                $scope.inLinkPid = $scope.dataTipsData.in.id;
+                $scope.outLinkPid = '';
+                if ($scope.dataTipsData.out) {
+                    $scope.outLinkPid = $scope.dataTipsData.out.id;
                 }
-            }
-            $scope.TollETC = $scope.dataTipsData.etc.join(',');
-            $scope.TollLoc = [{
-                id: 0,
-                label: '未调查'
-            }, {
-                id: 1,
-                label: '否'
-            }, {
-                id: 2,
-                label: '是'
-            }];
-            for (var i in $scope.TollLoc) {
-                if ($scope.TollLoc[i].id == $scope.dataTipsData.loc) {
-                    $scope.tollGateLoc = $scope.TollLoc[i].label;
-                }
-            }
-            $scope.dataTipsData.linkRoad = $scope.dataTipsData.in;
-            delete $scope.dataTipsData.out;
-            break;
-        case '1109': // 电子眼
-            var limitFlagObj = {
-                0: '限速开始',
-                1: '限速解除'
-            };
-            $scope.limitFlag = limitFlagObj[$scope.dataTipsData.se];
-            var typeObj = {
-                1: '限速摄像头',
-                13: '非机动车道摄像头',
-                15: '公交车道摄像头',
-                16: '禁止左/右转摄像头',
-                20: '区间测速开始',
-                21: '区间测速结束'
-            };
-            $scope.roadCameraType = typeObj[$scope.dataTipsData.tp];
-            var loc = {
-                0: '未调查',
-                1: '左',
-                2: '右',
-                4: '上'
-            };
-            $scope.loc = loc[$scope.dataTipsData.loc];
-            break;
-        case '1110': // 卡车限制
-            $scope.dataTipsData.isLimitTruck = true;
-            break;
-        case '1111': // 条件限速
-            $scope.dataTipsData.limitConditionObj = {
-                1: '雨天',
-                2: '雪天',
-                3: '雾天',
-                6: '学校',
-                10: '时间限制',
-                12: '季节时段'
-            };
-            for (var i = 0; i < $scope.dataTipsData.d_array.length; i++) {
-                if (!$scope.dataTipsData.d_array[i].time) {
-                    $scope.dataTipsData.d_array[i].time = '- - - - - -';
-                }
-            }
-            $scope.dataTipsData.isConditionLimit = true;
-            break;
-        case '1112':
-            var limitDirObj = {
-                0: '未调查',
-                1: '左',
-                2: '右',
-                3: '上'
-            };
-            $scope.dataTipsData.limitDir = limitDirObj[$scope.dataTipsData.loc];
-            $scope.dataTipsData.isVariableSpeedLimit = true;
-            break;
-        case '1113':
-            var limitValue = $scope.dataTipsData.value;
-            limitValue.sort(function (a, b) {
-                return a < b ? 1 : -1;
-            });
-            for (var i = 0, len = limitValue.length; i < len; i++) {
-                if (i != len - 1) {
-                    $scope.limitValue = limitValue[i] + '|';
-                } else {
-                    $scope.limitValue = limitValue[i];
-                }
-            }
-            $scope.dataTipsData.limitValue = limitValue.join('|');
-            $scope.dataTipsData.isDrivewayLimit = true;
-            break;
-        case '1201': // 道路种别
-            $scope.returnKindType = function (code) {
-                switch (code) {
-                case 0:
-                    return '作业中';
-                case 1:
-                    return '高速道路';
-                case 2:
-                    return '城市高速';
-                case 3:
-                    return '国道';
-                case 4:
-                    return '省道';
-                case 5:
-                    return '预留';
-                case 6:
-                    return '县道';
-                case 7:
-                    return '乡镇村道路';
-                case 8:
-                    return '其他道路';
-                case 9:
-                    return '非引导道路';
-                case 10:
-                    return '步行道路';
-                case 11:
-                    return '人渡';
-                case 13:
-                    return '轮渡';
-                case 15:
-                    return '10级路（障碍物）';
-                }
-            };
-            $scope.kindType = $scope.returnKindType($scope.dataTipsData.kind);
-            break;
-        case '1202': // 车道数
-            var sideObj = {
-                0: '不应用',
-                1: '左',
-                2: '右'
-            };
-            $scope.dataTipsData.sideDir = sideObj[$scope.dataTipsData.side];
-            break;
-        case '1203': // 道路方向
-            if ($scope.dataTipsData.dr == 1) {
-                $scope.drs = '双方向';
-            } else {
-                $scope.drs = '单方向';
-            }
-            $scope.fData = $scope.dataTipsData.f;
-            $scope.time = $scope.dataTipsData.time;
-            break;
-        case '1204': // 可逆车道
-            $scope.dataTipsData.isReversibleLine = true;
-            break;
-        case '1205': // SA
-            $scope.fData = $scope.dataTipsData.f;
-            break;
-        case '1206': // PA
-            $scope.fData = $scope.dataTipsData.f;
-            break;
-        case '1207': // 匝道
-            var commandObj = {
-                0: '不应用',
-                1: '删除',
-                2: '修改',
-                3: '新增'
-            };
-            $scope.dataTipsData.commandData = commandObj[$scope.dataTipsData.t_command];
-            break;
-        case '1208':
-            break;
-        case '1301': // 车信
-            $scope.oarrayData = $scope.dataTipsData.o_array;
-            for (var i in $scope.oarrayData) {
-                for (var j in $scope.oarrayData[i].d_array) {
-                    for (var m in $scope.oarrayData[i].d_array[j].out) {
-                        $scope.outIdS.push({
-                            id: $scope.oarrayData[i].d_array[j].out[m].id,
-                            sq: $scope.oarrayData[i].sq,
-                            type: $scope.oarrayData[i].d_array[j].out[m].type
-                        });
-                        highRenderCtrl.highLightFeatures.push({
-                            id: $scope.oarrayData[i].d_array[j].out[m].id.toString(),
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {}
-                        });
+                var gateTypeObj = {
+                    0: 'EG',
+                    1: 'KG',
+                    2: 'PG'
+                };
+                var gateDirObj = {
+                    0: '未调查',
+                    1: '单向',
+                    2: '双向'
+                };
+                $scope.dataTipsData.gateType = gateTypeObj[$scope.dataTipsData.tp];
+                $scope.dataTipsData.gateDir = gateDirObj[$scope.dataTipsData.dir];
+                $scope.dataTipsData.isGate = true;
+                break;
+            case '1105':
+                $scope.wArrayitem = $scope.dataTipsData.w_array[0];
+                $scope.dangerTypeObj = {
+                    10501: '上陡坡',
+                    10502: '下陡坡',
+                    10701: '两侧变窄',
+                    13401: '事故易发路段',
+                    13703: '交通意外黑点',
+                    20301: '会车让行',
+                    20101: '停车让行',
+                    11802: '傍山险路(右)',
+                    11801: '傍山险路(左)',
+                    20201: '减速让行',
+                    10901: '双向交通',
+                    10301: '反向弯路a',
+                    10702: '右侧变窄',
+                    13603: '右侧绕行',
+                    10202: '向右急弯路',
+                    10201: '向左急弯路',
+                    11902: '堤坝路(右)',
+                    11901: '堤坝路(左)',
+                    10703: '左侧变窄',
+                    13602: '左侧绕行',
+                    13601: '左右绕行',
+                    13702: '文字性警示标牌',
+                    13101: '斜杠符号a50米',
+                    13102: '斜杠符号b100米',
+                    13103: '斜杠符号c150米',
+                    12901: '无人看守铁路道口',
+                    11701: '易滑',
+                    12801: '有人看守铁路道口',
+                    12001: '村庄',
+                    11101: '注意儿童',
+                    13701: '注意危险',
+                    14402: '注意右侧合流',
+                    14401: '注意左侧合流',
+                    11601: '注意横风',
+                    14101: '注意潮汐车道',
+                    11201: '注意牲畜',
+                    11502: '注意落石(右)',
+                    11501: '注意落石(左)',
+                    22901: '禁止超车',
+                    10801: '窄桥',
+                    23001: '解除禁止超车',
+                    12401: '路面不平',
+                    12601: '路面低洼',
+                    12501: '路面高凸',
+                    12701: '过水路面',
+                    10601: '连续下坡',
+                    10401: '连续弯路',
+                    14001: '隧道开车灯',
+                    12301: '驼峰桥',
+                    31501: '鸣喇叭'
+                };
+                $scope.dataTipsData.linkRoad = $scope.dataTipsData.in;
+                break;
+            case '1106': // 坡度
+                var slopeTypeObj = {
+                    0: '未调查',
+                    1: '水平',
+                    2: '上坡',
+                    3: '下坡'
+                };
+                var endSlopeFlagObj = {
+                    0: '否',
+                    1: '是'
+                };
+                $scope.dataTipsData.slopeType = slopeTypeObj[$scope.dataTipsData.tp];
+                $scope.dataTipsData.endSlopeFlag = endSlopeFlagObj[$scope.dataTipsData.end];
+                $scope.dataTipsData.isSlope = true;
+                break;
+            case '1107': // 收费站
+                $scope.TollType = [{
+                    id: 0,
+                    label: '未调查'
+                }, {
+                    id: 1,
+                    label: '领卡'
+                }, {
+                    id: 2,
+                    label: '交卡付费'
+                }, {
+                    id: 3,
+                    label: '固定收费(次费)'
+                }, {
+                    id: 4,
+                    label: '交卡付费后再领卡'
+                }, {
+                    id: 5,
+                    label: '交卡付费并代收固定费用'
+                }, {
+                    id: 6,
+                    label: '验票(无票收费)值先保留'
+                }, {
+                    id: 7,
+                    label: '领卡并代收固定费用'
+                }, {
+                    id: 8,
+                    label: '持卡打标识不收费'
+                }, {
+                    id: 9,
+                    label: '验票领卡'
+                }, {
+                    id: 10,
+                    label: '交卡不收费'
+                }];
+                for (var i in $scope.TollType) {
+                    if ($scope.TollType[i].id == $scope.dataTipsData.tp) {
+                        $scope.tollGateTp = $scope.TollType[i].label;
                     }
                 }
-            }
-            $scope.dataTipsData.seqNow = 1;
-            if ($scope.dataTipsData.o_array[0].d_array[0].out[0].id) {
-                $scope.highlightSymbol($scope.dataTipsData.o_array[0].d_array[0].out[0].id, 1);
-            }
-            $scope.dataTipsData.isLaneConnexity = true;
-            break;
-        case '1302': // 交限
+                $scope.TollETC = $scope.dataTipsData.etc.join(',');
+                $scope.TollLoc = [{
+                    id: 0,
+                    label: '未调查'
+                }, {
+                    id: 1,
+                    label: '否'
+                }, {
+                    id: 2,
+                    label: '是'
+                }];
+                for (var i in $scope.TollLoc) {
+                    if ($scope.TollLoc[i].id == $scope.dataTipsData.loc) {
+                        $scope.tollGateLoc = $scope.TollLoc[i].label;
+                    }
+                }
+                $scope.dataTipsData.linkRoad = $scope.dataTipsData.in;
+                delete $scope.dataTipsData.out;
+                break;
+            case '1109': // 电子眼
+                var limitFlagObj = {
+                    0: '限速开始',
+                    1: '限速解除'
+                };
+                $scope.limitFlag = limitFlagObj[$scope.dataTipsData.se];
+                var typeObj = {
+                    1: '限速摄像头',
+                    13: '非机动车道摄像头',
+                    15: '公交车道摄像头',
+                    16: '禁止左/右转摄像头',
+                    20: '区间测速开始',
+                    21: '区间测速结束'
+                };
+                $scope.roadCameraType = typeObj[$scope.dataTipsData.tp];
+                var loc = {
+                    0: '未调查',
+                    1: '左',
+                    2: '右',
+                    4: '上'
+                };
+                $scope.loc = loc[$scope.dataTipsData.loc];
+                break;
+            case '1110': // 卡车限制
+                $scope.dataTipsData.isLimitTruck = true;
+                break;
+            case '1111': // 条件限速
+                $scope.dataTipsData.limitConditionObj = {
+                    1: '雨天',
+                    2: '雪天',
+                    3: '雾天',
+                    6: '学校',
+                    10: '时间限制',
+                    12: '季节时段'
+                };
+                for (var i = 0; i < $scope.dataTipsData.d_array.length; i++) {
+                    if (!$scope.dataTipsData.d_array[i].time) {
+                        $scope.dataTipsData.d_array[i].time = '- - - - - -';
+                    }
+                }
+                $scope.dataTipsData.isConditionLimit = true;
+                break;
+            case '1112':
+                var limitDirObj = {
+                    0: '未调查',
+                    1: '左',
+                    2: '右',
+                    3: '上'
+                };
+                $scope.dataTipsData.limitDir = limitDirObj[$scope.dataTipsData.loc];
+                $scope.dataTipsData.isVariableSpeedLimit = true;
+                break;
+            case '1113':
+                var limitValue = $scope.dataTipsData.value;
+                limitValue.sort(function (a, b) {
+                    return a < b ? 1 : -1;
+                });
+                for (var i = 0, len = limitValue.length; i < len; i++) {
+                    if (i != len - 1) {
+                        $scope.limitValue = limitValue[i] + '|';
+                    } else {
+                        $scope.limitValue = limitValue[i];
+                    }
+                }
+                $scope.dataTipsData.limitValue = limitValue.join('|');
+                $scope.dataTipsData.isDrivewayLimit = true;
+                break;
+            case '1201': // 道路种别
+                $scope.returnKindType = function (code) {
+                    switch (code) {
+                        case 0:
+                            return '作业中';
+                        case 1:
+                            return '高速道路';
+                        case 2:
+                            return '城市高速';
+                        case 3:
+                            return '国道';
+                        case 4:
+                            return '省道';
+                        case 5:
+                            return '预留';
+                        case 6:
+                            return '县道';
+                        case 7:
+                            return '乡镇村道路';
+                        case 8:
+                            return '其他道路';
+                        case 9:
+                            return '非引导道路';
+                        case 10:
+                            return '步行道路';
+                        case 11:
+                            return '人渡';
+                        case 13:
+                            return '轮渡';
+                        case 15:
+                            return '10级路（障碍物）';
+                    }
+                };
+                $scope.kindType = $scope.returnKindType($scope.dataTipsData.kind);
+                break;
+            case '1202': // 车道数
+                var sideObj = {
+                    0: '不应用',
+                    1: '左',
+                    2: '右'
+                };
+                $scope.dataTipsData.sideDir = sideObj[$scope.dataTipsData.side];
+                break;
+            case '1203': // 道路方向
+                if ($scope.dataTipsData.dr == 1) {
+                    $scope.drs = '双方向';
+                } else {
+                    $scope.drs = '单方向';
+                }
+                $scope.fData = $scope.dataTipsData.f;
+                $scope.time = $scope.dataTipsData.time;
+                break;
+            case '1204': // 可逆车道
+                $scope.dataTipsData.isReversibleLine = true;
+                break;
+            case '1205': // SA
+                $scope.fData = $scope.dataTipsData.f;
+                break;
+            case '1206': // PA
+                $scope.fData = $scope.dataTipsData.f;
+                break;
+            case '1207': // 匝道
+                var commandObj = {
+                    0: '不应用',
+                    1: '删除',
+                    2: '修改',
+                    3: '新增'
+                };
+                $scope.dataTipsData.commandData = commandObj[$scope.dataTipsData.t_command];
+                break;
+            case '1208':
+                break;
+            case '1301': // 车信
+                $scope.oarrayData = $scope.dataTipsData.o_array;
+                for (var i in $scope.oarrayData) {
+                    for (var j in $scope.oarrayData[i].d_array) {
+                        for (var m in $scope.oarrayData[i].d_array[j].out) {
+                            $scope.outIdS.push({
+                                id: $scope.oarrayData[i].d_array[j].out[m].id,
+                                sq: $scope.oarrayData[i].sq,
+                                type: $scope.oarrayData[i].d_array[j].out[m].type
+                            });
+                            highRenderCtrl.highLightFeatures.push({
+                                id: $scope.oarrayData[i].d_array[j].out[m].id.toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
+                            });
+                        }
+                    }
+                }
+                $scope.dataTipsData.seqNow = 1;
+                if ($scope.dataTipsData.o_array[0].d_array[0].out[0].id) {
+                    $scope.highlightSymbol($scope.dataTipsData.o_array[0].d_array[0].out[0].id, 1);
+                }
+                $scope.dataTipsData.isLaneConnexity = true;
+                break;
+            case '1302': // 交限
                 // 高亮
                 /* $scope.restrictOutLinks = [];*/
-            $scope.restrictOutLinks = $scope.dataTipsData.o_array[0].out;
-            var detailsOfHigh = $scope.dataTipsData.o_array;
-            highLightFeatures.push({
-                id: $scope.dataTipsData.in.id,
-                layerid: 'rdLink',
-                type: 'line',
-                style: {}
-            });
-            for (var hiNum = 0, hiLen = detailsOfHigh.length; hiNum < hiLen; hiNum++) {
-                var outLinksOfHigh = detailsOfHigh[hiNum].out;
-                if (outLinksOfHigh !== undefined) {
-                    for (var outNum = 0, outLen = outLinksOfHigh.length; outNum < outLen; outNum++) {
-                        highLightFeatures.push({
-                            id: outLinksOfHigh[outNum].id,
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {}
-                        });
+                $scope.restrictOutLinks = $scope.dataTipsData.o_array[0].out;
+                var detailsOfHigh = $scope.dataTipsData.o_array;
+                highLightFeatures.push({
+                    id: $scope.dataTipsData.in.id,
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {}
+                });
+                for (var hiNum = 0, hiLen = detailsOfHigh.length; hiNum < hiLen; hiNum++) {
+                    var outLinksOfHigh = detailsOfHigh[hiNum].out;
+                    if (outLinksOfHigh !== undefined) {
+                        for (var outNum = 0, outLen = outLinksOfHigh.length; outNum < outLen; outNum++) {
+                            highLightFeatures.push({
+                                id: outLinksOfHigh[outNum].id,
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
+                            });
+                        }
                     }
                 }
-            }
-            break;
-        case '1303': // 卡车交限
-            $scope.oArrayItem = $scope.dataTipsData.o_array[0]; // 默认显示第一个
-            $scope.outsideCarObj = {
-                0: '不应用',
-                1: '仅限制外埠车辆',
-                2: '仅限制本埠车辆'
-            };
-            break;
-        case '1304': // 禁止穿行
-            $scope.dataTipsData.isNoCrossing = true;
-            break;
-        case '1305': // 禁止驶入
-            $scope.dataTipsData.eliminateCarObj = [
-                {
-                    id: 1,
-                    label: '客车'
-                },
-                {
-                    id: 2,
-                    label: '配送卡车'
-                },
-                {
-                    id: 3,
-                    label: '运输卡车'
-                },
-                {
-                    id: 5,
-                    label: '出租车'
-                }
-            ];
-            for (var i = 0, len = $scope.dataTipsData.eliminateCarObj.length; i < len; i++) {
-                for (var j = 0; j < $scope.dataTipsData.vt.length; j++) {
-                    if ($scope.dataTipsData.eliminateCarObj[i].id == $scope.dataTipsData.vt[j]) {
-                        $scope.dataTipsData.eliminateCarObj[i].checked = true;
+                break;
+            case '1303': // 卡车交限
+                $scope.oArrayItem = $scope.dataTipsData.o_array[0]; // 默认显示第一个
+                $scope.outsideCarObj = {
+                    0: '不应用',
+                    1: '仅限制外埠车辆',
+                    2: '仅限制本埠车辆'
+                };
+                break;
+            case '1304': // 禁止穿行
+                $scope.dataTipsData.isNoCrossing = true;
+                break;
+            case '1305': // 禁止驶入
+                $scope.dataTipsData.eliminateCarObj = [
+                    {
+                        id: 1,
+                        label: '客车'
+                    },
+                    {
+                        id: 2,
+                        label: '配送卡车'
+                    },
+                    {
+                        id: 3,
+                        label: '运输卡车'
+                    },
+                    {
+                        id: 5,
+                        label: '出租车'
+                    }
+                ];
+                for (var i = 0, len = $scope.dataTipsData.eliminateCarObj.length; i < len; i++) {
+                    for (var j = 0; j < $scope.dataTipsData.vt.length; j++) {
+                        if ($scope.dataTipsData.eliminateCarObj[i].id == $scope.dataTipsData.vt[j]) {
+                            $scope.dataTipsData.eliminateCarObj[i].checked = true;
+                        }
                     }
                 }
-            }
-            $scope.dataTipsData.isNoDriveIn = true;
-            break;
-        case '1306': // 路口语音引导
-            $scope.oArrayItem = $scope.dataTipsData.o_array[0];
-            break;
-        case '1308': // 外埠车辆限制
-            $scope.outsideCarLimit = $scope.dataTipsData.c_array[0].out;
-            $scope.outsideCarObj = {
-                0: '不应用',
-                1: '仅限制外埠车辆',
-                2: '仅限制本埠车辆'
-            };
-            if ($scope.dataTipsData.c_array[0].time) {
-                $scope.timeDomain = $scope.dataTipsData.c_array[0].time.split(';');
-            }
-            break;
-        case '1311': // 可变导向车道
-            $scope.variableDirectionInfo = $scope.dataTipsData.var.join(',');
-            $scope.dataTipsData.isVariableDirectionLane = true;
-            break;
-        case '1401': // 方向看板
+                $scope.dataTipsData.isNoDriveIn = true;
+                break;
+            case '1306': // 路口语音引导
+                $scope.oArrayItem = $scope.dataTipsData.o_array[0];
+                break;
+            case '1308': // 外埠车辆限制
+                $scope.outsideCarLimit = $scope.dataTipsData.c_array[0].out;
+                $scope.outsideCarObj = {
+                    0: '不应用',
+                    1: '仅限制外埠车辆',
+                    2: '仅限制本埠车辆'
+                };
+                if ($scope.dataTipsData.c_array[0].time) {
+                    $scope.timeDomain = $scope.dataTipsData.c_array[0].time.split(';');
+                }
+                break;
+            case '1311': // 可变导向车道
+                $scope.variableDirectionInfo = $scope.dataTipsData.var.join(',');
+                $scope.dataTipsData.isVariableDirectionLane = true;
+                break;
+            case '1401': // 方向看板
                 /* 进入*/
-            $scope.sceneEnty = $scope.dataTipsData.in;
+                $scope.sceneEnty = $scope.dataTipsData.in;
                 /* 退出*/
-            $scope.sceneOut = $scope.dataTipsData.o_array;
-            break;
-        case '1402': // real sign
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                break;
+            case '1402': // real sign
                 /* 进入*/
-            $scope.sceneEnty = $scope.dataTipsData.in.id;
+                $scope.sceneEnty = $scope.dataTipsData.in.id;
                 /* 退出*/
-            $scope.sceneOut = $scope.dataTipsData.o_array;
-            break;
-        case '1403': // 3D
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                break;
+            case '1403': // 3D
                 /* 进入*/
-            $scope.sceneEnty = $scope.dataTipsData.in;
+                $scope.sceneEnty = $scope.dataTipsData.in;
                 /* 退出*/
-            $scope.sceneOut = $scope.dataTipsData.o_array;
+                $scope.sceneOut = $scope.dataTipsData.o_array;
                 /* 模式图号*/
-            $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
-            break;
-        case '1404': // 提左提右
+                $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
+                break;
+            case '1404': // 提左提右
                 /* 进入*/
-            $scope.sceneEnty = $scope.dataTipsData.in;
+                $scope.sceneEnty = $scope.dataTipsData.in;
                 /* 退出*/
-            $scope.sceneOut = $scope.dataTipsData.o_array;
+                $scope.sceneOut = $scope.dataTipsData.o_array;
                 /* 模式图*/
-            $scope.dataTipsData.leftAndRightSchemaNo = $scope.dataTipsData.ptn;
-            $scope.dataTipsData.leftAndRight = true;
-            break;
-        case '1405': // 一般道路方面
+                $scope.dataTipsData.leftAndRightSchemaNo = $scope.dataTipsData.ptn;
+                $scope.dataTipsData.leftAndRight = true;
+                break;
+            case '1405': // 一般道路方面
                 /* 进入*/
-            $scope.sceneEnty = $scope.dataTipsData.in;
+                $scope.sceneEnty = $scope.dataTipsData.in;
                 /* 退出数组*/
-            $scope.sceneOut = $scope.dataTipsData.o_array;
-            $scope.dataTipsData.isGeneralRoad = true;
-            break;
-        case '1406': // 实景图
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                $scope.dataTipsData.isGeneralRoad = true;
+                break;
+            case '1406': // 实景图
                 /* 进入*/
-            $scope.sceneEnty = $scope.dataTipsData.in.id;
+                $scope.sceneEnty = $scope.dataTipsData.in.id;
                 /* 实景图代码*/
-            $scope.dataTipsData.JVCSchemaNo = $scope.dataTipsData.ptn;
+                $scope.dataTipsData.JVCSchemaNo = $scope.dataTipsData.ptn;
                 /* 实景图类型*/
-            if ($scope.dataTipsData.tp == 1) {
-                $scope.schemaType = '普通路口';
-            } else if ($scope.dataTipsData.tp == 3) {
-                $scope.schemaType = '高速入口';
-            } else {
-                $scope.schemaType = '高速出口';
-            }
-            $scope.dataTipsData.realImgArray = [];
-            for (var i = 0, len = $scope.dataTipsData.o_array.length; i < len; i++) {
-                $scope.dataTipsData.realImgArray.push($scope.dataTipsData.o_array[i].out);
-            }
-            break;
-        case '1407': // 高速分歧
+                if ($scope.dataTipsData.tp == 1) {
+                    $scope.schemaType = '普通路口';
+                } else if ($scope.dataTipsData.tp == 3) {
+                    $scope.schemaType = '高速入口';
+                } else {
+                    $scope.schemaType = '高速出口';
+                }
+                $scope.dataTipsData.realImgArray = [];
+                for (var i = 0, len = $scope.dataTipsData.o_array.length; i < len; i++) {
+                    $scope.dataTipsData.realImgArray.push($scope.dataTipsData.o_array[i].out);
+                }
+                break;
+            case '1407': // 高速分歧
                 /* 进入*/
-            $scope.sceneEnty = $scope.dataTipsData.in.id;
+                $scope.sceneEnty = $scope.dataTipsData.in.id;
                 /* 模式图号*/
-            $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
-            $scope.scheName = $scope.dataTipsData.name;
+                $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
+                $scope.scheName = $scope.dataTipsData.name;
                 /* 出口编号*/
                 /* $scope.sceneExit = [];
                 $.each($scope.dataTipsData.o_array, function(i, v) {
@@ -801,83 +801,83 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
                         $scope.sceneExit.push(v.out.id);
                     }
                 });*/
-            $scope.dataTipsData.isBranch = true;
-            break;
-        case '1409': // 普通路口模式图
+                $scope.dataTipsData.isBranch = true;
+                break;
+            case '1409': // 普通路口模式图
                 /* 进入*/
-            $scope.sceneEnty = $scope.dataTipsData.in.id;
+                $scope.sceneEnty = $scope.dataTipsData.in.id;
                 /* 退出*/
-            $scope.bottomPicture = $scope.dataTipsData.ptn;
-            break;
-        case '1501': // 上下线分离
-            $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
-            break;
-        case '1502': // 路面覆盖
-            $scope.roadArrayLink = $scope.dataTipsData.f_array;
-            break;
-        case '1510': // 桥
-            $scope.brigeArrayLink = $scope.dataTipsData.f_array;
-            break;
-        case '1514': // 施工
-            $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-            if ($scope.dataTipsData.time) {
-                $scope.timeDomain = $scope.dataTipsData.time.split(';');
-            }
-            break;
-        case '1515': // 维修
-            $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-            if ($scope.dataTipsData.time) {
-                $scope.timeDomain = $scope.dataTipsData.time.split(';');
-            }
-            break;
-        case '1517': // Usage Fee Required
-            $scope.dataTipsData.usageEliminateCarObj = [
-                {
-                    id: 1,
-                    label: '客车'
-                },
-                {
-                    id: 2,
-                    label: '配送卡车'
-                },
-                {
-                    id: 3,
-                    label: '运输卡车'
-                },
-                {
-                    id: 5,
-                    label: '出租车'
-                },
-                {
-                    id: 6,
-                    label: '公交车'
+                $scope.bottomPicture = $scope.dataTipsData.ptn;
+                break;
+            case '1501': // 上下线分离
+                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
+                break;
+            case '1502': // 路面覆盖
+                $scope.roadArrayLink = $scope.dataTipsData.f_array;
+                break;
+            case '1510': // 桥
+                $scope.brigeArrayLink = $scope.dataTipsData.f_array;
+                break;
+            case '1514': // 施工
+                $scope.constructionArrayLink = $scope.dataTipsData.f_array;
+                if ($scope.dataTipsData.time) {
+                    $scope.timeDomain = $scope.dataTipsData.time.split(';');
                 }
-            ];
-            for (var i = 0, len = $scope.dataTipsData.usageEliminateCarObj.length; i < len; i++) {
-                if ($scope.dataTipsData.usageEliminateCarObj[i].id == $scope.dataTipsData.vt[i]) {
-                    $scope.dataTipsData.usageEliminateCarObj[i].checked = true;
+                break;
+            case '1515': // 维修
+                $scope.constructionArrayLink = $scope.dataTipsData.f_array;
+                if ($scope.dataTipsData.time) {
+                    $scope.timeDomain = $scope.dataTipsData.time.split(';');
                 }
-            }
-            $scope.dataTipsData.isUsageFeeRequired = true;
-            break;
-        case '1604': // 区域内道路
-            $scope.fData = $scope.dataTipsData.f_array;
-            $scope.zoneRoadState = [{
-                type: 0,
-                state: '不应用'
-            }, {
-                type: 1,
-                state: '删除'
-            }, {
-                type: 2,
-                state: '修改'
-            }, {
-                type: 3,
-                state: '新增'
-            }];
-            $scope.dataTipsData.regionRoad = true;
-            break;
-        case '1606': // 收费站开放道路
+                break;
+            case '1517': // Usage Fee Required
+                $scope.dataTipsData.usageEliminateCarObj = [
+                    {
+                        id: 1,
+                        label: '客车'
+                    },
+                    {
+                        id: 2,
+                        label: '配送卡车'
+                    },
+                    {
+                        id: 3,
+                        label: '运输卡车'
+                    },
+                    {
+                        id: 5,
+                        label: '出租车'
+                    },
+                    {
+                        id: 6,
+                        label: '公交车'
+                    }
+                ];
+                for (var i = 0, len = $scope.dataTipsData.usageEliminateCarObj.length; i < len; i++) {
+                    if ($scope.dataTipsData.usageEliminateCarObj[i].id == $scope.dataTipsData.vt[i]) {
+                        $scope.dataTipsData.usageEliminateCarObj[i].checked = true;
+                    }
+                }
+                $scope.dataTipsData.isUsageFeeRequired = true;
+                break;
+            case '1604': // 区域内道路
+                $scope.fData = $scope.dataTipsData.f_array;
+                $scope.zoneRoadState = [{
+                    type: 0,
+                    state: '不应用'
+                }, {
+                    type: 1,
+                    state: '删除'
+                }, {
+                    type: 2,
+                    state: '修改'
+                }, {
+                    type: 3,
+                    state: '新增'
+                }];
+                $scope.dataTipsData.regionRoad = true;
+                break;
+            case '1606': // 收费站开放道路
                 /* $scope.fData = $scope.dataTipsData.f_array;
                 $scope.zoneRoadState = [{
                     "type": 0,
@@ -893,101 +893,101 @@ dataTipsApp.controller('sceneAllTipsController', ['$scope', '$timeout', '$ocLazy
                     "state": "新增"
                 }];
                 $scope.dataTipsData.regionRoad = true;*/
-            break;
-        case '1703':
-            $scope.sceneEnty = $scope.dataTipsData.in;
-            $scope.sceneOut = $scope.dataTipsData.out;
-            break;
-        case '1704': // 交叉路口
-            $scope.fData = $scope.dataTipsData;
-            $scope.dataTipsData.isCrossRoad = true;
-            break;
-        case '1707': // 里程桩
-            $scope.dataTipsData.isMileage = true;
-            break;
-        case '1801': // 立交
-            $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
-            break;
-        case '1803': // 挂接
-            if ($scope.dataTipsData.pcd) { // 有图片时，显示图片
-                $scope.pcd = '../../../images/road/hook/' + $scope.dataTipsData.pcd.substr(5, 4) + '.svg';
+                break;
+            case '1703':
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                $scope.sceneOut = $scope.dataTipsData.out;
+                break;
+            case '1704': // 交叉路口
+                $scope.fData = $scope.dataTipsData;
+                $scope.dataTipsData.isCrossRoad = true;
+                break;
+            case '1707': // 里程桩
+                $scope.dataTipsData.isMileage = true;
+                break;
+            case '1801': // 立交
+                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
+                break;
+            case '1803': // 挂接
+                if ($scope.dataTipsData.pcd) { // 有图片时，显示图片
+                    $scope.pcd = '../../../images/road/hook/' + $scope.dataTipsData.pcd.substr(5, 4) + '.svg';
                     // $scope.pcd="./css/hook/2081.svg";
-            } else { // 无图片时获取经纬度，高亮
-                $scope.garray = $scope.dataTipsData.g_array;
-                if ($scope.garray.geo.type == 'Point') {} else if ($scope.garray.geo.type == 'Line') {}
-            }
-            break;
-        case '1806': // 草图
-            break;
-        case '1901': // 道路名
-            $scope.nArrayData = $scope.dataTipsData.n_array;
+                } else { // 无图片时获取经纬度，高亮
+                    $scope.garray = $scope.dataTipsData.g_array;
+                    if ($scope.garray.geo.type == 'Point') {} else if ($scope.garray.geo.type == 'Line') {}
+                }
+                break;
+            case '1806': // 草图
+                break;
+            case '1901': // 道路名
+                $scope.nArrayData = $scope.dataTipsData.n_array;
                 /*       highLightFeatures.push({
                  id:$scope.dataTipsData.rowkey.toString(),
                  layerid:'gpsLine',
                  type:'gpsLine',
                  style:{}
                  });*/
-            break;
-        case '2001': // 测线
-            $scope.returnLineType = function (code) {
-                switch (code) {
-                case 0:
-                    return '作业中';
-                case 1:
-                    return '1-高速道路';
-                case 2:
-                    return '2-城市高速';
-                case 3:
-                    return '3-国道';
-                case 4:
-                    return '4-省道';
-                case 5:
-                    return '5-预留';
-                case 6:
-                    return '6-县道';
-                case 7:
-                    return '7-乡镇村道路';
-                case 8:
-                    return '8-其他道路';
-                case 9:
-                    return '9-非引导道路';
-                case 10:
-                    return '10-步行道路';
-                case 11:
-                    return '11-人渡';
-                case 13:
-                    return '13-轮渡';
-                case 15:
-                    return '15-10级路（障碍物）';
-                }
-            };
+                break;
+            case '2001': // 测线
+                $scope.returnLineType = function (code) {
+                    switch (code) {
+                        case 0:
+                            return '作业中';
+                        case 1:
+                            return '1-高速道路';
+                        case 2:
+                            return '2-城市高速';
+                        case 3:
+                            return '3-国道';
+                        case 4:
+                            return '4-省道';
+                        case 5:
+                            return '5-预留';
+                        case 6:
+                            return '6-县道';
+                        case 7:
+                            return '7-乡镇村道路';
+                        case 8:
+                            return '8-其他道路';
+                        case 9:
+                            return '9-非引导道路';
+                        case 10:
+                            return '10-步行道路';
+                        case 11:
+                            return '11-人渡';
+                        case 13:
+                            return '13-轮渡';
+                        case 15:
+                            return '15-10级路（障碍物）';
+                    }
+                };
                     /* 测线来源*/
-            $scope.returnLineSrc = function (code) {
-                switch (code) {
-                case 0:
-                    return 'GPS测线';
-                case 1:
-                    return '惯导测线';
-                case 2:
-                    return '自绘测线';
-                case 3:
-                    return '影像矢量测线';
-                case 4:
-                    return '情报';
-                }
-            };
-            if ($scope.dataTipsData) {
+                $scope.returnLineSrc = function (code) {
+                    switch (code) {
+                        case 0:
+                            return 'GPS测线';
+                        case 1:
+                            return '惯导测线';
+                        case 2:
+                            return '自绘测线';
+                        case 3:
+                            return '影像矢量测线';
+                        case 4:
+                            return '情报';
+                    }
+                };
+                if ($scope.dataTipsData) {
                     /* 种别*/
-                $scope.dataTipsData.lineType = $scope.returnLineType($scope.dataTipsData.kind);
+                    $scope.dataTipsData.lineType = $scope.returnLineType($scope.dataTipsData.kind);
                     /* 来源*/
-                $scope.dataTipsData.lineSrc = $scope.returnLineSrc($scope.dataTipsData.src);
+                    $scope.dataTipsData.lineSrc = $scope.returnLineSrc($scope.dataTipsData.src);
                     /* 车道数*/
-                $scope.dataTipsData.carNumber = $scope.dataTipsData.ln;
+                    $scope.dataTipsData.carNumber = $scope.dataTipsData.ln;
                     /* 长度*/
-                $scope.dataTipsData.lineLength = $scope.dataTipsData.len;
-            }
-            $scope.dataTipsData.isMeasuringLine = true;
-            break;
+                    $scope.dataTipsData.lineLength = $scope.dataTipsData.len;
+                }
+                $scope.dataTipsData.isMeasuringLine = true;
+                break;
         }
         /* 时间段*/
         if ($scope.dataTipsData.time) {

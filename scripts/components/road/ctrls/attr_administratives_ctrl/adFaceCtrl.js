@@ -36,12 +36,12 @@ adFaceApp.controller('adFaceController', ['$scope', 'dsEdit', function ($scope, 
     $scope.batchAdminID = function (typeParam) {
         var tempRuleId = '';
         switch (typeParam) {
-        case 'addAdminId':
-            tempRuleId = 'BATCHREGIONIDRDLINK';
-            break;
-        case 'addAdminIdToPoi':
-            tempRuleId = 'BATCHREGIONIDPOI';
-            break;
+            case 'addAdminId':
+                tempRuleId = 'BATCHREGIONIDRDLINK';
+                break;
+            case 'addAdminIdToPoi':
+                tempRuleId = 'BATCHREGIONIDPOI';
+                break;
         }
         $scope.$emit('showFullLoadingOrNot', true);
         var param = {};

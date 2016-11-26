@@ -105,57 +105,57 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
         switch (currentGeo.type) {
-        case 'LineString':
-            if (currentGeo.noFormNode) {
-                drawLineString(currentGeo.components, null, { color: 'red', size: 2 }, false, null, true, false, self);
-            } else {
-                drawLineString(currentGeo.components, null, { color: 'red', size: 2 }, false, null, false, false, self);
-            }
+            case 'LineString':
+                if (currentGeo.noFormNode) {
+                    drawLineString(currentGeo.components, null, { color: 'red', size: 2 }, false, null, true, false, self);
+                } else {
+                    drawLineString(currentGeo.components, null, { color: 'red', size: 2 }, false, null, false, false, self);
+                }
 
-            break;
-        case 'Link':
-            self.clear();
-            drawLineString(currentGeo.geometry.components, currentGeo.direct, {
-                color: 'red',
-                size: 2
-            }, false, null, false, true, self);
-            break;
-        case 'Point':
-            drawPoint(currentGeo, { color: 'red', radius: 3 }, false);
-            break;
-        case 'Symbol':
-            drawSymbol(currentGeo, { color: 'red', radius: 3 }, false);
-            break;
-        case 'SpeedLimit':
-            drawPoint(currentGeo.components[0], { color: 'red', radius: 3 }, false);
-            break;
-        case 'Polygon':
-            drawPolygon(currentGeo, { color: 'red', outline: 3 }, false);
-            break;
-        case 'Cross':
-            drawCross(currentGeo, { color: 'blue', width: 1 }, false, self);
-            break;
-        case 'GSC':
-            drawGSC(currentGeo.geos, currentGeo.style, false, self);
-            break;
-        case 'marker':
-            drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
-            break;
-        case 'MultiPolyline':
-            drawMultiPolyline(currentGeo.coordinates, { color: 'red', width: 2 }, self);
-            break;
-        case 'intRticMarker':
-            drawRticMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
-            break;
-        case 'Buffer':
-            drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
-            break;
-        case 'IXPOI':
-            drawPoiAndLink(currentGeo.components, { color: 'blue', size: 2 }, self);
-            break;
-        case 'ADMINPOINT':
-            drawAdminPointAndLink(currentGeo.components, { color: 'blue', size: 2 }, self);
-            break;
+                break;
+            case 'Link':
+                self.clear();
+                drawLineString(currentGeo.geometry.components, currentGeo.direct, {
+                    color: 'red',
+                    size: 2
+                }, false, null, false, true, self);
+                break;
+            case 'Point':
+                drawPoint(currentGeo, { color: 'red', radius: 3 }, false);
+                break;
+            case 'Symbol':
+                drawSymbol(currentGeo, { color: 'red', radius: 3 }, false);
+                break;
+            case 'SpeedLimit':
+                drawPoint(currentGeo.components[0], { color: 'red', radius: 3 }, false);
+                break;
+            case 'Polygon':
+                drawPolygon(currentGeo, { color: 'red', outline: 3 }, false);
+                break;
+            case 'Cross':
+                drawCross(currentGeo, { color: 'blue', width: 1 }, false, self);
+                break;
+            case 'GSC':
+                drawGSC(currentGeo.geos, currentGeo.style, false, self);
+                break;
+            case 'marker':
+                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
+                break;
+            case 'MultiPolyline':
+                drawMultiPolyline(currentGeo.coordinates, { color: 'red', width: 2 }, self);
+                break;
+            case 'intRticMarker':
+                drawRticMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
+                break;
+            case 'Buffer':
+                drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
+                break;
+            case 'IXPOI':
+                drawPoiAndLink(currentGeo.components, { color: 'blue', size: 2 }, self);
+                break;
+            case 'ADMINPOINT':
+                drawAdminPointAndLink(currentGeo.components, { color: 'blue', size: 2 }, self);
+                break;
         }
 
         function drawCross(geom, style, boolPixelCrs, self) {

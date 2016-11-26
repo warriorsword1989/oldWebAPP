@@ -157,22 +157,22 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
     /* 根据星期 转换成中文*/
     $scope.weekTranslate = function (week) {
         switch (week) {
-        case '1':
-            return '周日';
-        case '2':
-            return '周一';
-        case '3':
-            return '周二';
-        case '4':
-            return '周三';
-        case '5':
-            return '周四';
-        case '6':
-            return '周五';
-        case '7':
-            return '周六';
-        default:
-            return '未知';
+            case '1':
+                return '周日';
+            case '2':
+                return '周一';
+            case '3':
+                return '周二';
+            case '4':
+                return '周三';
+            case '5':
+                return '周四';
+            case '6':
+                return '周五';
+            case '7':
+                return '周六';
+            default:
+                return '未知';
         }
     };
     /* 判断是否为最后一个，有加、没有不加*/
@@ -581,29 +581,29 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
     $scope.dwmType = function (e, switchObj) {
         var dateTip = $(e.target).parents('.datetip-double');
         switch (switchObj.code) {
-        case 'd':
-            dateTip.find('.day-well').show();
-            dateTip.find('.week-well').hide();
-            dateTip.find('.month-well').hide();
-            dwm.selection = dwm.values[0];
-            break;
-        case 'w':
-            dateTip.find('.week-well').show();
-            dateTip.find('.day-well').hide();
-            dateTip.find('.month-well').hide();
-            dwm.selection = dwm.values[1];
-            break;
-        case 'm':
-            dateTip.find('.month-well').show();
-            dateTip.find('.week-well').hide();
-            dateTip.find('.day-well').hide();
-            dwm.selection = dwm.values[2];
-            break;
-        default:
-            dateTip.find('.day-well').show();
-            dateTip.find('.week-well').hide();
-            dateTip.find('.month-well').hide();
-            break;
+            case 'd':
+                dateTip.find('.day-well').show();
+                dateTip.find('.week-well').hide();
+                dateTip.find('.month-well').hide();
+                dwm.selection = dwm.values[0];
+                break;
+            case 'w':
+                dateTip.find('.week-well').show();
+                dateTip.find('.day-well').hide();
+                dateTip.find('.month-well').hide();
+                dwm.selection = dwm.values[1];
+                break;
+            case 'm':
+                dateTip.find('.month-well').show();
+                dateTip.find('.week-well').hide();
+                dateTip.find('.day-well').hide();
+                dwm.selection = dwm.values[2];
+                break;
+            default:
+                dateTip.find('.day-well').show();
+                dateTip.find('.week-well').hide();
+                dateTip.find('.month-well').hide();
+                break;
         }
     };
     // 加载bootstrap-datepicker
@@ -629,18 +629,18 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                 var picker_name = $(event.target).attr('picker-name');
                 $scope.$apply(function () {
                     switch (picker_name) {
-                    case 'dBeginDate':
-                        $scope.dBeginDate = str;
-                        endPiker.datepicker('setStartDate', str);
-                        if ($scope.dEndDate < $scope.dBeginDate) {
-                            $scope.dEndDate = '';
-                        }
-                        break;
-                    case 'dEndDate':
-                        $scope.dEndDate = str;
-                        break;
-                    default:
-                        break;
+                        case 'dBeginDate':
+                            $scope.dBeginDate = str;
+                            endPiker.datepicker('setStartDate', str);
+                            if ($scope.dEndDate < $scope.dBeginDate) {
+                                $scope.dEndDate = '';
+                            }
+                            break;
+                        case 'dEndDate':
+                            $scope.dEndDate = str;
+                            break;
+                        default:
+                            break;
                     }
                 });
             }
@@ -721,75 +721,75 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
         } else {
             /* 如果选择 持续时间分为三种情况——日、周、月*/
             switch (dwm.selection.code) {
-            case 'd':
-                if (!$scope.dBeginDate) {
-                    $scope.alertMsg(dateWell, '请选择开始日期！');
+                case 'd':
+                    if (!$scope.dBeginDate) {
+                        $scope.alertMsg(dateWell, '请选择开始日期！');
+                        break;
+                    }
+                    if (!$scope.dEndDate) {
+                        $scope.alertMsg(dateWell, '请选择结束日期！');
+                        break;
+                    }
+                    if (!$scope.d_begin_time2 && $scope.d_end_time2) {
+                        $scope.alertMsg(dateWell, '请选择开始时间！');
+                        break;
+                    }
+                    if ($scope.d_begin_time2 && !$scope.d_end_time2) {
+                        $scope.alertMsg(dateWell, '请选择结束时间！');
+                        break;
+                    }
+                    if ($scope.dBeginDate == $scope.dEndDate && !$scope.d_begin_time2 && !$scope.d_end_time2) {
+                        $scope.alertMsg(dateWell, '开始时间不能等于结束时间！');
+                        break;
+                    }
+                    if ($scope.dBeginDate == $scope.dEndDate && $scope.d_begin_time2 > $scope.d_end_time2) {
+                        $scope.alertMsg(dateWell, '结束时间必须大于开始时间！');
+                        break;
+                    }
+                    return true;
+                case 'w':
+                    if (!$scope.wks.wBeginSelection && $scope.wks.wEndSelection) {
+                        $scope.alertMsg(dateWell, '请选择开始时间的星期！');
+                        break;
+                    }
+                    if (!$scope.w_begin_time2 && $scope.w_end_time2) {
+                        $scope.alertMsg(dateWell, '请选择开始时间！');
+                        break;
+                    }
+                    if (!$scope.wks.wEndSelection && $scope.wks.wBeginSelection) {
+                        $scope.alertMsg(dateWell, '请选择结束时间的星期！');
+                        break;
+                    }
+                    if (!$scope.w_end_time2 && $scope.w_begin_time2) {
+                        $scope.alertMsg(dateWell, '请选择结束时间！');
+                        break;
+                    }
+                    if (($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope.w_begin_time2 == $scope.w_end_time2)) {
+                        $scope.alertMsg(dateWell, '开始时间不能等于结束时间！');
+                        break;
+                    }
+                    if (($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope.w_begin_time2 > $scope.w_end_time2)) {
+                        $scope.alertMsg(dateWell, '开始时间不能大于结束时间！');
+                        break;
+                    }
+                    return true;
+                case 'm':
+                    if (!$scope.mons.begin.code) {
+                        $scope.alertMsg(dateWell, '请选择开始月份！');
+                        break;
+                    }
+                    if (!$scope.mons.end.code) {
+                        $scope.alertMsg(dateWell, '请选择结束月份！');
+                        break;
+                    }
+                    if ($scope.mons.end.code == $scope.mons.begin.code) {
+                        $scope.alertMsg(dateWell, '开始月份不能等于结束月份！');
+                        break;
+                    }
+                    return true;
+                default:
+                    $scope.alertMsg(dateWell, '请正确输入！');
                     break;
-                }
-                if (!$scope.dEndDate) {
-                    $scope.alertMsg(dateWell, '请选择结束日期！');
-                    break;
-                }
-                if (!$scope.d_begin_time2 && $scope.d_end_time2) {
-                    $scope.alertMsg(dateWell, '请选择开始时间！');
-                    break;
-                }
-                if ($scope.d_begin_time2 && !$scope.d_end_time2) {
-                    $scope.alertMsg(dateWell, '请选择结束时间！');
-                    break;
-                }
-                if ($scope.dBeginDate == $scope.dEndDate && !$scope.d_begin_time2 && !$scope.d_end_time2) {
-                    $scope.alertMsg(dateWell, '开始时间不能等于结束时间！');
-                    break;
-                }
-                if ($scope.dBeginDate == $scope.dEndDate && $scope.d_begin_time2 > $scope.d_end_time2) {
-                    $scope.alertMsg(dateWell, '结束时间必须大于开始时间！');
-                    break;
-                }
-                return true;
-            case 'w':
-                if (!$scope.wks.wBeginSelection && $scope.wks.wEndSelection) {
-                    $scope.alertMsg(dateWell, '请选择开始时间的星期！');
-                    break;
-                }
-                if (!$scope.w_begin_time2 && $scope.w_end_time2) {
-                    $scope.alertMsg(dateWell, '请选择开始时间！');
-                    break;
-                }
-                if (!$scope.wks.wEndSelection && $scope.wks.wBeginSelection) {
-                    $scope.alertMsg(dateWell, '请选择结束时间的星期！');
-                    break;
-                }
-                if (!$scope.w_end_time2 && $scope.w_begin_time2) {
-                    $scope.alertMsg(dateWell, '请选择结束时间！');
-                    break;
-                }
-                if (($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope.w_begin_time2 == $scope.w_end_time2)) {
-                    $scope.alertMsg(dateWell, '开始时间不能等于结束时间！');
-                    break;
-                }
-                if (($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope.w_begin_time2 > $scope.w_end_time2)) {
-                    $scope.alertMsg(dateWell, '开始时间不能大于结束时间！');
-                    break;
-                }
-                return true;
-            case 'm':
-                if (!$scope.mons.begin.code) {
-                    $scope.alertMsg(dateWell, '请选择开始月份！');
-                    break;
-                }
-                if (!$scope.mons.end.code) {
-                    $scope.alertMsg(dateWell, '请选择结束月份！');
-                    break;
-                }
-                if ($scope.mons.end.code == $scope.mons.begin.code) {
-                    $scope.alertMsg(dateWell, '开始月份不能等于结束月份！');
-                    break;
-                }
-                return true;
-            default:
-                $scope.alertMsg(dateWell, '请正确输入！');
-                break;
             }
         }
     };
@@ -875,201 +875,201 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                 } else {
                     /* 如果选择 持续时间分为三种情况——日、周、月*/
                     switch (dwm.selection.code) {
-                    case 'd':
-                        var $beginDate = $scope.dBeginDate.split('-');
-                        var $beginYear = $beginDate[0]; // 开始年份
-                        var $beginMonth = $beginDate[1];    // 开始月份
-                        var $beginDay = $beginDate[2];  // 开始天数
-                        var $endDate = $scope.dEndDate.split('-');
-                        var $endYear = $endDate[0]; // 结束年份
-                        var $endMonth = $endDate[1];    // 结束月份
-                        var $endDay = $endDate[2];  // 结束天数
-                        var $beginTime,
-                            $beginHour,
-                            $beginMinute;
-                        if ($scope.d_begin_time2) {
-                            $beginTime = $scope.d_begin_time2.split(':');
-                            $beginHour = $beginTime[0]; // 开始小时数
-                            $beginMinute = $beginTime[1];   // 开始分钟
-                        }
-                        var $endTime,
-                            $endHour,
-                            $endMinute;
-                        if ($scope.d_end_time2) {
-                            $endTime = $scope.d_end_time2.split(':');
-                            $endHour = $endTime[0]; // 结束小时数
-                            $endMinute = $endTime[1];   // 结束分钟
-                        }
-                        var yearLength = parseInt($endYear) - parseInt($beginYear);
-                        if ($scope.vagueTime) {
+                        case 'd':
+                            var $beginDate = $scope.dBeginDate.split('-');
+                            var $beginYear = $beginDate[0]; // 开始年份
+                            var $beginMonth = $beginDate[1];    // 开始月份
+                            var $beginDay = $beginDate[2];  // 开始天数
+                            var $endDate = $scope.dEndDate.split('-');
+                            var $endYear = $endDate[0]; // 结束年份
+                            var $endMonth = $endDate[1];    // 结束月份
+                            var $endDay = $endDate[2];  // 结束天数
+                            var $beginTime,
+                                $beginHour,
+                                $beginMinute;
+                            if ($scope.d_begin_time2) {
+                                $beginTime = $scope.d_begin_time2.split(':');
+                                $beginHour = $beginTime[0]; // 开始小时数
+                                $beginMinute = $beginTime[1];   // 开始分钟
+                            }
+                            var $endTime,
+                                $endHour,
+                                $endMinute;
+                            if ($scope.d_end_time2) {
+                                $endTime = $scope.d_end_time2.split(':');
+                                $endHour = $endTime[0]; // 结束小时数
+                                $endMinute = $endTime[1];   // 结束分钟
+                            }
+                            var yearLength = parseInt($endYear) - parseInt($beginYear);
+                            if ($scope.vagueTime) {
                                 /* 如果没有选择时间，只选择日期*/
-                            if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
-                                if (yearLength == 0) {   // 开始年和结束年为同一年
-                                    return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
+                                if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
+                                    if (yearLength == 0) {   // 开始年和结束年为同一年
+                                        return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
                                             '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]*z]';
-                                } else if (yearLength == 1) {       // 结束年是开始年的后一年
-                                    return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
+                                    } else if (yearLength == 1) {       // 结束年是开始年的后一年
+                                        return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
                                             '(y' + $beginYear + 'M12d31)]' +
                                             '[(y' + $endYear + 'M1d1)' +
                                             '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]*z]';
+                                    } else if (yearLength > 1) {    // 结束年比开始年大若干年份
+                                        var difYear = '';
+                                        var bYear = parseInt($beginYear);
+                                        for (var i = 1; i < yearLength; i++) {
+                                            difYear = difYear + '+[(y' + (bYear + i) + 'M1d1)(y' + (bYear + i) + 'M12d31)]';
+                                        }
+                                        return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
+                                            '(y' + $beginYear + 'M12d31)]' +
+                                            difYear +
+                                            '+[(y' + $endYear + 'M1d1)' +
+                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]*z]';
+                                    }
+                                } else {
+                                    /* 如果既选择时间又选择日期*/
+                                    if (yearLength == 0) {   // 开始年和结束年为同一年
+                                        return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
+                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]*z]';
+                                    } else if (yearLength == 1) {       // 结束年是开始年的后一年
+                                        return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
+                                            '(y' + $beginYear + 'M12d31h23m59)]+' +
+                                            '[(y' + $endYear + 'M1d1h0m0)' +
+                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]*z]';
+                                    } else if (yearLength > 1) {    // 结束年比开始年大若干年份
+                                        var difYear = '';
+                                        var bYear = parseInt($beginYear);
+                                        for (var i = 1; i < yearLength; i++) {
+                                            difYear = difYear + '+[(y' + (bYear + i) + 'M1d1h0m0)(y' + (bYear + i) + 'M12d31h23m59)]';
+                                        }
+                                        return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
+                                            '(y' + $beginYear + 'M12d31h23m59)]' +
+                                            difYear +
+                                            '+[(y' + $endYear + 'M1d1h0m0)' +
+                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]*z]';
+                                    }
+                                }
+                            } else if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
+                                if (yearLength == 0) {   // 开始年和结束年为同一年
+                                    return '[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
+                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]';
+                                } else if (yearLength == 1) {       // 结束年是开始年的后一年
+                                    return '[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
+                                            '(y' + $beginYear + 'M12d31)]+' +
+                                            '[(y' + $endYear + 'M1d1)' +
+                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]';
                                 } else if (yearLength > 1) {    // 结束年比开始年大若干年份
                                     var difYear = '';
                                     var bYear = parseInt($beginYear);
                                     for (var i = 1; i < yearLength; i++) {
                                         difYear = difYear + '+[(y' + (bYear + i) + 'M1d1)(y' + (bYear + i) + 'M12d31)]';
                                     }
-                                    return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
+                                    return '[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
                                             '(y' + $beginYear + 'M12d31)]' +
                                             difYear +
                                             '+[(y' + $endYear + 'M1d1)' +
-                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]*z]';
-                                }
-                            } else {
-                                    /* 如果既选择时间又选择日期*/
-                                if (yearLength == 0) {   // 开始年和结束年为同一年
-                                    return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
-                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]*z]';
-                                } else if (yearLength == 1) {       // 结束年是开始年的后一年
-                                    return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
-                                            '(y' + $beginYear + 'M12d31h23m59)]+' +
-                                            '[(y' + $endYear + 'M1d1h0m0)' +
-                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]*z]';
-                                } else if (yearLength > 1) {    // 结束年比开始年大若干年份
-                                    var difYear = '';
-                                    var bYear = parseInt($beginYear);
-                                    for (var i = 1; i < yearLength; i++) {
-                                        difYear = difYear + '+[(y' + (bYear + i) + 'M1d1h0m0)(y' + (bYear + i) + 'M12d31h23m59)]';
-                                    }
-                                    return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
-                                            '(y' + $beginYear + 'M12d31h23m59)]' +
-                                            difYear +
-                                            '+[(y' + $endYear + 'M1d1h0m0)' +
-                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]*z]';
-                                }
-                            }
-                        } else if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
-                            if (yearLength == 0) {   // 开始年和结束年为同一年
-                                return '[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
-                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]';
-                            } else if (yearLength == 1) {       // 结束年是开始年的后一年
-                                return '[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
-                                            '(y' + $beginYear + 'M12d31)]+' +
-                                            '[(y' + $endYear + 'M1d1)' +
                                             '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]';
+                                }
+                            } else if (yearLength == 0) {   // 开始年和结束年为同一年
+                                return '[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
+                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]';
+                            } else if (yearLength == 1) {       // 结束年是开始年的后一年
+                                return '[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
+                                            '(y' + $beginYear + 'M12d31h23m59)]' +
+                                            '[(y' + $endYear + 'M1d1h0m0)' +
+                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endMinute + 'h' + $endHour + 'm' + $endDay + ')]]';
                             } else if (yearLength > 1) {    // 结束年比开始年大若干年份
                                 var difYear = '';
                                 var bYear = parseInt($beginYear);
                                 for (var i = 1; i < yearLength; i++) {
-                                    difYear = difYear + '+[(y' + (bYear + i) + 'M1d1)(y' + (bYear + i) + 'M12d31)]';
+                                    difYear = difYear + '+[(y' + (bYear + i) + 'M1d1h0m0)(y' + (bYear + i) + 'M12d31h23m59)]';
                                 }
-                                return '[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' +
-                                            '(y' + $beginYear + 'M12d31)]' +
-                                            difYear +
-                                            '+[(y' + $endYear + 'M1d1)' +
-                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]';
-                            }
-                        } else if (yearLength == 0) {   // 开始年和结束年为同一年
-                            return '[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
-                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]';
-                        } else if (yearLength == 1) {       // 结束年是开始年的后一年
-                            return '[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
-                                            '(y' + $beginYear + 'M12d31h23m59)]' +
-                                            '[(y' + $endYear + 'M1d1h0m0)' +
-                                            '(y' + $endYear + 'M' + $endMonth + 'd' + $endMinute + 'h' + $endHour + 'm' + $endDay + ')]]';
-                        } else if (yearLength > 1) {    // 结束年比开始年大若干年份
-                            var difYear = '';
-                            var bYear = parseInt($beginYear);
-                            for (var i = 1; i < yearLength; i++) {
-                                difYear = difYear + '+[(y' + (bYear + i) + 'M1d1h0m0)(y' + (bYear + i) + 'M12d31h23m59)]';
-                            }
-                            return '[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
+                                return '[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' +
                                             '(y' + $beginYear + 'M12d31h23m59)]' +
                                             difYear +
                                             '+[(y' + $endYear + 'M1d1h0m0)' +
                                             '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]';
-                        }
-                    case 'w':   // 持续时间——周
-                        var $beginWeek = $scope.wks.wBeginSelection;
-                        var $beginWeekCode = $beginWeek.code;   // 开始周数code
-                        var $beginWeekName = $beginWeek.name;   // 开始周数name
-                        var $endWeek = $scope.wks.wEndSelection;
-                        var $endWeekCode = $endWeek.code;   // 结束周数code
-                        var $endWeekName = $endWeek.name;   // 结束周数name
-                        var $beginTime,
-                            $beginHour,
-                            $beginMinute;
-                        if ($scope.w_begin_time2) {
-                            $beginTime = $scope.w_begin_time2.split(':');
-                            $beginHour = $beginTime[0]; // 开始小时数
-                            $beginMinute = $beginTime[1];   // 开始分钟
-                        }
-                        var $endTime,
-                            $endHour,
-                            $endMinute;
-                        if ($scope.w_end_time2) {
-                            $endTime = $scope.w_end_time2.split(':');
-                            $endHour = $endTime[0]; // 结束小时数
-                            $endMinute = $endTime[1];   // 结束分钟
-                        }
-                        var bWeek = $scope.wks.wBeginSelection;
-                        var eWeek = $scope.wks.wEndSelection;
-                        var selWeek = [];
-                        for (var i = bWeek.code - 1; i < $scope.wks.values.length; i++) {
-                            if (i == eWeek.code) {
-                                break;
                             }
-                            selWeek.push($scope.wks.values[i].code);
-                        }
-                        var _result = [];
-                        $.each(selWeek, function (i, v) {
-                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
-                                if (i == 0) {
-                                    _result.push('[t' + v + '*[(h' + $beginHour + 'm' + $beginMinute + ')(h23m59)]]');
-                                } else if (i == selWeek.length - 1) {
-                                    _result.push('[t' + v + '*[(h0m0)(h' + $endHour + 'm' + $endMinute + ')]]');
+                        case 'w':   // 持续时间——周
+                            var $beginWeek = $scope.wks.wBeginSelection;
+                            var $beginWeekCode = $beginWeek.code;   // 开始周数code
+                            var $beginWeekName = $beginWeek.name;   // 开始周数name
+                            var $endWeek = $scope.wks.wEndSelection;
+                            var $endWeekCode = $endWeek.code;   // 结束周数code
+                            var $endWeekName = $endWeek.name;   // 结束周数name
+                            var $beginTime,
+                                $beginHour,
+                                $beginMinute;
+                            if ($scope.w_begin_time2) {
+                                $beginTime = $scope.w_begin_time2.split(':');
+                                $beginHour = $beginTime[0]; // 开始小时数
+                                $beginMinute = $beginTime[1];   // 开始分钟
+                            }
+                            var $endTime,
+                                $endHour,
+                                $endMinute;
+                            if ($scope.w_end_time2) {
+                                $endTime = $scope.w_end_time2.split(':');
+                                $endHour = $endTime[0]; // 结束小时数
+                                $endMinute = $endTime[1];   // 结束分钟
+                            }
+                            var bWeek = $scope.wks.wBeginSelection;
+                            var eWeek = $scope.wks.wEndSelection;
+                            var selWeek = [];
+                            for (var i = bWeek.code - 1; i < $scope.wks.values.length; i++) {
+                                if (i == eWeek.code) {
+                                    break;
+                                }
+                                selWeek.push($scope.wks.values[i].code);
+                            }
+                            var _result = [];
+                            $.each(selWeek, function (i, v) {
+                                if ($scope.w_begin_time2 && $scope.w_end_time2) {
+                                    if (i == 0) {
+                                        _result.push('[t' + v + '*[(h' + $beginHour + 'm' + $beginMinute + ')(h23m59)]]');
+                                    } else if (i == selWeek.length - 1) {
+                                        _result.push('[t' + v + '*[(h0m0)(h' + $endHour + 'm' + $endMinute + ')]]');
+                                    } else {
+                                        _result.push('[t' + v + '*[(h0m0)(h23m59)]]');
+                                    }
                                 } else {
-                                    _result.push('[t' + v + '*[(h0m0)(h23m59)]]');
+                                    _result.push('t' + v);
+                                }
+                            });
+                            if ($scope.vagueTime) {
+                                /* 模糊*/
+                                if ($scope.w_begin_time2 && $scope.w_end_time2) {
+                                    return '[[' + _result.join('+') + ']*z]';
+                                } else {
+                                    return '[[(' + _result.join('') + ')]*z]';
                                 }
                             } else {
-                                _result.push('t' + v);
-                            }
-                        });
-                        if ($scope.vagueTime) {
-                                /* 模糊*/
-                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
-                                return '[[' + _result.join('+') + ']*z]';
-                            } else {
-                                return '[[(' + _result.join('') + ')]*z]';
-                            }
-                        } else {
                                 /* 精确*/
-                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
-                                return '[' + _result.join('+') + ']';
-                            } else {
-                                return '[(' + _result.join('') + ')]';
+                                if ($scope.w_begin_time2 && $scope.w_end_time2) {
+                                    return '[' + _result.join('+') + ']';
+                                } else {
+                                    return '[(' + _result.join('') + ')]';
+                                }
                             }
-                        }
-                    case 'm':
-                        var $monBegin = $scope.mons.begin;
-                        var $monEnd = $scope.mons.end;
-                        var $monBeginCode = $monBegin.code; // 开始月份code
-                        var $monBeginName = $monBegin.label;    // 开始月份label
-                        var $monEndCode = $monEnd.code;     // 结束月份code
-                        var $monEndName = $monEnd.label;    // 结束月份label
-                        if ($scope.vagueTime) {
-                            if ($monBeginCode > $monEndCode) {
-                                return '[[(M' + $monBeginCode + ')(M12)+(M1)(M' + $monEndCode + ')]*z]';
+                        case 'm':
+                            var $monBegin = $scope.mons.begin;
+                            var $monEnd = $scope.mons.end;
+                            var $monBeginCode = $monBegin.code; // 开始月份code
+                            var $monBeginName = $monBegin.label;    // 开始月份label
+                            var $monEndCode = $monEnd.code;     // 结束月份code
+                            var $monEndName = $monEnd.label;    // 结束月份label
+                            if ($scope.vagueTime) {
+                                if ($monBeginCode > $monEndCode) {
+                                    return '[[(M' + $monBeginCode + ')(M12)+(M1)(M' + $monEndCode + ')]*z]';
+                                } else {
+                                    return '[[(M' + $monBeginCode + ')(M' + $monEndCode + ')]*z]';
+                                }
+                            } else if ($monBeginCode > $monEndCode) {
+                                return '[(M' + $monBeginCode + ')(M12)+(M1)(M' + $monEndCode + ')]';
                             } else {
-                                return '[[(M' + $monBeginCode + ')(M' + $monEndCode + ')]*z]';
+                                return '[(M' + $monBeginCode + ')(M' + $monEndCode + ')]';
                             }
-                        } else if ($monBeginCode > $monEndCode) {
-                            return '[(M' + $monBeginCode + ')(M12)+(M1)(M' + $monEndCode + ')]';
-                        } else {
-                            return '[(M' + $monBeginCode + ')(M' + $monEndCode + ')]';
-                        }
-                    default:
-                        alertMsg(dateWell, '出现错误！');
-                        return 'error';
+                        default:
+                            alertMsg(dateWell, '出现错误！');
+                            return 'error';
                     }
                 }
             },
@@ -1120,112 +1120,112 @@ angular.module('lazymodule', []).controller('DateDoubleCtrl', ['$scope', '$timeo
                 } else {
                     /* 如果选择 持续时间分为三种情况——日、周、月*/
                     switch (dwm.selection.code) {
-                    case 'd':
-                        var $beginDate = $scope.dBeginDate.split('-');
-                        var $beginYear = $beginDate[0]; // 开始年份
-                        var $beginMonth = $beginDate[1];    // 开始月份
-                        var $beginDay = $beginDate[2];  // 开始天数
-                        var $endDate = $scope.dEndDate.split('-');
-                        var $endYear = $endDate[0]; // 结束年份
-                        var $endMonth = $endDate[1];    // 结束月份
-                        var $endDay = $endDate[2];  // 结束天数
-                        var $beginTime,
-                            $beginHour,
-                            $beginMinute;
-                        if ($scope.d_begin_time2) {
-                            $beginTime = $scope.d_begin_time2.split(':');
-                            $beginHour = $beginTime[0]; // 开始小时数
-                            $beginMinute = $beginTime[1];   // 开始分钟
-                        }
-                        var $endTime,
-                            $endHour,
-                            $endMinute;
-                        if ($scope.d_end_time2) {
-                            $endTime = $scope.d_end_time2.split(':');
-                            $endHour = $endTime[0]; // 结束小时数
-                            $endMinute = $endTime[1];   // 结束分钟
-                        }
-                        if ($scope.vagueTime) {
-                            if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
-                                return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日到' +
+                        case 'd':
+                            var $beginDate = $scope.dBeginDate.split('-');
+                            var $beginYear = $beginDate[0]; // 开始年份
+                            var $beginMonth = $beginDate[1];    // 开始月份
+                            var $beginDay = $beginDate[2];  // 开始天数
+                            var $endDate = $scope.dEndDate.split('-');
+                            var $endYear = $endDate[0]; // 结束年份
+                            var $endMonth = $endDate[1];    // 结束月份
+                            var $endDay = $endDate[2];  // 结束天数
+                            var $beginTime,
+                                $beginHour,
+                                $beginMinute;
+                            if ($scope.d_begin_time2) {
+                                $beginTime = $scope.d_begin_time2.split(':');
+                                $beginHour = $beginTime[0]; // 开始小时数
+                                $beginMinute = $beginTime[1];   // 开始分钟
+                            }
+                            var $endTime,
+                                $endHour,
+                                $endMinute;
+                            if ($scope.d_end_time2) {
+                                $endTime = $scope.d_end_time2.split(':');
+                                $endHour = $endTime[0]; // 结束小时数
+                                $endMinute = $endTime[1];   // 结束分钟
+                            }
+                            if ($scope.vagueTime) {
+                                if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
+                                    return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日到' +
                                         $endYear + '年' + $endMonth + '月' + $endDay + '日（模糊）';
+                                } else {
+                                    return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日的' + $scope.d_begin_time2 + '到' +
+                                        $endYear + '年' + $endMonth + '月' + $endDay + '日的' + $scope.d_end_time2 + '（模糊）';
+                                }
+                            } else if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
+                                return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日到' +
+                                        $endYear + '年' + $endMonth + '月' + $endDay + '日';
                             } else {
                                 return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日的' + $scope.d_begin_time2 + '到' +
-                                        $endYear + '年' + $endMonth + '月' + $endDay + '日的' + $scope.d_end_time2 + '（模糊）';
-                            }
-                        } else if (!$scope.d_begin_time2 || !$scope.d_end_time2) {
-                            return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日到' +
-                                        $endYear + '年' + $endMonth + '月' + $endDay + '日';
-                        } else {
-                            return $beginYear + '年' + $beginMonth + '月' + $beginDay + '日的' + $scope.d_begin_time2 + '到' +
                                         $endYear + '年' + $endMonth + '月' + $endDay + '日的' + $scope.d_end_time2;
-                        }
-                    case 'w':
-                        var $beginWeek = $scope.wks.wBeginSelection;
-                        var $beginWeekCode = $beginWeek.code;   // 开始周数code
-                        var $beginWeekName = $beginWeek.name;   // 开始周数name
-                        var $endWeek = $scope.wks.wEndSelection;
-                        var $endWeekCode = $endWeek.code;   // 结束周数code
-                        var $endWeekName = $endWeek.name;   // 结束周数name
-                        var $beginTime,
-                            $beginHour,
-                            $beginMinute;
-                        if ($beginTime) {
-                            $beginTime = $scope.d_begin_time2.split(':');
-                            $beginHour = $beginTime[0];     // 开始小时数
-                            $beginMinute = $beginTime[1];   // 开始分钟
-                        }
-                        var $endTime,
-                            $endHour,
-                            $endMinute;
-                        if ($endTime) {
-                            var $endTime = $scope.d_end_time2.split(':');
-                            var $endHour = $endTime[0];     // 结束小时数
-                            var $endMinute = $endTime[1];   // 结束分钟数
-                        }
-                        if ($scope.vagueTime) {
+                            }
+                        case 'w':
+                            var $beginWeek = $scope.wks.wBeginSelection;
+                            var $beginWeekCode = $beginWeek.code;   // 开始周数code
+                            var $beginWeekName = $beginWeek.name;   // 开始周数name
+                            var $endWeek = $scope.wks.wEndSelection;
+                            var $endWeekCode = $endWeek.code;   // 结束周数code
+                            var $endWeekName = $endWeek.name;   // 结束周数name
+                            var $beginTime,
+                                $beginHour,
+                                $beginMinute;
+                            if ($beginTime) {
+                                $beginTime = $scope.d_begin_time2.split(':');
+                                $beginHour = $beginTime[0];     // 开始小时数
+                                $beginMinute = $beginTime[1];   // 开始分钟
+                            }
+                            var $endTime,
+                                $endHour,
+                                $endMinute;
+                            if ($endTime) {
+                                var $endTime = $scope.d_end_time2.split(':');
+                                var $endHour = $endTime[0];     // 结束小时数
+                                var $endMinute = $endTime[1];   // 结束分钟数
+                            }
+                            if ($scope.vagueTime) {
                                 /* 模糊*/
-                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
-                                return '每个星期中' + $scope.wks.wBeginSelection.name + '的' + $scope.w_begin_time2 + '到' +
+                                if ($scope.w_begin_time2 && $scope.w_end_time2) {
+                                    return '每个星期中' + $scope.wks.wBeginSelection.name + '的' + $scope.w_begin_time2 + '到' +
                                         $scope.wks.wEndSelection.name + '的' + $scope.w_end_time2 + '（模糊）';
-                            } else {
-                                return '每个星期中的' + $scope.wks.wBeginSelection.name + '到' +
+                                } else {
+                                    return '每个星期中的' + $scope.wks.wBeginSelection.name + '到' +
                                         $scope.wks.wEndSelection.name + '（模糊）';
-                            }
-                        } else {
+                                }
+                            } else {
                                 /* 精确*/
-                            if ($scope.w_begin_time2 && $scope.w_end_time2) {
-                                return '每个星期中' + $scope.wks.wBeginSelection.name + '的' + $scope.w_begin_time2 + '到' +
+                                if ($scope.w_begin_time2 && $scope.w_end_time2) {
+                                    return '每个星期中' + $scope.wks.wBeginSelection.name + '的' + $scope.w_begin_time2 + '到' +
                                         $scope.wks.wEndSelection.name + '的' + $scope.w_end_time2;
-                            } else {
-                                return '每个星期中的' + $scope.wks.wBeginSelection.name + '到' +
+                                } else {
+                                    return '每个星期中的' + $scope.wks.wBeginSelection.name + '到' +
                                         $scope.wks.wEndSelection.name;
+                                }
                             }
-                        }
-                    case 'm':
-                        var $monBegin = $scope.mons.begin;
-                        var $monEnd = $scope.mons.end;
-                        var $monBeginCode = $monBegin.code; // 开始月份code
-                        var $monBeginName = $monBegin.label;    // 开始月份label
-                        var $monEndCode = $monEnd.code;     // 结束月份code
-                        var $monEndName = $monEnd.label;    // 结束月份label
-                        if ($scope.vagueTime) {
-                            if ($monBeginCode > $monEndCode) {
-                                return '每年的' + $monBeginName + '到次年的' + $monEndName + '（模糊）';
+                        case 'm':
+                            var $monBegin = $scope.mons.begin;
+                            var $monEnd = $scope.mons.end;
+                            var $monBeginCode = $monBegin.code; // 开始月份code
+                            var $monBeginName = $monBegin.label;    // 开始月份label
+                            var $monEndCode = $monEnd.code;     // 结束月份code
+                            var $monEndName = $monEnd.label;    // 结束月份label
+                            if ($scope.vagueTime) {
+                                if ($monBeginCode > $monEndCode) {
+                                    return '每年的' + $monBeginName + '到次年的' + $monEndName + '（模糊）';
+                                } else {
+                                    return '每年的' + $monBeginName + '到' + $monEndName + '（模糊）';
+                                }
+                            } else if ($monBeginCode > $monEndCode) {
+                                return '每年的' + $monBeginName + '到次年的' + $monEndName;
                             } else {
-                                return '每年的' + $monBeginName + '到' + $monEndName + '（模糊）';
+                                return '每年的' + $monBeginName + '到' + $monEndName;
                             }
-                        } else if ($monBeginCode > $monEndCode) {
-                            return '每年的' + $monBeginName + '到次年的' + $monEndName;
-                        } else {
-                            return '每年的' + $monBeginName + '到' + $monEndName;
-                        }
-                    default:
-                        if ($scope.vagueTime) {
-                            return '[(h' + $beginHour + 'm' + $beginMinute + 't' + $week + 'z)(h' + $endHour + 'm' + $endMinute + 't' + $week + 'z)]';
-                        } else {
-                            return '[(h' + $beginHour + 'm' + $beginMinute + 't' + $week + ')(h' + $endHour + 'm' + $endMinute + 't' + $week + ')]';
-                        }
+                        default:
+                            if ($scope.vagueTime) {
+                                return '[(h' + $beginHour + 'm' + $beginMinute + 't' + $week + 'z)(h' + $endHour + 'm' + $endMinute + 't' + $week + 'z)]';
+                            } else {
+                                return '[(h' + $beginHour + 'm' + $beginMinute + 't' + $week + ')(h' + $endHour + 'm' + $endMinute + 't' + $week + ')]';
+                            }
                     }
                 }
             }

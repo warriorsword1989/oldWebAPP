@@ -218,36 +218,36 @@ angular.module('app').controller('EditorToolbarCtrl', ['$scope', '$ocLazyLoad', 
                 var linkType = tool.shapeEditor.editFeatType;
 
                 switch (linkType) {
-                case 'RDLINK':
-                    nodeType = 'RDNODE';
-                    snapLink = rdLink;
-                    snapNode = rdNode;
-                    break;
-                case 'RWLINK':
-                    nodeType = 'RWNODE';
-                    snapLink = rwLink;
-                    snapNode = rwNode;
-                    break;
-                case 'ADLINK':
-                    nodeType = 'ADNODE';
-                    snapLink = adLink;
-                    snapNode = adNode;
-                    break;
-                case 'ZONELINK':
-                    nodeType = 'ZONENODE';
-                    snapLink = zoneLink;
-                    snapNode = zoneNode;
-                    break;
-                case 'LCLINK':
-                    nodeType = 'LCNODE';
-                    snapLink = lcLink;
-                    snapNode = lcNode;
-                    break;
-                case 'LULINK':
-                    nodeType = 'LUNODE';
-                    snapLink = luLink;
-                    snapNode = luNode;
-                    break;
+                    case 'RDLINK':
+                        nodeType = 'RDNODE';
+                        snapLink = rdLink;
+                        snapNode = rdNode;
+                        break;
+                    case 'RWLINK':
+                        nodeType = 'RWNODE';
+                        snapLink = rwLink;
+                        snapNode = rwNode;
+                        break;
+                    case 'ADLINK':
+                        nodeType = 'ADNODE';
+                        snapLink = adLink;
+                        snapNode = adNode;
+                        break;
+                    case 'ZONELINK':
+                        nodeType = 'ZONENODE';
+                        snapLink = zoneLink;
+                        snapNode = zoneNode;
+                        break;
+                    case 'LCLINK':
+                        nodeType = 'LCNODE';
+                        snapLink = lcLink;
+                        snapNode = lcNode;
+                        break;
+                    case 'LULINK':
+                        nodeType = 'LUNODE';
+                        snapLink = luLink;
+                        snapNode = luNode;
+                        break;
                 }
                 if (type == 'node') {
                     if ($scope.nodeChecked == true) {
