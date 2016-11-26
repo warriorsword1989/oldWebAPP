@@ -114,16 +114,16 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
     // 校验箭头图合法性
     $scope.validArrowCode = function () {
         switch ($scope.diverObj.details[0].branchType) {
-        case 0:
-            return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
-        case 1:
-            return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
-        case 2:
-            return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
-        case 3:
-            return new RegExp('^[ec]').test($scope.diverObj.details[0].arrowCode);
-        case 4:
-            return new RegExp('^[ecd]').test($scope.diverObj.details[0].arrowCode);
+            case 0:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
+            case 1:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
+            case 2:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
+            case 3:
+                return new RegExp('^[ec]').test($scope.diverObj.details[0].arrowCode);
+            case 4:
+                return new RegExp('^[ecd]').test($scope.diverObj.details[0].arrowCode);
         }
     };
     /* 输入箭头图代码显示选择图片界面*/
@@ -459,35 +459,35 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
     $scope.clone = function (obj) {
         var o;
         switch (typeof obj) {
-        case 'undefined':
-            break;
-        case 'string' :
-            o = obj + '';
-            break;
-        case 'number' :
-            o = obj - 0;
-            break;
-        case 'boolean' :
-            o = obj;
-            break;
-        case 'object' :
-            if (obj === null) {
-                o = null;
-            } else if (obj instanceof Array) {
-                o = [];
-                for (var i = 0, len = obj.length; i < len; i++) {
-                    o.push($scope.clone(obj[i]));
+            case 'undefined':
+                break;
+            case 'string' :
+                o = obj + '';
+                break;
+            case 'number' :
+                o = obj - 0;
+                break;
+            case 'boolean' :
+                o = obj;
+                break;
+            case 'object' :
+                if (obj === null) {
+                    o = null;
+                } else if (obj instanceof Array) {
+                    o = [];
+                    for (var i = 0, len = obj.length; i < len; i++) {
+                        o.push($scope.clone(obj[i]));
+                    }
+                } else {
+                    o = {};
+                    for (var k in obj) {
+                        o[k] = $scope.clone(obj[k]);
+                    }
                 }
-            } else {
-                o = {};
-                for (var k in obj) {
-                    o[k] = $scope.clone(obj[k]);
-                }
-            }
-            break;
-        default:
-            o = obj;
-            break;
+                break;
+            default:
+                o = obj;
+                break;
         }
         return o;
     };

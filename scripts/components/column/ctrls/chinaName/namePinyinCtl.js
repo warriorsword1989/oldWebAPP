@@ -75,8 +75,8 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             for (var i in data.names) {
                 var composeStr = data.names[i].nameClass + '' + data.names[i].nameType + '' + data.names[i].langCode;
                 switch (composeStr) {
-                case '11CHI':// 官方标准化中文名
-                case '11CHT':// 港澳官方标准化中文名
+                    case '11CHI':// 官方标准化中文名
+                    case '11CHT':// 港澳官方标准化中文名
                     	if (data.names[i].multiPinyin && data.names[i].multiPinyin.length > 0) {
                     		var newpoi = angular.copy(data);
                     		newpoi.names = [];
@@ -87,8 +87,8 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
                     		datalist.push(newpoi);
                     	}
                     	break;
-                case '51CHI':// 中文简称
-                case '51CHT':// 港澳中文简称
+                    case '51CHI':// 中文简称
+                    case '51CHT':// 港澳中文简称
         	            if (data.names[i].multiPinyin && data.names[i].multiPinyin.length > 0) {
         	            	var newpoi = angular.copy(data);
                     		newpoi.names = [];

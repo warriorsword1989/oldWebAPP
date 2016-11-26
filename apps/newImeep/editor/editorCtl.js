@@ -569,29 +569,29 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 return;
             }
             switch (toolType) {
-            case 'search':
-                $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/searchPanelCtrl').then(function () {
-                    $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
-                });
+                case 'search':
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/searchPanelCtrl').then(function () {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
+                    });
 					// $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
-                break;
-            case 'auto':
-                $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/autofillJobPanelCtrl').then(function () {
-                    $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
-                });
+                    break;
+                case 'auto':
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/autofillJobPanelCtrl').then(function () {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
+                    });
 					// $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
-                break;
-            case 'batch':
-                $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/batchJobPanelNewCtrl').then(function () {
-                    $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelNewTpl.html';
-                });
+                    break;
+                case 'batch':
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/batchJobPanelNewCtrl').then(function () {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelNewTpl.html';
+                    });
 					// $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
-                break;
-            case 'check':
-                $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/beginCheckPanelCtrl').then(function () {
-                    $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/beginCheckPanelTpl.html';
-                });
-                break;
+                    break;
+                case 'check':
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/beginCheckPanelCtrl').then(function () {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/beginCheckPanelTpl.html';
+                    });
+                    break;
             }
             $scope.advancedTool = toolType;
         };
@@ -973,214 +973,214 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 tplFile: null
             };
             switch (featType) {
-            case 'RDLINK':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html';
-                break;
-            case 'RDNODE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_node_ctrl/rdNodeFormCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_node_tpl/rdNodeFormTpl.html';
-                break;
-            case 'RDSAMENODE': // 同一点
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_same_ctrl/rdSameNodeCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_same_tpl/rdSameNodeTpl.html';
-                break;
-            case 'RDSAMELINK': // 同一线
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_same_ctrl/rdSameLinkCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_same_tpl/rdSameLinkTpl.html';
-                break;
-            case 'RDVOICEGUIDE': // 语音引导
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_voiceGuide_ctrl/voiceGuide';
-                ret.tplFile = 'scripts/components/road/tpls/attr_voiceGuide_tpl/voiceGuide.html';
-                break;
-            case 'RDRESTRICTION':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_restriction_ctrl/rdRestriction';
-                ret.tplFile = 'scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html';
-                break;
-            case 'RDLANECONNEXITY':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html';
-                break;
-            case 'RDSPEEDLIMIT':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html';
-                break;
-            case 'RDLINKSPEEDLIMIT':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_speedLimit_ctrl/linkSpeedLimitCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_speedLimit_tpl/linkSpeedLimitTpl.html';
-                break;
-            case 'DBRDLINKSPEEDLIMIT':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_speedLimit_ctrl/linkSpeedLimitCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_speedLimit_tpl/linkSpeedLimitTpl.html';
-                break;
-            case 'RDCROSS':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_cross_ctrl/rdCrossCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html';
-                break;
-            case 'RDGSC':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdgsc_ctrl/rdGscCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_gsc_tpl/rdGscTpl.html';
-                break;
-            case 'RDWARNINGINFO': // 警示信息
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_warninginfo_ctrl/warningInfoCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_warninginfo_tpl/warningInfoTpl.html';
-                break;
-            case 'RDTRAFFICSIGNAL':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_trafficSignal_ctrl/trafficSignalCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_trafficSignal_tpl/trafficSignalTpl.html';
-                break;
-            case 'RDDIRECTROUTE': // 顺行
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_directroute_ctrl/directRouteCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_directroute_tpl/directRouteTpl.html';
-                break;
-            case 'RDSPEEDBUMP': // 减速带
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_speedbump_ctrl/speedBumpCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_speedbump_tpl/speedBumpTpl.html';
-                break;
-            case 'RDSE': // 分叉口
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_se_ctrl/rdSeCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_se_tpl/rdSeTpl.html';
-                break;
-            case 'RDTOLLGATE': // 收费站
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_tollgate_ctrl/tollGateCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_tollgate_tpl/tollGateTpl.html';
-                break;
-            case 'RDVARIABLESPEED': // 可变限速
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_variableSpeed_tpl/variableSpeed.html';
-                break;
-            case 'RDELECTRONICEYE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_electronic_ctrl/electronicEyeCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_electronic_tpl/electronicEyeTpl.html';
-                break;
-            case 'RDSLOPE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdSlope_ctrl/rdSlopeCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_rdSlope_tpl/rdSlopeTpl.html';
-                break;
-            case 'RDINTER':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdcrf_ctrl/crfInterCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_rdcrf_tpl/crfInterTpl.html';
-                break;
-            case 'RDROAD':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdcrf_ctrl/crfRoadCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_rdcrf_tpl/crfRoadTpl.html';
-                break;
-            case 'RDOBJECT':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdcrf_ctrl/crfObjectCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_rdcrf_tpl/crfObjectTpl.html';
-                break;
-            case 'RDGATE': // 大门
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_gate_ctrl/rdGateCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_gate_tpl/rdGateTpl.html';
-                break;
-            case 'RDBRANCH':
-                switch (detailType) {
-                case 0:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                case 'RDLINK':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html';
                     break;
-                case 1:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                case 'RDNODE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_node_ctrl/rdNodeFormCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_node_tpl/rdNodeFormTpl.html';
                     break;
-                case 2:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                case 'RDSAMENODE': // 同一点
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_same_ctrl/rdSameNodeCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_same_tpl/rdSameNodeTpl.html';
                     break;
-                case 3:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                case 'RDSAMELINK': // 同一线
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_same_ctrl/rdSameLinkCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_same_tpl/rdSameLinkTpl.html';
                     break;
-                case 4:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                case 'RDVOICEGUIDE': // 语音引导
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_voiceGuide_ctrl/voiceGuide';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_voiceGuide_tpl/voiceGuide.html';
                     break;
-                case 5:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdRealImageCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/realImageOfBranch.html';
+                case 'RDRESTRICTION':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_restriction_ctrl/rdRestriction';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html';
                     break;
-                case 6:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdSignAsRealCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/signAsRealOfBranch.html';
+                case 'RDLANECONNEXITY':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html';
                     break;
-                case 7:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdSeriesCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/seriesOfBranch.html';
+                case 'RDSPEEDLIMIT':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html';
                     break;
-                case 8:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdSchematicCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/schematicOfBranch.html';
+                case 'RDLINKSPEEDLIMIT':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_speedLimit_ctrl/linkSpeedLimitCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_speedLimit_tpl/linkSpeedLimitTpl.html';
                     break;
-                case 9:
-                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdSignBoardCtrl';
-                    ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/signBoardOfBranch.html';
+                case 'DBRDLINKSPEEDLIMIT':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_speedLimit_ctrl/linkSpeedLimitCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_speedLimit_tpl/linkSpeedLimitTpl.html';
                     break;
-                }
-                break;
-            case 'RWNODE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_node_ctrl/rwNodeCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_node_tpl/rwNodeTpl.html';
-                break;
-            case 'RWLINK':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_link_ctrl/rwLinkCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_link_tpl/rwLinkTpl.html';
-                break;
-            case 'ADADMIN':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_administratives_ctrl/adAdminCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html';
-                break;
-            case 'ADNODE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_administratives_ctrl/adNodeCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html';
-                break;
-            case 'ADLINK':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_administratives_ctrl/adLinkCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_adminstratives_tpl/adLinkTpl.html';
-                break;
-            case 'ADFACE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_administratives_ctrl/adFaceCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html';
-                break;
-            case 'ZONENODE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_zone_ctrl/zoneNodeCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_zone_tpl/zoneNodeTpl.html';
-                break;
-            case 'ZONELINK':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_zone_ctrl/zoneLinkCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_zone_tpl/zoneLinkTpl.html';
-                break;
-            case 'ZONEFACE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_zone_ctrl/zoneFaceCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_zone_tpl/zoneFaceTpl.html';
-                break;
-            case 'LUNODE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_lu_ctrl/luNodeCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_lu_tpl/luNodeTpl.html';
-                break;
-            case 'LUFACE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_lu_ctrl/luFaceCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_lu_tpl/luFaceTpl.html';
-                break;
-            case 'LULINK':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_lu_ctrl/luLinkCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_lu_tpl/luLinkTpl.html';
-                break;
-            case 'LCNODE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_lc_ctrl/lcNodeCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_lc_tpl/lcNodeTpl.html';
-                break;
-            case 'LCLINK':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_lc_ctrl/lcLinkCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_lc_tpl/lcLinkTpl.html';
-                break;
-            case 'LCFACE':
-                ret.ctrlFile = 'scripts/components/road/ctrls/attr_lc_ctrl/lcFaceCtrl';
-                ret.tplFile = 'scripts/components/road/tpls/attr_lc_tpl/lcFaceTpl.html';
-                break;
-            case 'IXPOI':
-                ret.ctrlFile = 'scripts/components/poi/ctrls/attr-base/generalBaseCtl';
-                ret.tplFile = 'scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
-                break;
+                case 'RDCROSS':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_cross_ctrl/rdCrossCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html';
+                    break;
+                case 'RDGSC':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdgsc_ctrl/rdGscCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_gsc_tpl/rdGscTpl.html';
+                    break;
+                case 'RDWARNINGINFO': // 警示信息
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_warninginfo_ctrl/warningInfoCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_warninginfo_tpl/warningInfoTpl.html';
+                    break;
+                case 'RDTRAFFICSIGNAL':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_trafficSignal_ctrl/trafficSignalCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_trafficSignal_tpl/trafficSignalTpl.html';
+                    break;
+                case 'RDDIRECTROUTE': // 顺行
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_directroute_ctrl/directRouteCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_directroute_tpl/directRouteTpl.html';
+                    break;
+                case 'RDSPEEDBUMP': // 减速带
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_speedbump_ctrl/speedBumpCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_speedbump_tpl/speedBumpTpl.html';
+                    break;
+                case 'RDSE': // 分叉口
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_se_ctrl/rdSeCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_se_tpl/rdSeTpl.html';
+                    break;
+                case 'RDTOLLGATE': // 收费站
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_tollgate_ctrl/tollGateCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_tollgate_tpl/tollGateTpl.html';
+                    break;
+                case 'RDVARIABLESPEED': // 可变限速
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_variableSpeed_tpl/variableSpeed.html';
+                    break;
+                case 'RDELECTRONICEYE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_electronic_ctrl/electronicEyeCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_electronic_tpl/electronicEyeTpl.html';
+                    break;
+                case 'RDSLOPE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdSlope_ctrl/rdSlopeCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_rdSlope_tpl/rdSlopeTpl.html';
+                    break;
+                case 'RDINTER':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdcrf_ctrl/crfInterCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_rdcrf_tpl/crfInterTpl.html';
+                    break;
+                case 'RDROAD':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdcrf_ctrl/crfRoadCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_rdcrf_tpl/crfRoadTpl.html';
+                    break;
+                case 'RDOBJECT':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_rdcrf_ctrl/crfObjectCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_rdcrf_tpl/crfObjectTpl.html';
+                    break;
+                case 'RDGATE': // 大门
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_gate_ctrl/rdGateCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_gate_tpl/rdGateTpl.html';
+                    break;
+                case 'RDBRANCH':
+                    switch (detailType) {
+                        case 0:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                            break;
+                        case 1:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                            break;
+                        case 2:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                            break;
+                        case 3:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                            break;
+                        case 4:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html';
+                            break;
+                        case 5:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdRealImageCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/realImageOfBranch.html';
+                            break;
+                        case 6:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdSignAsRealCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/signAsRealOfBranch.html';
+                            break;
+                        case 7:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdSeriesCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/seriesOfBranch.html';
+                            break;
+                        case 8:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdSchematicCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/schematicOfBranch.html';
+                            break;
+                        case 9:
+                            ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdSignBoardCtrl';
+                            ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/signBoardOfBranch.html';
+                            break;
+                    }
+                    break;
+                case 'RWNODE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_node_ctrl/rwNodeCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_node_tpl/rwNodeTpl.html';
+                    break;
+                case 'RWLINK':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_link_ctrl/rwLinkCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_link_tpl/rwLinkTpl.html';
+                    break;
+                case 'ADADMIN':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_administratives_ctrl/adAdminCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html';
+                    break;
+                case 'ADNODE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_administratives_ctrl/adNodeCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html';
+                    break;
+                case 'ADLINK':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_administratives_ctrl/adLinkCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_adminstratives_tpl/adLinkTpl.html';
+                    break;
+                case 'ADFACE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_administratives_ctrl/adFaceCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html';
+                    break;
+                case 'ZONENODE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_zone_ctrl/zoneNodeCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_zone_tpl/zoneNodeTpl.html';
+                    break;
+                case 'ZONELINK':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_zone_ctrl/zoneLinkCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_zone_tpl/zoneLinkTpl.html';
+                    break;
+                case 'ZONEFACE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_zone_ctrl/zoneFaceCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_zone_tpl/zoneFaceTpl.html';
+                    break;
+                case 'LUNODE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_lu_ctrl/luNodeCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_lu_tpl/luNodeTpl.html';
+                    break;
+                case 'LUFACE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_lu_ctrl/luFaceCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_lu_tpl/luFaceTpl.html';
+                    break;
+                case 'LULINK':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_lu_ctrl/luLinkCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_lu_tpl/luLinkTpl.html';
+                    break;
+                case 'LCNODE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_lc_ctrl/lcNodeCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_lc_tpl/lcNodeTpl.html';
+                    break;
+                case 'LCLINK':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_lc_ctrl/lcLinkCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_lc_tpl/lcLinkTpl.html';
+                    break;
+                case 'LCFACE':
+                    ret.ctrlFile = 'scripts/components/road/ctrls/attr_lc_ctrl/lcFaceCtrl';
+                    ret.tplFile = 'scripts/components/road/tpls/attr_lc_tpl/lcFaceTpl.html';
+                    break;
+                case 'IXPOI':
+                    ret.ctrlFile = 'scripts/components/poi/ctrls/attr-base/generalBaseCtl';
+                    ret.tplFile = 'scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
+                    break;
             }
             return ret;
         }

@@ -172,24 +172,24 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
         var idealRow = this.CalculateIdealRowIndex(lat, remainder);
         switch (idealRow % 3) // 三个一组的余数
         {
-        case 0: // 第一行
-            {
-                if (300000 - idealRow.remainder <= 12) // 余数距离上框小于0.012秒
+            case 0: // 第一行
+                {
+                    if (300000 - idealRow.remainder <= 12) // 余数距离上框小于0.012秒
                     {
-                    idealRow.value++;
+                        idealRow.value++;
+                    }
                 }
-            }
-            break;
-        case 1: // 第二行
-            break;
-        case 2: // 第三行
-            {
-                if (idealRow.remainder < 12) // 余数距离下框小于等于0.012秒
+                break;
+            case 1: // 第二行
+                break;
+            case 2: // 第三行
+                {
+                    if (idealRow.remainder < 12) // 余数距离下框小于等于0.012秒
                     {
-                    idealRow.value--;
+                        idealRow.value--;
+                    }
                 }
-            }
-            break;
+                break;
         }
         return idealRow;
     },
@@ -317,24 +317,24 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
         var remainder = 0;
         var rowResult = this.CalculateIdealRowIndex(lat, remainder);
         switch (rowResult.value % 3) {
-        case 0: // 第一行
-            {
-                if (300000 - rowResult.reminder == 12) // 余数距离上框等于0.012秒
+            case 0: // 第一行
+                {
+                    if (300000 - rowResult.reminder == 12) // 余数距离上框等于0.012秒
                     {
-                    model |= 0x01;
-                } else if (rowResult.reminder == 0) model |= 0x01;
-            }
-            break;
-        case 1: // 第二行由于上下边框均不在其内，因此不在图框上
-            break;
-        case 2: // 第三行
-            {
-                if (rowResult.reminder == 12) // 余数距离下框等于0.012秒
-                    {
-                    model |= 0x01;
+                        model |= 0x01;
+                    } else if (rowResult.reminder == 0) model |= 0x01;
                 }
-            }
-            break;
+                break;
+            case 1: // 第二行由于上下边框均不在其内，因此不在图框上
+                break;
+            case 2: // 第三行
+                {
+                    if (rowResult.reminder == 12) // 余数距离下框等于0.012秒
+                    {
+                        model |= 0x01;
+                    }
+                }
+                break;
         }
         var colResult = this.CalculateRealColumnIndex(lon, rowResult.reminder);
         if (colResult.reminder == 0) model |= 0x10;

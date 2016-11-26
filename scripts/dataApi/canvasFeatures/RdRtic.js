@@ -3,21 +3,21 @@ fastmap.uikit.canvasFeature.RdRtic = fastmap.uikit.canvasFeature.Feature.extend(
     properties: {},
     getrTicColor: function (level) {
         switch (parseInt(level)) {
-        case 0:
-            return '#808080';
-            break;
-        case 1:
-            return '#FF0000';
-            break;
-        case 2:
-            return '#006400';
-            break;
-        case 3:
-            return '#00008B';
-            break;
-        case 4:
-            return '#FF1493';
-            break;
+            case 0:
+                return '#808080';
+                break;
+            case 1:
+                return '#FF0000';
+                break;
+            case 2:
+                return '#006400';
+                break;
+            case 3:
+                return '#00008B';
+                break;
+            case 4:
+                return '#FF1493';
+                break;
         }
     },
     setAttribute: function (data) {

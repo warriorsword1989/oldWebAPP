@@ -411,46 +411,46 @@ selectAdApp.controller('selectPoiController', ['$scope', '$ocLazyLoad', '$rootSc
                 var toolsObj = null;
                 $scope.type = null;
                 switch (data.optype) {
-                case 'POIPOINT' :
-                    toolsObj = {
-                        items: [{
-                            text: "<a class='glyphicon glyphicon-open'></a>",
-                            title: '移动显示坐标',
-                            type: 'POILOCMOVE',
-                            class: 'feaf',
-                            callback: $scope.modifyTools
-                        },
-                        {
-                            text: "<a class='glyphicon glyphicon-export'></a>",
-                            title: '移动引导坐标',
-                            type: 'POIGUIDEMOVE',
-                            class: 'feaf',
-                            callback: $scope.modifyTools
-                        },
-                        {
-                            text: "<a class='glyphicon glyphicon-random'></a>",
-                            title: '引导坐标随着显示坐标变化',
-                            type: 'POIAUTODRAG',
-                            class: 'feaf',
-                            callback: $scope.modifyTools
-                        },
-                        {
-                            text: "<a class='glyphicon glyphicon-refresh'></a>",
-                            title: '重置',
-                            type: 'POIRESET',
-                            class: 'feaf',
-                            callback: $scope.modifyTools
-                        },
-                        {
-                            text: "<a class='glyphicon glyphicon-cloud-upload'></a>",
-                            title: '编辑父',
-                            type: 'SELECTPARENT',
-                            class: 'feaf',
-                            callback: $scope.modifyTools
-                        }]
-                    };
-                    $scope.type = 'IXPOI';
-                    break;
+                    case 'POIPOINT' :
+                        toolsObj = {
+                            items: [{
+                                text: "<a class='glyphicon glyphicon-open'></a>",
+                                title: '移动显示坐标',
+                                type: 'POILOCMOVE',
+                                class: 'feaf',
+                                callback: $scope.modifyTools
+                            },
+                            {
+                                text: "<a class='glyphicon glyphicon-export'></a>",
+                                title: '移动引导坐标',
+                                type: 'POIGUIDEMOVE',
+                                class: 'feaf',
+                                callback: $scope.modifyTools
+                            },
+                            {
+                                text: "<a class='glyphicon glyphicon-random'></a>",
+                                title: '引导坐标随着显示坐标变化',
+                                type: 'POIAUTODRAG',
+                                class: 'feaf',
+                                callback: $scope.modifyTools
+                            },
+                            {
+                                text: "<a class='glyphicon glyphicon-refresh'></a>",
+                                title: '重置',
+                                type: 'POIRESET',
+                                class: 'feaf',
+                                callback: $scope.modifyTools
+                            },
+                            {
+                                text: "<a class='glyphicon glyphicon-cloud-upload'></a>",
+                                title: '编辑父',
+                                type: 'SELECTPARENT',
+                                class: 'feaf',
+                                callback: $scope.modifyTools
+                            }]
+                        };
+                        $scope.type = 'IXPOI';
+                        break;
                 }
                 $scope.initializeData();
                 map.currentTool.enable();

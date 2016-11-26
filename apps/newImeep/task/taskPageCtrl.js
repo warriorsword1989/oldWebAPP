@@ -22,18 +22,18 @@ angular.module('webeditor').controller('TaskPageCtrl', ['$scope', '$q', '$cookie
         };
         $scope.condtionChange = function (param) {
             switch (param) {
-            case '0':
-                $scope.sortCondtion = $scope.sortOrient + 'name';
-                break;
-            case '1':
-                $scope.sortCondtion = $scope.sortOrient + 'planStartDate';
-                break;
-            case '2':
-                $scope.sortCondtion = $scope.sortOrient + 'planEndDate';
-                break;
-            case '3':
-                $scope.sortCondtion = $scope.sortOrient + 'percent';
-                break;
+                case '0':
+                    $scope.sortCondtion = $scope.sortOrient + 'name';
+                    break;
+                case '1':
+                    $scope.sortCondtion = $scope.sortOrient + 'planStartDate';
+                    break;
+                case '2':
+                    $scope.sortCondtion = $scope.sortOrient + 'planEndDate';
+                    break;
+                case '3':
+                    $scope.sortCondtion = $scope.sortOrient + 'percent';
+                    break;
             }
         };
         $scope.sortTaskList = function () {
@@ -116,39 +116,39 @@ angular.module('webeditor').controller('TaskPageCtrl', ['$scope', '$q', '$cookie
                     $scope.currentSubTaskList[i].planStartDate = getDateFormat($scope.currentSubTaskList[i].planStartDate);
                     /* 格式化子任务类型*/
                     switch ($scope.currentSubTaskList[i].type.toString()) {
-                    case '0':
-                        $scope.currentSubTaskList[i].type = 'POI子任务';
-                        break;
-                    case '1':
-                        $scope.currentSubTaskList[i].type = '道路子任务';
-                        break;
-                    case '2':
-                        $scope.currentSubTaskList[i].type = '一体化子任务';
-                        break;
-                    case '3':
-                        $scope.currentSubTaskList[i].type = '一体化_GRID粗编子任务';
-                        break;
-                    case '4':
-                        $scope.currentSubTaskList[i].type = '一体化_区域粗编子任务';
-                        break;
-                    case '5':
-                        $scope.currentSubTaskList[i].type = '多源POI子任务';
-                        break;
-                    case '6':
-                        $scope.currentSubTaskList[i].type = '代理店子任务';
-                        break;
-                    case '7':
-                        $scope.currentSubTaskList[i].type = 'POI专项子任务';
-                        break;
-                    case '8':
-                        $scope.currentSubTaskList[i].type = '道路_GRID精编子任务';
-                        break;
-                    case '9':
-                        $scope.currentSubTaskList[i].type = '道路_GRID粗编子任务';
-                        break;
-                    case '10':
-                        $scope.currentSubTaskList[i].type = '道路区域专项子任务';
-                        break;
+                        case '0':
+                            $scope.currentSubTaskList[i].type = 'POI子任务';
+                            break;
+                        case '1':
+                            $scope.currentSubTaskList[i].type = '道路子任务';
+                            break;
+                        case '2':
+                            $scope.currentSubTaskList[i].type = '一体化子任务';
+                            break;
+                        case '3':
+                            $scope.currentSubTaskList[i].type = '一体化_GRID粗编子任务';
+                            break;
+                        case '4':
+                            $scope.currentSubTaskList[i].type = '一体化_区域粗编子任务';
+                            break;
+                        case '5':
+                            $scope.currentSubTaskList[i].type = '多源POI子任务';
+                            break;
+                        case '6':
+                            $scope.currentSubTaskList[i].type = '代理店子任务';
+                            break;
+                        case '7':
+                            $scope.currentSubTaskList[i].type = 'POI专项子任务';
+                            break;
+                        case '8':
+                            $scope.currentSubTaskList[i].type = '道路_GRID精编子任务';
+                            break;
+                        case '9':
+                            $scope.currentSubTaskList[i].type = '道路_GRID粗编子任务';
+                            break;
+                        case '10':
+                            $scope.currentSubTaskList[i].type = '道路区域专项子任务';
+                            break;
                     }
                     $scope.currentSubTaskList[i].stage = $scope.currentSubTaskList[i].stage == 0 ? '采集' : $scope.currentSubTaskList[i].stage = $scope.currentSubTaskList[i].stage == 1 ? '日编' : '月编';
                 }

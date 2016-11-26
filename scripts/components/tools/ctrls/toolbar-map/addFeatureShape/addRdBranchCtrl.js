@@ -43,38 +43,38 @@ angular.module('app').controller('addRdBranchCtrl', ['$scope', '$ocLazyLoad', 'd
                 shapeCtrl.setEditingType(typeArr[0]);
                 // 根据不同的分歧种类构建limitRelation的参数;
                 switch (typeArr[1]) {
-                case 'REALIMAGE':
-                    currentActiveBranch = '实景图';
-                    $scope.limitRelation.branchType = 5;
-                    break;
-                case 'SIGNBOARDNAME':
-                    currentActiveBranch = '方向看板';
-                    $scope.limitRelation.branchType = 9;
-                    break;
-                case 'SIGNASREAL':
-                    currentActiveBranch = '实景看板';
-                    $scope.limitRelation.branchType = 6;
-                    break;
-                case 'SERIESBRANCH':
-                    currentActiveBranch = '连续分歧';
-                    $scope.limitRelation.branchType = 7;
-                    break;
-                case 'BIGCROSSSCHEMATIC':
-                    currentActiveBranch = '大路口交叉点模式';
-                    $scope.limitRelation.branchType = 8;
-                    break;
-                case 'NORMALROAD':
-                    currentActiveBranch = '普通道路方面';
-                    $scope.limitRelation.branchType = 1;
-                    break;
-                case 'HIGHWAY':
-                    currentActiveBranch = '高速分歧';
-                    $scope.limitRelation.branchType = 0;
-                    break;
-                case '3D':
-                    currentActiveBranch = '3D分歧';
-                    $scope.limitRelation.branchType = 3;
-                    break;
+                    case 'REALIMAGE':
+                        currentActiveBranch = '实景图';
+                        $scope.limitRelation.branchType = 5;
+                        break;
+                    case 'SIGNBOARDNAME':
+                        currentActiveBranch = '方向看板';
+                        $scope.limitRelation.branchType = 9;
+                        break;
+                    case 'SIGNASREAL':
+                        currentActiveBranch = '实景看板';
+                        $scope.limitRelation.branchType = 6;
+                        break;
+                    case 'SERIESBRANCH':
+                        currentActiveBranch = '连续分歧';
+                        $scope.limitRelation.branchType = 7;
+                        break;
+                    case 'BIGCROSSSCHEMATIC':
+                        currentActiveBranch = '大路口交叉点模式';
+                        $scope.limitRelation.branchType = 8;
+                        break;
+                    case 'NORMALROAD':
+                        currentActiveBranch = '普通道路方面';
+                        $scope.limitRelation.branchType = 1;
+                        break;
+                    case 'HIGHWAY':
+                        currentActiveBranch = '高速分歧';
+                        $scope.limitRelation.branchType = 0;
+                        break;
+                    case '3D':
+                        currentActiveBranch = '3D分歧';
+                        $scope.limitRelation.branchType = 3;
+                        break;
                 }
                 // 地图编辑相关设置;
                 tooltipsCtrl.setEditEventType('rdBranch');

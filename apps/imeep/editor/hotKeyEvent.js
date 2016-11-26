@@ -135,32 +135,32 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         function getCtrlAndTpl(type) {
             var obj = {};
             switch (type) {
-            case 0:
-            case 1:
-            case 3:
-                obj.ctrl = 'attr_branch_ctrl/rdBranchCtrl';
-                obj.tpl = 'attr_branch_Tpl/namesOfBranch.html';
-                break;
-            case 5:
-                obj.ctrl = 'attr_branch_ctrl/rdRealImageCtrl';
-                obj.tpl = 'attr_branch_Tpl/realImageOfBranch.html';
-                break;
-            case 8:
-                obj.ctrl = 'attr_branch_ctrl/rdSchematicCtrl';
-                obj.tpl = 'attr_branch_Tpl/schematicOfBranch.html';
-                break;
-            case 7:
-                obj.ctrl = 'attr_branch_ctrl/rdSeriesCtrl';
-                obj.tpl = 'attr_branch_Tpl/seriesOfBranch.html';
-                break;
-            case 6:
-                obj.ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl';
-                obj.tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';
-                break;
-            case 9:
-                obj.ctrl = 'attr_branch_ctrl/rdSignBoardCtrl';
-                obj.tpl = 'attr_branch_Tpl/signBoardOfBranch.html';
-                break;
+                case 0:
+                case 1:
+                case 3:
+                    obj.ctrl = 'attr_branch_ctrl/rdBranchCtrl';
+                    obj.tpl = 'attr_branch_Tpl/namesOfBranch.html';
+                    break;
+                case 5:
+                    obj.ctrl = 'attr_branch_ctrl/rdRealImageCtrl';
+                    obj.tpl = 'attr_branch_Tpl/realImageOfBranch.html';
+                    break;
+                case 8:
+                    obj.ctrl = 'attr_branch_ctrl/rdSchematicCtrl';
+                    obj.tpl = 'attr_branch_Tpl/schematicOfBranch.html';
+                    break;
+                case 7:
+                    obj.ctrl = 'attr_branch_ctrl/rdSeriesCtrl';
+                    obj.tpl = 'attr_branch_Tpl/seriesOfBranch.html';
+                    break;
+                case 6:
+                    obj.ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl';
+                    obj.tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';
+                    break;
+                case 9:
+                    obj.ctrl = 'attr_branch_ctrl/rdSignBoardCtrl';
+                    obj.tpl = 'attr_branch_Tpl/signBoardOfBranch.html';
+                    break;
             }
             return obj;
         }

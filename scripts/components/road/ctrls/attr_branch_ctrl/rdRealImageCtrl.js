@@ -296,35 +296,35 @@ namesOfBranch.controller('RealImageOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
     $scope.clone = function (obj) {
         var o;
         switch (typeof obj) {
-        case 'undefined':
-            break;
-        case 'string' :
-            o = obj + '';
-            break;
-        case 'number' :
-            o = obj - 0;
-            break;
-        case 'boolean' :
-            o = obj;
-            break;
-        case 'object' :
-            if (obj === null) {
-                o = null;
-            } else if (obj instanceof Array) {
-                o = [];
-                for (var i = 0, len = obj.length; i < len; i++) {
-                    o.push($scope.clone(obj[i]));
+            case 'undefined':
+                break;
+            case 'string' :
+                o = obj + '';
+                break;
+            case 'number' :
+                o = obj - 0;
+                break;
+            case 'boolean' :
+                o = obj;
+                break;
+            case 'object' :
+                if (obj === null) {
+                    o = null;
+                } else if (obj instanceof Array) {
+                    o = [];
+                    for (var i = 0, len = obj.length; i < len; i++) {
+                        o.push($scope.clone(obj[i]));
+                    }
+                } else {
+                    o = {};
+                    for (var k in obj) {
+                        o[k] = $scope.clone(obj[k]);
+                    }
                 }
-            } else {
-                o = {};
-                for (var k in obj) {
-                    o[k] = $scope.clone(obj[k]);
-                }
-            }
-            break;
-        default:
-            o = obj;
-            break;
+                break;
+            default:
+                o = obj;
+                break;
         }
         return o;
     };

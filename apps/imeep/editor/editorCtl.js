@@ -5,7 +5,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
     poi: 'scripts/components/poi/',
     tool: 'scripts/components/tools/'
 }).controller('EditorCtl', ['$scope', '$cookies', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout', '$interval',
-    function ($scope, $cookies, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout, $interval) {
+    function ($scope, $cookies, $ocLazyLoad, $rootScope, dsMeta, dsFcc,
+              dsEdit, dsManage, $q, appPath, $timeout, $interval) {
         // var layerCtrl = new fastmap.uikit.LayerController({
         //  config: App.layersConfig
         // });
@@ -19,9 +20,14 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         $scope.logMessage = logMsgCtrl.messages;
         $scope.appPath = appPath;
         $scope.metaData = {}; // 存放元数据
-        $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {}, $scope.topKind = {}, $scope.mediumKind = {};
-        $scope.metaData.kindFormatPart = {}, $scope.metaData.kindListPart = [];
-        $scope.showLoading = {flag: true};
+        $scope.metaData.kindFormat = {};
+        $scope.metaData.kindList = [];
+        $scope.metaData.allChain = {};
+        $scope.topKind = {};
+        $scope.mediumKind = {};
+        $scope.metaData.kindFormatPart = {};
+        $scope.metaData.kindListPart = [];
+        $scope.showLoading = { flag: true };
         // 将页面loading动画的开关引用赋给dsEdit的本地变量，以便在dsEdit中进行控制
         // 注意：这里利用了对象引用的特性，变量必须是个对象，不能是字符串、bool、数字等
         dsEdit.referenceLoadingSwitch($scope.showLoading);
@@ -186,12 +192,12 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 }
             });
             // map.on("mousedown", function(e) {
-            // 	if (e.originalEvent.button == 2) { // 右键
-            // 		map.setView(e.latlng);
-            // 		if(map.floatMenu){
-            // 			map.floatMenu._latlng = e.latlng; //让半圆形工具条随右键移动
-            // 		}
-            // 	}
+            // if (e.originalEvent.button == 2) { // 右键
+            // 	map.setView(e.latlng);
+            // 	if(map.floatMenu){
+            //	map.floatMenu._latlng = e.latlng; //让半圆形工具条随右键移动
+            //  }
+            // }
             // });
             // map.on("click", function(e) {
             //     console.log('click');
@@ -339,8 +345,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         // 消息推送
         $scope.msgNotify = function () {
             // 创建一个Socket实例
-            var sock = new WebSocket('ws://' + App.Util.getFullUrl('sys/sysMsg/webSocketServer').substr(5)),
-                msgCount = 0;
+            var sock = new WebSocket('ws://' + App.Util.getFullUrl('sys/sysMsg/webSocketServer').substr(5));
+            var msgCount = 0;
             sock.onopen = function () {
                 console.log('已经建立websocket连接...');
             };
@@ -1147,6 +1153,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                             ret.ctrlFile = 'scripts/components/road/ctrls/attr_branch_ctrl/rdSignBoardCtrl';
                             ret.tplFile = 'scripts/components/road/tpls/attr_branch_Tpl/signBoardOfBranch.html';
                             break;
+                        default:
+                            break;
                     }
                     break;
                 case 'RWNODE':
@@ -1212,6 +1220,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 case 'IXPOI':
                     ret.ctrlFile = 'scripts/components/poi/ctrls/attr-base/generalBaseCtl';
                     ret.tplFile = 'scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
+                    break;
+                default:
                     break;
             }
             return ret;
