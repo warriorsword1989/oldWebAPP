@@ -149,6 +149,7 @@ namesOfBranch.controller('RealImageOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
             return false;
         }
     }
+
     /* 全角转半角*/
     function CtoH(str) {
         var result = '';
@@ -162,6 +163,7 @@ namesOfBranch.controller('RealImageOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
         }
         return result;
     }
+
     /* 当分歧类型变更时*/
     $scope.changeBranchType = function () {
         $scope.diverObj.realimages[0].realCode = '';
@@ -200,6 +202,7 @@ namesOfBranch.controller('RealImageOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
         $scope.diverObj.realimages[0].arrowCode = code;
         $scope.diverObj.realimages[0].realCode = firstCode + $.trim($scope.diverObj.realimages[0].realCode).substr(1);
     }
+
     /* 点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function (e) {
         $scope.showImgData = false;
@@ -412,9 +415,9 @@ namesOfBranch.controller('RealImageOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
                     }
                     rdBranch.redraw();
                     $scope.$emit('SWITCHCONTAINERSTATE', {
-            					subAttrContainerTpl: false,
-            					attrContainerTpl: false
-            				});
+                        subAttrContainerTpl: false,
+                        attrContainerTpl: false
+                    });
                 }
             }
         );

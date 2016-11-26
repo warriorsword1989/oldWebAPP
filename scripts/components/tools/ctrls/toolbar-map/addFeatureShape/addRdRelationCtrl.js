@@ -1874,7 +1874,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     links: [],
                     linkLength: 0,
                     lastNode: '',
-                    recommendOutLinks: []// 坡度退出线可推荐的link recommend
+                    recomendOutLinks: []// 坡度退出线可推荐的link
                 };
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function (dataresult) {
@@ -2007,7 +2007,6 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                     } else {
                                         tooltipsCtrl.setCurrentTooltip('坡度长度为' + slopeData.linkLength.toFixed(3) + '米');
                                         console.log('下一个接续线方向错误,不追踪');
-                                        return;
                                     }
                                 }
                             });

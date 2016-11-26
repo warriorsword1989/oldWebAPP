@@ -122,14 +122,14 @@ Utils = {
      * 获取数组中某属性的最大值
      */
     getArrMax: function (arr, name) {
-    	var max = arr[0][name];
-    	var len = arr.length;
-    	for (var i = 1; i < len; i++) {
-	    	if (arr[i][name] > max) {
-	    	  max = arr[i][name];
-	    	}
-    	}
-    	return max;
+        var max = arr[0][name];
+        var len = arr.length;
+        for (var i = 1; i < len; i++) {
+            if (arr[i][name] > max) {
+                max = arr[i][name];
+            }
+        }
+        return max;
     },
     /**
      * 判断点1和点2是否是同一个点
@@ -157,7 +157,11 @@ Utils = {
     dec2bin: function (dec) {
         var bin = '';
         while (dec > 0) {
-            if (dec % 2 !== 0) { bin = '1' + bin; } else { bin = '0' + bin; }
+            if (dec % 2 !== 0) {
+                bin = '1' + bin;
+            } else {
+                bin = '0' + bin;
+            }
             dec = parseInt(dec / 2);
         }
         return bin;

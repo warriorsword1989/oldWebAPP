@@ -3248,7 +3248,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                                     } else {
                                         tooltipsCtrl.setCurrentTooltip('坡度长度为' + slopeData.linkLength.toFixed(3) + '米');
                                         console.log('下一个接续线方向错误,不追踪');
-                                        return;
                                     }
                                 }
                             });
@@ -4215,10 +4214,6 @@ angular.module('app').controller('selectShapeCtrl', ['$scope', '$q', '$ocLazyLoa
                         tooltipsCtrl.setCurrentTooltip('正要平滑修形,请选择形状点或是端点进行移动！');
                         return;
                     }
-                } else if (type == 'MOTIFYTMCLOCATION') {   // 修改TMC方向
-
-                } else if (type == 'MOTIFYTRUCKLINK') { // 修改接续线
-                    
                 }
                 if (!selectCtrl.selectedFeatures) {
                     return;

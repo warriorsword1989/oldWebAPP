@@ -115,6 +115,7 @@ namesOfBranch.controller('SchematicOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
             return false;
         }
     }
+
     /* 全角转半角*/
     function CtoH(str) {
         var result = '';
@@ -131,6 +132,7 @@ namesOfBranch.controller('SchematicOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
         }
         return result;
     }
+
     /* 箭头图代码点击下一页*/
     $scope.picNext = function () {
         $scope.picNowNum += 1;
@@ -369,9 +371,9 @@ namesOfBranch.controller('SchematicOfBranchCtrl', ['$scope', '$timeout', '$ocLaz
                     }
                     rdBranch.redraw();
                     $scope.$emit('SWITCHCONTAINERSTATE', {
-            					subAttrContainerTpl: false,
-            					attrContainerTpl: false
-            				});
+                        subAttrContainerTpl: false,
+                        attrContainerTpl: false
+                    });
                 }
             }
         );
