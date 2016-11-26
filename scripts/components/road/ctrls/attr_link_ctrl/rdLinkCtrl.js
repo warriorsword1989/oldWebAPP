@@ -530,16 +530,16 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
         }
         /* 如果道路名新增*/
         if ($scope.linkData.names) {
-        	var flag = false;
+            var flag = false;
             $.each($scope.linkData.names, function (i, v) {
-            	if (v.nameGroupid == 0) {
-            		flag = true;
-            	}
+                if (v.nameGroupid == 0) {
+                    flag = true;
+                }
                 if (v.pid) delete v.pid;
             });
             if (flag) {
-            	swal('保存提示', '道路名不合法(合法的道路名应该来源于道路名库)', 'error');
-            	return;
+                swal('保存提示', '道路名不合法(合法的道路名应该来源于道路名库)', 'error');
+                return;
             }
         }
 
