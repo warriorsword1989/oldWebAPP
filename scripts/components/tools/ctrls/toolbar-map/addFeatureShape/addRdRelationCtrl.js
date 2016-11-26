@@ -1874,7 +1874,7 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                     links: [],
                     linkLength: 0,
                     lastNode: '',
-                    recomendOutLinks: []// 坡度退出线可推荐的link
+                    recommendOutLinks: []// 坡度退出线可推荐的link
                 };
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function (dataresult) {
@@ -1897,7 +1897,6 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                         if (dataresult.links.length === 0) {
                             map.currentTool.selectedFeatures.pop();
                             tooltipsCtrl.notify('该点无法做坡度', 'error');
-                            return;
                         } else {
                             // 无论一条还是多条都是高亮显示并手动选择
                             highRenderCtrl.highLightFeatures.push({
@@ -1909,11 +1908,12 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                             slopeData.inNode = dataresult.id.toString();
                             slopeData.lastNode = dataresult.id.toString();
                             tooltipsCtrl.setCurrentTooltip('已选择进入点，根据提示选择退出线');
-                            console.log('------------------------------已选择进入点------------------------------');
-                            for (var i = 0; i < dataresult.links.length; i++) {
-                                slopeData.recommendOutLinks.push(dataresult.links[i].id);
+                            console.log('已选择进入点');
+                            var ri = 0;
+                            for (ri = 0; ri < dataresult.links.length; ri++) {
+                                slopeData.recommendOutLinks.push(dataresult.links[ri].id);
                                 highRenderCtrl.highLightFeatures.push({
-                                    id: dataresult.links[i].id.toString(),
+                                    id: dataresult.links[ri].id.toString(),
                                     layerid: 'rdLink',
                                     type: 'line',
                                     style: { color: 'red' }
@@ -1953,13 +1953,16 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 data: { nodePid: slopeData.outNode }
                             }).then(function (joinLinks) {
                                 var satisfiedJoinLinks = [];
-                                for (var i = 0; i < joinLinks.data.length; i++) {
-                                    if (parseInt(joinLinks.data[i].kind) < 10 && joinLinks.data[i].pid != dataresult.id) {
-                                        satisfiedJoinLinks.push(joinLinks.data[i]);
+                                var si;
+                                for (si = 0; si < joinLinks.data.length; si++) {
+                                    var filter = (parseInt(joinLinks.data[si].kind, 10) < 10) &&
+                                                 (joinLinks.data[si].pid != dataresult.id);
+                                    if (filter) {
+                                        satisfiedJoinLinks.push(joinLinks.data[si]);
                                     }
                                 }
                                 // 判断这些连接link的挂接个数
-                                if (satisfiedJoinLinks.length == 0 || satisfiedJoinLinks.length >= 2) {
+                                if (satisfiedJoinLinks.length != 1) {
                                     console.log('退出线无挂接或挂接除10级外的link>=2');
                                     tooltipsCtrl.setCurrentTooltip('坡度长度为' + slopeData.linkLength + '米');
                                     return;
@@ -1985,11 +1988,14 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                             dsEdit.getByCondition(param).then(function (linkData) {
                                                 if (linkData.errcode === -1) { return; }
                                                 if (linkData.data.length) {
-                                                    for (var i = 0; i < linkData.data.length; i++) {
-                                                        slopeData.links.push(linkData.data[i]);
-                                                        slopeData.linkLength += parseFloat(linkData.data[i].length);
+                                                    var li,
+                                                        tLen;
+                                                    for (li = 0; li < linkData.data.length; li++) {
+                                                        slopeData.links.push(linkData.data[li]);
+                                                        tLen = parseFloat(linkData.data[li].length);
+                                                        slopeData.linkLength += tLen;
                                                         highRenderCtrl.highLightFeatures.push({
-                                                            id: linkData.data[i].pid.toString(),
+                                                            id: linkData.data[li].pid.toString(),
                                                             layerid: 'rdLink',
                                                             type: 'line',
                                                             style: { color: 'blue' }
@@ -2060,9 +2066,9 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 }
                             }
                             var linkInJoinLinksIndex = -1;
-                            for (var i = 0; i < slopeData.links.length; i++) {
-                                if (dataresult.id == slopeData.links[i].pid) {
-                                    linkInJoinLinksIndex = i;
+                            for (var ji = 0; ji < slopeData.links.length; ji++) {
+                                if (dataresult.id == slopeData.links[ji].pid) {
+                                    linkInJoinLinksIndex = ji;
                                 }
                             }
                             if (linkInJoinLinksIndex == -1) {
@@ -2073,11 +2079,21 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                     data: { nodePid: slopeData.lastNode }
                                 }).then(function (joinLinks) {
                                     var satisfiedJoinLinks = [];
-                                    for (var i = 0; i < joinLinks.data.length; i++) {
-                                        var lastLinkPid = (slopeData.links.length) ? slopeData.links[slopeData.links.length - 1].pid : slopeData.ouLink;
-                                        var isJoinLink = (parseInt(joinLinks.data[i].kind) < 10 && joinLinks.data[i].pid != lastLinkPid);
+                                    for (var oi = 0; oi < joinLinks.data.length; oi++) {
+                                        var lastLinkPid,
+                                            linkKidCon,
+                                            noSelf;
+                                        if (slopeData.links.length) {
+                                            var lastIndex = slopeData.links.length - 1;
+                                            lastLinkPid = slopeData.links[lastIndex].pid;
+                                        } else {
+                                            lastLinkPid = slopeData.ouLink;
+                                        }
+                                        linkKidCon = parseInt(joinLinks.data[oi].kind, 10) < 10;
+                                        noSelf = joinLinks.data[oi].pid != lastLinkPid
+                                        var isJoinLink = (linkKidCon && noSelf);
                                         if (isJoinLink) {
-                                            satisfiedJoinLinks.push(joinLinks.data[i]);
+                                            satisfiedJoinLinks.push(joinLinks.data[oi]);
                                         }
                                     }
                                     // 判断这些连接link的挂接个数
@@ -2087,7 +2103,9 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                         return;
                                     }
                                     if (satisfiedJoinLinks.length == 1 && satisfiedJoinLinks[0].pid == dataresult.id) {
-                                        if (dataresult.properties.direct == 2 && dataresult.properties.eNodePid == slopeData.lastNode || dataresult.properties.direct == 3 && dataresult.properties.sNodePid == slopeData.lastNode) {
+                                        var isDirectFalse = (dataresult.properties.direct == 2 && dataresult.properties.eNodePid == slopeData.lastNode) ||
+                                                            (dataresult.properties.direct == 3 && dataresult.properties.sNodePid == slopeData.lastNode);
+                                        if (isDirectFalse) {
                                             tooltipsCtrl.notify('接续线方向错误，不能再做接续线', 'error');
                                             return;
                                         }
@@ -2117,8 +2135,8 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                                 setLastNode(linkInJoinLinksIndex);
                                 slopeData.links.splice(linkInJoinLinksIndex);
                                 var temp = 0;
-                                for (var i = 0; i < slopeData.links.length; i++) {
-                                    temp += parseFloat(slopeData.links[i].length);
+                                for (var ki = 0; ki < slopeData.links.length; ki++) {
+                                    temp += parseFloat(slopeData.links[ki].length);
                                 }
                                 slopeData.linkLength = temp + parseFloat(slopeData.outLinkLength);
                                 tooltipsCtrl.setCurrentTooltip('坡度长度为' + slopeData.linkLength.toFixed(3) + '米');
@@ -3824,52 +3842,5 @@ angular.module('app').controller('addRdRelationCtrl', ['$scope', '$ocLazyLoad', 
                 });
             }
         };
-
-        // //自动追踪接续线前台方法;
-        // function recommendLink(startNode,startLink) {
-        //    var param = {};
-        //    param.dbId = App.Temp.dbId;
-        //    param.type = 'RDLINK';
-        //    param.data = {
-        //        nodePid: startNode
-        //    };
-        //    dsEdit.getByCondition(param).then(function (linkData) {
-        //        /*
-        //         * 如果返回数据错误或该点挂接的link超过2根则不允许;
-        //         * 如果挂接一根link说明没有接续线可选;
-        //         * */
-        //        if (linkData.errcode === -1 || linkData.data.length>2 || linkData.data.length==1) {
-        //            return false;
-        //        }else{
-        //            /*
-        //             *（1） 要自动追踪，一个node点只能挂接2根link[进这个条件就满足],
-        //             *（2） 并且该link不能为上一条追踪过的Link
-        //             *（3） 并且还要满足方向正确;
-        //             *（4） 不能为10级道路
-        //             * */
-        //            tempLinkObj = (linkData.data[0].pid==$scope.slopeLinkArr[$scope.slopeLinkArr.length-1])?linkData.data[1]:linkData.data[0];
-        //            //对种别判断;
-        //            if(tempLinkObj.kind>=10){return;}
-        //            //对方向判断;
-        //            if((tempLinkObj.direct==2&&tempLinkObj.eNodePid==$scope.slopeNodeArr[$scope.slopeNodeArr.length-1]) || (tempLinkObj.direct==3&&tempLinkObj.sNodePid==$scope.slopeNodeArr[$scope.slopeNodeArr.length-1])){return;}
-        //            if(tempLinkObj.direct==1){
-        //                tempLinkPid = tempLinkObj.pid;
-        //                tempNodePid = (tempLinkObj.eNodePid==$scope.slopeNodeArr[$scope.slopeNodeArr.length-1])?tempLinkObj.sNodePid:tempLinkObj.eNodePid;
-        //            }else{
-        //                if(tempLinkObj.direct==2&&tempLinkObj.sNodePid==$scope.slopeNodeArr[$scope.slopeNodeArr.length-1]){
-        //                    tempLinkPid = tempLinkObj.pid;
-        //                    tempNodePid = tempLinkObj.eNodePid;
-        //                }
-        //                if(tempLinkObj.direct==3&&tempLinkObj.eNodePid==$scope.slopeNodeArr[$scope.slopeNodeArr.length-1]){
-        //                    tempLinkPid = tempLinkObj.pid;
-        //                    tempNodePid = tempLinkObj.sNodePid;
-        //                }
-        //            }
-        //            $scope.slopeLinkArr.push(tempLinkPid);
-        //            $scope.slopeNodeArr.push(tempNodePid);
-        //            recommendLink(tempNodePid,tempLinkPid);
-        //        }
-        //    })
-        // }
     }
 ]);
