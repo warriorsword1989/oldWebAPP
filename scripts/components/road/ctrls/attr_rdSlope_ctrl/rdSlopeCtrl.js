@@ -33,7 +33,7 @@ rdSlopeApp.controller('rdSlopeCtl', ['$scope', 'dsEdit', function ($scope, dsEdi
             id: $scope.slopeData.nodePid.toString(),
             layerid: 'rdLink',
             type: 'node',
-            style: { color: 'green'}
+            style: { color: 'green' }
         });
         highLightFeatures.push({
             id: $scope.slopeData.linkPid.toString(),
@@ -48,7 +48,7 @@ rdSlopeApp.controller('rdSlopeCtl', ['$scope', 'dsEdit', function ($scope, dsEdi
                 id: linkArr[i].linkPid.toString(),
                 layerid: 'rdLink',
                 type: 'line',
-                style: {color:'blue'}
+                style: { color: 'blue' }
             });
         }
         highRenderCtrl.highLightFeatures = highLightFeatures;

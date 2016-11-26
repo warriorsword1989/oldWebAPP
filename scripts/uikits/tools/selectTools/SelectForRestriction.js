@@ -120,7 +120,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         var y = PointPixel[1] - 256 * PointLoc[1];
 
         var data = this.tiles[tilePoint[0] + ':' + tilePoint[1]].data;
-        //var data = []; //= this.tiles[tilePoint[0] + ':' + tilePoint[1]].data;
+        // var data = []; //= this.tiles[tilePoint[0] + ':' + tilePoint[1]].data;
 
         var linksWidthOneNode = [];
         if (this.operationList.length > this.selectedFeatures.length) {

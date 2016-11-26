@@ -1393,14 +1393,14 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             } else if (shapeCtrl.editType === 'rdSlope') {
                 var rdSlopeData = featCodeCtrl.getFeatCode();
                 var tempArr = [];
-                for(var i=0; i< rdSlopeData.links.length; i++){
+                for (var i = 0; i < rdSlopeData.links.length; i++) {
                     tempArr.push(parseInt(rdSlopeData.links[i].pid));
                 }
                 var param = {
-                    'nodePid': rdSlopeData.inNode,
-                    'linkPid': rdSlopeData.ouLink,
-                    'linkPids': tempArr,
-                    'length' :rdSlopeData.linkLength
+                    nodePid: rdSlopeData.inNode,
+                    linkPid: rdSlopeData.ouLink,
+                    linkPids: tempArr,
+                    length: rdSlopeData.linkLength
                 };
                 if (!param.linkPid) {
                     swal('提示', '请选择退出线！', 'warning');
@@ -1415,7 +1415,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             } else if (shapeCtrl.editType === 'UPDATERDSLOPE') {
                 var rdSlopeData = featCodeCtrl.getFeatCode();
                 var tempArr = [];
-                for(var i=0; i< rdSlopeData.links.length; i++){
+                for (var i = 0; i < rdSlopeData.links.length; i++) {
                     tempArr.push(parseInt(rdSlopeData.links[i].pid));
                 }
                 var param = {
@@ -1424,10 +1424,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     dbId: App.Temp.dbId,
                     data: {
                         objStatus: 'UPDATE',
-                        pid:rdSlopeData.pid,
-                        linkPid:rdSlopeData.ouLink,
-                        linkPids:tempArr,
-                        length:parseFloat(rdSlopeData.linkLength)
+                        pid: rdSlopeData.pid,
+                        linkPid: rdSlopeData.ouLink,
+                        linkPids: tempArr,
+                        length: parseFloat(rdSlopeData.linkLength)
                     }
                 };
 
