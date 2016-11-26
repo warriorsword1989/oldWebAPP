@@ -599,6 +599,11 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
         if ($scope.autoTrack) {
             // 如果进入线是单方向道路，自动选择进入点;
             $scope.linkNodes = [];
+            // 清除地图上工具按钮
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TMCTRANSFORMDIRECT);
             if ($scope.rticData.direct === 2 || $scope.rticData.direct === 3) {
                 $scope.tmcRelation.nodePid = parseInt($scope.rticData.direct === 2 ? $scope.rticData.eNodePid : $scope.rticData.sNodePid);
