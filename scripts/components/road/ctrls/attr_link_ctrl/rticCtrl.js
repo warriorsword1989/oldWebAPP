@@ -587,7 +587,6 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             nodePid: '',
             linkPids: [],
             lastNode: '',
-            vias: [],
             pointPids: []
         };
         $scope.linkNodes = [];
