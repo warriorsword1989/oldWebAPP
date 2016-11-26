@@ -20,6 +20,8 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
     $scope.rticData = objCtrl.data;
     $scope.tmcTreeData = [];
     $scope.expandedNodes = [];
+    // 框选tmcPoint数据
+    $scope.selectTmcPoints = [];
 
     $scope.resetToolAndMap = function () {
         // if (typeof map.currentTool.cleanHeight === "function") {
@@ -189,13 +191,9 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             LayersList: [tmcLayer]
         });
         map.currentTool.enable();
-        eventController.off(eventController.eventTypes.GETNODEID);
-        eventController.off(eventController.eventTypes.GETFEATURE);
         eventController.off(eventController.eventTypes.GETRECTDATA);
         eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
-            var tmcPointArray = [];
-            highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures = [];
+            $scope.selectTmcPoints = [];
             if (data && data.data && data.data.length == 0) {
                 tooltipsCtrl.setCurrentTooltip('请重新框选TMCPoint！');
                 return;
@@ -204,21 +202,15 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
             for (var i = 0; i < data.data.length; i++) {
                 if (data.data[i].data && data.data[i].data.properties.featType == 'TMCPOINT') {
                     if (data.data[i].data.properties.id !== undefined) {
-                        tmcPointArray.push(data.data[i].data.properties.id);
-                        highRenderCtrl.highLightFeatures.push({
-                            id: data.data[i].data.properties.id.toString(),
-                            layerid: 'tmcData',
-                            type: 'TMCPOINT',
-                            style: {}
-                        });
+                        $scope.selectTmcPoints.push(data.data[i].data.properties.id);
                     }
                 }
             }
-            tmcPointArray = Utils.distinctArr(tmcPointArray);
-            highRenderCtrl.drawHighlight();
+            $scope.selectTmcPoints = Utils.distinctArr($scope.selectTmcPoints);
+            $scope.refreshHighLight();
             // tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
             // console.info(Utils.distinctArr(tmcPointArray));
-            $scope.getTmcTree(tmcPointArray);
+            $scope.getTmcTree($scope.selectTmcPoints);
             map.currentTool.disable();
         });
     };
@@ -511,8 +503,7 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
     };
     // 刷新高亮方法
     $scope.refreshHighLight = function () {
-        highRenderCtrl._cleanHighLight();
-        highRenderCtrl.highLightFeatures = [];
+        highRenderCtrl.clear();
         highRenderCtrl.highLightFeatures.push({
             id: parseInt($scope.rticData.pid).toString(),
             layerid: 'rdLink',
@@ -552,6 +543,17 @@ realtimeTrafficApp.controller('realtimeTrafficController', function ($scope, dsM
                         style: {}
                     });
                 }
+            }
+        }
+        // 高亮款选的tmcPoint
+        if ($scope.selectTmcPoints && $scope.selectTmcPoints.length) {
+            for (var i = 0; i < $scope.selectTmcPoints.length; i++) {
+                highRenderCtrl.highLightFeatures.push({
+                    id: $scope.selectTmcPoints[i].toString(),
+                    layerid: 'tmcData',
+                    type: 'TMCPOINT',
+                    style: {}
+                });
             }
         }
         highRenderCtrl.drawHighlight();
