@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/3/5.
  */
 var formOfWayApp = angular.module('app');
-formOfWayApp.controller('formOfWayController', function($scope) {
+formOfWayApp.controller('formOfWayController', function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.formsData = objCtrl.data.forms;
     $scope.fromOfWayOption = [
@@ -214,12 +214,12 @@ formOfWayApp.controller('formOfWayController', function($scope) {
             }
         }
     }
-    $scope.toggle = function(item) {
+    $scope.toggle = function (item) {
         if (item.isCheck) {
             // add by chenx on 2016-11-25, bug923: 双方向道路不能制作全封闭道路形态
             if (item.id == 14) {
                 if (objCtrl.data.direct == 1) {
-                    swal("双方向道路不能制作全封闭道路形态", null, "error");
+                    swal('双方向道路不能制作全封闭道路形态', null, 'error');
                     item.isCheck = false;
                     return;
                 }

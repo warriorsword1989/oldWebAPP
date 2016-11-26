@@ -7,7 +7,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * 初始化可选参数
      * @param {Object}options
      */
-    initialize: function(url, options) {
+    initialize: function (url, options) {
         this.url = url;
         this.options = options || {};
         fastmap.mapApi.WholeLayer.prototype.initialize(this, options);
@@ -21,7 +21,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * 图层添加到地图时调用
      * @param{L.Map} map
      */
-    onAdd: function(map) {
+    onAdd: function (map) {
         this.map = map;
         this._initContainer(this.options);
         map.on('moveend', this._redraw, this);
@@ -31,7 +31,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * 图层被移除时调用
      * @param {L.Map}map
      */
-    onRemove: function(map) {
+    onRemove: function (map) {
         map.getPanes().tilePane.removeChild(this._div);
         map.off('moveend', this._redraw, this);
     },
@@ -39,7 +39,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * 根据bounds绘制图幅
      * @param {L.Bounds}bounds
      */
-    draw: function(bounds) {
+    draw: function (bounds) {
         var pointDL = bounds.getSouthWest();
         // 右上角点
         var pointUR = bounds.getNorthEast();
@@ -67,7 +67,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @param meshId 图幅id
      * @param options 可选参数
      */
-    drawRect: function(context, meshId, options) {
+    drawRect: function (context, meshId, options) {
         var fontSize = this.map.getZoom();
         if (fontSize >= 10) {
             fontSize = fontSize + 5;
@@ -84,7 +84,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @returns {fastmap.mapApi.MeshLayer}
      * @private
      */
-    _redraw: function() {
+    _redraw: function () {
         this._resetCanvasPosition();
         this.clear();
         if (this.map.getZoom() >= this.minShowZoom && this.map.getZoom() <= this.maxShowZoom) {
@@ -100,7 +100,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @param {number}destination 最大经度
      * @returns {Array}
      */
-    createGrid: function(minLon, maxLon, origin, destination) {
+    createGrid: function (minLon, maxLon, origin, destination) {
         // 保存生成的网格
         var grids = [],
             minLat = origin,
@@ -125,14 +125,14 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
     /** *
      * 清空图层
      */
-    clear: function() {
+    clear: function () {
         this.canv.getContext('2d').clearRect(0, 0, this.canv.width, this.canv.height);
     },
     /** *
      * 重新调整图层位置
      * @private
      */
-    _resetCanvasPosition: function() {
+    _resetCanvasPosition: function () {
         var bounds = this.map.getBounds();
         var topLeft = this.map.latLngToLayerPoint(bounds.getNorthWest());
         L.DomUtil.setPosition(this._div, topLeft);
@@ -143,7 +143,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      *  @param{number}lat                 纬度      单位‘度’
      *  @param{number}remainder           余数      单位‘千秒’
      */
-    CalculateIdealRowIndex: function(lat, remainder) {
+    CalculateIdealRowIndex: function (lat, remainder) {
         // 相对区域纬度 = 绝对纬度 - 0.0
         var regionLatitude = lat - 0.0;
         // 相对的以秒为单位的纬度
@@ -167,29 +167,29 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      *  @param{number}lat                 纬度      单位‘度’
      *  @param{number}remainder           余数      单位‘千秒’
      */
-    CalculateRealRowIndex: function(lat, remainder) {
+    CalculateRealRowIndex: function (lat, remainder) {
         // 理想行号
         var idealRow = this.CalculateIdealRowIndex(lat, remainder);
         switch (idealRow % 3) // 三个一组的余数
         {
-            case 0: // 第一行
-                {
-                    if (300000 - idealRow.remainder <= 12) // 余数距离上框小于0.012秒
+        case 0: // 第一行
+            {
+                if (300000 - idealRow.remainder <= 12) // 余数距离上框小于0.012秒
                     {
-                        idealRow.value++;
-                    }
+                    idealRow.value++;
                 }
-                break;
-            case 1: // 第二行
-                break;
-            case 2: // 第三行
-                {
-                    if (idealRow.remainder < 12) // 余数距离下框小于等于0.012秒
+            }
+            break;
+        case 1: // 第二行
+            break;
+        case 2: // 第三行
+            {
+                if (idealRow.remainder < 12) // 余数距离下框小于等于0.012秒
                     {
-                        idealRow.value--;
-                    }
+                    idealRow.value--;
                 }
-                break;
+            }
+            break;
         }
         return idealRow;
     },
@@ -198,7 +198,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      *
      *  @param{number}lon                经度，单位“度”
      */
-    CalculateRealColumnIndex: function(lon, remainder) {
+    CalculateRealColumnIndex: function (lon, remainder) {
         return this.CalculateIdealColumnIndex(lon, remainder);
     },
     /*
@@ -207,7 +207,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      *  @param{number}lon                经度，单位“度”
      *  @param{number}reminder           余数 单位“千秒”
      */
-    CalculateIdealColumnIndex: function(lon, remainder) {
+    CalculateIdealColumnIndex: function (lon, remainder) {
         // 相对区域经度 = 绝对经度 - 60.0
         var regionLongitude = lon - 60.0;
         // 相对的以秒为单位的经度
@@ -220,7 +220,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
             reminder: remainder
         };
     },
-    MeshLocator_25T: function(lon, lat) {
+    MeshLocator_25T: function (lon, lat) {
         if ((this.IsAt25TMeshBorder(lon, lat) & 0x0F) == 0x01) // 为了保证它总返回右上的图幅
         {
             lat += 0.00001;
@@ -248,7 +248,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      *
      *  @param {L.Latlng}point   经纬度点
      */
-    Calculate25TMeshId: function(point) {
+    Calculate25TMeshId: function (point) {
         var mesh = this.MeshLocator_25T(point.lng, point.lat);
         return mesh;
     },
@@ -257,7 +257,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      *
      *  @param{L.Latlng}point          经纬度点
      */
-    Calculate25TMeshCorner: function(point) {
+    Calculate25TMeshCorner: function (point) {
         return this.Calculate25TMeshCornerByMeshId(this.Calculate25TMeshId(point));
     },
     /** *
@@ -266,7 +266,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @returns {*}
      * @constructor
      */
-    Calculate25TMeshCornerByMeshId: function(mesh) {
+    Calculate25TMeshCornerByMeshId: function (mesh) {
         var cc = mesh.split('');
         var M1 = parseInt(cc[0]);
         var M2 = parseInt(cc[1]);
@@ -285,7 +285,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @returns {{minLon: (*|a.lng|L.LatLng.lng|L.LatLngBounds._southWest.lng|L.LatLngBounds._northEast.lng|o.LatLngBounds._northEast.lng), minLat: (*|a.lat|L.LatLng.lat|L.LatLngBounds._southWest.lat|L.LatLngBounds._northEast.lat|o.LatLngBounds._northEast.lat), maxLon: (*|a.lng|L.LatLng.lng|L.LatLngBounds._southWest.lng|L.LatLngBounds._northEast.lng|o.LatLngBounds._northEast.lng), maxLat: (*|a.lat|L.LatLng.lat|L.LatLngBounds._southWest.lat|L.LatLngBounds._northEast.lat|o.LatLngBounds._northEast.lat)}}
      * @constructor
      */
-    Calculate25TMeshBorder: function(mesh) {
+    Calculate25TMeshBorder: function (mesh) {
         var cc = mesh.split('');
         var M1 = parseInt(cc[0]);
         var M2 = parseInt(cc[1]);
@@ -312,35 +312,35 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      *  @param{number}lon               经度
      *  @param{number}lat               纬度
      */
-    IsAt25TMeshBorder: function(lon, lat) {
+    IsAt25TMeshBorder: function (lon, lat) {
         var model = 0;
         var remainder = 0;
         var rowResult = this.CalculateIdealRowIndex(lat, remainder);
         switch (rowResult.value % 3) {
-            case 0: // 第一行
-                {
-                    if (300000 - rowResult.reminder == 12) // 余数距离上框等于0.012秒
+        case 0: // 第一行
+            {
+                if (300000 - rowResult.reminder == 12) // 余数距离上框等于0.012秒
                     {
-                        model |= 0x01;
-                    } else if (rowResult.reminder == 0) model |= 0x01;
-                }
-                break;
-            case 1: // 第二行由于上下边框均不在其内，因此不在图框上
-                break;
-            case 2: // 第三行
-                {
-                    if (rowResult.reminder == 12) // 余数距离下框等于0.012秒
+                    model |= 0x01;
+                } else if (rowResult.reminder == 0) model |= 0x01;
+            }
+            break;
+        case 1: // 第二行由于上下边框均不在其内，因此不在图框上
+            break;
+        case 2: // 第三行
+            {
+                if (rowResult.reminder == 12) // 余数距离下框等于0.012秒
                     {
-                        model |= 0x01;
-                    }
+                    model |= 0x01;
                 }
-                break;
+            }
+            break;
         }
         var colResult = this.CalculateRealColumnIndex(lon, rowResult.reminder);
         if (colResult.reminder == 0) model |= 0x10;
         return model;
     }
 });
-fastmap.mapApi.meshLayer = function(url, options) {
+fastmap.mapApi.meshLayer = function (url, options) {
     return new fastmap.mapApi.MeshLayer(url, options);
 };

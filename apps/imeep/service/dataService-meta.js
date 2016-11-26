@@ -395,7 +395,7 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
         });
         return defer.promise;
     };
-    //根据Name_id查询道路名
+    // 根据Name_id查询道路名
     this.queryRdNByNameID = function (nameId) {
         var defer = $q.defer();
         var param = {

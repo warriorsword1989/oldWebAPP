@@ -548,15 +548,15 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
             this.transform = new fastmap.mapApi.MecatorTranform();
             var proj = [];
-            var flag = geom[0].y>geom[1].y?true:false
+            var flag = geom[0].y > geom[1].y ? true : false;
             for (var i = 0; i < geom.length; i++) {
                 var point = this.map.latLngToContainerPoint([geom[i].y, geom[i].x]);
                 proj.push([point.x, point.y]);
                 if (i == 0) {
                     drawPoi(point, {
                         src: '../../../images/road/img/star.png',
-                        drawy: flag?-8:0,
-                        drawX: flag?-8:0
+                        drawy: flag ? -8 : 0,
+                        drawX: flag ? -8 : 0
                     }, true);
                 } else if (i == 1) {
                     drawPoi(point, {

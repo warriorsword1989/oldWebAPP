@@ -897,9 +897,9 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         });
 
         function _showOnMapNew(pid, featType) {
-            //if (featType == 'RDBRANCH') { // 暂时不支持分歧，因为这里不知道分歧的具体类型
+            // if (featType == 'RDBRANCH') { // 暂时不支持分歧，因为这里不知道分歧的具体类型
             //    return;
-            //}
+            // }
             dsEdit.getByPid(pid, featType).then(function (data) {
                 var detailType = '';
                 var highRenderCtrl = new fastmap.uikit.HighRenderController();
@@ -921,9 +921,9 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 if (featType == 'RDBRANCH') {
                     detailType = data.details[0].branchType;
                 }
-                if(detailType){
+                if (detailType) {
                     var page = _getFeaturePage(featType, detailType);
-                }else{
+                } else {
                     var page = _getFeaturePage(featType);
                 }
                 var page = _getFeaturePage(featType);

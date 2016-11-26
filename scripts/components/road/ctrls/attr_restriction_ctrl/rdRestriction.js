@@ -323,7 +323,7 @@ angular.module('app').controller('normalController', ['$rootScope', '$scope', '$
             swal('操作成功', '属性值没有变化！', 'success');
             return;
         }
-        for (var i = 0 ; i < changed.details.length; i++) {
+        for (var i = 0; i < changed.details.length; i++) {
             if (changed.details[i].objStatus === 'INSERT') {
                 if (changed.details[i].conditions.length > 0) {
                     changed.details[i].conditions[0].objStatus = 'INSERT';

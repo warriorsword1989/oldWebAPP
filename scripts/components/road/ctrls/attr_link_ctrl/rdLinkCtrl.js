@@ -58,12 +58,11 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
                     }
                     $scope.currentURL = appPath.root + appPath.road + 'tpls/attr_link_tpl/basicTpl.html';
 
-                    if(objectCtrl.datas.length > 0){
+                    if (objectCtrl.datas.length > 0) {
                         $ocLazyLoad.load(appPath.road + 'ctrls/attr_link_ctrl/listOfMultiFeaturesCtrl').then(function () {
                             $scope.currentList = appPath.root + appPath.road + 'tpls/attr_link_tpl/listOfMultiFeatures.html';
-                        })
+                        });
                     }
-
                 });
             }
         }
@@ -295,8 +294,8 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
 //         $scope.linkData = compare.abstract([obj1, obj2]);
 //       objectCtrl.data =$scope.linkData
 //       //objectCtrl.setCurrentObject('RDLINK',$scope.linkData)
-        $scope.currentURL = "";
-        //随着地图的变化 高亮的线不变
+        $scope.currentURL = '';
+        // 随着地图的变化 高亮的线不变
 
         if ($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0) {
             var linksArr = [];
@@ -564,8 +563,8 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
             }
         }
 
-        if(objectCtrl.datas !=0){
-            dsEdit.batchUpdate(objectCtrl.changedProperty.pids,'RDLINK', objectCtrl.changedProperty).then(
+        if (objectCtrl.datas != 0) {
+            dsEdit.batchUpdate(objectCtrl.changedProperty.pids, 'RDLINK', objectCtrl.changedProperty).then(
               function (data) {
                   if (data) {
                       rdLink.redraw();
@@ -591,11 +590,10 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
 
                           $scope.$emit('SWITCHCONTAINERSTATE', { subAttrContainerTpl: false });
                       }
-
                   }
               }
-            )
-        }else{
+            );
+        } else {
             dsEdit.update($scope.linkData.pid, 'RDLINK', objectCtrl.changedProperty).then(function (data) {
                 if (data) {
                     rdLink.redraw();
@@ -627,12 +625,6 @@ angular.module('app').controller('linkObjectController', ['$scope', '$ocLazyLoad
                 }
             });
         }
-
-
-
-
-
-
     };
     $scope.delete = function () {
         if (!$scope.linkData) {

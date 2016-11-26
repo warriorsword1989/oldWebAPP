@@ -32,12 +32,12 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.selectNodeRefresh = '';
                 this.falg = false;
                 this.compare = new fastmap.dataApi.geoDataModelComparison();
-              /***
+              /** *
                * 为了进行批量编辑而添加的属性字段，保存批量编辑返回的原始数据
                * @type {Array}
                */
                 this.datas = [];
-                //对象化之前的对象数据
+                // 对象化之前的对象数据
                 this.sameObj = {};
             },
             /**
@@ -202,8 +202,8 @@ fastmap.uikit.ObjectEditController = (function () {
                 case 'RDLANE':// 详细车道
                     this.data = fastmap.dataApi.rdLanes(obj);
                     break;
-                case 'RDLANETOPODETAIL':// 车道连通
-                    this.data = fastmap.dataApi.RdLaneTopoDetail(obj);
+                case 'RDLANETOPODETAILARR':// 车道连通
+                    this.data = fastmap.dataApi.rdLaneTopoDetailArr(obj);
                     break;
                 case 'RDMILEAGEPILE':
                     this.data = fastmap.dataApi.rdMileagePile(obj);
@@ -625,40 +625,36 @@ fastmap.uikit.ObjectEditController = (function () {
              */
             onSaved: function (orignalData, data) {
                 this.changedProperty = this.compareJson(orignalData.pid, orignalData, data.getIntegrate(), 'UPDATE');
-                //利用this.datas判断是否是批量编辑
-                if(this.datas.length !==0){
+                // 利用this.datas判断是否是批量编辑
+                if (this.datas.length !== 0) {
                     this.changedProperty = this.restoreDatas(this.changedProperty);
                 }
-
             },
 
-          /***
+          /** *
            * 利用编辑后的数据更新原始数据集
            * @param data
            */
-          restoreDatas:function (data) {
-
-              for(var key in data){
-                  if(FM.Util.isArray(data[key])){
-                      for(var i = 0, len = data[key].length; i< len; i++){
-                          for(var j =0,length = this.sameObj[key].length; j<length; j++){
-                              if(FM.Util.isContains(this.sameObj[key][j].rowIds,data[key][i].rowId)){
-                                  data[key][i].rowIds = this.sameObj[key][j].rowIds;
-                                  delete data[key][i].rowId;
-                              }
-                          }
-                      }
-
-                  }
-
-              }
-              var pids = []
-              for(var item in this.datas){
-                  pids.push(this.datas[item].pid);
-              }
-              data.pids = pids;
-              return  data;
-          }
+            restoreDatas: function (data) {
+                for (var key in data) {
+                    if (FM.Util.isArray(data[key])) {
+                        for (var i = 0, len = data[key].length; i < len; i++) {
+                            for (var j = 0, length = this.sameObj[key].length; j < length; j++) {
+                                if (FM.Util.isContains(this.sameObj[key][j].rowIds, data[key][i].rowId)) {
+                                    data[key][i].rowIds = this.sameObj[key][j].rowIds;
+                                    delete data[key][i].rowId;
+                                }
+                            }
+                        }
+                    }
+                }
+                var pids = [];
+                for (var item in this.datas) {
+                    pids.push(this.datas[item].pid);
+                }
+                data.pids = pids;
+                return data;
+            }
 
 
         });

@@ -575,7 +575,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             $scope.tipsPanelOpened = false;
 			// $scope.attrTplContainer = "";
             $scope.attrTplContainerSwitch(false);
-			$scope.subAttrTplContainerSwitch(false);
+            $scope.subAttrTplContainerSwitch(false);
 			// eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
         };
         $scope.goback = function () {
