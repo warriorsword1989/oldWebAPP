@@ -1403,26 +1403,24 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 });
             } else if (shapeCtrl.editType === 'UPDATERDSLOPE') {
+                var rdSlopeData = featCodeCtrl.getFeatCode();
+                var tempArr = [];
+                for(var i=0; i< rdSlopeData.links.length; i++){
+                    tempArr.push(parseInt(rdSlopeData.links[i].pid));
+                }
                 var param = {
                     command: 'UPDATE',
                     type: 'RDSLOPE',
                     dbId: App.Temp.dbId,
                     data: {
-                        objStatus: 'UPDATE'
+                        objStatus: 'UPDATE',
+                        pid:rdSlopeData.pid,
+                        linkPid:rdSlopeData.ouLink,
+                        linkPids:tempArr,
+                        length:parseFloat(rdSlopeData.linkLength)
                     }
                 };
-                var oriData = objEditCtrl.data;
-                param.data.pid = oriData.pid;
-                if (parseInt(featCodeCtrl.getFeatCode().linkPid) != oriData.linkPid) {
-                    param.data.linkPid = parseInt(featCodeCtrl.getFeatCode().linkPid);
-                }
-                if (featCodeCtrl.getFeatCode().linkPids.length != oriData.slopeVias.length) {
-                    param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
-                }
-                if (param.data.linkPids == undefined && param.data.linkPid == undefined) {
-                    swal('操作失败', '坡度没有发生修改！', 'info');
-                    return;
-                }
+
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
                         relationData.redraw();
