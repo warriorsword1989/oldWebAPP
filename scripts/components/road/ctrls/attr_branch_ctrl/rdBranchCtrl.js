@@ -337,64 +337,64 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
     };
     /* 关系类型*/
     $scope.relationType = [
-        {code: 1, label: '路口'},
-        {code: 2, label: '线线'}
+        { code: 1, label: '路口' },
+        { code: 2, label: '线线' }
     ];
     /* 分歧类型*/
     $scope.branchTypeOptions = [
-        {id: 0, label: '高速分歧(无名称)'},
-        {id: 1, label: '方面分歧'},
-        {id: 2, label: 'IC分歧'},
-        {id: 3, label: '3D分歧'},
-        {id: 4, label: '复杂路口模式图(7开头)'}
+        { id: 0, label: '高速分歧(无名称)' },
+        { id: 1, label: '方面分歧' },
+        { id: 2, label: 'IC分歧' },
+        { id: 3, label: '3D分歧' },
+        { id: 4, label: '复杂路口模式图(7开头)' }
     ];
     /* 箭头图标志*/
     $scope.arrowPicFlag = [
-        {code: 0, label: '无'},
-        {code: 1, label: '直行箭头标志'}
+        { code: 0, label: '无' },
+        { code: 1, label: '直行箭头标志' }
     ];
     $scope.estabTypeOptions = [
-        {id: 0, label: '0 默认'},
-        {id: 1, label: '1 出口'},
-        {id: 2, label: '2 入口'},
-        {id: 3, label: '3 SA'},
-        {id: 4, label: '4 PA'},
-        {id: 5, label: '5 JCT'},
-        {id: 9, label: '9 不应用'}
+        { id: 0, label: '0 默认' },
+        { id: 1, label: '1 出口' },
+        { id: 2, label: '2 入口' },
+        { id: 3, label: '3 SA' },
+        { id: 4, label: '4 PA' },
+        { id: 5, label: '5 JCT' },
+        { id: 9, label: '9 不应用' }
     ];
 
     $scope.nameKindOptions = [
-        {id: 0, label: '0 默认'},
-        {id: 1, label: '1 IC'},
-        {id: 2, label: '2 SA'},
-        {id: 3, label: '3 PA'},
-        {id: 4, label: '4 JCT'},
-        {id: 5, label: '5 出口'},
-        {id: 6, label: '6 入口'},
-        {id: 7, label: '7 RAMP'},
-        {id: 8, label: '8 出入口'},
-        {id: 9, label: '9 不应用'}
+        { id: 0, label: '0 默认' },
+        { id: 1, label: '1 IC' },
+        { id: 2, label: '2 SA' },
+        { id: 3, label: '3 PA' },
+        { id: 4, label: '4 JCT' },
+        { id: 5, label: '5 出口' },
+        { id: 6, label: '6 入口' },
+        { id: 7, label: '7 RAMP' },
+        { id: 8, label: '8 出入口' },
+        { id: 9, label: '9 不应用' }
 
     ];
     $scope.voiceDirOptions = [
-        {id: 0, label: '0 无'},
-        {id: 2, label: '2 右'},
-        {id: 5, label: '5 左'},
-        {id: 9, label: '9 不应用'}
+        { id: 0, label: '0 无' },
+        { id: 2, label: '2 右' },
+        { id: 5, label: '5 左' },
+        { id: 9, label: '9 不应用' }
     ];
 
     $scope.guideCodeOptions = [
-        {id: 0, label: '0 无向导'},
-        {id: 1, label: '1 高架向导'},
-        {id: 2, label: '2 Underpath向导'},
-        {id: 3, label: '3 未调查'},
-        {id: 9, label: '9 不应用'}
+        { id: 0, label: '0 无向导' },
+        { id: 1, label: '1 高架向导' },
+        { id: 2, label: '2 Underpath向导' },
+        { id: 3, label: '3 未调查' },
+        { id: 9, label: '9 不应用' }
     ];
     /* 初始化信息显示*/
     $scope.initDiver = function () {
         $scope.initializeData();
         var dObj = $scope.diverObj;
-        $scope.$emit('SWITCHCONTAINERSTATE', {subAttrContainerTpl: false});
+        $scope.$emit('SWITCHCONTAINERSTATE', { subAttrContainerTpl: false });
         /* 经过线*/
         if (dObj) {
             // 高亮进入线
@@ -421,7 +421,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
                 id: $scope.diverObj.nodePid.toString(),
                 layerid: 'rdLink',
                 type: 'node',
-                style: {color: 'yellow'}
+                style: { color: 'yellow' }
             });
             // 高亮分歧图标;
             highRenderCtrl.highLightFeatures.push({
@@ -436,7 +436,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
                     id: $scope.diverObj.vias[i].linkPid.toString(),
                     layerid: 'rdLink',
                     type: 'line',
-                    style: {color: 'blue', strokeWidth: 3}
+                    style: { color: 'blue', strokeWidth: 3 }
                 });
             }
             highRenderCtrl.drawHighlight();
@@ -690,17 +690,17 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
         var detailId = $scope.diverObj.details[0].pid;
         var branchType = $scope.diverObj.details[0].branchType;
         dsEdit.deleteBranchByDetailId(detailId, branchType).then(function (params) {
-                if (params) {
-                    if (map.floatMenu) {
-                        map.removeLayer(map.floatMenu);
-                        map.floatMenu = null;
-                    }
-                    highRenderCtrl._cleanHighLight();
-                    highRenderCtrl.highLightFeatures.length = 0;
-                    rdBranch.redraw();
-                    $scope.$emit('SWITCHCONTAINERSTATE', {attrContainerTpl: false, subAttrContainerTpl: false});
+            if (params) {
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
                 }
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                rdBranch.redraw();
+                $scope.$emit('SWITCHCONTAINERSTATE', { attrContainerTpl: false, subAttrContainerTpl: false });
             }
+        }
         );
     };
     /* 取消属性编辑*/
