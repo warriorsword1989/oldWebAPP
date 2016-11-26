@@ -52,7 +52,7 @@ fastmap.uikit.canvasFeature.RdRestriction = fastmap.uikit.canvasFeature.Feature.
                     imgSrc = '../../../images/road/1302/1302_0_' + restrictArr[j][1] + '.svg';
                 }
                 restrictICon = fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName:imgSrc,
+                    iconName: imgSrc,
                     row: 1,
                     column: j,
                     location: geomnew,

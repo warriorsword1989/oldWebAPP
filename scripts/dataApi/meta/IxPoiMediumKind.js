@@ -14,11 +14,11 @@ FM.dataApi.IxPoiMediumKind = FM.dataApi.DataModel.extend({
         this.topId = data.topId;
     },
     getIntegrate: function () {
-    	var ret = {};
-    	ret.id = this.id;
-    	ret.code = this.code;
-    	ret.name = this.name;
-    	ret.topId = this.topId;
-    	return ret;
+        var ret = {};
+        ret.id = this.id;
+        ret.code = this.code;
+        ret.name = this.name;
+        ret.topId = this.topId;
+        return ret;
     }
 });

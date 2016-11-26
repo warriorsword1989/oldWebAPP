@@ -19,16 +19,16 @@ FM.dataApi.IxPoiKind = FM.dataApi.DataModel.extend({
         this.parent = data.parent;
     },
     getIntegrate: function () {
-    	var ret = {};
-    	ret.id = this.id;
-    	ret.mediumId = this.mediumId;
-    	ret.kindName = this.kindName;
-    	ret.kindCode = this.kindCode;
-    	ret.dispOnLink = this.dispOnLink;
-    	ret.chainFlag = this.chainFlag;
-    	ret.level = this.level;
-    	ret.extend = this.extend;
-    	ret.parent = this.parent;
-    	return ret;
+        var ret = {};
+        ret.id = this.id;
+        ret.mediumId = this.mediumId;
+        ret.kindName = this.kindName;
+        ret.kindCode = this.kindCode;
+        ret.dispOnLink = this.dispOnLink;
+        ret.chainFlag = this.chainFlag;
+        ret.level = this.level;
+        ret.extend = this.extend;
+        ret.parent = this.parent;
+        return ret;
     }
 });

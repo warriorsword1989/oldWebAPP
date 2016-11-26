@@ -70,47 +70,47 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
     $scope.changeProperty = function (tagName) {
         $scope.propertyType = tagName;
         switch (tagName) {
-        case 'base':
-            $ocll.load(appPath.poi + 'ctrls/attr-base/baseInfoCtl').then(function () {
-                $scope.baseInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/baseInfoTpl.html';
-            });
-            break;
-        case 'deep':
-            var temp = App.Util.getUrlParam('deepType');
-            if (temp == 'common') {
-                $ocll.load(appPath.poi + 'ctrls/attr-deep/commonDeepCtl').then(function () {
-                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/commonDeepTpl.html';
+            case 'base':
+                $ocll.load(appPath.poi + 'ctrls/attr-base/baseInfoCtl').then(function () {
+                    $scope.baseInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/baseInfoTpl.html';
                 });
-            } else if (temp == 'car') {
-                $ocll.load(appPath.poi + 'ctrls/attr-deep/carRentalCtl').then(function () {
-                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/carRentalTpl.html';
+                break;
+            case 'deep':
+                var temp = App.Util.getUrlParam('deepType');
+                if (temp == 'common') {
+                    $ocll.load(appPath.poi + 'ctrls/attr-deep/commonDeepCtl').then(function () {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/commonDeepTpl.html';
+                    });
+                } else if (temp == 'car') {
+                    $ocll.load(appPath.poi + 'ctrls/attr-deep/carRentalCtl').then(function () {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/carRentalTpl.html';
+                    });
+                } else if (temp == 'parking') {
+                    $ocll.load(appPath.poi + 'ctrls/attr-deep/parkingCtl').then(function () {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/parkingTpl.html';
+                    });
+                }
+                break;
+            case 'relate':
+                $ocll.load(appPath.poi + 'ctrls/attr-base/relationInfoCtl').then(function () {
+                    $scope.relationInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/relationInfoTpl.html';
                 });
-            } else if (temp == 'parking') {
-                $ocll.load(appPath.poi + 'ctrls/attr-deep/parkingCtl').then(function () {
-                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/parkingTpl.html';
+                break;
+            case 'same':
+                $ocll.load(appPath.poi + 'ctrls/attr-base/samePoisCtrl').then(function () {
+                    $scope.sameInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/samePoisTpl.html';
                 });
-            }
-            break;
-        case 'relate':
-            $ocll.load(appPath.poi + 'ctrls/attr-base/relationInfoCtl').then(function () {
-                $scope.relationInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/relationInfoTpl.html';
-            });
-            break;
-        case 'same':
-            $ocll.load(appPath.poi + 'ctrls/attr-base/samePoisCtrl').then(function () {
-                $scope.sameInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/samePoisTpl.html';
-            });
-            break;
-        case 'file':
-            $ocll.load(appPath.poi + 'ctrls/edit-tools/fileUploadCtl').then(function () {
-                $scope.fileUploadTpl = appPath.root + appPath.poi + 'tpls/edit-tools/fileUploadTpl.html';
-            });
-            break;
-        default:
-            $ocll.load(appPath.poi + 'edit-tools/checkResultCtl').then(function () {
-                $scope.tagContentTpl = appPath.root + appPath.poi + 'tpls/edit-tools/checkResultTpl.html';
-            });
-            break;
+                break;
+            case 'file':
+                $ocll.load(appPath.poi + 'ctrls/edit-tools/fileUploadCtl').then(function () {
+                    $scope.fileUploadTpl = appPath.root + appPath.poi + 'tpls/edit-tools/fileUploadTpl.html';
+                });
+                break;
+            default:
+                $ocll.load(appPath.poi + 'edit-tools/checkResultCtl').then(function () {
+                    $scope.tagContentTpl = appPath.root + appPath.poi + 'tpls/edit-tools/checkResultTpl.html';
+                });
+                break;
         }
     };
     // 接收分类改变后触发的事件
@@ -119,58 +119,58 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
             return;
         }
         switch (data.extend) {
-        case 1: // 停车场
-            $ocll.load(appPath.poi + 'ctrls/attr-deep/parkingCtl').then(function () {
-                $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/parkingTplOld.html';
-            });
-            break;
-        case 2: // 加油站
-            $ocll.load(appPath.poi + 'ctrls/attr-deep/oilStationCtl').then(function () {
-                $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/oilStationTpl.html';
-            });
-            break;
-        case 3: // 充电站
-            $ocll.load(appPath.poi + 'ctrls/attr-deep/chargingStationCtrl').then(function () {
-                $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/chargingStationTpl.html';
-            });
-            break;
-        case 4: // 宾馆酒店
-            $ocll.load(appPath.poi + 'ctrls/attr-deep/hotelCtl').then(function () {
-                $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/hotelTpl.html';
-            });
-            break;
-        case 5: // 运动场馆
-            $ocll.load(appPath.poi + 'ctrls/attr-deep/sportsVenuesCtl').then(function () {
-                $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/sportsVenuesTpl.html';
-            });
-            break;
-        case 6: // 餐馆
-            $ocll.load(appPath.poi + 'ctrls/attr-deep/restaurantCtl').then(function () {
-                $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/restaurantTpl.html';
-            });
-            dsMeta.queryFoodType($scope.poi.kindCode).then(function (ret) {
-                parseFoodType(ret);
-                initFoodType($scope.poi.kindCode);
-            });
-            break;
-        case 7: // 加气站
-            $ocll.load(appPath.poi + 'ctrls/attr-deep/gasStationCtl').then(function () {
-                $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/gasStationTpl.html';
-            });
-            break;
+            case 1: // 停车场
+                $ocll.load(appPath.poi + 'ctrls/attr-deep/parkingCtl').then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/parkingTplOld.html';
+                });
+                break;
+            case 2: // 加油站
+                $ocll.load(appPath.poi + 'ctrls/attr-deep/oilStationCtl').then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/oilStationTpl.html';
+                });
+                break;
+            case 3: // 充电站
+                $ocll.load(appPath.poi + 'ctrls/attr-deep/chargingStationCtrl').then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/chargingStationTpl.html';
+                });
+                break;
+            case 4: // 宾馆酒店
+                $ocll.load(appPath.poi + 'ctrls/attr-deep/hotelCtl').then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/hotelTpl.html';
+                });
+                break;
+            case 5: // 运动场馆
+                $ocll.load(appPath.poi + 'ctrls/attr-deep/sportsVenuesCtl').then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/sportsVenuesTpl.html';
+                });
+                break;
+            case 6: // 餐馆
+                $ocll.load(appPath.poi + 'ctrls/attr-deep/restaurantCtl').then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/restaurantTpl.html';
+                });
+                dsMeta.queryFoodType($scope.poi.kindCode).then(function (ret) {
+                    parseFoodType(ret);
+                    initFoodType($scope.poi.kindCode);
+                });
+                break;
+            case 7: // 加气站
+                $ocll.load(appPath.poi + 'ctrls/attr-deep/gasStationCtl').then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/gasStationTpl.html';
+                });
+                break;
                 // case 8: //旅游景点
                 //     $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
                 //         $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 //     });
                 //     break;
-        case 9: // 充电桩
-            $ocll.load(appPath.poi + 'ctrls/attr-deep/chargingPlotCtrl').then(function () {
-                $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/chargingPlotTpl.html';
-            });
-            break;
-        default:
-            $scope.deepInfoTpl = '';
-            break;
+            case 9: // 充电桩
+                $ocll.load(appPath.poi + 'ctrls/attr-deep/chargingPlotCtrl').then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + 'tpls/attr-deep/chargingPlotTpl.html';
+                });
+                break;
+            default:
+                $scope.deepInfoTpl = '';
+                break;
         }
     });
     /**
@@ -183,71 +183,71 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         // 分类切换后需要将其它的深度信息的_flag_字段设置为ignore，这样保存的时候就不会将
         if (data) {
             switch (data.extend) {
-            case 1: // 停车场
-                poi.gasstations[0]._flag_ = 'ignore';
-                poi.hotels[0]._flag_ = 'ignore';
-                poi.restaurants[0]._flag_ = 'ignore';
-                poi.chargingstations[0]._flag_ = 'ignore';
-                poi.chargingplots[0]._flag_ = 'ignore';
-                break;
-            case 2: // 加油站
-                poi.parkings[0]._flag_ = 'ignore';
-                poi.hotels[0]._flag_ = 'ignore';
-                poi.restaurants[0]._flag_ = 'ignore';
-                poi.chargingstations[0]._flag_ = 'ignore';
-                poi.chargingplots[0]._flag_ = 'ignore';
-                break;
-            case 3: // 充电站
-                poi.parkings[0]._flag_ = 'ignore';
-                poi.hotels[0]._flag_ = 'ignore';
-                poi.restaurants[0]._flag_ = 'ignore';
-                poi.gasstations[0]._flag_ = 'ignore';
-                poi.chargingplots[0]._flag_ = 'ignore';
-                break;
-            case 4: // 宾馆酒店
-                poi.parkings[0]._flag_ = 'ignore';
-                poi.gasstations[0]._flag_ = 'ignore';
-                poi.restaurants[0]._flag_ = 'ignore';
-                poi.chargingstations[0]._flag_ = 'ignore';
-                poi.chargingplots[0]._flag_ = 'ignore';
-                break;
-            case 5: // 运动场馆 由于运动场馆深度信息没有子表，使用的是poi的label字段，所以需要和default一样的处理方式
-                poi.parkings[0]._flag_ = 'ignore';
-                poi.gasstations[0]._flag_ = 'ignore';
-                poi.hotels[0]._flag_ = 'ignore';
-                poi.restaurants[0]._flag_ = 'ignore';
-                poi.chargingstations[0]._flag_ = 'ignore';
-                poi.chargingplots[0]._flag_ = 'ignore';
-                break;
-            case 6: // 餐馆
-                poi.parkings[0]._flag_ = 'ignore';
-                poi.gasstations[0]._flag_ = 'ignore';
-                poi.hotels[0]._flag_ = 'ignore';
-                poi.chargingstations[0]._flag_ = 'ignore';
-                poi.chargingplots[0]._flag_ = 'ignore';
-                break;
-            case 7: // 加气站
-                poi.parkings[0]._flag_ = 'ignore';
-                poi.hotels[0]._flag_ = 'ignore';
-                poi.restaurants[0]._flag_ = 'ignore';
-                poi.chargingstations[0]._flag_ = 'ignore';
-                poi.chargingplots[0]._flag_ = 'ignore';
-                break;
-            case 9: // 充电桩
-                poi.parkings[0]._flag_ = 'ignore';
-                poi.hotels[0]._flag_ = 'ignore';
-                poi.restaurants[0]._flag_ = 'ignore';
-                poi.chargingstations[0]._flag_ = 'ignore';
-                poi.gasstations[0]._flag_ = 'ignore';
-                break;
-            default:
-                poi.parkings[0]._flag_ = 'ignore';
-                poi.gasstations[0]._flag_ = 'ignore';
-                poi.hotels[0]._flag_ = 'ignore';
-                poi.restaurants[0]._flag_ = 'ignore';
-                poi.chargingstations[0]._flag_ = 'ignore';
-                poi.chargingplots[0]._flag_ = 'ignore';
-                break;
+                case 1: // 停车场
+                    poi.gasstations[0]._flag_ = 'ignore';
+                    poi.hotels[0]._flag_ = 'ignore';
+                    poi.restaurants[0]._flag_ = 'ignore';
+                    poi.chargingstations[0]._flag_ = 'ignore';
+                    poi.chargingplots[0]._flag_ = 'ignore';
+                    break;
+                case 2: // 加油站
+                    poi.parkings[0]._flag_ = 'ignore';
+                    poi.hotels[0]._flag_ = 'ignore';
+                    poi.restaurants[0]._flag_ = 'ignore';
+                    poi.chargingstations[0]._flag_ = 'ignore';
+                    poi.chargingplots[0]._flag_ = 'ignore';
+                    break;
+                case 3: // 充电站
+                    poi.parkings[0]._flag_ = 'ignore';
+                    poi.hotels[0]._flag_ = 'ignore';
+                    poi.restaurants[0]._flag_ = 'ignore';
+                    poi.gasstations[0]._flag_ = 'ignore';
+                    poi.chargingplots[0]._flag_ = 'ignore';
+                    break;
+                case 4: // 宾馆酒店
+                    poi.parkings[0]._flag_ = 'ignore';
+                    poi.gasstations[0]._flag_ = 'ignore';
+                    poi.restaurants[0]._flag_ = 'ignore';
+                    poi.chargingstations[0]._flag_ = 'ignore';
+                    poi.chargingplots[0]._flag_ = 'ignore';
+                    break;
+                case 5: // 运动场馆 由于运动场馆深度信息没有子表，使用的是poi的label字段，所以需要和default一样的处理方式
+                    poi.parkings[0]._flag_ = 'ignore';
+                    poi.gasstations[0]._flag_ = 'ignore';
+                    poi.hotels[0]._flag_ = 'ignore';
+                    poi.restaurants[0]._flag_ = 'ignore';
+                    poi.chargingstations[0]._flag_ = 'ignore';
+                    poi.chargingplots[0]._flag_ = 'ignore';
+                    break;
+                case 6: // 餐馆
+                    poi.parkings[0]._flag_ = 'ignore';
+                    poi.gasstations[0]._flag_ = 'ignore';
+                    poi.hotels[0]._flag_ = 'ignore';
+                    poi.chargingstations[0]._flag_ = 'ignore';
+                    poi.chargingplots[0]._flag_ = 'ignore';
+                    break;
+                case 7: // 加气站
+                    poi.parkings[0]._flag_ = 'ignore';
+                    poi.hotels[0]._flag_ = 'ignore';
+                    poi.restaurants[0]._flag_ = 'ignore';
+                    poi.chargingstations[0]._flag_ = 'ignore';
+                    poi.chargingplots[0]._flag_ = 'ignore';
+                    break;
+                case 9: // 充电桩
+                    poi.parkings[0]._flag_ = 'ignore';
+                    poi.hotels[0]._flag_ = 'ignore';
+                    poi.restaurants[0]._flag_ = 'ignore';
+                    poi.chargingstations[0]._flag_ = 'ignore';
+                    poi.gasstations[0]._flag_ = 'ignore';
+                    break;
+                default:
+                    poi.parkings[0]._flag_ = 'ignore';
+                    poi.gasstations[0]._flag_ = 'ignore';
+                    poi.hotels[0]._flag_ = 'ignore';
+                    poi.restaurants[0]._flag_ = 'ignore';
+                    poi.chargingstations[0]._flag_ = 'ignore';
+                    poi.chargingplots[0]._flag_ = 'ignore';
+                    break;
             }
         }
         var originKindCode = objectCtrl.data.originJson.kindCode;

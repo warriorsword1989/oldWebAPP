@@ -64,10 +64,10 @@ fastmap.mapApi.adAdminPointAdd = L.Handler.extend({
         this.container.style.cursor = 'pointer';
         this.targetPoint = this._map.layerPointToLatLng(event.layerPoint);
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
-        if(this.resultData){
+        if (this.resultData) {
             points.components[0].x = this.resultData.lng;
             points.components[0].y = this.resultData.lat;
-        }else{
+        } else {
             points.components[0].x = this.targetPoint.lng;
             points.components[0].y = this.targetPoint.lat;
         }
@@ -78,8 +78,6 @@ fastmap.mapApi.adAdminPointAdd = L.Handler.extend({
             this.shapeEditor.shapeEditorResult.setFinalGeometry(points);
         }
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-
-
     },
 
     onMouseDown: function (event) {

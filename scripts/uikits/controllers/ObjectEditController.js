@@ -32,12 +32,12 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.selectNodeRefresh = '';
                 this.falg = false;
                 this.compare = new fastmap.dataApi.geoDataModelComparison();
-              /***
+              /** *
                * 为了进行批量编辑而添加的属性字段，保存批量编辑返回的原始数据
                * @type {Array}
                */
                 this.datas = [];
-                //对象化之前的对象数据
+                // 对象化之前的对象数据
                 this.sameObj = {};
             },
             /**
@@ -63,154 +63,154 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.data = null;
                 this.sameObj = obj;
                 switch (type) {
-                case 'RDNODE':
-                    this.data = fastmap.dataApi.rdNode(obj);
-                    if (options) {
-                        this.data.linepids = options.linepids;
-                        this.data.nodeid = options.nodeid;
-                    }
-                    break;
-                case 'RDLINK':
-                    this.data = fastmap.dataApi.rdLink(obj);
-                    break;
-                case 'RDRESTRICTION':
-                    this.data = fastmap.dataApi.rdRestriction(obj);
-                    break;
-                case 'RDCROSS':
-                    this.data = fastmap.dataApi.rdCross(obj);
-                    break;
-                case 'RDLANECONNEXITY':
-                    this.data = fastmap.dataApi.rdLaneConnexity(obj);
-                    break;
-                case 'RDSPEEDLIMIT':
-                    this.data = fastmap.dataApi.rdSpeedLimit(obj);
-                    break;
-                case 'RDBRANCH':
-                    this.data = fastmap.dataApi.rdBranch(obj);
-                    break;
-                case 'ADLINK':
-                    this.data = fastmap.dataApi.adLink(obj);
-                    break;
-                case 'ADFACE':
-                    this.data = fastmap.dataApi.adFace(obj);
-                    break;
-                case 'RDGSC':
-                    this.data = fastmap.dataApi.rdGsc(obj);
-                    break;
-                case 'ADADMIN':
-                    this.data = fastmap.dataApi.adAdmin(obj);
-                    break;
-                case 'ADNODE':
-                    this.data = fastmap.dataApi.adNode(obj);
-                    break;
-                case 'IXPOI':
-                    this.data = new fastmap.dataApi.IxPoi(obj);
-                    break;
-                case 'COMMONDEEP':
-                    this.data = new fastmap.dataApi.IxPoiDetail(obj);
-                    break;
-                case 'RWLINK':
-                    this.data = fastmap.dataApi.rwLink(obj);
-                    break;
-                case 'RWNODE':
-                    this.data = fastmap.dataApi.rwNode(obj);
-                    break;
-                case 'ZONELINK':
-                    this.data = fastmap.dataApi.zoneLink(obj);
-                    break;
-                case 'ZONENODE':
-                    this.data = fastmap.dataApi.zoneNode(obj);
-                    break;
-                case 'ZONEFACE':
-                    this.data = fastmap.dataApi.zoneFace(obj);
-                    break;
-                case 'RDTRAFFICSIGNAL':
-                    this.data = fastmap.dataApi.rdTrafficSignal(obj);
-                    break;
-                case 'RDWARNINGINFO':
-                    this.data = fastmap.dataApi.rdWarningInfo(obj);  // 警示信息
-                    break;
-                case 'RDGATE':
-                    this.data = fastmap.dataApi.rdGate(obj);  // 大门
-                    break;
-                case 'RDELECTRONICEYE':
-                    this.data = fastmap.dataApi.rdElectronicEye(obj);
-                    break;
-                case 'RDSLOPE':
-                    this.data = fastmap.dataApi.rdSlope(obj);
-                    break;
-                case 'LUNODE':
-                    this.data = fastmap.dataApi.luNode(obj);
-                    break;
-                case 'LULINK':
-                    this.data = fastmap.dataApi.luLink(obj);
-                    break;
-                case 'LUFACE':
-                    this.data = fastmap.dataApi.luFace(obj);
-                    break;
-                case 'LCNODE':
-                    this.data = fastmap.dataApi.lcNode(obj);
-                    break;
-                case 'LCLINK':
-                    this.data = fastmap.dataApi.lcLink(obj);
-                    break;
-                case 'LCFACE':
-                    this.data = fastmap.dataApi.lcFace(obj);
-                    break;
-                case 'RDDIRECTROUTE':
-                    this.data = fastmap.dataApi.rdDirectRoute(obj);
-                    break;
-                case 'RDSPEEDBUMP':
-                    this.data = fastmap.dataApi.rdSpeedBump(obj);
-                    break;
-                case 'RDINTER':
-                    this.data = fastmap.dataApi.rdInter(obj);
-                    break;
-                case 'RDROAD':
-                    this.data = fastmap.dataApi.rdRoad(obj);
-                    break;
-                case 'RDOBJECT':
-                    this.data = fastmap.dataApi.rdObject(obj);
-                    break;
-                case 'RDSE': // 分叉口
-                    this.data = fastmap.dataApi.rdSe(obj);
-                    break;
-                case 'RDTOLLGATE': // 收费站
-                    this.data = fastmap.dataApi.rdTollgate(obj);
-                    break;
-                case 'RDSAMENODE': // 同一点
-                    this.data = fastmap.dataApi.rdSameNode(obj);
-                    break;
-                case 'RDSAMELINK': // 同一线
-                    this.data = fastmap.dataApi.rdSameLink(obj);
-                    break;
-                case 'RDVARIABLESPEED': // 可变限速
-                    this.data = fastmap.dataApi.rdVariableSpeed(obj);
-                    break;
-                case 'RDVOICEGUIDE': // 语音引导
-                    this.data = fastmap.dataApi.rdVoiceGuide(obj);
-                    break;
-                case 'RDLINKSPEEDLIMIT': // 线限速
-                    this.data = fastmap.dataApi.rdLinkSpeedLimit(obj);
-                    break;
-                case 'ROADNAME':// 道路名称
-                    this.data = fastmap.dataApi.roadName(obj);
-                    break;
-                case 'RDHGWGLIMIT':// 限高限重
-                    this.data = fastmap.dataApi.rdHgwgLimit(obj);
-                    break;
-                case 'RDLANE':// 详细车道
-                    this.data = fastmap.dataApi.rdLanes(obj);
-                    break;
-                case 'RDLANETOPODETAILARR':// 车道连通
-                    this.data = fastmap.dataApi.rdLaneTopoDetailArr(obj);
-                    break;
-                case 'RDMILEAGEPILE':
-                    this.data = fastmap.dataApi.rdMileagePile(obj);
-                    break;
-                default:
-                    throw '无法解析当前选择的类型!';
-                    break;
+                    case 'RDNODE':
+                        this.data = fastmap.dataApi.rdNode(obj);
+                        if (options) {
+                            this.data.linepids = options.linepids;
+                            this.data.nodeid = options.nodeid;
+                        }
+                        break;
+                    case 'RDLINK':
+                        this.data = fastmap.dataApi.rdLink(obj);
+                        break;
+                    case 'RDRESTRICTION':
+                        this.data = fastmap.dataApi.rdRestriction(obj);
+                        break;
+                    case 'RDCROSS':
+                        this.data = fastmap.dataApi.rdCross(obj);
+                        break;
+                    case 'RDLANECONNEXITY':
+                        this.data = fastmap.dataApi.rdLaneConnexity(obj);
+                        break;
+                    case 'RDSPEEDLIMIT':
+                        this.data = fastmap.dataApi.rdSpeedLimit(obj);
+                        break;
+                    case 'RDBRANCH':
+                        this.data = fastmap.dataApi.rdBranch(obj);
+                        break;
+                    case 'ADLINK':
+                        this.data = fastmap.dataApi.adLink(obj);
+                        break;
+                    case 'ADFACE':
+                        this.data = fastmap.dataApi.adFace(obj);
+                        break;
+                    case 'RDGSC':
+                        this.data = fastmap.dataApi.rdGsc(obj);
+                        break;
+                    case 'ADADMIN':
+                        this.data = fastmap.dataApi.adAdmin(obj);
+                        break;
+                    case 'ADNODE':
+                        this.data = fastmap.dataApi.adNode(obj);
+                        break;
+                    case 'IXPOI':
+                        this.data = new fastmap.dataApi.IxPoi(obj);
+                        break;
+                    case 'COMMONDEEP':
+                        this.data = new fastmap.dataApi.IxPoiDetail(obj);
+                        break;
+                    case 'RWLINK':
+                        this.data = fastmap.dataApi.rwLink(obj);
+                        break;
+                    case 'RWNODE':
+                        this.data = fastmap.dataApi.rwNode(obj);
+                        break;
+                    case 'ZONELINK':
+                        this.data = fastmap.dataApi.zoneLink(obj);
+                        break;
+                    case 'ZONENODE':
+                        this.data = fastmap.dataApi.zoneNode(obj);
+                        break;
+                    case 'ZONEFACE':
+                        this.data = fastmap.dataApi.zoneFace(obj);
+                        break;
+                    case 'RDTRAFFICSIGNAL':
+                        this.data = fastmap.dataApi.rdTrafficSignal(obj);
+                        break;
+                    case 'RDWARNINGINFO':
+                        this.data = fastmap.dataApi.rdWarningInfo(obj);  // 警示信息
+                        break;
+                    case 'RDGATE':
+                        this.data = fastmap.dataApi.rdGate(obj);  // 大门
+                        break;
+                    case 'RDELECTRONICEYE':
+                        this.data = fastmap.dataApi.rdElectronicEye(obj);
+                        break;
+                    case 'RDSLOPE':
+                        this.data = fastmap.dataApi.rdSlope(obj);
+                        break;
+                    case 'LUNODE':
+                        this.data = fastmap.dataApi.luNode(obj);
+                        break;
+                    case 'LULINK':
+                        this.data = fastmap.dataApi.luLink(obj);
+                        break;
+                    case 'LUFACE':
+                        this.data = fastmap.dataApi.luFace(obj);
+                        break;
+                    case 'LCNODE':
+                        this.data = fastmap.dataApi.lcNode(obj);
+                        break;
+                    case 'LCLINK':
+                        this.data = fastmap.dataApi.lcLink(obj);
+                        break;
+                    case 'LCFACE':
+                        this.data = fastmap.dataApi.lcFace(obj);
+                        break;
+                    case 'RDDIRECTROUTE':
+                        this.data = fastmap.dataApi.rdDirectRoute(obj);
+                        break;
+                    case 'RDSPEEDBUMP':
+                        this.data = fastmap.dataApi.rdSpeedBump(obj);
+                        break;
+                    case 'RDINTER':
+                        this.data = fastmap.dataApi.rdInter(obj);
+                        break;
+                    case 'RDROAD':
+                        this.data = fastmap.dataApi.rdRoad(obj);
+                        break;
+                    case 'RDOBJECT':
+                        this.data = fastmap.dataApi.rdObject(obj);
+                        break;
+                    case 'RDSE': // 分叉口
+                        this.data = fastmap.dataApi.rdSe(obj);
+                        break;
+                    case 'RDTOLLGATE': // 收费站
+                        this.data = fastmap.dataApi.rdTollgate(obj);
+                        break;
+                    case 'RDSAMENODE': // 同一点
+                        this.data = fastmap.dataApi.rdSameNode(obj);
+                        break;
+                    case 'RDSAMELINK': // 同一线
+                        this.data = fastmap.dataApi.rdSameLink(obj);
+                        break;
+                    case 'RDVARIABLESPEED': // 可变限速
+                        this.data = fastmap.dataApi.rdVariableSpeed(obj);
+                        break;
+                    case 'RDVOICEGUIDE': // 语音引导
+                        this.data = fastmap.dataApi.rdVoiceGuide(obj);
+                        break;
+                    case 'RDLINKSPEEDLIMIT': // 线限速
+                        this.data = fastmap.dataApi.rdLinkSpeedLimit(obj);
+                        break;
+                    case 'ROADNAME':// 道路名称
+                        this.data = fastmap.dataApi.roadName(obj);
+                        break;
+                    case 'RDHGWGLIMIT':// 限高限重
+                        this.data = fastmap.dataApi.rdHgwgLimit(obj);
+                        break;
+                    case 'RDLANE':// 详细车道
+                        this.data = fastmap.dataApi.rdLanes(obj);
+                        break;
+                    case 'RDLANETOPODETAILARR':// 车道连通
+                        this.data = fastmap.dataApi.rdLaneTopoDetailArr(obj);
+                        break;
+                    case 'RDMILEAGEPILE':
+                        this.data = fastmap.dataApi.rdMileagePile(obj);
+                        break;
+                    default:
+                        throw '无法解析当前选择的类型!';
+                        break;
                 }
 
                 if (!this.originalData || (this.originalData.geoLiveType != this.data.geoLiveType)) {
@@ -625,40 +625,36 @@ fastmap.uikit.ObjectEditController = (function () {
              */
             onSaved: function (orignalData, data) {
                 this.changedProperty = this.compareJson(orignalData.pid, orignalData, data.getIntegrate(), 'UPDATE');
-                //利用this.datas判断是否是批量编辑
-                if(this.datas.length !==0){
+                // 利用this.datas判断是否是批量编辑
+                if (this.datas.length !== 0) {
                     this.changedProperty = this.restoreDatas(this.changedProperty);
                 }
-
             },
 
-          /***
+          /** *
            * 利用编辑后的数据更新原始数据集
            * @param data
            */
-          restoreDatas:function (data) {
-
-              for(var key in data){
-                  if(FM.Util.isArray(data[key])){
-                      for(var i = 0, len = data[key].length; i< len; i++){
-                          for(var j =0,length = this.sameObj[key].length; j<length; j++){
-                              if(FM.Util.isContains(this.sameObj[key][j].rowIds,data[key][i].rowId)){
-                                  data[key][i].rowIds = this.sameObj[key][j].rowIds;
-                                  delete data[key][i].rowId;
-                              }
-                          }
-                      }
-
-                  }
-
-              }
-              var pids = []
-              for(var item in this.datas){
-                  pids.push(this.datas[item].pid);
-              }
-              data.pids = pids;
-              return  data;
-          }
+            restoreDatas: function (data) {
+                for (var key in data) {
+                    if (FM.Util.isArray(data[key])) {
+                        for (var i = 0, len = data[key].length; i < len; i++) {
+                            for (var j = 0, length = this.sameObj[key].length; j < length; j++) {
+                                if (FM.Util.isContains(this.sameObj[key][j].rowIds, data[key][i].rowId)) {
+                                    data[key][i].rowIds = this.sameObj[key][j].rowIds;
+                                    delete data[key][i].rowId;
+                                }
+                            }
+                        }
+                    }
+                }
+                var pids = [];
+                for (var item in this.datas) {
+                    pids.push(this.datas[item].pid);
+                }
+                data.pids = pids;
+                return data;
+            }
 
 
         });

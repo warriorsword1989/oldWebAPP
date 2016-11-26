@@ -43,7 +43,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
     };
-	// 语言代码对应关系
+    // 语言代码对应关系
     $scope.langCodeRelation = {
         CHI: 1,
         CHT: 2,
@@ -78,7 +78,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
         UKR: 31,
         SCR: 32
     };
-	// 刷新tollGateData.names
+    // 刷新tollGateData.names
     $scope.refreshNames = function () {
         $scope.tollGateData.names = [];
         for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
@@ -90,7 +90,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
     function initNameInfo() {
         if ($scope.tollGateData.names.length > 0) {
             $scope.nameGroup = [];
-			/* 根据数据中对象某一属性值排序*/
+            /* 根据数据中对象某一属性值排序*/
             function compare(propertyName) {
                 return function (object1, object2) {
                     var value1 = object1[propertyName];
@@ -104,11 +104,12 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                     }
                 };
             }
+
             $scope.tollGateData.names.sort(compare('nameGroupid'));
-			// 获取所有的nameGroupid
+            // 获取所有的nameGroupid
             var nameGroupidArr = [];
             for (var i = 0; i < $scope.tollGateData.names.length; i++) {
-            	nameGroupidArr.push($scope.tollGateData.names[i].nameGroupid);
+                nameGroupidArr.push($scope.tollGateData.names[i].nameGroupid);
             }
             // 去重
             nameGroupidArr = Utils.distinctArr(nameGroupidArr);
@@ -117,9 +118,9 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 for (var j = 0, le = $scope.tollGateData.names.length; j < le; j++) {
                     if ($scope.tollGateData.names[j].nameGroupid == nameGroupidArr[i]) {
                         tempArr.push($scope.tollGateData.names[j]);
-	                    tempArr.sort(function (a, b) {
-		                    return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
-	                    });
+                        tempArr.sort(function (a, b) {
+                            return $scope.langCodeRelation[a.langCode] - $scope.langCodeRelation[b.langCode];
+                        });
                     }
                 }
                 $scope.nameGroup.push(tempArr);
@@ -138,17 +139,18 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             $scope.refreshNames();
         }
     }
+
     $scope.initializeData();
     $scope.refreshData = function () {
         dsEdit.getByPid(parseInt($scope.tollGateData.pid), 'RDTOLLGATE').then(function (data) {
             if (data) {
                 objCtrl.setCurrentObject('RDTOLLGATE', data);
-	            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             }
         });
     };
 
-	/* 切换收费类型*/
+    /* 切换收费类型*/
     $scope.changeChargeType = function () {
         if ($scope.tollGateData.type == 1 || $scope.tollGateData.type == 8 || $scope.tollGateData.type == 9 || $scope.tollGateData.type == 10) {
             for (var i = 0, len = $scope.tollGateData.passages.length; i < len; i++) {
@@ -175,7 +177,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
     $scope.$watch($scope.nameGroup, function (newValue, oldValue, scope) {
         $scope.refreshNames();
     });
-	/* 查看详情*/
+    /* 查看详情*/
     $scope.showDetail = function (type, index, nameInfo, nameGroupid) {
         var tempCtr = '',
             tempTepl = '',
@@ -218,29 +220,29 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             $scope.$emit('transitCtrlAndTpl', detailInfo);
         }
         $scope.tollGateNameData = detailInfo;
-		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     };
-	/** **
+    /** **
      * 根据nameGroupid获取对应的数据
      */
     $scope.getItemByNameGroupid = function (arr, nameGroupid) {
-    	var index = -1;
-    	var item;
-    	for (var i = 0; i < arr.length; i++) {
-    		for (var j = 0; j < arr[i].length; j++) {
-    			if (arr[i][j].nameGroupid == nameGroupid) {
-    				index = i;
-    				break;
-    			}
-    		}
-    		if (index >= 0) {
-    			item = arr[i];
-    			break;
-    		}
-    	}
-    	return item;
+        var index = -1;
+        var item;
+        for (var i = 0; i < arr.length; i++) {
+            for (var j = 0; j < arr[i].length; j++) {
+                if (arr[i][j].nameGroupid == nameGroupid) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index >= 0) {
+                item = arr[i];
+                break;
+            }
+        }
+        return item;
     };
-	/* 自动计算ETC代码*/
+    /* 自动计算ETC代码*/
     $scope.changeEtcCode = function () {
         var _code = '',
             passageLen = $scope.tollGateData.passages.length;
@@ -310,7 +312,7 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             return _code;
         }
     };
-	/* 增加item*/
+    /* 增加item*/
     $scope.addItem = function (type) {
         if (type == 'name') {
             $scope.refreshNames();
@@ -319,14 +321,22 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
                 maxNameGroupId = Utils.getArrMax($scope.tollGateData.names, 'nameGroupid');
             }
             objCtrl.data.names.unshift(fastmap.dataApi.rdTollgateName({
-	            nameGroupid: maxNameGroupId + 1
+                nameGroupid: maxNameGroupId + 1
             }));
             initNameInfo();
         } else if (objCtrl.data.passages.length < 32) {
             if ($scope.tollGateData.type == 1 || $scope.tollGateData.type == 8 || $scope.tollGateData.type == 9 || $scope.tollGateData.type == 10) {
-                objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({ cardType: 2, tollForm: 0, seqNum: $scope.tollGateData.passages.length + 1 }));
+                objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({
+                    cardType: 2,
+                    tollForm: 0,
+                    seqNum: $scope.tollGateData.passages.length + 1
+                }));
             } else if ($scope.tollGateData.type == 2 || $scope.tollGateData.type == 3 || $scope.tollGateData.type == 4 || $scope.tollGateData.type == 5 || $scope.tollGateData.type == 6 || $scope.tollGateData.type == 7) {
-                objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({ cardType: 0, tollForm: 2, seqNum: $scope.tollGateData.passages.length + 1 }));
+                objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({
+                    cardType: 0,
+                    tollForm: 2,
+                    seqNum: $scope.tollGateData.passages.length + 1
+                }));
             } else if ($scope.tollGateData.type == 0) {
                 objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({ seqNum: $scope.tollGateData.passages.length + 1 }));
             }
@@ -335,33 +345,33 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
         }
         $scope.tollGateData.passageNum = $scope.tollGateData.passages.length;
     };
-	/* 移除item*/
+    /* 移除item*/
     $scope.removeItem = function (index, type, item) {
         if (type == 'name') {
-	        if (item.langCode === 'CHI' || item.langCode === 'CHT') {
-		        $scope.nameGroup.splice(index, 1);
-	        } else {
-	            for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
-	                if ($scope.nameGroup[i]) {
-	                    for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
-	                        if ($scope.nameGroup[i][j] === item) {
-	                            if ($scope.nameGroup[i].length == 1) {
-	                                $scope.nameGroup.splice(i, 1);
-	                                for (var n = 0, nu = $scope.nameGroup.length; n < nu; n++) {
-	                                    if (n >= i) {
-	                                        for (var m = 0, num = $scope.nameGroup[n].length; m < num; m++) {
-	                                            $scope.nameGroup[n][m].nameGroupid--;
-	                                        }
-	                                    }
-	                                }
-	                            } else {
-	                                $scope.nameGroup[i].splice(index, 1);
-	                            }
-	                        }
-	                    }
-	                }
-	            }
-	        }
+            if (item.langCode === 'CHI' || item.langCode === 'CHT') {
+                $scope.nameGroup.splice(index, 1);
+            } else {
+                for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
+                    if ($scope.nameGroup[i]) {
+                        for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
+                            if ($scope.nameGroup[i][j] === item) {
+                                if ($scope.nameGroup[i].length == 1) {
+                                    $scope.nameGroup.splice(i, 1);
+                                    for (var n = 0, nu = $scope.nameGroup.length; n < nu; n++) {
+                                        if (n >= i) {
+                                            for (var m = 0, num = $scope.nameGroup[n].length; m < num; m++) {
+                                                $scope.nameGroup[n][m].nameGroupid--;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    $scope.nameGroup[i].splice(index, 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             $scope.refreshNames();
         } else {
             $scope.tollGateData.passages.splice(index, 1);
@@ -376,125 +386,125 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             attrContainerTpl: true
         });
     };
-	/* 增加名称*/
-	/* $scope.addItemName = function(nameGroupid){
-		for(var i=0;i<$scope.langCodeOptions.length;i++){
-			for(var j=0;j<$scope.tollGateData.names.length;j++){
-				var flag = false;
-				if($scope.langCodeOptions[i].id == $scope.tollGateData.names[j].langCode){
-					break;
-				}
-				if($scope.langCodeOptions[i].id != $scope.tollGateData.names[j].langCode  && j==$scope.tollGateData.names.length-1){
-					$scope.tollGateData.names.push(fastmap.dataApi.rdTollgateName({"nameGroupid":nameGroupid,"langCode":$scope.langCodeOptions[i].id}));
-					flag = true;
-					break;
-				}
-			}
-			if(flag){
-				break;
-			}
-		}
-		initNameInfo();
-	};*/
-	/* 删除名称*/
-	/* $scope.deleteItemName = function(nameGroupid) {
-		for(var i = 0; i < $scope.tollGateData.names.length; i++) {
-			if($scope.tollGateData.names[i].nameGroupid == nameGroupid) {
-				$scope.tollGateData.names.splice(i,1);
-				i--;
-			} else if ($scope.tollGateData.names[i].nameGroupid > nameGroupid) {
-				$scope.tollGateData.names[i].nameGroupid--;
-			}
-		}
-		if ($scope.tollGateData.names.length) {
-			initNameInfo();
-		} else {
-			$scope.nameGroup = [];
-		}
-	};*/
-	// 保存前把nameId为0的状态改为INSERT
+    /* 增加名称*/
+    /* $scope.addItemName = function(nameGroupid){
+     for(var i=0;i<$scope.langCodeOptions.length;i++){
+     for(var j=0;j<$scope.tollGateData.names.length;j++){
+     var flag = false;
+     if($scope.langCodeOptions[i].id == $scope.tollGateData.names[j].langCode){
+     break;
+     }
+     if($scope.langCodeOptions[i].id != $scope.tollGateData.names[j].langCode  && j==$scope.tollGateData.names.length-1){
+     $scope.tollGateData.names.push(fastmap.dataApi.rdTollgateName({"nameGroupid":nameGroupid,"langCode":$scope.langCodeOptions[i].id}));
+     flag = true;
+     break;
+     }
+     }
+     if(flag){
+     break;
+     }
+     }
+     initNameInfo();
+     };*/
+    /* 删除名称*/
+    /* $scope.deleteItemName = function(nameGroupid) {
+     for(var i = 0; i < $scope.tollGateData.names.length; i++) {
+     if($scope.tollGateData.names[i].nameGroupid == nameGroupid) {
+     $scope.tollGateData.names.splice(i,1);
+     i--;
+     } else if ($scope.tollGateData.names[i].nameGroupid > nameGroupid) {
+     $scope.tollGateData.names[i].nameGroupid--;
+     }
+     }
+     if ($scope.tollGateData.names.length) {
+     initNameInfo();
+     } else {
+     $scope.nameGroup = [];
+     }
+     };*/
+    // 保存前把nameId为0的状态改为INSERT
     /* $scope.beforeSave = function (obj) {
-        var newObj = obj;
-        for (var i = 0; i < newObj.names.length; i++) {
-            if (newObj.names[i].nameId === 0) {
-                newObj.names[i].objStatus = 'INSERT';
-            }
-            if (!newObj.names[i].objStatus) {
-                newObj.names[i].objStatus = 'UPDATE';
-            }
-            delete newObj.names[i].$$hashKey;
-            delete newObj.names[i]._initHooksCalled;
-            delete newObj.names[i].geoLiveType;
-        }
-        return newObj;
-    };*/
-	/* 监听刷新ETC代码*/
+     var newObj = obj;
+     for (var i = 0; i < newObj.names.length; i++) {
+     if (newObj.names[i].nameId === 0) {
+     newObj.names[i].objStatus = 'INSERT';
+     }
+     if (!newObj.names[i].objStatus) {
+     newObj.names[i].objStatus = 'UPDATE';
+     }
+     delete newObj.names[i].$$hashKey;
+     delete newObj.names[i]._initHooksCalled;
+     delete newObj.names[i].geoLiveType;
+     }
+     return newObj;
+     };*/
+    /* 监听刷新ETC代码*/
     $scope.$on('refreshEtcCode', function (event, data) {
         $scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
     });
-	/* 收费站类型*/
+    /* 收费站类型*/
     $scope.tollTypeObj = [
-		{ id: 0, label: '未调查' },
-		{ id: 1, label: '领卡' },
-		{ id: 2, label: '交卡付费' },
-		{ id: 3, label: '固定收费（次费）' },
-		{ id: 4, label: '交卡付费后再领卡' },
-		{ id: 5, label: '交卡付费并代收固定费用' },
-		{ id: 6, label: '验票（无票收费）值先保留' },
-		{ id: 7, label: '领卡并代收固定费用' },
-		{ id: 8, label: '持卡打标识不收费' },
-		{ id: 9, label: '验票领卡' },
-		{ id: 10, label: '交卡不收费' }
+        { id: 0, label: '未调查' },
+        { id: 1, label: '领卡' },
+        { id: 2, label: '交卡付费' },
+        { id: 3, label: '固定收费（次费）' },
+        { id: 4, label: '交卡付费后再领卡' },
+        { id: 5, label: '交卡付费并代收固定费用' },
+        { id: 6, label: '验票（无票收费）值先保留' },
+        { id: 7, label: '领卡并代收固定费用' },
+        { id: 8, label: '持卡打标识不收费' },
+        { id: 9, label: '验票领卡' },
+        { id: 10, label: '交卡不收费' }
     ];
 
-	/* 是否跨省*/
+    /* 是否跨省*/
     $scope.locationFlagObj = {
         0: '未调查',
         1: '本省',
         2: '跨省'
     };
 
-	/* 领卡类型*/
+    /* 领卡类型*/
     $scope.cardTypeObj = [
-		{ id: 0, label: '未调查', name: '未调查' },
-		{ id: 1, label: 'ETC', name: 'ETC通道' },
-		{ id: 2, label: '人工', name: '人工通道' },
-		{ id: 3, label: '自助', name: '自助通道' }
+        { id: 0, label: '未调查', name: '未调查' },
+        { id: 1, label: 'ETC', name: 'ETC通道' },
+        { id: 2, label: '人工', name: '人工通道' },
+        { id: 3, label: '自助', name: '自助通道' }
     ];
 
     $scope.langCodeOptions = [
-		{ id: 'CHI', label: '简体中文' },
-		{ id: 'CHT', label: '繁体中文' },
-		{ id: 'ENG', label: '英文' },
-		{ id: 'POR', label: '葡萄牙文' },
-		{ id: 'ARA', label: '阿拉伯语' },
-		{ id: 'BUL', label: '保加利亚语' },
-		{ id: 'CZE', label: '捷克语' },
-		{ id: 'DAN', label: '丹麦语' },
-		{ id: 'DUT', label: '荷兰语' },
-		{ id: 'EST', label: '爱沙尼亚语' },
-		{ id: 'FIN', label: '芬兰语' },
-		{ id: 'FRE', label: '法语' },
-		{ id: 'GER', label: '德语' },
-		{ id: 'HIN', label: '印地语' },
-		{ id: 'HUN', label: '匈牙利语' },
-		{ id: 'ICE', label: '冰岛语' },
-		{ id: 'IND', label: '印度尼西亚语' },
-		{ id: 'ITA', label: '意大利语' },
-		{ id: 'JPN', label: '日语' },
-		{ id: 'KOR', label: '韩语' },
-		{ id: 'LIT', label: '立陶宛语' },
-		{ id: 'NOR', label: '挪威语' },
-		{ id: 'POL', label: '波兰语' },
-		{ id: 'RUM', label: '罗马尼亚语' },
-		{ id: 'RUS', label: '俄语' },
-		{ id: 'SLO', label: '斯洛伐克语' },
-		{ id: 'SPA', label: '西班牙语' },
-		{ id: 'SWE', label: '瑞典语' },
-		{ id: 'THA', label: '泰国语' },
-		{ id: 'TUR', label: '土耳其语' },
-		{ id: 'UKR', label: '乌克兰语' },
-		{ id: 'SCR', label: '克罗地亚语' }
+        { id: 'CHI', label: '简体中文' },
+        { id: 'CHT', label: '繁体中文' },
+        { id: 'ENG', label: '英文' },
+        { id: 'POR', label: '葡萄牙文' },
+        { id: 'ARA', label: '阿拉伯语' },
+        { id: 'BUL', label: '保加利亚语' },
+        { id: 'CZE', label: '捷克语' },
+        { id: 'DAN', label: '丹麦语' },
+        { id: 'DUT', label: '荷兰语' },
+        { id: 'EST', label: '爱沙尼亚语' },
+        { id: 'FIN', label: '芬兰语' },
+        { id: 'FRE', label: '法语' },
+        { id: 'GER', label: '德语' },
+        { id: 'HIN', label: '印地语' },
+        { id: 'HUN', label: '匈牙利语' },
+        { id: 'ICE', label: '冰岛语' },
+        { id: 'IND', label: '印度尼西亚语' },
+        { id: 'ITA', label: '意大利语' },
+        { id: 'JPN', label: '日语' },
+        { id: 'KOR', label: '韩语' },
+        { id: 'LIT', label: '立陶宛语' },
+        { id: 'NOR', label: '挪威语' },
+        { id: 'POL', label: '波兰语' },
+        { id: 'RUM', label: '罗马尼亚语' },
+        { id: 'RUS', label: '俄语' },
+        { id: 'SLO', label: '斯洛伐克语' },
+        { id: 'SPA', label: '西班牙语' },
+        { id: 'SWE', label: '瑞典语' },
+        { id: 'THA', label: '泰国语' },
+        { id: 'TUR', label: '土耳其语' },
+        { id: 'UKR', label: '乌克兰语' },
+        { id: 'SCR', label: '克罗地亚语' }
     ];
 
     $scope.save = function () {
@@ -505,52 +515,52 @@ angular.module('app').controller('TollGateCtl', ['$scope', 'dsEdit', 'appPath', 
             return;
         }
         // objCtrl.changedProperty.names = objCtrl.data.names.concat($scope.deleteNames);
-	    /* objCtrl.changedProperty.names = compareJsonObject(objCtrl.originalData.names, objCtrl.data.names);
-	    function compareJsonObject ( originalData, objData) {
-		    var changeNames = [],
-			    originNames = [],
-			    objDataNames = [];
-		    for(var i=0;i<originalData.length;i++){
-			    originNames.push(originalData[i].rowId);
-			    for(var j=0;j<objData.length;j++){
-				    objDataNames.push(objData[j].getIntergrate().rowId);
-				    if(objData[j].getIntergrate().rowId && originalData[i].rowId == objData[j].getIntergrate().rowId){
-					    var temp = {};
-					    for(p in objData[j].getIntergrate()){
-						    if(originalData[i][p] != objData[j].getIntergrate()[p]){
-							    temp[p] = objData[j].getIntergrate()[p];
-							    temp.rowId= objData[j].getIntergrate().rowId;
-							    temp.pid = objData[j].getIntergrate().pid;
-							    temp.objStatus = 'UPDATE';
-						    }
-					    }
-					    if(JSON.stringify(temp) == "{}") {
-						    changeNames.push(temp);
-					    }
-				    }
-				    if(objData[j].getIntergrate().rowId === '') {
-					    var temp = {};
-					    for(p in objData[j].getIntergrate()){
-						    temp[p] = objData[j].getIntergrate()[p];
-					    }
-					    temp.rowId= objData[j].getIntergrate().rowId;
-					    temp.pid = objData[j].getIntergrate().pid;
-					    temp.objStatus = 'INSERT';
-					    changeNames.push(temp);
-				    }
-			    }
-		    }
-		    for(var i=0;i<originalData.length;i++){
-			    if(originNames.indexOf(originalData[i].rowId) === -1) {
-				    var temp = {};
-				    temp.objStatus = 'DELETE';
-				    temp.rowId = originalData[i].rowId;
-				    temp.pid = objCtrl.data.pid;
-				    changeNames.push(temp);
-			    }
-		    }
-		    return changeNames;
-	    }*/
+        /* objCtrl.changedProperty.names = compareJsonObject(objCtrl.originalData.names, objCtrl.data.names);
+         function compareJsonObject ( originalData, objData) {
+         var changeNames = [],
+         originNames = [],
+         objDataNames = [];
+         for(var i=0;i<originalData.length;i++){
+         originNames.push(originalData[i].rowId);
+         for(var j=0;j<objData.length;j++){
+         objDataNames.push(objData[j].getIntergrate().rowId);
+         if(objData[j].getIntergrate().rowId && originalData[i].rowId == objData[j].getIntergrate().rowId){
+         var temp = {};
+         for(p in objData[j].getIntergrate()){
+         if(originalData[i][p] != objData[j].getIntergrate()[p]){
+         temp[p] = objData[j].getIntergrate()[p];
+         temp.rowId= objData[j].getIntergrate().rowId;
+         temp.pid = objData[j].getIntergrate().pid;
+         temp.objStatus = 'UPDATE';
+         }
+         }
+         if(JSON.stringify(temp) == "{}") {
+         changeNames.push(temp);
+         }
+         }
+         if(objData[j].getIntergrate().rowId === '') {
+         var temp = {};
+         for(p in objData[j].getIntergrate()){
+         temp[p] = objData[j].getIntergrate()[p];
+         }
+         temp.rowId= objData[j].getIntergrate().rowId;
+         temp.pid = objData[j].getIntergrate().pid;
+         temp.objStatus = 'INSERT';
+         changeNames.push(temp);
+         }
+         }
+         }
+         for(var i=0;i<originalData.length;i++){
+         if(originNames.indexOf(originalData[i].rowId) === -1) {
+         var temp = {};
+         temp.objStatus = 'DELETE';
+         temp.rowId = originalData[i].rowId;
+         temp.pid = objCtrl.data.pid;
+         changeNames.push(temp);
+         }
+         }
+         return changeNames;
+         }*/
         var param = {
             command: 'UPDATE',
             type: 'RDTOLLGATE',

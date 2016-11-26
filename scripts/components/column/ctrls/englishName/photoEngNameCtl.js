@@ -18,7 +18,10 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         $scope.onlineCheck = false;
         $scope.tableDataList = null;
         $scope.currentEditData = null;
-        $scope.costomWorkNumEum = [{ num: 10, desc: '每次10条' }, { num: 20, desc: '每次20条' }, { num: 30, desc: '每次30条' }, { num: '', desc: '自定义' }];
+        $scope.costomWorkNumEum = [{ num: 10, desc: '每次10条' }, { num: 20, desc: '每次20条' }, {
+            num: 30,
+            desc: '每次30条'
+        }, { num: '', desc: '自定义' }];
         $scope.progressValue = 0;
         $scope.selectedNum = 10;
         $scope.popoverIsOpen = false;
@@ -31,7 +34,14 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         $scope.view.cols = [
             { field: 'selector', headerTemplateURL: 'headerCheckboxId', title: '选择', show: true, width: '70px' },
             { field: 'num_index', title: '编号', show: true, width: '60px' },
-            { field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '130px', sortable: 'classifyRules11' },
+            {
+                field: 'classifyRules11',
+                title: '作业类型',
+                getValue: getClassifyRules,
+                show: true,
+                width: '130px',
+                sortable: 'classifyRules11'
+            },
             { field: 'kindCodeName', title: '分类', show: true, width: '130px', sortable: 'kind' },
             { field: 'name11Chi', title: '官方标准中文名称', getValue: get11ChiNames, show: true, sortable: 'name11Chi' },
             { field: 'name12Eng', title: '原始英文名称', getValue: get12EngNames, show: true, sortable: 'name12Eng' },
@@ -41,9 +51,11 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         function get11ChiNames($scope, row) {
             return row.name11Chi.name;
         }
+
         function get12EngNames($scope, row) {
             return row.name12Eng.name;
         }
+
         function getClassifyRules($scope, row) {
             var type = row.classifyRules;
             var html = '';
@@ -52,6 +64,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
             }
             return html;
         }
+
         /* --------------------------格式化数据部分--------------------------*/
         // 表格多选控制;
         $scope.checkboxes = { checked: false };
@@ -85,6 +98,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
             });
             return defer.promise;
         }
+
         // 搜索;
         $scope.$watch('globalSearchTerm', function (to, from) {
             if (to != from) {
@@ -96,10 +110,14 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         function initRoadNameTable() {
             getTableData().then(function (data) {
                 if (data) {
-                    _self.tableParams = new NgTableParams({ count: 4, sorting: { pid: 'asc' } }, { counts: [], dataset: data });
+                    _self.tableParams = new NgTableParams({ count: 4, sorting: { pid: 'asc' } }, {
+                        counts: [],
+                        dataset: data
+                    });
                 }
             });
         }
+
         // 给每条数据安排序号;
         ngTableEventsChannel.onAfterReloadData(function () {
             angular.forEach($scope.tableParams.data, function (data, index) {
@@ -196,7 +214,8 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
 
         $scope.extractData = function () {
             if (!$scope.batchParam.value) {
-                swal('请先输入搜索内容', '', 'info'); return;
+                swal('请先输入搜索内容', '', 'info');
+                return;
             } else {
                 var temp = $scope.searchWork();
                 if (temp) {
@@ -254,13 +273,16 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
             html = "<input type='text' class='form-control input-sm table-input' title='{{row.name12Eng.name}}' value='row.name12Eng.name' ng-model='row.name12Eng.name' />";
             return html;
         }
+
         function sourceFlagSelect($scope, row) {
             var html = "<select ng-model='row[col.field]' class='form-control table-input' ng-options='value.id as value.label for value in sourceFlag'> </select>";
             return html;
         }
+
         function getDetails($scope, row) {
             return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
+
         $scope.closeEditPanel = function () {
             $scope.isQuery = true;
             $scope.showImgInfoo = false;
@@ -320,8 +342,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         };
 
         function initEditorTable() {
-            _self.editorTable = new NgTableParams({
-            }, {
+            _self.editorTable = new NgTableParams({}, {
                 counts: [],
                 dataset: $scope.currentEditedData
             });
@@ -348,6 +369,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         function initPage() {
             initRoadNameTable();
         }
+
         initPage();
     }
 ]);

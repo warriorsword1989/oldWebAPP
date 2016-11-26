@@ -59,48 +59,48 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
         if (len < 50) {
             if (this.type === 'intRticMarker') {
                 switch (orientation) {
-                case '1':
-                    if (this.sign === 0) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '2';// 向左
-                    } else if (this.sign === 1) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '1';// 向右
-                        this.sign = 0;
-                    }
-                    break;
-                case '2':
-                    if (this.flag) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '1';
-                    } else {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '2';
-                    }
-                    break;
+                    case '1':
+                        if (this.sign === 0) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '2';// 向左
+                        } else if (this.sign === 1) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '1';// 向右
+                            this.sign = 0;
+                        }
+                        break;
+                    case '2':
+                        if (this.flag) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '1';
+                        } else {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '2';
+                        }
+                        break;
                 }
             } else {
                 switch (orientation) {
-                case '1':
-                    if (this.sign === 0) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '3';// 向左
-                    } else if (this.sign === 1) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '2';// 向右
-                        this.sign = 0;
-                    }
-                    break;
-                case '2':
-                    if (this.flag) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '1';
-                    } else {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '3';
-                    }
+                    case '1':
+                        if (this.sign === 0) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '3';// 向左
+                        } else if (this.sign === 1) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '2';// 向右
+                            this.sign = 0;
+                        }
+                        break;
+                    case '2':
+                        if (this.flag) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '1';
+                        } else {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '3';
+                        }
 
-                    break;
-                case '3':
-                    if (this.flag) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '1';
-                        this.sign = 1;
-                    } else {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '2';
-                    }
-                    break;
+                        break;
+                    case '3':
+                        if (this.flag) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '1';
+                            this.sign = 1;
+                        } else {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = '2';
+                        }
+                        break;
 
 
                 }

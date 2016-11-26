@@ -5,38 +5,38 @@ angular.module('app').controller('adminTableCtl', ['$scope', '$ocLazyLoad', 'NgT
     function ($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, appPath, $interval, dsEdit, dsMeta) {
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.whole = '';
-		// 初始化ng-table表头
+        // 初始化ng-table表头
         $scope.adminTableCols = [
-			  {
-				  field: 'num_index',
-				  title: '序号',
-				  width: '35px',
-				  show: true,
-				  sortable: 'num_index'
-			  },
-			  {
-				  field: 'adminareacode',
-				  title: '行政区划代码',
-				  width: '35px',
-				  show: true,
-				  sortable: 'adminareacode'
-			  },
-			  {
-				  field: 'whole',
-				  title: '行政区划名称',
-				  width: '35px',
-				  show: true,
-				  sortable: 'whole'
-			  }
-		 ];
-		// 表格配置搜索;
+            {
+                field: 'num_index',
+                title: '序号',
+                width: '35px',
+                show: true,
+                sortable: 'num_index'
+            },
+            {
+                field: 'adminareacode',
+                title: '行政区划代码',
+                width: '35px',
+                show: true,
+                sortable: 'adminareacode'
+            },
+            {
+                field: 'whole',
+                title: '行政区划名称',
+                width: '35px',
+                show: true,
+                sortable: 'whole'
+            }
+        ];
+        // 表格配置搜索;
         $scope.filters = {
-    			name: ''
-    	 };
+            name: ''
+        };
         $scope.$on('CHANGEADMINTABLEFITERPARAM', function (event, data) {
             $scope.filters.name = data.whole;
         });
-		// 初始化ng-table表格
+        // 初始化ng-table表格
         function initAdminTable() {
             $scope.adminTableParams = new NgTableParams({
                 page: 1,

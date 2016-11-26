@@ -70,181 +70,181 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
             if (layers[layer].tiles && layers[layer].tiles[tileCoordinate.join(':')]) {
                 var tileData = layers[layer].tiles[tileCoordinate.join(':')].data;
                 switch (layers[layer].type) {
-                case 'LineString':
+                    case 'LineString':
 
-                    for (var line in tileData) {
-                        var lineGeo = tileData[line].geometry.coordinates;
+                        for (var line in tileData) {
+                            var lineGeo = tileData[line].geometry.coordinates;
               // 计算鼠标点和线的关系
-                        if (this._TouchesPath(tileData[line].geometry.coordinates, x, y, 5)) {
-                            this.selectData.lineStrings.push({
-                                id: tileData[line].properties.id,
-                                optype: tileData[line].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[line].properties,
-                                layer: layers[layer]
-                            });
-                        }
-                    }
-                    break;
-                case 'Marker':
-
-                    for (var marker in tileData) {
-                        var lineGeo;
-
-                        switch (tileData[marker].properties.featType) {
-                        case 'RDCROSS':
-                            lineGeo = tileData[marker].geometry.coordinates;
-
-                            for (var j in lineGeo) {
-                                if (this._TouchesPoint(lineGeo[j], x, y, 5)) {
-                                    this.selectData.markers.push({
-                                        id: tileData[marker].properties.id,
-                                        optype: tileData[marker].properties.featType,
-                                        event: event,
-                                        point: point,
-                                        properties: tileData[marker].properties,
-                                        layer: layers[layer]
-                                    });
-                                }
+                            if (this._TouchesPath(tileData[line].geometry.coordinates, x, y, 5)) {
+                                this.selectData.lineStrings.push({
+                                    id: tileData[line].properties.id,
+                                    optype: tileData[line].properties.featType,
+                                    event: event,
+                                    point: point,
+                                    properties: tileData[line].properties,
+                                    layer: layers[layer]
+                                });
                             }
+                        }
+                        break;
+                    case 'Marker':
 
-                            break;
-                        case 'RDGSC':
-                            lineGeo = tileData[marker].geometry.coordinates;
-                            for (var key in lineGeo) {
-                                if (this._TouchesPath(lineGeo[key].g, x, y, 10)) {
-                                    this.selectData.markers.push({
-                                        id: tileData[marker].properties.id,
-                                        optype: tileData[marker].properties.featType,
-                                        event: event,
-                                        point: point,
-                                        properties: tileData[marker].properties,
-                                        layer: layers[layer]
-                                    });
+                        for (var marker in tileData) {
+                            var lineGeo;
 
-                                    this.mouseMoveHeight.highLightFeatures = [{
-                                        id: tileData[marker].properties.id,
-                                        layerid: layers[layer].options.id,
+                            switch (tileData[marker].properties.featType) {
+                                case 'RDCROSS':
+                                    lineGeo = tileData[marker].geometry.coordinates;
 
-                                        type: '',
-                                        style: {}
-                                    }];
-                                    this.mouseMoveHeight.drawHighlight();
+                                    for (var j in lineGeo) {
+                                        if (this._TouchesPoint(lineGeo[j], x, y, 5)) {
+                                            this.selectData.markers.push({
+                                                id: tileData[marker].properties.id,
+                                                optype: tileData[marker].properties.featType,
+                                                event: event,
+                                                point: point,
+                                                properties: tileData[marker].properties,
+                                                layer: layers[layer]
+                                            });
+                                        }
+                                    }
+
                                     break;
-                                }
-                            }
-                            break;
-                        case 'RDLANECONNEXITY':
-                        case 'RDRESTRICTION':
-                        case 'RDBRANCH':
-                        case 'RDTRAFFICSIGNAL':
-                        case 'RDGATE':
-                        case 'RDSPEEDLIMIT':
-                        case 'RDWARNINGINFO':
-                        case 'RDELECTRONICEYE':
-                        case 'RDSLOPE':
-                        case 'RDDIRECTROUTE':
-                        case 'RDSPEEDBUMP':
-                        case 'RDSE':
-                        case 'RDTOLLGATE':
-                        case 'RDVARIABLESPEED':
-                        case 'RDVOICEGUIDE':
-                        case 'RDLANE':
-                        case 'RDINTER':
-                        case 'RDOBJECT':
-                        case 'RDSAMENODE':
-                        case 'RDHGWGLIMIT':
-                        case 'RDLINKSPEEDLIMIT':
-                            lineGeo = tileData[marker].geometry.coordinates;
-                            if (this._TouchesPoint(lineGeo, x, y, 15)) {
-                                this.selectData.markers.push({
-                                    id: tileData[marker].properties.id,
-                                    optype: tileData[marker].properties.featType,
-                                    event: event,
-                                    point: point,
-                                    properties: tileData[marker].properties,
-                                    layer: layers[layer]
-                                });
-                            }
-                            break;
-                        case 'RDROAD':
-                        case 'RDSAMELINK':
-                            if (this._TouchesPath(tileData[marker].geometry.coordinates, x, y, 5)) {
-                                this.selectData.markers.push({
-                                    id: tileData[marker].properties.id,
-                                    optype: tileData[marker].properties.featType,
-                                    event: event,
-                                    point: point,
-                                    properties: tileData[marker].properties,
-                                    layer: layers[layer]
-                                });
-                            }
-                            break;
-                        }
-                    }
-                    break;
-                case 'PointFeature':
-                    for (var pointfeature in tileData) {
-                        var lineGeo = tileData[pointfeature].geometry.coordinates;
-              // 计算鼠标点和线的关系
-                        if (this._TouchesPoint(tileData[pointfeature].geometry.coordinates, x, y, 5)) {
-                            this.selectData.pointFeatures.push({
-                                id: tileData[pointfeature].properties.id,
-                                optype: tileData[pointfeature].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[pointfeature].properties,
-                                layer: layers[layer]
-                            });
-                        }
-                    }
-                    break;
-                case 'Point':
-                    for (var p in tileData) {
-                        if (this._TouchesPoint(tileData[p].geometry.coordinates, x, y, 5)) {
-                            this.selectData.points.push({
-                                id: tileData[p].properties.id,
-                                optype: tileData[p].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[p].properties,
-                                layer: layers[layer]
-                            });
-                        }
-                    }
+                                case 'RDGSC':
+                                    lineGeo = tileData[marker].geometry.coordinates;
+                                    for (var key in lineGeo) {
+                                        if (this._TouchesPath(lineGeo[key].g, x, y, 10)) {
+                                            this.selectData.markers.push({
+                                                id: tileData[marker].properties.id,
+                                                optype: tileData[marker].properties.featType,
+                                                event: event,
+                                                point: point,
+                                                properties: tileData[marker].properties,
+                                                layer: layers[layer]
+                                            });
 
-                    break;
-                case 'TipPoint':
-                    for (var tips in tileData) {
-                        if (this._TouchesPoint(tileData[tips].geometry.coordinates, x, y, 5)) {
-                            var temp = {
-                                id: tileData[tips].properties.id,
-                                optype: tileData[tips].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[tips].properties,
-                                layer: layers[layer]
-                            };
-                            temp.properties.featType = 'TIPS'; // 对tips特殊处理，为了解决tips选中显示undefined的问题
-                            this.selectData.tips.push(temp);
+                                            this.mouseMoveHeight.highLightFeatures = [{
+                                                id: tileData[marker].properties.id,
+                                                layerid: layers[layer].options.id,
+
+                                                type: '',
+                                                style: {}
+                                            }];
+                                            this.mouseMoveHeight.drawHighlight();
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                case 'RDLANECONNEXITY':
+                                case 'RDRESTRICTION':
+                                case 'RDBRANCH':
+                                case 'RDTRAFFICSIGNAL':
+                                case 'RDGATE':
+                                case 'RDSPEEDLIMIT':
+                                case 'RDWARNINGINFO':
+                                case 'RDELECTRONICEYE':
+                                case 'RDSLOPE':
+                                case 'RDDIRECTROUTE':
+                                case 'RDSPEEDBUMP':
+                                case 'RDSE':
+                                case 'RDTOLLGATE':
+                                case 'RDVARIABLESPEED':
+                                case 'RDVOICEGUIDE':
+                                case 'RDLANE':
+                                case 'RDINTER':
+                                case 'RDOBJECT':
+                                case 'RDSAMENODE':
+                                case 'RDHGWGLIMIT':
+                                case 'RDLINKSPEEDLIMIT':
+                                    lineGeo = tileData[marker].geometry.coordinates;
+                                    if (this._TouchesPoint(lineGeo, x, y, 15)) {
+                                        this.selectData.markers.push({
+                                            id: tileData[marker].properties.id,
+                                            optype: tileData[marker].properties.featType,
+                                            event: event,
+                                            point: point,
+                                            properties: tileData[marker].properties,
+                                            layer: layers[layer]
+                                        });
+                                    }
+                                    break;
+                                case 'RDROAD':
+                                case 'RDSAMELINK':
+                                    if (this._TouchesPath(tileData[marker].geometry.coordinates, x, y, 5)) {
+                                        this.selectData.markers.push({
+                                            id: tileData[marker].properties.id,
+                                            optype: tileData[marker].properties.featType,
+                                            event: event,
+                                            point: point,
+                                            properties: tileData[marker].properties,
+                                            layer: layers[layer]
+                                        });
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    break;
-                case 'Polygon':
-                    for (var polygon in tileData) {
-                        if (this._containPoint(tileData[polygon].geometry.coordinates, x, y, 5)) {
-                            this.selectData.polygons.push({
-                                id: tileData[polygon].properties.id,
-                                optype: tileData[polygon].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[polygon].properties,
-                                layer: layers[layer]
-                            });
+                        break;
+                    case 'PointFeature':
+                        for (var pointfeature in tileData) {
+                            var lineGeo = tileData[pointfeature].geometry.coordinates;
+              // 计算鼠标点和线的关系
+                            if (this._TouchesPoint(tileData[pointfeature].geometry.coordinates, x, y, 5)) {
+                                this.selectData.pointFeatures.push({
+                                    id: tileData[pointfeature].properties.id,
+                                    optype: tileData[pointfeature].properties.featType,
+                                    event: event,
+                                    point: point,
+                                    properties: tileData[pointfeature].properties,
+                                    layer: layers[layer]
+                                });
+                            }
                         }
-                    }
-                    break;
+                        break;
+                    case 'Point':
+                        for (var p in tileData) {
+                            if (this._TouchesPoint(tileData[p].geometry.coordinates, x, y, 5)) {
+                                this.selectData.points.push({
+                                    id: tileData[p].properties.id,
+                                    optype: tileData[p].properties.featType,
+                                    event: event,
+                                    point: point,
+                                    properties: tileData[p].properties,
+                                    layer: layers[layer]
+                                });
+                            }
+                        }
+
+                        break;
+                    case 'TipPoint':
+                        for (var tips in tileData) {
+                            if (this._TouchesPoint(tileData[tips].geometry.coordinates, x, y, 5)) {
+                                var temp = {
+                                    id: tileData[tips].properties.id,
+                                    optype: tileData[tips].properties.featType,
+                                    event: event,
+                                    point: point,
+                                    properties: tileData[tips].properties,
+                                    layer: layers[layer]
+                                };
+                                temp.properties.featType = 'TIPS'; // 对tips特殊处理，为了解决tips选中显示undefined的问题
+                                this.selectData.tips.push(temp);
+                            }
+                        }
+                        break;
+                    case 'Polygon':
+                        for (var polygon in tileData) {
+                            if (this._containPoint(tileData[polygon].geometry.coordinates, x, y, 5)) {
+                                this.selectData.polygons.push({
+                                    id: tileData[polygon].properties.id,
+                                    optype: tileData[polygon].properties.featType,
+                                    event: event,
+                                    point: point,
+                                    properties: tileData[polygon].properties,
+                                    layer: layers[layer]
+                                });
+                            }
+                        }
+                        break;
                 }
             }
         }
@@ -324,76 +324,76 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                         for (var item in totalFeature) {
                             if (e.target.id == totalFeature[item].properties.featType + totalFeature[item].id) {
                                 switch (totalFeature[item].properties.featType) {
-                                case 'RDLINK':
-                                case 'RWLINK':
-                                case 'ZONELINK':
-                                case 'LULINK':
-                                case 'LCLINK':
-                                    that.mouseMoveHeight.highLightFeatures = [{
-                                        id: totalFeature[item].properties.id,
-                                        layerid: totalFeature[item].layer.options.id,
-                                        type: 'line',
-                                        style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red', strokeOpacity: 0.5 }
-                                    }];
+                                    case 'RDLINK':
+                                    case 'RWLINK':
+                                    case 'ZONELINK':
+                                    case 'LULINK':
+                                    case 'LCLINK':
+                                        that.mouseMoveHeight.highLightFeatures = [{
+                                            id: totalFeature[item].properties.id,
+                                            layerid: totalFeature[item].layer.options.id,
+                                            type: 'line',
+                                            style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red', strokeOpacity: 0.5 }
+                                        }];
 
-                                    that.mouseMoveHeight.drawHighlight();
-                                    break;
-                                case 'RDNODE':
+                                        that.mouseMoveHeight.drawHighlight();
+                                        break;
+                                    case 'RDNODE':
 
-                                    that.mouseMoveHeight.highLightFeatures = [{
-                                        id: totalFeature[item].properties.id,
-                                        layerid: 'rdLink',
-                                        type: 'node',
-                                        style: { strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red', strokeOpacity: 0.5 }
-                                    }];
+                                        that.mouseMoveHeight.highLightFeatures = [{
+                                            id: totalFeature[item].properties.id,
+                                            layerid: 'rdLink',
+                                            type: 'node',
+                                            style: { strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red', strokeOpacity: 0.5 }
+                                        }];
 
-                                    that.mouseMoveHeight.drawHighlight();
-                                    break;
-                                case 'RWNODE':
-                                case 'ZONENODE':
-                                case 'LUNODE':
-                                case 'LCNODE':
-                                    that.mouseMoveHeight.highLightFeatures = [{
-                                        id: totalFeature[item].properties.id,
-                                        layerid: totalFeature[item].layer.options.id,
-                                        type: 'node',
-                                        style: { strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red', strokeOpacity: 0.5 }
-                                    }];
-                                    that.mouseMoveHeight.drawHighlight();
-                                    break;
-                                case 'RDCROSS':
-                                case 'RDLANECONNEXITY':
-                                case 'RDRESTRICTION':
-                                case 'RDBRANCH':
-                                case 'RDTRAFFICSIGNAL':
-                                case 'RDGATE':
-                                case 'RDSPEEDLIMIT':
-                                case 'RDWARNINGINFO':
-                                case 'RDELECTRONICEYE':
-                                case 'RDSLOPE':
-                                case 'RDDIRECTROUTE':
-                                case 'RDSPEEDBUMP':
-                                case 'RDSE':
-                                case 'RDTOLLGATE':
-                                case 'RDVARIABLESPEED':
-                                case 'RDVOICEGUIDE':
-                                case 'RDGSC':
-                                case 'RDINTER':
-                                case 'RDOBJECT':
-                                case 'RDSAMENODE':
-                                case 'RDLINKSPEEDLIMIT':
+                                        that.mouseMoveHeight.drawHighlight();
+                                        break;
+                                    case 'RWNODE':
+                                    case 'ZONENODE':
+                                    case 'LUNODE':
+                                    case 'LCNODE':
+                                        that.mouseMoveHeight.highLightFeatures = [{
+                                            id: totalFeature[item].properties.id,
+                                            layerid: totalFeature[item].layer.options.id,
+                                            type: 'node',
+                                            style: { strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red', strokeOpacity: 0.5 }
+                                        }];
+                                        that.mouseMoveHeight.drawHighlight();
+                                        break;
+                                    case 'RDCROSS':
+                                    case 'RDLANECONNEXITY':
+                                    case 'RDRESTRICTION':
+                                    case 'RDBRANCH':
+                                    case 'RDTRAFFICSIGNAL':
+                                    case 'RDGATE':
+                                    case 'RDSPEEDLIMIT':
+                                    case 'RDWARNINGINFO':
+                                    case 'RDELECTRONICEYE':
+                                    case 'RDSLOPE':
+                                    case 'RDDIRECTROUTE':
+                                    case 'RDSPEEDBUMP':
+                                    case 'RDSE':
+                                    case 'RDTOLLGATE':
+                                    case 'RDVARIABLESPEED':
+                                    case 'RDVOICEGUIDE':
+                                    case 'RDGSC':
+                                    case 'RDINTER':
+                                    case 'RDOBJECT':
+                                    case 'RDSAMENODE':
+                                    case 'RDLINKSPEEDLIMIT':
 
-                                case 'RDROAD':
-                                case 'RDSAMELINK':
-                                case 'IXPOI':
-                                    that.mouseMoveHeight.highLightFeatures = [{
-                                        id: totalFeature[item].properties.id,
-                                        layerid: totalFeature[item].layer.options.id,
-                                        type: 'marker',
-                                        style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red', strokeOpacity: 0.5 }
-                                    }];
-                                    that.mouseMoveHeight.drawHighlight('mouseover');
-                                    break;
+                                    case 'RDROAD':
+                                    case 'RDSAMELINK':
+                                    case 'IXPOI':
+                                        that.mouseMoveHeight.highLightFeatures = [{
+                                            id: totalFeature[item].properties.id,
+                                            layerid: totalFeature[item].layer.options.id,
+                                            type: 'marker',
+                                            style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red', strokeOpacity: 0.5 }
+                                        }];
+                                        that.mouseMoveHeight.drawHighlight('mouseover');
+                                        break;
 
                                 }
                             }
@@ -410,74 +410,74 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
         }
     },
     
-  fireEvents: function (type, data, event) {
-    switch (type) {
-      case 'lineStrings':
-        this.eventController.fire(this.eventController.eventTypes.GETLINKID, data);
-        break;
-      case 'markers':
-        this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
-          id: data.properties.id,
-          rowId: data.properties.rowId,
-          optype: data.properties.featType,
-          selectData: data,
-          branchType: data.properties.branchType,
-          //tileId:this.selectData[0].tileId,
-          event: event
-        });
-        break;
-      case 'pointFeatures':
-        this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
-        break;
-      case 'points':
-        this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
-        break;
-      case 'polygons':
-        this.eventController.fire(this.eventController.eventTypes.GETFACEID, data);
-        break;
-      case 'tips':
-        this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {
-          id: data.properties.id,
-          tips: 0,
-          optype: "TIPS"
-        })
-        break;
-    }
-  },
+    fireEvents: function (type, data, event) {
+        switch (type) {
+            case 'lineStrings':
+                this.eventController.fire(this.eventController.eventTypes.GETLINKID, data);
+                break;
+            case 'markers':
+                this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                    id: data.properties.id,
+                    rowId: data.properties.rowId,
+                    optype: data.properties.featType,
+                    selectData: data,
+                    branchType: data.properties.branchType,
+          // tileId:this.selectData[0].tileId,
+                    event: event
+                });
+                break;
+            case 'pointFeatures':
+                this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
+                break;
+            case 'points':
+                this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
+                break;
+            case 'polygons':
+                this.eventController.fire(this.eventController.eventTypes.GETFACEID, data);
+                break;
+            case 'tips':
+                this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {
+                    id: data.properties.id,
+                    tips: 0,
+                    optype: 'TIPS'
+                });
+                break;
+        }
+    },
 
     fireEvents: function (type, data, event) {
         switch (type) {
-        case 'lineStrings':
-            this.eventController.fire(this.eventController.eventTypes.GETLINKID, data);
-            break;
-        case 'markers':
-            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
-                id: data.properties.id,
-                rowId: data.properties.rowId,
-                optype: data.properties.featType,
-                selectData: data,
-                branchType: data.properties.branchType,
-                restrictionType: data.properties.restrictionType,
+            case 'lineStrings':
+                this.eventController.fire(this.eventController.eventTypes.GETLINKID, data);
+                break;
+            case 'markers':
+                this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                    id: data.properties.id,
+                    rowId: data.properties.rowId,
+                    optype: data.properties.featType,
+                    selectData: data,
+                    branchType: data.properties.branchType,
+                    restrictionType: data.properties.restrictionType,
           // tileId:this.selectData[0].tileId,
-                event: event
-            });
-            break;
-        case 'pointFeatures':
-            this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
-            break;
-        case 'points':
-            this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
-            break;
-        case 'polygons':
-            this.eventController.fire(this.eventController.eventTypes.GETFACEID, data);
-            break;
-        case 'tips':
-            this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {
-                id: data.properties.id,
-                tips: 0,
-                optype: 'TIPS'
-            });
-            break;
+                    event: event
+                });
+                break;
+            case 'pointFeatures':
+                this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
+                break;
+            case 'points':
+                this.eventController.fire(this.eventController.eventTypes.GETNODEID, data);
+                break;
+            case 'polygons':
+                this.eventController.fire(this.eventController.eventTypes.GETFACEID, data);
+                break;
+            case 'tips':
+                this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {
+                    id: data.properties.id,
+                    tips: 0,
+                    optype: 'TIPS'
+                });
+                break;
         }
     },
 
@@ -508,247 +508,247 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
             if (layers[layer].tiles && layers[layer].tiles[tileCoordinate.join(':')]) {
                 var tileData = layers[layer].tiles[tileCoordinate.join(':')].data;
                 switch (layers[layer].type) {
-                case 'LineString':
+                    case 'LineString':
 
-                    for (var line in tileData) {
-                        var lineGeo = tileData[line].geometry.coordinates;
+                        for (var line in tileData) {
+                            var lineGeo = tileData[line].geometry.coordinates;
               // 计算鼠标点和线的关系
-                        if (this._TouchesPath(tileData[line].geometry.coordinates, x, y, 5)) {
-                            this.selectData.lineStrings.push({
-                                id: tileData[line].properties.id,
-                                optype: tileData[line].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[line].properties,
-                                layer: layers[layer]
-                            });
-
-                            this.mouseMoveHeight.highLightFeatures = [{
-                                id: tileData[line].properties.id,
-                                layerid: layers[layer].options.id,
-                                type: 'line',
-                                style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red', strokeOpacity: 0.5 }
-                            }];
-
-                            this.mouseMoveHeight.drawHighlight();
-                        }
-                    }
-                    break;
-                case 'Marker':
-
-                    for (var marker in tileData) {
-                        var lineGeo;
-
-                        switch (tileData[marker].properties.featType) {
-                        case 'RDCROSS':
-                            lineGeo = tileData[marker].geometry.coordinates;
-
-                            for (var j in lineGeo) {
-                                if (this._TouchesPoint(lineGeo[j], x, y, 5)) {
-                                    this.selectData.markers.push({
-                                        id: tileData[marker].properties.id,
-                                        optype: tileData[marker].properties.featType,
-                                        event: event,
-                                        point: point,
-                                        properties: tileData[marker].properties,
-                                        layer: layers[layer]
-                                    });
-
-                                    this.mouseMoveHeight.highLightFeatures = [{
-                                        id: tileData[marker].properties.id,
-                                        layerid: layers[layer].options.id,
-                                        type: 'marker',
-                                        style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red', strokeOpacity: 0.5 }
-                                    }];
-
-                                    this.mouseMoveHeight.drawHighlight();
-
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 'RDGSC':
-                            lineGeo = tileData[marker].geometry.coordinates;
-                            for (var key in lineGeo) {
-                                if (this._TouchesPath(lineGeo[key].g, x, y, 10)) {
-                                    this.selectData.markers.push({
-                                        id: tileData[marker].properties.id,
-                                        optype: tileData[marker].properties.featType,
-                                        event: event,
-                                        point: point,
-                                        properties: tileData[marker].properties,
-                                        layer: layers[layer]
-                                    });
-
-                                    this.mouseMoveHeight.highLightFeatures = [{
-                                        id: tileData[marker].properties.id,
-                                        layerid: layers[layer].options.id,
-
-                                        type: '',
-                                        style: {}
-                                    }];
-
-                                    this.mouseMoveHeight.drawHighlight();
-                                    break;
-                                }
-                            }
-                            break;
-                        case 'RDLANECONNEXITY':
-                        case 'RDRESTRICTION':
-                        case 'RDBRANCH':
-                        case 'RDTRAFFICSIGNAL':
-                        case 'RDGATE':
-                        case 'RDSPEEDLIMIT':
-                        case 'RDWARNINGINFO':
-                        case 'RDELECTRONICEYE':
-                        case 'RDSLOPE':
-                        case 'RDDIRECTROUTE':
-                        case 'RDSPEEDBUMP':
-                        case 'RDSE':
-                        case 'RDTOLLGATE':
-                        case 'RDVARIABLESPEED':
-                        case 'RDVOICEGUIDE':
-                        case 'RDINTER':
-                        case 'RDOBJECT':
-                        case 'RDSAMENODE':
-                        case 'RDLINKSPEEDLIMIT':
-                            lineGeo = tileData[marker].geometry.coordinates;
-                            if (this._TouchesPoint(lineGeo, x, y, 15)) {
-                                this.selectData.markers.push({
-                                    id: tileData[marker].properties.id,
-                                    optype: tileData[marker].properties.featType,
+                            if (this._TouchesPath(tileData[line].geometry.coordinates, x, y, 5)) {
+                                this.selectData.lineStrings.push({
+                                    id: tileData[line].properties.id,
+                                    optype: tileData[line].properties.featType,
                                     event: event,
                                     point: point,
-                                    properties: tileData[marker].properties,
+                                    properties: tileData[line].properties,
                                     layer: layers[layer]
                                 });
 
                                 this.mouseMoveHeight.highLightFeatures = [{
-                                    id: tileData[marker].properties.id,
+                                    id: tileData[line].properties.id,
                                     layerid: layers[layer].options.id,
-
-                                    type: '',
-                                    style: {}
+                                    type: 'line',
+                                    style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red', strokeOpacity: 0.5 }
                                 }];
 
                                 this.mouseMoveHeight.drawHighlight();
-                                break;
+                            }
+                        }
+                        break;
+                    case 'Marker':
+
+                        for (var marker in tileData) {
+                            var lineGeo;
+
+                            switch (tileData[marker].properties.featType) {
+                                case 'RDCROSS':
+                                    lineGeo = tileData[marker].geometry.coordinates;
+
+                                    for (var j in lineGeo) {
+                                        if (this._TouchesPoint(lineGeo[j], x, y, 5)) {
+                                            this.selectData.markers.push({
+                                                id: tileData[marker].properties.id,
+                                                optype: tileData[marker].properties.featType,
+                                                event: event,
+                                                point: point,
+                                                properties: tileData[marker].properties,
+                                                layer: layers[layer]
+                                            });
+
+                                            this.mouseMoveHeight.highLightFeatures = [{
+                                                id: tileData[marker].properties.id,
+                                                layerid: layers[layer].options.id,
+                                                type: 'marker',
+                                                style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red', strokeOpacity: 0.5 }
+                                            }];
+
+                                            this.mouseMoveHeight.drawHighlight();
+
+                                            break;
+                                        }
+                                    }
+
+                                    break;
+                                case 'RDGSC':
+                                    lineGeo = tileData[marker].geometry.coordinates;
+                                    for (var key in lineGeo) {
+                                        if (this._TouchesPath(lineGeo[key].g, x, y, 10)) {
+                                            this.selectData.markers.push({
+                                                id: tileData[marker].properties.id,
+                                                optype: tileData[marker].properties.featType,
+                                                event: event,
+                                                point: point,
+                                                properties: tileData[marker].properties,
+                                                layer: layers[layer]
+                                            });
+
+                                            this.mouseMoveHeight.highLightFeatures = [{
+                                                id: tileData[marker].properties.id,
+                                                layerid: layers[layer].options.id,
+
+                                                type: '',
+                                                style: {}
+                                            }];
+
+                                            this.mouseMoveHeight.drawHighlight();
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                case 'RDLANECONNEXITY':
+                                case 'RDRESTRICTION':
+                                case 'RDBRANCH':
+                                case 'RDTRAFFICSIGNAL':
+                                case 'RDGATE':
+                                case 'RDSPEEDLIMIT':
+                                case 'RDWARNINGINFO':
+                                case 'RDELECTRONICEYE':
+                                case 'RDSLOPE':
+                                case 'RDDIRECTROUTE':
+                                case 'RDSPEEDBUMP':
+                                case 'RDSE':
+                                case 'RDTOLLGATE':
+                                case 'RDVARIABLESPEED':
+                                case 'RDVOICEGUIDE':
+                                case 'RDINTER':
+                                case 'RDOBJECT':
+                                case 'RDSAMENODE':
+                                case 'RDLINKSPEEDLIMIT':
+                                    lineGeo = tileData[marker].geometry.coordinates;
+                                    if (this._TouchesPoint(lineGeo, x, y, 15)) {
+                                        this.selectData.markers.push({
+                                            id: tileData[marker].properties.id,
+                                            optype: tileData[marker].properties.featType,
+                                            event: event,
+                                            point: point,
+                                            properties: tileData[marker].properties,
+                                            layer: layers[layer]
+                                        });
+
+                                        this.mouseMoveHeight.highLightFeatures = [{
+                                            id: tileData[marker].properties.id,
+                                            layerid: layers[layer].options.id,
+
+                                            type: '',
+                                            style: {}
+                                        }];
+
+                                        this.mouseMoveHeight.drawHighlight();
+                                        break;
+                                    }
+
+                                    break;
+                                case 'RDLANE':// 详细车道
+                                    break;
+                                case 'RDROAD':
+                                case 'RDSAMELINK':
+                                    if (this._TouchesPath(tileData[marker].geometry.coordinates, x, y, 5)) {
+                                        this.selectData.markers.push({
+                                            id: tileData[marker].properties.id,
+                                            optype: tileData[marker].properties.featType,
+                                            event: event,
+                                            point: point,
+                                            properties: tileData[marker].properties,
+                                            layer: layers[layer]
+                                        });
+                                        this.mouseMoveHeight.highLightFeatures = [{
+                                            id: tileData[marker].properties.id,
+                                            layerid: layers[layer].options.id,
+                                            type: 'marker',
+                                            style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red' }
+                                        }];
+
+                                        this.mouseMoveHeight.drawHighlight();
+                                        break;
+                                    }
+
+                                    break;
                             }
 
-                            break;
-                        case 'RDLANE':// 详细车道
-                            break;
-                        case 'RDROAD':
-                        case 'RDSAMELINK':
-                            if (this._TouchesPath(tileData[marker].geometry.coordinates, x, y, 5)) {
-                                this.selectData.markers.push({
-                                    id: tileData[marker].properties.id,
-                                    optype: tileData[marker].properties.featType,
+              // 计算鼠标点和线的关系
+                        }
+                        break;
+                    case 'PointFeature':
+                        for (var pointfeature in tileData) {
+                            var lineGeo = tileData[pointfeature].geometry.coordinates;
+              // 计算鼠标点和线的关系
+                            if (this._TouchesPoint(tileData[pointfeature].geometry.coordinates, x, y, 5)) {
+                                this.selectData.pointFeatures.push({
+                                    id: tileData[pointfeature].properties.id,
+                                    optype: tileData[pointfeature].properties.featType,
                                     event: event,
                                     point: point,
-                                    properties: tileData[marker].properties,
+                                    properties: tileData[pointfeature].properties,
                                     layer: layers[layer]
                                 });
                                 this.mouseMoveHeight.highLightFeatures = [{
-                                    id: tileData[marker].properties.id,
+                                    id: tileData[pointfeature].properties.id,
                                     layerid: layers[layer].options.id,
-                                    type: 'marker',
+                                    type: 'PointFeature',
                                     style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red' }
                                 }];
+                                this.mouseMoveHeight.drawHighlight('mouseover');
+                            }
+                        }
+                        break;
+                    case 'Point':
+                        for (var p in tileData) {
+                            if (this._TouchesPoint(tileData[p].geometry.coordinates, x, y, 5)) {
+                                this.selectData.points.push({
+                                    id: tileData[p].properties.id,
+                                    optype: tileData[p].properties.featType,
+                                    event: event,
+                                    point: point,
+                                    properties: tileData[p].properties,
+                                    layer: layers[layer]
+                                });
+                                this.mouseMoveHeight.highLightFeatures = [{
+                                    id: tileData[p].properties.id,
+                                    layerid: layers[layer].options.id,
+                                    type: 'node',
+                                    style: { strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red' }
+                                }];
 
                                 this.mouseMoveHeight.drawHighlight();
                                 break;
                             }
-
-                            break;
                         }
 
-              // 计算鼠标点和线的关系
-                    }
-                    break;
-                case 'PointFeature':
-                    for (var pointfeature in tileData) {
-                        var lineGeo = tileData[pointfeature].geometry.coordinates;
-              // 计算鼠标点和线的关系
-                        if (this._TouchesPoint(tileData[pointfeature].geometry.coordinates, x, y, 5)) {
-                            this.selectData.pointFeatures.push({
-                                id: tileData[pointfeature].properties.id,
-                                optype: tileData[pointfeature].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[pointfeature].properties,
-                                layer: layers[layer]
-                            });
-                            this.mouseMoveHeight.highLightFeatures = [{
-                                id: tileData[pointfeature].properties.id,
-                                layerid: layers[layer].options.id,
-                                type: 'PointFeature',
-                                style: { strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red' }
-                            }];
-                            this.mouseMoveHeight.drawHighlight('mouseover');
-                        }
-                    }
-                    break;
-                case 'Point':
-                    for (var p in tileData) {
-                        if (this._TouchesPoint(tileData[p].geometry.coordinates, x, y, 5)) {
-                            this.selectData.points.push({
-                                id: tileData[p].properties.id,
-                                optype: tileData[p].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[p].properties,
-                                layer: layers[layer]
-                            });
-                            this.mouseMoveHeight.highLightFeatures = [{
-                                id: tileData[p].properties.id,
-                                layerid: layers[layer].options.id,
-                                type: 'node',
-                                style: { strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red' }
-                            }];
+                        break;
+                    case 'TipPoint':
+                        for (var tips in tileData) {
+                            if (this._TouchesPoint(tileData[tips].geometry.coordinates, x, y, 5)) {
+                                this.selectData.tips.push({
+                                    id: tileData[tips].properties.id,
+                                    optype: tileData[tips].properties.featType,
+                                    event: event,
+                                    point: point,
+                                    properties: tileData[tips].properties,
+                                    layer: layers[layer]
+                                });
+                                this.mouseMoveHeight.highLightFeatures = [{
+                                    id: tileData[tips].properties.id,
+                                    layerid: 'workPoint',
+                                    type: 'workPoint'
+                                }];
 
-                            this.mouseMoveHeight.drawHighlight();
-                            break;
+                                this.mouseMoveHeight.drawHighlight();
+                            }
                         }
-                    }
-
-                    break;
-                case 'TipPoint':
-                    for (var tips in tileData) {
-                        if (this._TouchesPoint(tileData[tips].geometry.coordinates, x, y, 5)) {
-                            this.selectData.tips.push({
-                                id: tileData[tips].properties.id,
-                                optype: tileData[tips].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[tips].properties,
-                                layer: layers[layer]
-                            });
-                            this.mouseMoveHeight.highLightFeatures = [{
-                                id: tileData[tips].properties.id,
-                                layerid: 'workPoint',
-                                type: 'workPoint'
-                            }];
-
-                            this.mouseMoveHeight.drawHighlight();
+                        break;
+                    case 'Polygon':
+                        for (var polygon in tileData) {
+                            if (this._containPoint(tileData[polygon].geometry.coordinates, x, y, 5)) {
+                                this.selectData.polygons.push({
+                                    id: tileData[polygon].properties.id,
+                                    optype: tileData[polygon].properties.featType,
+                                    event: event,
+                                    point: point,
+                                    properties: tileData[polygon].properties,
+                                    layer: layers[layer]
+                                });
+                            }
                         }
-                    }
-                    break;
-                case 'Polygon':
-                    for (var polygon in tileData) {
-                        if (this._containPoint(tileData[polygon].geometry.coordinates, x, y, 5)) {
-                            this.selectData.polygons.push({
-                                id: tileData[polygon].properties.id,
-                                optype: tileData[polygon].properties.featType,
-                                event: event,
-                                point: point,
-                                properties: tileData[polygon].properties,
-                                layer: layers[layer]
-                            });
-                        }
-                    }
-                    break;
+                        break;
                 }
             }
         }

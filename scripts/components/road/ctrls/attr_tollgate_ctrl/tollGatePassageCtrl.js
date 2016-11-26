@@ -75,7 +75,9 @@ tollApp.controller('TollGatePassageCtl', ['$scope', 'dsEdit', function ($scope, 
      */
     $scope.carSelect = function (item, index) {
         // 根据点击的位置必须要更新当前编辑数组的下标;
-        if (index || index == 0) { $scope.passageIndex = index; }
+        if (index || index == 0) {
+            $scope.passageIndex = index;
+        }
         if (item.checked) {
             item.checked = false;
             for (var i in $scope.carData[$scope.passageIndex]) {
@@ -119,7 +121,10 @@ tollApp.controller('TollGatePassageCtl', ['$scope', 'dsEdit', function ($scope, 
         /* 将车辆类型面板显示到指定位置*/
         var dateTimeWell = $(e.target).parents('.fm-container').parent();
         $('body').append($(e.target).parents('.fm-container').find('.carTypeTip'));
-        $('.carTypeTip').css({ top: ($(e.target).offset().top - 80) + 'px', right: (dateTimeWell.attr('data-type') == 1) ? '300px' : '600px' });
+        $('.carTypeTip').css({
+            top: ($(e.target).offset().top - 80) + 'px',
+            right: (dateTimeWell.attr('data-type') == 1) ? '300px' : '600px'
+        });
         $('body .carTypeTip:last').show();
 
         $scope.passageIndex = index;
@@ -198,7 +203,7 @@ tollApp.controller('TollGatePassageCtl', ['$scope', 'dsEdit', function ($scope, 
         $scope.$emit('tollGateCardType', true);
     };
 
-/* ---------------------------------------------公共方法---------------------------------------------*/
+    /* ---------------------------------------------公共方法---------------------------------------------*/
 
     /**
      *初始化洗车类型选项;

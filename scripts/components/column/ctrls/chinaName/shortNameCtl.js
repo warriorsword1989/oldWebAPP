@@ -19,7 +19,10 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
         // popover
         $scope.popoverIsOpen = false;
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
-        $scope.costomWorkNumEum = [{ num: 10, desc: '每次10条' }, { num: 20, desc: '每次20条' }, { num: 30, desc: '每次30条' }, { num: '', desc: '自定义' }];
+        $scope.costomWorkNumEum = [{ num: 10, desc: '每次10条' }, { num: 20, desc: '每次20条' }, {
+            num: 30,
+            desc: '每次30条'
+        }, { num: '', desc: '自定义' }];
 
         $scope.changeTabs = function (flag) {
             $scope.workedFlag = flag;
@@ -34,17 +37,19 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
         ];
 
         function get11Name($scope, row) {
-        	return row.name11Chi.name;
+            return row.name11Chi.name;
         }
+
         function get51name($scope, row) {
-        	var namestrArr = [];
-        	if (row.name51ChiArr.length > 0) {
-        		for (var i = 0; i < row.name51ChiArr.length; i++) {
-        			namestrArr.push(row.name51Chi.name);
-            	}
-        	}
-        	return namestrArr.join(',');
+            var namestrArr = [];
+            if (row.name51ChiArr.length > 0) {
+                for (var i = 0; i < row.name51ChiArr.length; i++) {
+                    namestrArr.push(row.name51Chi.name);
+                }
+            }
+            return namestrArr.join(',');
         }
+
         function getClassifyRules($scope, row) {
             var type = row.classifyRules.split(',');
             var html = '';
@@ -53,6 +58,7 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             }
             return html;
         }
+
         $scope.selectData = function (row, index) {
             var temp = $scope.tableDataList;
             var checkedArr = [];
@@ -95,22 +101,23 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             }, {
                 counts: [],
                 getData: function ($defer, params) {
-                	var param = {
-                    type: 'integrate',
-                    firstWorkItem: 'poi_name',
-                    secondWorkItem: 'shortName',
-                    status: 1
-                };
-                	dsColumn.queryColumnDataList(param).then(function (data) {
-                    $scope.loadTableDataMsg = '列表无数据';
-                    var temp = new FM.dataApi.ColPoiList(data);
-                    $scope.tableDataList = new FM.dataApi.ColPoiList(data).dataList;
-                    _self.tableParams.total(data.total);
-                    $defer.resolve(temp.dataList);
-                });
+                    var param = {
+                        type: 'integrate',
+                        firstWorkItem: 'poi_name',
+                        secondWorkItem: 'shortName',
+                        status: 1
+                    };
+                    dsColumn.queryColumnDataList(param).then(function (data) {
+                        $scope.loadTableDataMsg = '列表无数据';
+                        var temp = new FM.dataApi.ColPoiList(data);
+                        $scope.tableDataList = new FM.dataApi.ColPoiList(data).dataList;
+                        _self.tableParams.total(data.total);
+                        $defer.resolve(temp.dataList);
+                    });
                 }
             });
         }
+
         // 给每条数据安排序号;
         ngTableEventsChannel.onAfterReloadData(function () {
             $scope.tableParams.data.checkedAll = false;
@@ -131,24 +138,24 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             console.info(chage);
             // 调用接口
             if ($scope.editAllDataList.length <= $scope.editorLines) {
-            	swal('已经是最后一页了!', '', 'info');
+                swal('已经是最后一页了!', '', 'info');
             }
             $scope.getPerPageEditData($scope.editAllDataList);
             initEditTable();
         };
         // 获取当前页要编辑的条数
         $scope.getPerPageEditData = function (allData) {
-        	// 需要编辑的所有数据
-        	$scope.editAllDataList = allData;
-        	if ($scope.editAllDataList.length > $scope.editorLines) {
-        		// 当前页要编辑的数据
-            	var resultArr = $scope.editAllDataList.splice(0, $scope.editorLines);
-            	$scope.currentEditOrig = angular.copy(resultArr);
-    	        $scope.currentEdited = angular.copy(resultArr);
-        	} else {
-        		$scope.currentEditOrig = angular.copy($scope.editAllDataList);
-    	        $scope.currentEdited = angular.copy($scope.editAllDataList);
-        	}
+            // 需要编辑的所有数据
+            $scope.editAllDataList = allData;
+            if ($scope.editAllDataList.length > $scope.editorLines) {
+                // 当前页要编辑的数据
+                var resultArr = $scope.editAllDataList.splice(0, $scope.editorLines);
+                $scope.currentEditOrig = angular.copy(resultArr);
+                $scope.currentEdited = angular.copy(resultArr);
+            } else {
+                $scope.currentEditOrig = angular.copy($scope.editAllDataList);
+                $scope.currentEdited = angular.copy($scope.editAllDataList);
+            }
         };
         // 设置每次作业条数的radio选择逻辑;
         $scope.selectNum = function (params, arg2) {
@@ -176,7 +183,15 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             { field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '50px' },
             { field: 'kindCodeName', title: '分类', show: true, width: '50px' },
             { field: 'name11Chi', title: '官方标准中文名称', getValue: get11Name, show: true, width: '50px' },
-            { field: 'name51ChiArr', title: '简称', getValue: getName, show: true, html: true, width: '80px', inputType: 'text' },
+            {
+                field: 'name51ChiArr',
+                title: '简称',
+                getValue: getName,
+                show: true,
+                html: true,
+                width: '80px',
+                inputType: 'text'
+            },
             { field: 'refMsg', title: '参考信息', show: true, width: '50px' },
             { field: 'details', title: '详情', getValue: getDetails, html: true, show: true, width: '30px' }
         ];
@@ -199,8 +214,9 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             }
             return '<span>' + html + '</span>';
         }
+
         var new51ObjData = {
-        		langCode: 'CHI',
+            langCode: 'CHI',
             nameClass: 5,
             nameType: 1
         };
@@ -214,20 +230,21 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
         function getDetails($scope, row) {
             return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
+
         $scope.closeEditPanel = function () {
             $scope.editPanelIsOpen = false;
             $scope.showImgInfoo = false;
             _self.tableParams.reload();
         };
         function initEditTable() {
-            _self.editorTable = new NgTableParams({
-            }, {
+            _self.editorTable = new NgTableParams({}, {
                 counts: [],
                 dataset: $scope.currentEdited
             });
         }
+
         $scope.showView = function (row) {
-        	$scope.showInfo = row;
+            $scope.showInfo = row;
             $scope.showImgInfoo = true;
             $scope.slides = [
                 {
@@ -251,8 +268,9 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
         /** *****************  编辑页面end  ******************/
         /* 初始化方法*/
         function initPage() {
-        	initTable();
+            initTable();
         }
+
         initPage();
     }
 ]);

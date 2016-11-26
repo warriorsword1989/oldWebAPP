@@ -62,7 +62,7 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
         var defer = $q.defer();
         ajax.get('metadata/queryTruck/', {
             parameter: JSON.stringify({
-            	 kindCode: param.kindCode,
+                kindCode: param.kindCode,
                 chain: param.chain,
                 fuelType: param.fuelType
             })
@@ -246,7 +246,7 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
     this.nametypeList = function (params) {
         var defer = $q.defer();
         ajax.get('metadata/rdname/nametype', {
-        	parameter: JSON.stringify(params)
+            parameter: JSON.stringify(params)
         }).success(function (data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
@@ -264,8 +264,7 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
      */
     this.adminareaList = function (params) {
         var defer = $q.defer();
-        ajax.get('metadata/rdname/adminarea', {
-        	parameter: JSON.stringify(params)
+        ajax.get('metadata/rdname/adminarea', { parameter: JSON.stringify(params)
         }).success(function (data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
@@ -283,8 +282,7 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
      */
     this.convert = function (params) {
         var defer = $q.defer();
-        ajax.get('metadata/pinyin/convert', {
-        	parameter: JSON.stringify(params)
+        ajax.get('metadata/pinyin/convert', { parameter: JSON.stringify(params)
         }).success(function (data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
@@ -303,7 +301,7 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
     this.roadNameSave = function (params) {
         var defer = $q.defer();
         ajax.get('metadata/rdname/websave', {
-        	parameter: JSON.stringify(params)
+            parameter: JSON.stringify(params)
         }).success(function (data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
@@ -322,7 +320,7 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
     this.rdnameGroup = function (params) {
         var defer = $q.defer();
         ajax.get('metadata/rdname/group', {
-        	parameter: JSON.stringify(params)
+            parameter: JSON.stringify(params)
         }).success(function (data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -340,14 +338,13 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
      */
     this.rdnameSplit = function (params) {
         var defer = $q.defer();
-        ajax.get('metadata/rdname/webteilen', {
-        	parameter: JSON.stringify(params)
+        ajax.get('metadata/rdname/webteilen', { parameter: JSON.stringify(params)
         }).success(function (data) {
             if (data.errcode == 0) {
-            	data = 1;
+                data = 1;
                 defer.resolve(data);
             } else {
-            	data = 0;
+                data = 0;
                 swal('道路名拆分出错：', data.errmsg, 'error');
                 defer.resolve(data);
             }
@@ -395,7 +392,7 @@ angular.module('dataService').service('dsMeta', ['$http', '$q', 'ajax', function
         });
         return defer.promise;
     };
-    //根据Name_id查询道路名
+    // 根据Name_id查询道路名
     this.queryRdNByNameID = function (nameId) {
         var defer = $q.defer();
         var param = {

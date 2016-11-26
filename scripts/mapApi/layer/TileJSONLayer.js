@@ -12,7 +12,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      *
      * @param {Object}options
      */
-    initialize: function(url, options) {
+    initialize: function (url, options) {
         this.options = this.options || {};
         L.Util.setOptions(this, options);
         this.url = url;
@@ -28,7 +28,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.eventController = fastmap.uikit.EventController();
         this.redrawTiles = [];
         this.options.async = true;
-        this.drawTile = function(canvas, tilePoint, zoom) {
+        this.drawTile = function (canvas, tilePoint, zoom) {
             var ctx = {
                 canvas: canvas,
                 tile: tilePoint,
@@ -57,7 +57,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         //     console.log('------Tilelayer load info:' + this._beginTime + '|' + endTime + '|' + cnt + '|' + dataCnt);
         // });
     },
-    redraw: function() {
+    redraw: function () {
         if (this._map) {
             this._reset({
                 hard: true
@@ -66,7 +66,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
         return this;
     },
-    _redrawTile: function(tile) {
+    _redrawTile: function (tile) {
         this.drawTile(tile, tile._tilePoint, this._map._zoom);
     },
     /** *
@@ -74,7 +74,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {String}key
      * @private
      */
-    _removeTile: function(key) {
+    _removeTile: function (key) {
         var tile = this._tiles[key];
         this.fire('tileunload', {
             tile: tile,
@@ -102,7 +102,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {Object}e
      * @private
      */
-    _reset: function(e) {
+    _reset: function (e) {
         for (var key in this._tiles) {
             this.fire('tileunload', {
                 tile: this._tiles[key]
@@ -128,7 +128,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {Object}ctx
      * @private
      */
-    _drawDebugInfo: function(ctx) {
+    _drawDebugInfo: function (ctx) {
         var max = this.tileSize;
         var g = ctx.canvas.getContext('2d');
         g.strokeStyle = '#000000';
@@ -149,7 +149,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @returns {{x: number, y: number}}
      * @private
      */
-    _tilePoint: function(ctx, coords) {
+    _tilePoint: function (ctx, coords) {
         // start coords to tile 'space'
         var s = ctx.tile.multiplyBy(this.tileSize);
         // actual coords to tile 'space'
@@ -166,7 +166,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      *  根据鼠标坐标计算所处的瓦片编号
      * @param coords
      */
-    mousePointToTilepoint: function(coords) {
+    mousePointToTilepoint: function (coords) {
         var p = this._map.project(new L.LatLng(coords[1], coords[0]));
         return p.divideBy(this.tileSize, false);
     },
@@ -177,7 +177,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @returns {Array}
      * @private
      */
-    _clip: function(ctx, points) {
+    _clip: function (ctx, points) {
         var nw = ctx.tile.multiplyBy(this.tileSize);
         var se = nw.add(new L.Point(this.tileSize, this.tileSize));
         var bounds = new L.Bounds([nw, se]);
@@ -202,7 +202,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @returns {boolean}
      * @private
      */
-    _isActuallyVisible: function(coords) {
+    _isActuallyVisible: function (coords) {
         var coord = coords[0];
         var min = [coord.x, coord.y],
             max = [coord.x, coord.y];
@@ -228,7 +228,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param parse
      * @private
      */
-    _draw: function(ctx, boolPixelCrs, parse) {
+    _draw: function (ctx, boolPixelCrs, parse) {
         //
         this.options.zoomlevel = this._map;
         var nwPoint = ctx.tile.multiplyBy(this.tileSize);
@@ -253,7 +253,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             this.tileobj = fastmap.mapApi.tile(url);
             this.tileobj.options.context = ctx.canvas;
             this.tiles[this.key] = this.tileobj;
-            this.request = this._ajaxLoader(function(geo) {
+            this.request = this._ajaxLoader(function (geo) {
                 if (parse != null || parse != undefined) {
                     data = parse(geo);
                 }
@@ -276,7 +276,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @returns parse {XDomainRequest}
      * @private
      */
-    _ajaxLoader: function(func, url, key, parse) {
+    _ajaxLoader: function (func, url, key, parse) {
         var self = this;
         if (document.getElementById) {
             var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();
@@ -285,7 +285,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
         }
         if (x) {
-            x.onreadystatechange = function() {
+            x.onreadystatechange = function () {
                 var el = el || {};
                 if (x.xdomain || x.readyState == 4) {
                     var d = 0;
@@ -311,9 +311,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
             };
             if (x.xdomain) {
-                x.onerror = function() {};
-                x.ontimeout = function() {};
-                x.onprogress = function() {};
+                x.onerror = function () {};
+                x.ontimeout = function () {};
+                x.onprogress = function () {};
                 x.onload = x.onreadystatechange;
             }
             x.open('GET', url);
@@ -329,7 +329,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {Boolean}boolPixelCrs 是否像素坐标
      * @private
      */
-    _drawFeature: function(data, ctx, boolPixelCrs) {
+    _drawFeature: function (data, ctx, boolPixelCrs) {
         for (var i = 0; i < data.length; i++) {
             var feature = data[i];
             var geom = feature.geometry;
@@ -377,10 +377,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         var oneArrow = [{
                                             x: coords[index][0],
                                             y: coords[index][1]
-                                    }, {
+                                        }, {
                                             x: coords[index + 1][0],
                                             y: coords[index + 1][1]
-                                    }];
+                                        }];
                                         arrowlist.push(oneArrow);
                                     }
                                 }
@@ -454,10 +454,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     var oneArrow = [{
                                         x: coords[index][0],
                                         y: coords[index][1]
-                                }, {
+                                    }, {
                                         x: coords[index + 1][0],
                                         y: coords[index + 1][1]
-                                }];
+                                    }];
                                     arrowlist.push(oneArrow);
                                 }
                             }
@@ -497,7 +497,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {Array}bounds 瓦片bounds
      * @returns {*}
      */
-    createUrl: function(bounds) {
+    createUrl: function (bounds) {
         var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
         if (this.url == '') {
             return;
@@ -533,7 +533,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         return url;
     },
     // 两点之间的距离
-    distance: function(pointA, pointB) {
+    distance: function (pointA, pointB) {
         var len;
         if (pointA.x) {
             len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
@@ -549,7 +549,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @returns {*[]}
      * @private
      */
-    _pointsFromAngle: function(points, angle) {
+    _pointsFromAngle: function (points, angle) {
         var drawPoint,
             endPoint;
         if (angle === 0) {
@@ -586,10 +586,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         return [drawPoint, endPoint];
     }
 });
-fastmap.mapApi.TileJSON.addInitHook(function() {
+fastmap.mapApi.TileJSON.addInitHook(function () {
     this.isVisiable = this.options.visible ? true : false;
     this.isSelectable = this.options.selectable ? true : false;
 });
-fastmap.mapApi.tileJSON = function(url, options) {
+fastmap.mapApi.tileJSON = function (url, options) {
     return new fastmap.mapApi.TileJSON(url, options);
 };

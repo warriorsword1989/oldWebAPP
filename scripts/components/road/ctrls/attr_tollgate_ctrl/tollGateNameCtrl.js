@@ -15,7 +15,7 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
         }
     };
     getSelectedLangcode();
-	/* 名称语音*/
+    /* 名称语音*/
     $scope.namePronunciation = function (nameCn, nameInfo) {
         var param = {
             word: nameCn
@@ -29,68 +29,68 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
             }
         });
     };
-	// 翻译英文
+    // 翻译英文
     $scope.translateLang = function (type, name) {
         var _name = '';
         _name = name;
         return _name;
     };
-	// 增加名称信息
+    // 增加名称信息
     $scope.addNameInfo = function () {
-	    getSelectedLangcode();
-	    for (var i = 0; i < $scope.langCodeOptions.length; i++) {
-		    if ($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
-			    if (($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
-			    } else {
-				    if ($scope.langCodeOptions[i].id === 'ENG') {
-					    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({
-						    nameGroupid: $scope.tollGateNames[0].nameGroupid,
-						    langCode: $scope.langCodeOptions[i].id,
-						    name: $scope.translateLang($scope.langCodeOptions[i].id, $scope.tollGateNames[0].name)
-					    }));
-				    } else {
-					    $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({
-						    nameGroupid: $scope.tollGateNames[0].nameGroupid,
-						    langCode: $scope.langCodeOptions[i].id
-					    }));
-				    }
-				    break;
-			    }
-		    }
-	    }
-	    $scope.refreshNameLangCode();
+        getSelectedLangcode();
+        for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+            if ($scope.selectedLangcodeArr.indexOf($scope.langCodeOptions[i].id) === -1) {
+                if (($scope.selectedLangcodeArr.indexOf('CHI') > -1 || $scope.selectedLangcodeArr.indexOf('CHT') > -1) && ($scope.langCodeOptions[i].id === 'CHI' || $scope.langCodeOptions[i].id === 'CHT')) {
+                } else {
+                    if ($scope.langCodeOptions[i].id === 'ENG') {
+                        $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({
+                            nameGroupid: $scope.tollGateNames[0].nameGroupid,
+                            langCode: $scope.langCodeOptions[i].id,
+                            name: $scope.translateLang($scope.langCodeOptions[i].id, $scope.tollGateNames[0].name)
+                        }));
+                    } else {
+                        $scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({
+                            nameGroupid: $scope.tollGateNames[0].nameGroupid,
+                            langCode: $scope.langCodeOptions[i].id
+                        }));
+                    }
+                    break;
+                }
+            }
+        }
+        $scope.refreshNameLangCode();
 //		$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.tollGateNames[0].nameGroupid}));
     };
-	// 代码语言字段切换时，判断语言不能重复
+    // 代码语言字段切换时，判断语言不能重复
     $scope.langCodeChange = function (langCode) {
-	    // 如果当前所选既不是简体也不是繁体，则控制不允许选择简繁体
-	    getSelectedLangcode();
-	    if (langCode != 'CHI' && langCode != 'CHT') {
-		    if ($scope.selectedLangcodeArr.indexOf('CHI') === -1) {
-			    $scope.selectedLangcodeArr.push('CHI');
-		    }
-		    if ($scope.selectedLangcodeArr.indexOf('CHT') === -1) {
-			    $scope.selectedLangcodeArr.push('CHT');
-		    }
-	    } else if (langCode == 'CHI') { // 如果是简体中文或繁体中文其他语言不可用
-		    $scope.selectedLangcodeArr = [];
-		    for (var i = 0; i < $scope.langCodeOptions.length; i++) {
-			    if ($scope.langCodeOptions[i].id != 'CHT') {
-				    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
-			    }
-		    }
-	    } else if (langCode == 'CHT') {
-		    $scope.selectedLangcodeArr = [];
-		    for (var i = 0; i < $scope.langCodeOptions.length; i++) {
-			    if ($scope.langCodeOptions[i].id != 'CHI') {
-				    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
-			    }
-		    }
-	    }
-	    $scope.refreshNameLangCode();
-	    $timeout(function () {
-		    $scope.$apply();
-	    });
+        // 如果当前所选既不是简体也不是繁体，则控制不允许选择简繁体
+        getSelectedLangcode();
+        if (langCode != 'CHI' && langCode != 'CHT') {
+            if ($scope.selectedLangcodeArr.indexOf('CHI') === -1) {
+                $scope.selectedLangcodeArr.push('CHI');
+            }
+            if ($scope.selectedLangcodeArr.indexOf('CHT') === -1) {
+                $scope.selectedLangcodeArr.push('CHT');
+            }
+        } else if (langCode == 'CHI') { // 如果是简体中文或繁体中文其他语言不可用
+            $scope.selectedLangcodeArr = [];
+            for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+                if ($scope.langCodeOptions[i].id != 'CHT') {
+                    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
+                }
+            }
+        } else if (langCode == 'CHT') {
+            $scope.selectedLangcodeArr = [];
+            for (var i = 0; i < $scope.langCodeOptions.length; i++) {
+                if ($scope.langCodeOptions[i].id != 'CHI') {
+                    $scope.selectedLangcodeArr.push($scope.langCodeOptions[i].id);
+                }
+            }
+        }
+        $scope.refreshNameLangCode();
+        $timeout(function () {
+            $scope.$apply();
+        });
     };
     // 重新排列名称信息
     $scope.refreshNameLangCode = function () {
@@ -99,40 +99,40 @@ angular.module('app').controller('TollGateNameCtl', ['$scope', 'dsEdit', 'dsMeta
         });
     };
     $scope.langCodeOptions = [
-		{ id: 'CHI', label: '简体中文' },
-		{ id: 'CHT', label: '繁体中文' },
-		{ id: 'ENG', label: '英文' },
-		{ id: 'POR', label: '葡萄牙文' },
-		{ id: 'ARA', label: '阿拉伯语' },
-		{ id: 'BUL', label: '保加利亚语' },
-		{ id: 'CZE', label: '捷克语' },
-		{ id: 'DAN', label: '丹麦语' },
-		{ id: 'DUT', label: '荷兰语' },
-		{ id: 'EST', label: '爱沙尼亚语' },
-		{ id: 'FIN', label: '芬兰语' },
-		{ id: 'FRE', label: '法语' },
-		{ id: 'GER', label: '德语' },
-		{ id: 'HIN', label: '印地语' },
-		{ id: 'HUN', label: '匈牙利语' },
-		{ id: 'ICE', label: '冰岛语' },
-		{ id: 'IND', label: '印度尼西亚语' },
-		{ id: 'ITA', label: '意大利语' },
-		{ id: 'JPN', label: '日语' },
-		{ id: 'KOR', label: '韩语' },
-		{ id: 'LIT', label: '立陶宛语' },
-		{ id: 'NOR', label: '挪威语' },
-		{ id: 'POL', label: '波兰语' },
-		{ id: 'RUM', label: '罗马尼亚语' },
-		{ id: 'RUS', label: '俄语' },
-		{ id: 'SLO', label: '斯洛伐克语' },
-		{ id: 'SPA', label: '西班牙语' },
-		{ id: 'SWE', label: '瑞典语' },
-		{ id: 'THA', label: '泰国语' },
-		{ id: 'TUR', label: '土耳其语' },
-		{ id: 'UKR', label: '乌克兰语' },
-		{ id: 'SCR', label: '克罗地亚语' }
+        { id: 'CHI', label: '简体中文' },
+        { id: 'CHT', label: '繁体中文' },
+        { id: 'ENG', label: '英文' },
+        { id: 'POR', label: '葡萄牙文' },
+        { id: 'ARA', label: '阿拉伯语' },
+        { id: 'BUL', label: '保加利亚语' },
+        { id: 'CZE', label: '捷克语' },
+        { id: 'DAN', label: '丹麦语' },
+        { id: 'DUT', label: '荷兰语' },
+        { id: 'EST', label: '爱沙尼亚语' },
+        { id: 'FIN', label: '芬兰语' },
+        { id: 'FRE', label: '法语' },
+        { id: 'GER', label: '德语' },
+        { id: 'HIN', label: '印地语' },
+        { id: 'HUN', label: '匈牙利语' },
+        { id: 'ICE', label: '冰岛语' },
+        { id: 'IND', label: '印度尼西亚语' },
+        { id: 'ITA', label: '意大利语' },
+        { id: 'JPN', label: '日语' },
+        { id: 'KOR', label: '韩语' },
+        { id: 'LIT', label: '立陶宛语' },
+        { id: 'NOR', label: '挪威语' },
+        { id: 'POL', label: '波兰语' },
+        { id: 'RUM', label: '罗马尼亚语' },
+        { id: 'RUS', label: '俄语' },
+        { id: 'SLO', label: '斯洛伐克语' },
+        { id: 'SPA', label: '西班牙语' },
+        { id: 'SWE', label: '瑞典语' },
+        { id: 'THA', label: '泰国语' },
+        { id: 'TUR', label: '土耳其语' },
+        { id: 'UKR', label: '乌克兰语' },
+        { id: 'SCR', label: '克罗地亚语' }
     ];
-	// 语言代码对应关系
+    // 语言代码对应关系
     $scope.langCodeRelation = {
         CHI: 1,
         CHT: 2,
