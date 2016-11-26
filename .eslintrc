@@ -19,7 +19,8 @@
     "describe":true,
     "spyOn":true,
     "Application":true,
-    "jasmine":true
+    "jasmine":true,
+    "requirejs":true
   },
   "plugins": ["angular"],
   /**
