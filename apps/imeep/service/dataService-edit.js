@@ -1,23 +1,23 @@
 angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutput', function ($http, $q, ajax, dsOutput) {
-  /**
-   * add by chenx on 2016-10-19，用于控制主页面loadingbar的显示/隐藏
-   */
+    /**
+     * add by chenx on 2016-10-19，用于控制主页面loadingbar的显示/隐藏
+     */
     var showLoading; // 主页面控制Loading的开关的引用
-  // 利用对象引用的特性，将本地变量showLoading指向主scope中的控制loadingbar显隐的开关对象
-  // 主页面初始化的时候绑定一次即可
+    // 利用对象引用的特性，将本地变量showLoading指向主scope中的控制loadingbar显隐的开关对象
+    // 主页面初始化的时候绑定一次即可
     this.referenceLoadingSwitch = function (loadingSwitch) {
         showLoading = loadingSwitch;
     };
-  // 私有函数，修改loadingbar开关的状态
+    // 私有函数，修改loadingbar开关的状态
     var toggleLoading = function (flag) {
         showLoading.flag = flag;
     };
-  /**
-   * 根据pid获取要素详细属性
-   * @param id     要素PID
-   * @param type   要素类型
-   * @param alertError   是否弹出错误信息
-   */
+    /**
+     * 根据pid获取要素详细属性
+     * @param id     要素PID
+     * @param type   要素类型
+     * @param alertError   是否弹出错误信息
+     */
     this.getByPid = function (pid, type, alertError) {
         var defer = $q.defer();
         var params = {
@@ -44,11 +44,11 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /**
-   * 根据道路id获得分歧的详细属性(branchType = 0、1、2、3、4、6、8、9)
-   * @param detailId     分歧的DetailId
-   * @param branchType   分歧类型
-   */
+    /**
+     * 根据道路id获得分歧的详细属性(branchType = 0、1、2、3、4、6、8、9)
+     * @param detailId     分歧的DetailId
+     * @param branchType   分歧类型
+     */
     this.getBranchByDetailId = function (detailId, branchType) {
         var defer = $q.defer();
         var params = {
@@ -73,11 +73,11 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /**
-   * 根据道路id获得分歧的详细属性(branchType = 5、7)
-   * @param rowId        分歧的rowId
-   * @param branchType   分歧类型
-   */
+    /**
+     * 根据道路id获得分歧的详细属性(branchType = 5、7)
+     * @param rowId        分歧的rowId
+     * @param branchType   分歧类型
+     */
     this.getBranchByRowId = function (rowId, branchType) {
         var defer = $q.defer();
         var params = {
@@ -102,9 +102,9 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /** *
-   * 根据接口getByCondition获取相关数据
-   */
+    /** *
+     * 根据接口getByCondition获取相关数据
+     */
     this.getByCondition = function (param) {
         var defer = $q.defer();
         ajax.get('edit/getByCondition', {
@@ -121,9 +121,9 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /** *
-   * 消息推送
-   */
+    /** *
+     * 消息推送
+     */
     this.getMsgNotify = function () {
         var defer = $q.defer();
         ajax.get('sys/sysmsg/unread/get', {
@@ -140,7 +140,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /* 获取poi列表*/
+    /* 获取poi列表*/
     this.getPoiList = function (params) {
         var defer = $q.defer();
         ajax.get('editrow/poi/base/list', {
@@ -157,7 +157,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 获取检查结果
+    // 获取检查结果
     this.getCheckData = function (num) {
         var defer = $q.defer();
         var params = {
@@ -182,7 +182,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /* 获取检查结果条数*/
+    /* 获取检查结果条数*/
     this.getCheckDataCount = function () {
         var defer = $q.defer();
         var params = {
@@ -202,7 +202,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 获取检查状态
+    // 获取检查状态
     this.updateCheckType = function (id, type) {
         var defer = $q.defer();
         var params = {
@@ -236,9 +236,9 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /** *
-   * 创建对象
-   */
+    /** *
+     * 创建对象
+     */
     this.create = function (type, data) {
         var param = {
             command: 'CREATE',
@@ -248,9 +248,9 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(param);
     };
-  /** *
-   * 修改对象属性
-   */
+    /** *
+     * 修改对象属性
+     */
     this.update = function (pid, type, data) {
         var param = {
             command: 'UPDATE',
@@ -261,13 +261,13 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(param);
     };
-  /**
-   * 删除要素
-   * @param pid          要素PID
-   * @param branchType   要素类型
-   * @param infect       前检查标识，为1时表示要进行删除前的检查，确认要执行删除操作后，再执行具体的删除操作；
-   不传或为0时表示直接执行删除操作
-   */
+    /**
+     * 删除要素
+     * @param pid          要素PID
+     * @param branchType   要素类型
+     * @param infect       前检查标识，为1时表示要进行删除前的检查，确认要执行删除操作后，再执行具体的删除操作；
+     不传或为0时表示直接执行删除操作
+     */
     this.delete = function (pid, type, infect) {
         var param = {
             command: 'DELETE',
@@ -283,7 +283,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
                 if (data) {
                     var test = data.result;
                     var html = [],
-                        temp;
+                      temp;
                     for (var key in test) {
                         html.push("<p style='text-align:left;font-weight:bold;'>" + key + '：</p>');
                         temp = test[key];
@@ -293,7 +293,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
                         }
                         html.push('</ul>');
                     }
-          // by liwanchong:加上setTimeout是为了解决在mac下不能正常提示的问题
+                    // by liwanchong:加上setTimeout是为了解决在mac下不能正常提示的问题
                     setTimeout(function () {
                         swal({
                             title: '以下操作将会执行，是否继续？',
@@ -323,11 +323,11 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
             return this.save(param);
         }
     };
-  /**
-   * 根据道路rowId获得分歧的详细属性(branchType = 5、7)
-   * @param detailid
-   * @param branchType
-   */
+    /**
+     * 根据道路rowId获得分歧的详细属性(branchType = 5、7)
+     * @param detailid
+     * @param branchType
+     */
     this.deleteBranchByRowId = function (detailid, branchType) {
         var defer = $q.defer();
         var params = {
@@ -340,11 +340,11 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(params);
     };
-  /**
-   * 根据道路detailId获得分歧的详细属性(branchType = 除了5、7)
-   * @param detailid
-   * @param branchType
-   */
+    /**
+     * 根据道路detailId获得分歧的详细属性(branchType = 除了5、7)
+     * @param detailid
+     * @param branchType
+     */
     this.deleteBranchByDetailId = function (detailid, branchType) {
         var defer = $q.defer();
         var params = {
@@ -357,10 +357,10 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(params);
     };
-  /** *
-   * 移动点要素位置
-   * 适用于rdnode，adNode，poi等
-   */
+    /** *
+     * 移动点要素位置
+     * 适用于rdnode，adNode，poi等
+     */
     this.move = function (pid, type, data) {
         var param = {
             command: 'MOVE',
@@ -371,10 +371,10 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(param);
     };
-  /** *
-   * 线要素修形
-   * 适用于rdlink、adlink等
-   */
+    /** *
+     * 线要素修形
+     * 适用于rdlink、adlink等
+     */
     this.repair = function (pid, type, data) {
         var param = {
             command: 'REPAIR',
@@ -385,10 +385,10 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(param);
     };
-  /** *
-   * 打断link
-   * 适用于rdlink、adlink等
-   */
+    /** *
+     * 打断link
+     * 适用于rdlink、adlink等
+     */
     this.break = function (pid, type, data) {
         var param = {
             command: 'BREAK',
@@ -399,9 +399,9 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(param);
     };
-  /** *
-   * poi要素创建父poi
-   */
+    /** *
+     * poi要素创建父poi
+     */
     this.createParent = function (pid, newParentPid) {
         var param = {
             command: 'CREATE',
@@ -412,9 +412,9 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(param);
     };
-  /** *
-   * poi要素修改父poi
-   */
+    /** *
+     * poi要素修改父poi
+     */
     this.updateParent = function (pid, newParentPid) {
         var param = {
             command: 'UPDATE',
@@ -425,9 +425,9 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(param);
     };
-  /** *
-   * poi要素删除父poi
-   */
+    /** *
+     * poi要素删除父poi
+     */
     this.deleteParent = function (pid) {
         var param = {
             command: 'DELETE',
@@ -447,11 +447,11 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         };
         return this.save(param);
     };
-  /** *
-   * 属性和几何编辑相关 editGeometryOrProperty
-   * @param param
-   * @param func
-   */
+    /** *
+     * 属性和几何编辑相关 editGeometryOrProperty
+     * @param param
+     * @param func
+     */
     this.save = function (param) {
         toggleLoading(true); // 打开主页面的loadingbar
         var opDesc = {
@@ -495,19 +495,19 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
                     pid: '0',
                     childPid: ''
                 });
-        // 由于直接弹出提示然后执行后续操作会导致uilayout的布局有问题，因此改成回调方式执行后续操作
-        // swal(opDesc + "操作成功", "", "success");
-        // 2016-9-29 by chenx:各位老大要求操作成功时不进行弹出提示了
-        // swal({
-        //     title: opDesc + "操作成功",
-        //     type: "success",
-        //     timer: 2000,
-        //     showConfirmButton: false,
-        //     allowEscapeKey: false
-        // }, function() {
-        //     swal.close();
+                // 由于直接弹出提示然后执行后续操作会导致uilayout的布局有问题，因此改成回调方式执行后续操作
+                // swal(opDesc + "操作成功", "", "success");
+                // 2016-9-29 by chenx:各位老大要求操作成功时不进行弹出提示了
+                // swal({
+                //     title: opDesc + "操作成功",
+                //     type: "success",
+                //     timer: 2000,
+                //     showConfirmButton: false,
+                //     allowEscapeKey: false
+                // }, function() {
+                //     swal.close();
                 defer.resolve(data.data);
-        // });
+                // });
             } else if (data.errcode == 999) { // 删除前的检查返回的确认信息
                 defer.resolve(data.data);
             } else if (data.errcode < 0) { // 操作失败
@@ -517,12 +517,12 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
                     pid: data.errcode,
                     childPid: ''
                 });
-        // swal(opDesc + "操作出错：", data.errmsg, "error");
+                // swal(opDesc + "操作出错：", data.errmsg, "error");
                 swal({
                     title: opDesc + '操作出错：' + data.errmsg,
                     type: 'error',
-          // timer: 2000,
-          // showConfirmButton: false,
+                    // timer: 2000,
+                    // showConfirmButton: false,
                     allowEscapeKey: false
                 }, function () {
                     defer.resolve(null);
@@ -535,9 +535,9 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /** *
-   * 申请Pid
-   */
+    /** *
+     * 申请Pid
+     */
     this.applyPid = function (type) {
         var defer = $q.defer();
         ajax.get('edit/applyPid', {
@@ -556,10 +556,10 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /**
-   * 执行检查信息
-   * @returns {Promise}
-   */
+    /**
+     * 执行检查信息
+     * @returns {Promise}
+     */
     this.runCheck = function (checkType) {
         var defer = $q.defer();
         var params = {
@@ -579,11 +579,11 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /**
-   * POI提交接口
-   * @param param
-   * @returns {Promise}
-   */
+    /**
+     * POI提交接口
+     * @param param
+     * @returns {Promise}
+     */
     this.submitPoi = function (param) {
         var defer = $q.defer();
         ajax.get('editrow/poi/base/release', {
@@ -611,11 +611,11 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /**
-   * 创建后台任务
-   * @param jobId
-   * @returns {Promise}
-   */
+    /**
+     * 创建后台任务
+     * @param jobId
+     * @returns {Promise}
+     */
     this.createJob = function (jobType, requestParam) {
         var defer = $q.defer();
         ajax.get('job/create/', {
@@ -635,11 +635,11 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /**
-   * 查询后台任务进度
-   * @param jobId
-   * @returns {Promise}
-   */
+    /**
+     * 查询后台任务进度
+     * @param jobId
+     * @returns {Promise}
+     */
     this.getJobById = function (jobId) {
         var defer = $q.defer();
         ajax.get('job/get/', {
@@ -657,7 +657,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 搜索
+    // 搜索
     this.getSearchData = function (num, sType, content) {
         var defer = $q.defer();
         var params = {
@@ -690,7 +690,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 面批处理;
+    // 面批处理;
     this.PolygonBatchWork = function (params) {
         var defer = $q.defer();
         var param = {
@@ -714,7 +714,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 搜索批处理包;
+    // 搜索批处理包;
     this.batchBox = function (params) {
         var defer = $q.defer();
         var param = {
@@ -735,7 +735,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 执行批处理;
+    // 执行批处理;
     this.exeOnlinebatch = function (params) {
         var defer = $q.defer();
         var param = {
@@ -757,7 +757,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 搜索檢查;
+    // 搜索檢查;
     this.seachCheckBox = function (params) {
         var defer = $q.defer();
         var param = {
@@ -778,7 +778,7 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 执行檢查;
+    // 执行檢查;
     this.exeOnlineSearch = function (params) {
         var defer = $q.defer();
         var param = {
@@ -800,12 +800,12 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  /** *
-   * 修改对象属性
-   */
+    /** *
+     * 修改对象属性
+     */
     this.batchUpdate = function (linkPids, type, data) {
-        delete data.pids;
-        delete data.pid;
+        delete data['pids'];
+        delete data['pid'];
 
         var param = {
             command: 'BATCH',
@@ -815,13 +815,13 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
             linkPids: linkPids
         };
         return this.save(param);
-    };
-  /**
-   * 根据pids获取要素详细属性
-   * @param id     要素PID
-   * @param type   要素类型
-   * @param alertError   是否弹出错误信息
-   */
+    }
+    /**
+     * 根据pids获取要素详细属性
+     * @param id     要素PID
+     * @param type   要素类型
+     * @param alertError   是否弹出错误信息
+     */
     this.getByPids = function (pids, type, alertError) {
         var defer = $q.defer();
         var params = {
@@ -848,14 +848,18 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 道路名库檢查;
+    /**
+     * 道路名库檢查;
+     * @param num
+     * @returns {Promise}
+     */
     this.getRoadNameCheckResult = function (num) {
         var defer = $q.defer();
         var param = {
             subtaskId: parseInt(App.Util.getUrlParam('subtaskId')),
             pageSize: 5,
             pageNum: num,
-            type: 2
+            type:2
         };
         ajax.get('edit/check/listRdnResult/', {
             parameter: JSON.stringify(param)
@@ -871,8 +875,13 @@ angular.module('dataService').service('dsEdit', ['$http', '$q', 'ajax', 'dsOutpu
         });
         return defer.promise;
     };
-  // 修改道路名库检查结果状态
-    this.updateRdNCheckType = function (id, type) {
+    /**
+     * 修改道路名库检查结果状态
+     * @param id
+     * @param type
+     * @returns {Promise}
+     */
+    this.updateRdNCheckType = function (id , type) {
         var defer = $q.defer();
         var param = {
             id: id,

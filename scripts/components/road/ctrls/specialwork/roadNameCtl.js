@@ -5,11 +5,11 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
     function ($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta) {
         var objectCtrl = fastmap.uikit.ObjectEditController();
         var _self = $scope;
-         /* 初始化显示table提示*/
+        /* 初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.checkboxes = { checked: false };
         var eventCtrl = fastmap.uikit.EventController();
-         // 监控全选;
+        // 监控全选;
         $scope.$watch(function () {
             return $scope.checkboxes.checked;
         }, function (value) {
@@ -214,7 +214,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
 //             }
         ];
 
-         // 初始化显示表格字段方法;
+        // 初始化显示表格字段方法;
         $scope.initShowField = function (params) {
             for (var i = 0; i < $scope.cols.length; i++) {
                 for (var j = 0; j < params.length; j++) {
@@ -224,7 +224,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                 }
             }
         };
-         // 重置表格字段显示方法;
+        // 重置表格字段显示方法;
         $scope.resetTableField = function () {
             for (var i = 0; i < $scope.cols.length; i++) {
                 if ($scope.cols[i].show) {
@@ -233,27 +233,27 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
             }
         };
         $scope.searchType = 'name';
-         // 刷新表格方法;
+        // 刷新表格方法;
         var refreshData = function () {
             _self.tableParams.reload();
         };
-         // 表格配置搜索;
+        // 表格配置搜索;
         $scope.filter = {
-     			name: '',
-     			nameGroupid: '',
-     			adminId: '',
-     			flag: 1
-     	 };
-         // 接收高级查询过滤条件
+            name: '',
+            nameGroupid: '',
+            adminId: '',
+            flag: 1
+        };
+        // 接收高级查询过滤条件
         $scope.$on('FITERPARAMSCHANGE', function (event, data) {
-        	 $scope.filter.name = data.name;
-        	 $scope.filter.nameGroupid = data.nameGroupid;
-        	 if (data.adminId == 0) {
-        		 $scope.filter.adminId = '';
-        	 } else {
-        		 $scope.filter.adminId = data.adminId;
-        	 }
-        	 $scope.filter.flag = data.flag;
+            $scope.filter.name = data.name;
+            $scope.filter.nameGroupid = data.nameGroupid;
+            if (data.adminId == 0) {
+                $scope.filter.adminId = '';
+            } else {
+                $scope.filter.adminId = data.adminId;
+            }
+            $scope.filter.flag = data.flag;
 //        	 $scope.filter.sql = data["sql"];
         });
 
@@ -283,7 +283,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
             });
         }
 
-         // 给每条数据安排序号;
+        // 给每条数据安排序号;
         ngTableEventsChannel.onAfterReloadData(function () {
             $scope.itemActive = -1;
             angular.forEach($scope.tableParams.data, function (data, index) {
@@ -292,110 +292,110 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
             });
         });
 
-         /* 初始化方法*/
+        /* 初始化方法*/
         initRoadNameTable();
 
-         /** *
-          * 弹出编辑面板
-          */
+        /** *
+         * 弹出编辑面板
+         */
         $scope.editPanel = false;
         $scope.openEditPanel = function (data, index) {
-        	 $scope.roadNameFlag = 'edit';
-        	 $scope.editPanel = true;
-        	 $scope.roadName = data;
-        	 objectCtrl.setCurrentObject('ROADNAME', data);
+            $scope.roadNameFlag = 'edit';
+            $scope.editPanel = true;
+            $scope.roadName = data;
+            objectCtrl.setCurrentObject('ROADNAME', data);
 //        	 console.log('当条数据'+JSON.stringify(data))
 //        	 $scope.roadNameData = fastmap.dataApi.roadName(data);
             $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
-        	 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
-             	$scope.roadNameEditPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameEditPanelTpl.htm';
-         });
-        	 console.log('双击');
+            $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
+                $scope.roadNameEditPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameEditPanelTpl.htm';
+            });
+            console.log('双击');
         };
         $scope.$on('openEditPanel', function (event, data) {
             $scope.openEditPanel(data);
         });
-         /** *
-          * 关闭编辑面板
-          */
+        /** *
+         * 关闭编辑面板
+         */
         $scope.closeEditPanel = function () {
             $scope.editPanel = false;
         };
-         /** *
-          * 对应弹出查询、新增、拆分、检查面板
-          */
+        /** *
+         * 对应弹出查询、新增、拆分、检查面板
+         */
         $scope.subModal = false;
         $scope.openSubModal = function (type) {
-        	 $scope.subModal = true;
-        	 if (type == 'search') {
-        		 //
-        		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/searchSubModalCtl.js').then(function () {
-                  	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/searchSubModalTpl.htm';
-        		 });
-        	 } else if (type == 'add') {
-        		 $scope.roadNameFlag = 'add';
-        		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
-                   	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameEditPanelTpl.htm';
-        		 });
-        		 eventCtrl.fire(eventCtrl.eventTypes.SELECTEDFEATURECHANGE);
-        	 } else if (type == 'split') {
-        		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/splitSubModalCtl.js').then(function () {
-                   	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/splitSubModalTpl.htm';
-        		 });
-        	 } else if (type == 'check') {
-        		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/checkSubModalCtl.js').then(function () {
-                    	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/checkSubModal.htm';
-         		 });
-        		 // alert('暂无');
-        		 // $scope.subModalTpl = '';
-        		 // $scope.subModal = false;
-        	 } else if (type == 'checkResult') {
-             $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/checkResultSubModalCtl.js').then(function () {
-                 $scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/checkResultSubModalTpl.htm';
-             });
-        	 }
+            $scope.subModal = true;
+            if (type == 'search') {
+                //
+                $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/searchSubModalCtl.js').then(function () {
+                    $scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/searchSubModalTpl.htm';
+                });
+            } else if (type == 'add') {
+                $scope.roadNameFlag = 'add';
+                $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
+                    $scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameEditPanelTpl.htm';
+                });
+                eventCtrl.fire(eventCtrl.eventTypes.SELECTEDFEATURECHANGE);
+            } else if (type == 'split') {
+                $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/splitSubModalCtl.js').then(function () {
+                    $scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/splitSubModalTpl.htm';
+                });
+            } else if (type == 'check') {
+                $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/checkSubModalCtl.js').then(function () {
+                    $scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/checkSubModal.htm';
+                });
+                // alert('暂无');
+                // $scope.subModalTpl = '';
+                // $scope.subModal = false;
+            } else if (type == 'checkResult') {
+                $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/checkResultSubModalCtl.js').then(function () {
+                    $scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/checkResultSubModalTpl.htm';
+                });
+            }
         };
-         /**
-          * 拆分窗口显示和关闭
-          */
+        /**
+         * 拆分窗口显示和关闭
+         */
         $scope.splitSubModal = false;
         $scope.openSplitSubModal = function () {
-        	 $scope.splitSubModal = true;
-        	 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/splitSubModalCtl.js').then(function () {
-                	$scope.splitSubModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/splitSubModalTpl.htm';
-         });
+            $scope.splitSubModal = true;
+            $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/splitSubModalCtl.js').then(function () {
+                $scope.splitSubModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/splitSubModalTpl.htm';
+            });
         };
         $scope.closeSplitSubModal = function () {
-        	 $scope.splitSubModal = false;
+            $scope.splitSubModal = false;
         };
-         /** *
-          * 关闭子面板
-          */
+        /** *
+         * 关闭子面板
+         */
         $scope.closeSubModal = function () {
             $scope.subModal = false;
         };
         $scope.$on('CLOSECURRENTPANEL', function (event, data) {
-        	 $scope.subModal = false;
+            $scope.subModal = false;
         });
-         /** *
-          * 编辑界面保存后，列表界面刷新，并关闭编辑界面
-          */
+        /** *
+         * 编辑界面保存后，列表界面刷新，并关闭编辑界面
+         */
         $scope.$on('REFRESHROADNAMELIST', function (event, data) {
-        	 refreshData();
+            refreshData();
         });
         $scope.getSelectedData = function () {
-        	 var selectedRoadNameList = [];
-        	 for (var i = 0; i < $scope.roadNameList.length; i++) {
-        		 if ($scope.roadNameList[i].checked) {
-        			 selectedRoadNameList.push({
-        				 nameId: $scope.roadNameList[i].nameId,
-        				 nameGroupid: $scope.roadNameList[i].nameGroupid,
-        				 langCode: $scope.roadNameList[i].langCode,
-        				 roadType: $scope.roadNameList[i].roadType
-        			 });
-        		 }
-        	 }
-        	 return selectedRoadNameList;
+            var selectedRoadNameList = [];
+            for (var i = 0; i < $scope.roadNameList.length; i++) {
+                if ($scope.roadNameList[i].checked) {
+                    selectedRoadNameList.push({
+                        nameId: $scope.roadNameList[i].nameId,
+                        nameGroupid: $scope.roadNameList[i].nameGroupid,
+                        langCode: $scope.roadNameList[i].langCode,
+                        roadType: $scope.roadNameList[i].roadType
+                    });
+                }
+            }
+            return selectedRoadNameList;
         };
     }
 ]);
