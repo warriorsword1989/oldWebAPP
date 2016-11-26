@@ -9,7 +9,7 @@
                             <div id="topoMap"
                                  style="background-color:#DDDDFF;width: 100%;height: 100%;position: absolute;"></div>
                             <div class="btn-group btn-group-justified fm-btn-group"
-                                 style="bottom:5px;left:250px;width:400px;position: absolute;">
+                                 style="bottom: 10px;left: 0;width:400px;position: absolute;right: 140px;margin: 0 auto;">
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn" ng-click="doCreate()">
                                         <i class="glyphicon glyphicon-plus"></i> 创建连通
@@ -20,11 +20,6 @@
                                         <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
                                     </button>
                                 </div>
-                                <!--<div class="btn-group" role="group">-->
-                                <!--<button type="button" class="btn" ng-click="doCancel()">-->
-                                <!--<i class="glyphicon glyphicon-repeat"></i> 取消操作-->
-                                <!--</button>-->
-                                <!--</div>-->
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn" ng-click="doClose()">
                                         <i class="glyphicon glyphicon-floppy-remove"></i> 关 闭
@@ -44,13 +39,13 @@
                                         <div ng-repeat="cItem in laneTopoInfoArr" class="blackTheme module-box">
                                             <ul class="fm-ul fm-ul-form">
                                                 <li>
-                                                    <a style="width: 10%;" class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[cItem.flag]" ng-click="batchItems(cItem,$event)"></a>
+                                                    <a style="width: 10%;padding-bottom: 2px;" title="批量编辑" class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[cItem.flag]" ng-click="batchItems(cItem,$event)"></a>
                                                     <label style="width: 10%;">{{$index +1}}.</label>
-                                                    <label style="width: 70%;"
+                                                    <label style="width: 70%;" title="显示车道连通详情"
                                                            ng-click="showLaneDetails(cItem,$index,1)">连通PID：{{cItem.pid}}
                                                     <span style="color: #9acfea;padding-left: 10px">{{formatInlink(cItem.inLanePid)}}</span></label>
                                                     <div style="width: 10%;">
-                                                            <span class="glyphicon glyphicon-remove-sign remove" ng-click="deleteLaneDetails(cItem, $index)"></span>
+                                                            <span title="删除车道连通"  class="glyphicon glyphicon-remove-sign remove" ng-click="deleteLaneDetails(cItem, $index)"></span>
                                                     </div>
                                                 </li>
                                             </ul>

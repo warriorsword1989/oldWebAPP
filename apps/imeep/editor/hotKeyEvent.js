@@ -110,6 +110,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 map.removeLayer(map.markerLayer);
                 map.markerLayer = null;
             }
+            // 清除车道连通面板
+            scope.$emit('CLOSERDLANETOPO');
             if (rdnode.selectedid) {
                 rdnode.selectedid = null;
             }

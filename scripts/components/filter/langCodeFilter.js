@@ -9,19 +9,19 @@ angular.module('fastmap.uikit').filter('langCodeFilter', function () {
                 ret.push(origin[p]);
             }
         }
-		/* if(selectedLangcode.indexOf('CHT') >= 0) {
-			for (var i in ret) {
-				if(ret[i].id == 'CHI') {
-					delete ret[i];
-				}
-			}
-		} else if (selectedLangcode.indexOf('CHI') >= 0) {
-			for (var i in ret) {
-				if(ret[i].id == 'CHT') {
-					delete ret[i];
-				}
-			}
-		}*/
+        /* if(selectedLangcode.indexOf('CHT') >= 0) {
+         for (var i in ret) {
+         if(ret[i].id == 'CHI') {
+         delete ret[i];
+         }
+         }
+         } else if (selectedLangcode.indexOf('CHI') >= 0) {
+         for (var i in ret) {
+         if(ret[i].id == 'CHT') {
+         delete ret[i];
+         }
+         }
+         }*/
         return ret;
     };
 });

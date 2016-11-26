@@ -856,7 +856,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         });
         // 道路作业面板是否展开
         $scope.$on('OPENRDLANETOPO', function (event, data) {
-            $scope.clmPanelOpened = !$scope.clmPanelOpened;
+            $scope.clmPanelOpened = true;
             $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/attr_lane_ctrl/rdLaneTopoCtrl.js').then(function () {
                 $scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/attr_lane_tpl/rdLaneTopoTpl.html';
             });
@@ -866,7 +866,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/blank_ctrl/blankCtrl.js').then(function () {
                 $scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/blank_tpl/blankTpl.html';
             });
-            $scope.clmPanelOpened = !$scope.clmPanelOpened;
+            $scope.clmPanelOpened = false;
         });
         /**
          * 为了解决多次点击保存子表重复新增的问题，增加此方法，保存完成之后重新调用查询方法
