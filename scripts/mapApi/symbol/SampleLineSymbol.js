@@ -41,24 +41,24 @@ fastmap.mapApi.symbol.SampleLineSymbol = L.Class.extend({
     styleToPattern: function (style) {
         var dashPattern = [];
         switch (style) {
-        case 'solid':
-            dashPattern = [];
-            break;
-        case 'dash':
-            dashPattern = [10, 5];
-            break;
-        case 'dot':
-            dashPattern = [2, 2];
-            break;
-        case 'dashDot':
-            dashPattern = [10, 2, 2, 2];
-            break;
-        case 'dashDotDot':
-            dashPattern = [10, 2, 2, 2, 2, 2];
-            break;
-        default:
-            dashPattern = [];
-            break;
+            case 'solid':
+                dashPattern = [];
+                break;
+            case 'dash':
+                dashPattern = [10, 5];
+                break;
+            case 'dot':
+                dashPattern = [2, 2];
+                break;
+            case 'dashDot':
+                dashPattern = [10, 2, 2, 2];
+                break;
+            case 'dashDotDot':
+                dashPattern = [10, 2, 2, 2, 2, 2];
+                break;
+            default:
+                dashPattern = [];
+                break;
         }
 
         return dashPattern;

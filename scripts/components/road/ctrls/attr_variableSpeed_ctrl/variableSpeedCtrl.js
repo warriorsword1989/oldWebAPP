@@ -125,12 +125,12 @@ rdElectronicEyeApp.controller('variableSpeedCtl', ['$scope', 'dsEdit', '$ocLazyL
     function conversionSystem() {
         var temp = parseInt(objCtrl.data.location, 10).toString(2);// $scope.variableSpeed.location
         switch (temp.length) {
-        case 1:
-            temp = '00' + temp;
-            break;
-        case 2:
-            temp = '0' + temp;
-            break;
+            case 1:
+                temp = '00' + temp;
+                break;
+            case 2:
+                temp = '0' + temp;
+                break;
         }
         $scope.variableSpeed.locationTop = parseInt(temp[0]) ? true : false;
         $scope.variableSpeed.locationRight = parseInt(temp[1]) ? true : false;

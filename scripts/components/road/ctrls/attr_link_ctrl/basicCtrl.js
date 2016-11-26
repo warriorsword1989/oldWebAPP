@@ -416,51 +416,51 @@ basicApp.controller('basicController', function ($scope, $ocLazyLoad) {
     // 车道数修改对车道等级的维护；
     $scope.numberLengthLimit = function () {
         switch (arguments[0]) {
-        case 1:
-            if (parseInt($scope.linkData.laneNum)) {
-                if ($scope.linkData.laneNum) {
-                    $scope.linkData.laneNum = parseInt($scope.linkData.laneNum.substr(0, 2));
-                }
-            } else {
-                $scope.linkData.laneNum = 0;
-            }
-            $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-            var tempnum = '';
-            if ($scope.linkData.direct == 1) {
-                if ($scope.linkData.laneNum % 2) {
-                    tempnum = ($scope.linkData.laneNum + 1) / 2;
+            case 1:
+                if (parseInt($scope.linkData.laneNum)) {
+                    if ($scope.linkData.laneNum) {
+                        $scope.linkData.laneNum = parseInt($scope.linkData.laneNum.substr(0, 2));
+                    }
                 } else {
-                    tempnum = ($scope.linkData.laneNum) / 2;
+                    $scope.linkData.laneNum = 0;
                 }
-            } else {
-                tempnum = ($scope.linkData.laneNum);
-            }
-            linkClassCtr(tempnum);
-            break;
-        case 2:
-            if (parseInt($scope.linkData.laneLeft)) {
-                if ($scope.linkData.laneLeft) {
-                    $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft.substr(0, 2));
+                $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+                var tempnum = '';
+                if ($scope.linkData.direct == 1) {
+                    if ($scope.linkData.laneNum % 2) {
+                        tempnum = ($scope.linkData.laneNum + 1) / 2;
+                    } else {
+                        tempnum = ($scope.linkData.laneNum) / 2;
+                    }
+                } else {
+                    tempnum = ($scope.linkData.laneNum);
                 }
-            } else {
-                $scope.linkData.laneLeft = 0;
-            }
-            leftAndRightRoadChangeCtrl();
-            var temp = $scope.linkData.laneLeft > $scope.linkData.laneRight ? $scope.linkData.laneLeft : $scope.linkData.laneRight;
-            linkClassCtr(temp);
-            break;
-        case 3:
-            if (parseInt($scope.linkData.laneRight)) {
-                if ($scope.linkData.laneRight) {
-                    $scope.linkData.laneRight = parseInt($scope.linkData.laneRight.substr(0, 2));
+                linkClassCtr(tempnum);
+                break;
+            case 2:
+                if (parseInt($scope.linkData.laneLeft)) {
+                    if ($scope.linkData.laneLeft) {
+                        $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft.substr(0, 2));
+                    }
+                } else {
+                    $scope.linkData.laneLeft = 0;
                 }
-            } else {
-                $scope.linkData.laneRight = 0;
-            }
-            leftAndRightRoadChangeCtrl();
-            var temp = $scope.linkData.laneLeft > $scope.linkData.laneRight ? $scope.linkData.laneLeft : $scope.linkData.laneRight;
-            linkClassCtr(temp);
-            break;
+                leftAndRightRoadChangeCtrl();
+                var temp = $scope.linkData.laneLeft > $scope.linkData.laneRight ? $scope.linkData.laneLeft : $scope.linkData.laneRight;
+                linkClassCtr(temp);
+                break;
+            case 3:
+                if (parseInt($scope.linkData.laneRight)) {
+                    if ($scope.linkData.laneRight) {
+                        $scope.linkData.laneRight = parseInt($scope.linkData.laneRight.substr(0, 2));
+                    }
+                } else {
+                    $scope.linkData.laneRight = 0;
+                }
+                leftAndRightRoadChangeCtrl();
+                var temp = $scope.linkData.laneLeft > $scope.linkData.laneRight ? $scope.linkData.laneLeft : $scope.linkData.laneRight;
+                linkClassCtr(temp);
+                break;
         }
     };
     if (objectEditCtrl.data) {

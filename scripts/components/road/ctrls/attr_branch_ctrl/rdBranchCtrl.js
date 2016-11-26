@@ -114,16 +114,16 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
     // 校验箭头图合法性
     $scope.validArrowCode = function () {
         switch ($scope.diverObj.details[0].branchType) {
-        case 0:
-            return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
-        case 1:
-            return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
-        case 2:
-            return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
-        case 3:
-            return new RegExp('^[ec]').test($scope.diverObj.details[0].arrowCode);
-        case 4:
-            return new RegExp('^[ecd]').test($scope.diverObj.details[0].arrowCode);
+            case 0:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
+            case 1:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
+            case 2:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0, 1));
+            case 3:
+                return new RegExp('^[ec]').test($scope.diverObj.details[0].arrowCode);
+            case 4:
+                return new RegExp('^[ecd]').test($scope.diverObj.details[0].arrowCode);
         }
     };
     /* 输入箭头图代码显示选择图片界面*/
@@ -142,8 +142,8 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
                 $scope.$apply();
                 return false;
             }
-        /* });
-        $timeout(function () {*/
+            /* });
+             $timeout(function () {*/
             if ($.trim($scope.diverObj.details[0].arrowCode).length > 0) {
                 if ($scope.diverObj.details[0].branchType == 4) {
                     $scope.diverObj.details[0].patternCode = '7' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
@@ -175,6 +175,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
             return false;
         }
     }
+
     /* 全角转半角*/
     function CtoH(str) {
         var result = '';
@@ -191,6 +192,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
         }
         return result;
     }
+
     /* 箭头图代码点击下一页*/
     $scope.picNext = function () {
         $scope.picNowNum += 1;
@@ -206,6 +208,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
         var $picMapShow = $('#picMapShow');
         $picMapShow.show();
     }
+
     /* 点击选中的图片*/
     $scope.selectPicCode = function (code, url) {
         $scope.diverObj.details[0].arrowCode = code;
@@ -286,6 +289,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
             return false;
         }
     }
+
     /* 当分歧类型变更时*/
     $scope.changeBranchType = function (type) {
         $scope.diverObj.details[0].branchType = type;
@@ -459,35 +463,35 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
     $scope.clone = function (obj) {
         var o;
         switch (typeof obj) {
-        case 'undefined':
-            break;
-        case 'string' :
-            o = obj + '';
-            break;
-        case 'number' :
-            o = obj - 0;
-            break;
-        case 'boolean' :
-            o = obj;
-            break;
-        case 'object' :
-            if (obj === null) {
-                o = null;
-            } else if (obj instanceof Array) {
-                o = [];
-                for (var i = 0, len = obj.length; i < len; i++) {
-                    o.push($scope.clone(obj[i]));
+            case 'undefined':
+                break;
+            case 'string' :
+                o = obj + '';
+                break;
+            case 'number' :
+                o = obj - 0;
+                break;
+            case 'boolean' :
+                o = obj;
+                break;
+            case 'object' :
+                if (obj === null) {
+                    o = null;
+                } else if (obj instanceof Array) {
+                    o = [];
+                    for (var i = 0, len = obj.length; i < len; i++) {
+                        o.push($scope.clone(obj[i]));
+                    }
+                } else {
+                    o = {};
+                    for (var k in obj) {
+                        o[k] = $scope.clone(obj[k]);
+                    }
                 }
-            } else {
-                o = {};
-                for (var k in obj) {
-                    o[k] = $scope.clone(obj[k]);
-                }
-            }
-            break;
-        default:
-            o = obj;
-            break;
+                break;
+            default:
+                o = obj;
+                break;
         }
         return o;
     };
@@ -535,11 +539,11 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
             }
         };
         /* var detailInfo = {
-            "loadType": "subAttrTplContainer",
-            "propertyCtrl": tempCtr,
-            "propertyHtml": tempTepl,
-            "data":objCtrl.data.details[0].names
-        };*/
+         "loadType": "subAttrTplContainer",
+         "propertyCtrl": tempCtr,
+         "propertyHtml": tempTepl,
+         "data":objCtrl.data.details[0].names
+         };*/
         // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;
 //        objCtrl.namesInfos = $scope.nameGroup[index];
@@ -552,21 +556,21 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
      * 根据nameGroupid获取对应的数据
      */
     $scope.getItemByNameGroupid = function (arr, nameGroupid) {
-    	var index = -1;
-    	var item;
-    	for (var i = 0; i < arr.length; i++) {
-    		for (var j = 0; j < arr[i].length; j++) {
-    			if (arr[i][j].nameGroupid == nameGroupid) {
-    				index = i;
-    				break;
-    			}
-    		}
-    		if (index >= 0) {
-    			item = arr[i];
-    			break;
-    		}
-    	}
-    	return item;
+        var index = -1;
+        var item;
+        for (var i = 0; i < arr.length; i++) {
+            for (var j = 0; j < arr[i].length; j++) {
+                if (arr[i][j].nameGroupid == nameGroupid) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index >= 0) {
+                item = arr[i];
+                break;
+            }
+        }
+        return item;
     };
     if (objCtrl.data) {
         $scope.initDiver();
@@ -580,7 +584,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
 
     /* 保存分歧数据*/
     $scope.save = function () {
-    	$scope.refreshNames();
+        $scope.refreshNames();
         if (!$scope.diverObj) {
             swal('操作失败', '请输入属性值！', 'error');
             return false;
@@ -647,6 +651,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
             }
             return n;
         }
+
         /* 解决linkPid报错*/
 //        if (param.data.details) {
 //            delete param.data.details[0].linkPid;
@@ -708,7 +713,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
     function initNameInfo() {
         if ($scope.diverObj.details[0].names.length > 0) {
             $scope.nameGroup = [];
-			/* 根据数据中对象某一属性值排序*/
+            /* 根据数据中对象某一属性值排序*/
             function compare(propertyName) {
                 return function (object1, object2) {
                     var value1 = object1[propertyName];
@@ -722,11 +727,12 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
                     }
                 };
             }
+
             $scope.diverObj.details[0].names.sort(compare('nameGroupid'));
-			// 获取所有的nameGroupid
+            // 获取所有的nameGroupid
             var nameGroupidArr = [];
             for (var i = 0; i < $scope.diverObj.details[0].names.length; i++) {
-            	nameGroupidArr.push($scope.diverObj.details[0].names[i].nameGroupid);
+                nameGroupidArr.push($scope.diverObj.details[0].names[i].nameGroupid);
             }
             // 去重
             nameGroupidArr = Utils.distinctArr(nameGroupidArr);
@@ -742,6 +748,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
             $scope.refreshNames();
         }
     }
+
     /* 增加item*/
     $scope.addItem = function () {
         $scope.refreshNames();
@@ -754,7 +761,7 @@ namesOfBranch.controller('namesOfBranchCtrl', ['$scope', '$timeout', '$ocLazyLoa
         }));
         initNameInfo();
     };
-	/* 移除item*/
+    /* 移除item*/
     $scope.removeItem = function (index, item) {
         for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
             if ($scope.nameGroup[i]) {
