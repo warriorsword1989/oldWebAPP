@@ -291,7 +291,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
             var tmp = '';
             for (var i = 0; i < txtstring.length; i++) {
                 if (txtstring.charCodeAt(i) == 32) {
-                    tmp +=  String.fromCharCode(12288);
+                    tmp += String.fromCharCode(12288);
                 } else if (txtstring.charAt(i) != '|' && txtstring.charCodeAt(i) < 127) {
                     tmp += String.fromCharCode(txtstring.charCodeAt(i) + 65248);
                 } else {

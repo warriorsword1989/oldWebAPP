@@ -19,21 +19,21 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
         // popover
         $scope.popoverIsOpen = false;
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
-        $scope.costomWorkNumEum = [{num: 10, desc: '每次10条'}, {num: 20, desc: '每次20条'}, {
+        $scope.costomWorkNumEum = [{ num: 10, desc: '每次10条' }, { num: 20, desc: '每次20条' }, {
             num: 30,
             desc: '每次30条'
-        }, {num: '', desc: '自定义'}];
+        }, { num: '', desc: '自定义' }];
 
         $scope.changeTabs = function (flag) {
             $scope.workedFlag = flag;
         };
         $scope.cols = [
-            {field: 'selector', headerTemplateURL: 'headerCheckboxId', title: '选择', show: true, width: '60px'},
-            {field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '150px'},
-            {field: 'kindCodeName', title: '分类', show: true, width: '150px'},
-            {field: 'name11Chi', title: '官方标准中文名称', getValue: get11Name, show: true},
-            {field: 'name51ChiArr', title: '简称', getValue: get51name, show: true},
-            {field: 'pid', title: 'PID', show: false, width: '100px'}
+            { field: 'selector', headerTemplateURL: 'headerCheckboxId', title: '选择', show: true, width: '60px' },
+            { field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '150px' },
+            { field: 'kindCodeName', title: '分类', show: true, width: '150px' },
+            { field: 'name11Chi', title: '官方标准中文名称', getValue: get11Name, show: true },
+            { field: 'name51ChiArr', title: '简称', getValue: get51name, show: true },
+            { field: 'pid', title: 'PID', show: false, width: '100px' }
         ];
 
         function get11Name($scope, row) {
@@ -180,9 +180,9 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.editor = {};
         $scope.editor.editorCols = [
 //            { field: "num_index", title: "序号",show: true,width:'20px'},
-            {field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '50px'},
-            {field: 'kindCodeName', title: '分类', show: true, width: '50px'},
-            {field: 'name11Chi', title: '官方标准中文名称', getValue: get11Name, show: true, width: '50px'},
+            { field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '50px' },
+            { field: 'kindCodeName', title: '分类', show: true, width: '50px' },
+            { field: 'name11Chi', title: '官方标准中文名称', getValue: get11Name, show: true, width: '50px' },
             {
                 field: 'name51ChiArr',
                 title: '简称',
@@ -192,8 +192,8 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
                 width: '80px',
                 inputType: 'text'
             },
-            {field: 'refMsg', title: '参考信息', show: true, width: '50px'},
-            {field: 'details', title: '详情', getValue: getDetails, html: true, show: true, width: '30px'}
+            { field: 'refMsg', title: '参考信息', show: true, width: '50px' },
+            { field: 'details', title: '详情', getValue: getDetails, html: true, show: true, width: '30px' }
         ];
         var html = '';
         if ('CHI' === 'CHI') { // 测试用，大陆数据

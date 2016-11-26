@@ -69,17 +69,17 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
                 } else if (flag == '11ENG') {
                     this.name11Eng = obj;
                 } else if (flag == '11CHT') {
-                	this.name11Cht = obj;
+                    this.name11Cht = obj;
                 } else if (flag == '11POR') {
-                	this.name11Por = obj;
+                    this.name11Por = obj;
                 } else if (flag == '12CHI') {
                     this.name12Chi = obj;
                 } else if (flag == '12ENG') {
-                	this.name12Eng = obj;
+                    this.name12Eng = obj;
                 } else if (flag == '12CHT') {
-                	this.name12Cht = obj;
+                    this.name12Cht = obj;
                 } else if (flag == '12POR') {
-                	this.name12Por = obj;
+                    this.name12Por = obj;
                 } else if (flag == '51CHI') {
                     this.name51Chi = obj;
                     this.name51ChiArr.push(obj);
@@ -90,7 +90,7 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
                 } else if (flag == '51POR') {
                     this.name51Por = obj;
                 } else if (flag == 'AAA') {
-                	this.nameObj = obj;
+                    this.nameObj = obj;
                 }
             }
         }
@@ -147,9 +147,9 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
             ret.names.push(this.nameObj.getIntegrate());
         }
         if (this.name51ChiArr.length > 0) {
-        	for (var i = 0, len = this.name51ChiArr.length; i < len; i++) {
-        		ret.names.push(this.name51ChiArr[i]);
-        	}
+            for (var i = 0, len = this.name51ChiArr.length; i < len; i++) {
+                ret.names.push(this.name51ChiArr[i]);
+            }
         }
         ret.geoLiveType = this.geoLiveType;
         return ret;

@@ -18,21 +18,21 @@ angular.module('app').controller('ConfirmEngNameCtl', ['$scope', '$ocLazyLoad', 
         // popover
         $scope.popoverIsOpen = false;
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
-        $scope.costomWorkNumEum = [{num: 10, desc: '每次10条'}, {num: 20, desc: '每次20条'}, {
+        $scope.costomWorkNumEum = [{ num: 10, desc: '每次10条' }, { num: 20, desc: '每次20条' }, {
             num: 30,
             desc: '每次30条'
-        }, {num: '', desc: '自定义'}];
+        }, { num: '', desc: '自定义' }];
 
         $scope.changeTabs = function (flag) {
             $scope.workedFlag = flag;
         };
         $scope.cols = [
-            {field: 'selector', headerTemplateURL: 'headerCheckboxId', title: '选择', show: true, width: '60px'},
-            {field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '150px'},
-            {field: 'kindCodeName', title: '分类', show: true, width: '150px'},
-            {field: 'name11Chi', title: '官方标准中文名称', getValue: get11Names, show: true},
-            {field: 'name12Eng', title: '原始英文名称', getValue: get12EngNames, show: true},
-            {field: 'pid', title: 'PID', show: false, width: '100px'}
+            { field: 'selector', headerTemplateURL: 'headerCheckboxId', title: '选择', show: true, width: '60px' },
+            { field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '150px' },
+            { field: 'kindCodeName', title: '分类', show: true, width: '150px' },
+            { field: 'name11Chi', title: '官方标准中文名称', getValue: get11Names, show: true },
+            { field: 'name12Eng', title: '原始英文名称', getValue: get12EngNames, show: true },
+            { field: 'pid', title: 'PID', show: false, width: '100px' }
         ];
 
         function get11Names($scope, row) {
@@ -187,12 +187,12 @@ angular.module('app').controller('ConfirmEngNameCtl', ['$scope', '$ocLazyLoad', 
             replaceTo: ''
         };
         $scope.replaceOpt = [
-            {id: 'name12Eng', label: '原始英文名称'}
+            { id: 'name12Eng', label: '原始英文名称' }
         ];
 
         var searchOpt = [
-            {id: 'name11Chi', label: '官方标准中文名称'},
-            {id: 'name12Eng', label: '原始英文名称'}
+            { id: 'name11Chi', label: '官方标准中文名称' },
+            { id: 'name12Eng', label: '原始英文名称' }
         ];
         $scope.batchTabs = function (flag) {
             $scope.batchFlag = flag;
@@ -281,13 +281,13 @@ angular.module('app').controller('ConfirmEngNameCtl', ['$scope', '$ocLazyLoad', 
         $scope.editor = {};
         $scope.editor.editorCols = [
 //            { field: "num_index", title: "序号",show: true,width:'20px'},
-            {field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '100px'},
-            {field: 'name11Chi', title: '官方标准中文名称', getValue: get11Names, show: true, width: '150px'},
-            {field: 'name12Eng', title: '原始英文名称', getValue: getName, html: true, show: true, width: '150px'},
-            {field: 'name12Eng', title: '字符数', getValue: get12EngNameLength, html: true, show: true, width: '30px'},
-            {field: 'sourceFlag', title: '来源标识', html: true, getValue: sourceFlagSelect, show: true, width: '120px'},
-            {field: 'refMsg', title: '参考信息', show: true, width: '50px'},
-            {field: 'details', title: '详情', getValue: getDetails, html: true, show: true, width: '30px'}
+            { field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '100px' },
+            { field: 'name11Chi', title: '官方标准中文名称', getValue: get11Names, show: true, width: '150px' },
+            { field: 'name12Eng', title: '原始英文名称', getValue: getName, html: true, show: true, width: '150px' },
+            { field: 'name12Eng', title: '字符数', getValue: get12EngNameLength, html: true, show: true, width: '30px' },
+            { field: 'sourceFlag', title: '来源标识', html: true, getValue: sourceFlagSelect, show: true, width: '120px' },
+            { field: 'refMsg', title: '参考信息', show: true, width: '50px' },
+            { field: 'details', title: '详情', getValue: getDetails, html: true, show: true, width: '30px' }
         ];
 
         var html = '';

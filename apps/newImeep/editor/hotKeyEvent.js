@@ -1106,16 +1106,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     '<select class="form-control" style="width:230px;margin-left:105px;" id="poiAddKind"></select>' +
                     '<div>';
                 swal({
-                        title: '请输入以下内容',
-                        text: html,
-                        html: true,
-                        showCancelButton: true,
-                        closeOnConfirm: false,
-                        showLoaderOnConfirm: true,
-                        allowEscapeKey: false,
-                        confirmButtonText: '创建',
-                        confirmButtonColor: '#ec6c62'
-                    },
+                    title: '请输入以下内容',
+                    text: html,
+                    html: true,
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    allowEscapeKey: false,
+                    confirmButtonText: '创建',
+                    confirmButtonColor: '#ec6c62'
+                },
                     function () {
                         var name = $('#poiAddName').val();
                         var kindCode = $('#poiAddKind').val();

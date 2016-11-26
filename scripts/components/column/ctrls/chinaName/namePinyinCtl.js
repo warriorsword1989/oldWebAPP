@@ -18,10 +18,10 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         // popover
         $scope.popoverIsOpen = false;
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
-        $scope.costomWorkNumEum = [{num: 10, desc: '每次10条'}, {num: 20, desc: '每次20条'}, {
+        $scope.costomWorkNumEum = [{ num: 10, desc: '每次10条' }, { num: 20, desc: '每次20条' }, {
             num: 30,
             desc: '每次30条'
-        }, {num: '', desc: '自定义'}];
+        }, { num: '', desc: '自定义' }];
 
         $scope.changeTabs = function (flag) {
             $scope.workedFlag = flag;
@@ -228,7 +228,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             { field: 'classifyRules11', title: '作业类型', getValue: getClassifyRules, show: true, width: '50px' },
             { field: 'kindCodeName', title: '分类', show: true, width: '50px' },
             { field: 'nameObj', title: '名称', getValue: getName, show: true, width: '50px' },
-            { field: 'nameObj', title: '拼音', getValue: getPinyin, show: true, width: '80px'},
+            { field: 'nameObj', title: '拼音', getValue: getPinyin, show: true, width: '80px' },
             { field: 'refMsg', title: '参考信息', getValue: getReferenceInfo, html: true, show: true, width: '50px' },
             { field: 'details', title: '详情', getValue: getDetails, html: true, show: true, width: '30px' }
         ];
